@@ -7,5 +7,5 @@ sed -i -E "s/(\"@axonivy[^\"]*\"): \"[^\"]*\"/\1: \"~${1/SNAPSHOT/next}\"/" pack
 
 pnpm update:axonivy:next
 if [ "$DRY_RUN" = false ]; then
-  pnpm install
+  pnpm install --no-frozen-lockfile
 fi

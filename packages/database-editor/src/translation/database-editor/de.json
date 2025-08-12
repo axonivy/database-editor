@@ -1,75 +1,10 @@
 {
-  "common": {
-    "hotkey": {
-      "focusInscription": "__MISSING_TRANSLATION__",
-      "focusMain": "__MISSING_TRANSLATION__",
-      "focusToolbar": "__MISSING_TRANSLATION__",
-      "help": "__MISSING_TRANSLATION__",
-      "redo": "__MISSING_TRANSLATION__",
-      "undo": "__MISSING_TRANSLATION__"
-    },
-    "label": {
-      "cancel": "__MISSING_TRANSLATION__",
-      "description": "__MISSING_TRANSLATION__",
-      "details": "__MISSING_TRANSLATION__",
-      "info": "__MISSING_TRANSLATION__",
-      "name": "__MISSING_TRANSLATION__",
-      "namespace": "__MISSING_TRANSLATION__",
-      "search": "__MISSING_TRANSLATION__",
-      "settings": "__MISSING_TRANSLATION__",
-      "theme": "__MISSING_TRANSLATION__",
-      "value": "__MISSING_TRANSLATION__"
-    },
-    "message": {
-      "errorOccured": "__MISSING_TRANSLATION__"
-    }
-  },
-  "dialog": {
-    "addVar": {
-      "desc": "__MISSING_TRANSLATION__",
-      "title": "__MISSING_TRANSLATION__"
-    },
-    "create": "__MISSING_TRANSLATION__",
-    "createTooltip": "__MISSING_TRANSLATION__",
-    "import": "__MISSING_TRANSLATION__",
-    "overwrite": {
-      "desc": "__MISSING_TRANSLATION__",
-      "title": "__MISSING_TRANSLATION__"
-    }
-  },
-  "hotkey": {
-    "addVariable": "__MISSING_TRANSLATION__",
-    "deleteVariable": "__MISSING_TRANSLATION__",
-    "importVariable": "__MISSING_TRANSLATION__"
-  },
-  "label": {
-    "addValue": "__MISSING_TRANSLATION__",
-    "deleteValue": "__MISSING_TRANSLATION__",
-    "filenameExtension": "__MISSING_TRANSLATION__",
-    "listOfValues": "__MISSING_TRANSLATION__",
-    "metadata": "__MISSING_TRANSLATION__",
-    "noVariableSelected": "__MISSING_TRANSLATION__",
-    "variables": "__MISSING_TRANSLATION__"
-  },
-  "message": {
-    "addFirstItem": "__MISSING_TRANSLATION__",
-    "emptyName": "__MISSING_TRANSLATION__",
-    "namespaceIsNotFolder": "__MISSING_TRANSLATION__",
-    "notAllowedChar": "__MISSING_TRANSLATION__",
-    "valueFromFile": "__MISSING_TRANSLATION__",
-    "variableAlreadyExists": "__MISSING_TRANSLATION__",
-    "variableInfo": "__MISSING_TRANSLATION__",
-    "variablePresent": "__MISSING_TRANSLATION__"
-  },
-  "metadata": {
-    "daytime": "__MISSING_TRANSLATION__",
-    "default": "__MISSING_TRANSLATION__",
-    "enum": "__MISSING_TRANSLATION__",
-    "file": "__MISSING_TRANSLATION__",
-    "password": "__MISSING_TRANSLATION__"
-  },
-  "title": {
-    "detail": "__MISSING_TRANSLATION__",
-    "main": "__MISSING_TRANSLATION__"
-  }
+  "close": "Schliessen",
+  "database": "Database",
+  "databaseEditor": "Database Editor",
+  "databasesYaml": "databases.yaml",
+  "importWizard": "Import Wizard",
+  "ivySystemDatabase": "IvySystemDatabase",
+  "noData": "No Data",
+  "system": "System"
 }

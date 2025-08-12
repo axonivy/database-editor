@@ -1,13 +1,13 @@
 {
   "private": true,
-  "name": "@axonivy/variable-editor-playwright",
-  "version": "13.2.0-next",
-  "description": "Playwright tests for the Axon Ivy form editor",
+  "name": "@axonivy/database-editor-playwright",
+  "version": "13.2.0-SNAPSHOT",
+  "description": "Playwright tests for the Axon Ivy database editor",
   "author": "Axon Ivy AG",
   "homepage": "https://developer.axonivy.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/axonivy/variable-editor"
+    "url": "https://github.com/axonivy/database-editor"
   },
   "devDependencies": {
     "@playwright/test": "1.54.1"

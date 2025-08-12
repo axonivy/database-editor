@@ -9,7 +9,7 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "ci": "pnpm install && pnpm package && (pnpm lint:ci || true) && pnpm type && pnpm test:ci && pnpm i18n:ci",
+    "ci": "pnpm install --no-frozen-lockfile && pnpm package && (pnpm lint:ci || true) && pnpm type && pnpm test:ci && pnpm i18n:ci",
     "clean": "pnpm -r clean",
     "build": "tsc --build && tscp --build",
     "package": "pnpm -r package",

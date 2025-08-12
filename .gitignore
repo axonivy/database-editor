@@ -8,3 +8,4 @@ test-results
 playwright-report
 **/standalone/build
 target
+**/*_old.json

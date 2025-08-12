@@ -1,4 +1,4 @@
-import type { Client, ClientContext } from '@axonivy/variable-editor-protocol';
+import type { Client, ClientContext } from '@axonivy/database-editor-protocol';
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 

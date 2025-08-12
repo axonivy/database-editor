@@ -15,6 +15,10 @@ export class Button {
     await this.locator.click();
   }
 
+  async expectName(name: string) {
+    await expect(this.locator).toHaveText(name);
+  }
+
   async expectDataState(dataState: string) {
     await expect(this.locator).toHaveAttribute('data-state', dataState);
   }

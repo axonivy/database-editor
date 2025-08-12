@@ -1,6 +1,6 @@
-# Variables Editor
+# Database Editor
 
-[![translation-status](https://hosted.weblate.org/widget/axonivy/variable-editor/svg-badge.svg)](https://hosted.weblate.org/engage/axonivy/)
+[![translation-status](https://hosted.weblate.org/widget/axonivy/database-editor/svg-badge.svg)](https://hosted.weblate.org/engage/axonivy/)
 
 This repo contains the web-based Database Editor.
 
@@ -25,7 +25,7 @@ This repo contains the web-based Database Editor.
 Simply start the `Launch Standalone` or `Launch Standalone Mock` launch config to get debug and breakpoint support.
 
 > [!NOTE]
-> The `Launch Standalone` launch config connects to a real designer and therefore requires a running designer engine on port 8081 with a project called `variables-test-project`. These attributes can be changed via URL parameters.
+> The `Launch Standalone` launch config connects to a real designer and therefore requires a running designer engine on port 8081 with a project called `database-editor-test-project`. These attributes can be changed via URL parameters.
 
 > [!NOTE]
 > The `Launch Standalone Mock` launch config only receives mock data and therefore does not work with features for which a real engine is needed (e.g. data validation).

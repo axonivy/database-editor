@@ -13,7 +13,7 @@
   <fileSets>
     <fileSet>
       <directory>target/screenshots</directory>
-      <outputDirectory>variables-editor</outputDirectory>
+      <outputDirectory>database-editor</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>

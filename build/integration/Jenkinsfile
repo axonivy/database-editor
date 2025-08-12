@@ -21,8 +21,8 @@ pipeline {
         script {
           docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
             sh 'pnpm update:axonivy:next'
-            sh 'pnpm install && pnpm package'
-            dir ('playwright/database-test-project') {
+            sh 'pnpm install --no-frozen-lockfile && pnpm package'
+            dir ('playwright/database-editor-test-project') {
               maven cmd: "-ntp clean verify -Dengine.page.url=${params.engineSource} -Dwebtest.cmd=webtest:${browser()}"
             }
           }
