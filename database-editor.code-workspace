@@ -1,0 +1,67 @@
+{
+  "extensions": {
+    "recommendations": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "vitest.explorer", "ms-playwright.playwright"]
+  },
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "package/database-editor",
+      "path": "./packages/database-editor"
+    },
+    {
+      "name": "package/protocol",
+      "path": "./packages/protocol"
+    },
+    {
+      "name": "integrations/standalone",
+      "path": "./integrations/standalone"
+    },
+    {
+      "name": "playwright",
+      "path": "./playwright"
+    }
+  ],
+  "settings": {
+    "task.autoDetect": "off",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "always"
+    },
+    "editor.insertSpaces": true,
+    "eslint.validate": ["javascript", "typescript"],
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/lib": true
+    },
+    "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "testing.automaticallyOpenPeekView": "never"
+  }
+}
