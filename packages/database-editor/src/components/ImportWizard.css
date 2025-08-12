@@ -1,0 +1,9 @@
+div.import-wizard-dialog {
+  max-height: 90%;
+  max-width: 90%;
+}
+
+.import-wizard-dialog-content {
+  height: 100%;
+  max-height: 100%;
+}

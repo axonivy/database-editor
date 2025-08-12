@@ -5,5 +5,5 @@ export const initQueryClient = () => {
 };
 
 export const genQueryKey = (...args: unknown[]) => {
-  return ['variable-editor', ...args];
+  return ['database-editor', ...args];
 };

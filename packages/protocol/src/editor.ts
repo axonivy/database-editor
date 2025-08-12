@@ -6,64 +6,37 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Severity = ("INFO" | "WARNING" | "ERROR")
-
-export interface Variables {
-  editorFileContent: EditorFileContent;
-  knownVariables: KnownVariables;
-  variablesActionArgs: VariablesActionArgs;
-  variablesData: VariablesData;
-  variablesEditorDataContext: VariablesEditorDataContext;
-  variablesSaveDataArgs: VariablesSaveDataArgs;
-  variablesValidationResult: VariablesValidationResult[];
-  void: Void;
-  [k: string]: unknown;
+export interface Database {
+databaseData: DatabaseData
+databaseEditorDataContext: DatabaseEditorDataContext
+databaseEditorDBContext: DatabaseEditorDBContext
+databaseInfoData: DatabaseInfoData
+[k: string]: unknown
 }
-export interface EditorFileContent {
-  content: string;
+export interface DatabaseData {
+  context: DatabaseEditorDataContext;
+  databaseNames: Array<String>;
 }
-export interface KnownVariables {
-  children: KnownVariables[];
-  description: string;
-  metaData: MetaData | FileMetaData | EnumMetaData;
-  name: string;
-  namespace: string;
-  value: string;
-}
-export interface MetaData {
-  type: string;
-}
-export interface FileMetaData {
-  extension: string;
-  type: "file";
-}
-export interface EnumMetaData {
-  type: "enum";
-  values: string[];
-}
-export interface VariablesActionArgs {
-  actionId: "openUrl";
-  context: VariablesEditorDataContext;
-  payload: string;
-}
-export interface VariablesEditorDataContext {
+export interface DatabaseEditorDataContext {
   app: string;
   file: string;
   pmv: string;
 }
-export interface VariablesData {
-  context: VariablesEditorDataContext;
-  data: string;
-  helpUrl: string;
+export interface DatabaseEditorDBContext {
+  app: string;
+  databaseName: string;
+  file: string;
+  pmv: string;
 }
-export interface VariablesSaveDataArgs {
-  context: VariablesEditorDataContext;
-  data: string;
+export interface DatabaseInfoData {
+  connectionName: string;
+  tables: DatabaseTable[];
 }
-export interface VariablesValidationResult {
-  message: string;
-  path: string;
-  property: string;
-  severity: Severity;
+export interface DatabaseTable {
+  columns: DatabaseColumn[];
+  name: string;
 }
-export interface Void {}
+export interface DatabaseColumn {
+  name: string;
+  type: string;
+}
