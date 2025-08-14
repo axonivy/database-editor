@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [ -z "$1" ]; then
+  echo "Usage: $0 <version>"
+  exit 1
+fi
+
 mvn --batch-mode -f integrations/standalone/pom.xml versions:set versions:commit -DnewVersion=${1}
 mvn --batch-mode -f playwright/tests/screenshots/pom.xml versions:set versions:commit -DnewVersion=${1}
 mvn --batch-mode -f playwright/database-editor-test-project/pom.xml versions:set versions:commit -DnewVersion=${1}
