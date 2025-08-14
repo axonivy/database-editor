@@ -1,10 +1,10 @@
 {
   "name": "@axonivy/database-editor-standalone",
   "private": true,
-  "version": "13.2.0-SNAPSHOT",
+  "version": "13.2.0-next",
   "dependencies": {
-    "@axonivy/database-editor": "workspace:~13.2.0-SNAPSHOT",
-    "@axonivy/database-editor-protocol": "workspace:~13.2.0-SNAPSHOT",
+    "@axonivy/database-editor": "workspace:~13.2.0-next",
+    "@axonivy/database-editor-protocol": "workspace:~13.2.0-next",
     "@axonivy/jsonrpc": "~13.2.0-next.847.a8ce22a",
     "@axonivy/ui-components": "~13.2.0-next.847.a8ce22a",
     "@axonivy/ui-icons": "~13.2.0-next.847.a8ce22a",
@@ -25,7 +25,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "tsc --build",
-    "build:clean": "pnpm clean && pnpm build",
+    "build:clean": "pnpm run clean && pnpm run build",
     "package": "vite build",
     "type": "tsc --noEmit",
     "dev": "vite",

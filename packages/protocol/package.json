@@ -1,6 +1,6 @@
 {
   "name": "@axonivy/database-editor-protocol",
-  "version": "13.2.0-SNAPSHOT",
+  "version": "13.2.0-next",
   "private": false,
   "license": "Apache-2.0",
   "author": "Axon Ivy AG",
@@ -21,7 +21,7 @@
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "build": "tsc --build",
     "package": "tsc",
-    "build:clean": "pnpm clean && pnpm generate && pnpm build",
+    "build:clean": "pnpm run clean && pnpm run generate && pnpm run build",
     "generate": "node ./schemaCodegen.cjs",
     "type": "tsc --noEmit"
   },
