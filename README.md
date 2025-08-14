@@ -8,15 +8,15 @@ This repo contains the web-based Database Editor.
 
 `pnpm install`: Install all packages
 
-`pnpm package`: Build the lib output
+`pnpm run package`: Build the lib output
 
-`pnpm dev`: Start the dev server
+`pnpm run dev`: Start the dev server
 
 #### Run tests
 
-`pnpm test`: Run unit tests
+`pnpm run test`: Run unit tests
 
-`pnpm webtest`: Run Playwright tests
+`pnpm run webtest`: Run Playwright tests
 
 ### VSCode dev environment
 
