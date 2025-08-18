@@ -6,13 +6,13 @@ export class DatabaseEditor {
   readonly page: Page;
   readonly locator: Locator;
   readonly toolbar: Toolbar;
-  readonly wizardButton: Button;
+  readonly importButton: Button;
 
   constructor(page: Page) {
     this.page = page;
     this.locator = page.locator(':root');
     this.toolbar = new Toolbar(page, this.locator);
-    this.wizardButton = new Button(this.locator, { name: 'Wizard' });
+    this.importButton = new Button(this.locator, { name: 'Import Wizard' });
   }
 
   static async openMock(page: Page, options?: { virtualize?: boolean; lng?: string }) {

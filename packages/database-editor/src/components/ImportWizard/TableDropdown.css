@@ -1,0 +1,31 @@
+button.table-dropdown-trigger {
+  cursor: pointer;
+  overflow: hidden;
+  padding: var(--input-padding);
+  font-size: 12px;
+  height: 36px;
+  border-radius: var(--border-r1);
+  border: var(--input-border);
+  background: var(--N25);
+  color: var(--body);
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--size-1);
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.table-trigger-content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+div.table-dropdown-content {
+  width: 100%;
+  width: var(--radix-popper-anchor-width);
+  max-height: 400px;
+  overflow-y: scroll;
+}

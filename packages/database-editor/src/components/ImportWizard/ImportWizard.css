@@ -1,0 +1,40 @@
+div.import-dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: 900px;
+  height: calc(100% - 40px);
+  aspect-ratio: 6/5;
+  width: auto;
+  max-width: calc(100% - 40px);
+}
+
+.import-dialog-content {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  gap: 2rem;
+}
+
+.import-page {
+  height: 100%;
+  gap: 2rem;
+}
+
+.import-label {
+  font-size: 12px;
+  font-weight: 400;
+  align-self: center;
+}
+
+.import-grid {
+  display: grid;
+  grid-template-columns: 2fr 10fr 1fr;
+  grid-template-rows: 2fr;
+  grid-column-gap: 1em;
+  grid-row-gap: 0px;
+}
+
+.import-dialog .import-button-back {
+  background-color: var(--N50);
+  border-color: var(--N100);
+}

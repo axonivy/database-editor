@@ -8,5 +8,5 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('import wizard button', async () => {
-  await editor.wizardButton.expectName('Import Wizard');
+  await editor.importButton.expectName('Import Wizard');
 });
