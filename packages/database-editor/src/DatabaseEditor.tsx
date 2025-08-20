@@ -1,5 +1,5 @@
 import type { EditorProps } from '@axonivy/database-editor-protocol';
-import { Flex, Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
+import { Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImportWizard } from './components/ImportWizard/ImportWizard';
@@ -20,9 +20,7 @@ export const DatabaseEditor = (props: EditorProps) => {
         </Toolbar>
       </ToolbarContainer>
       <div className='editor'>
-        <Flex direction='column'>
-          <ImportWizard context={context} />
-        </Flex>
+        <ImportWizard context={context} />
       </div>
     </>
   );

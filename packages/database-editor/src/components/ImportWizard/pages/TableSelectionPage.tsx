@@ -47,7 +47,7 @@ export const SelectTablesPage = ({ context, selectedDatabase, updateSelection, s
   });
 
   return (
-    <Flex className='import-page' direction='column'>
+    <Flex className='import-page table-selection-page' direction='column'>
       <div className='import-grid'>
         <Label className='import-label'>{t('import.selectMainTables')}</Label>
         <TableDropdown tables={tableQuery.data?.tables ?? []} updateSelection={updateSelection} selection={selectedTables} />

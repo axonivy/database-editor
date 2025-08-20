@@ -31,7 +31,7 @@ export const DataSourcePage = ({ context, selection, updateSelection }: DataSour
   });
 
   return (
-    <Flex className='import-page' direction='column'>
+    <Flex className='import-page data-source-page' direction='column'>
       <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
       <div className='import-grid'>
         <Label className='import-label'>{t('import.database')}</Label>

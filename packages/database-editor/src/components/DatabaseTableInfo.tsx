@@ -41,7 +41,7 @@ export const DatabaseTableInfo = ({ context, database }: { context: DatabaseEdit
 
   return (
     <div className='table-info'>
-      {validResponse() ? <TableData data={tables.data ?? { connectionName: t('noData'), tables: [] }} /> : t('noData')}
+      {validResponse() ? <TableData data={tables.data ?? { connectionName: t('import.noData'), tables: [] }} /> : t('import.noData')}
     </div>
   );
 };

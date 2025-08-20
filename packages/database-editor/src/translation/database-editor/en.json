@@ -1,6 +1,5 @@
 {
   "databaseEditor": "Database Editor",
-  "databasesYaml": "databases.yaml",
   "import": {
     "add": "Add",
     "back": "Back",
@@ -8,10 +7,14 @@
     "createOptions": "Create Options",
     "csv": "CSV/Excel",
     "database": "Database",
+    "databasesYaml": "databases.yaml",
     "dataImport": "Data Import",
     "entityClass": "Entity Class",
     "enum": "Enum",
+    "importWizard": "Import Wizard",
+    "ivySystemDatabase": "IvySystemDatabase",
     "next": "Go to next step",
+    "noData": "No data",
     "repository": "DAO/Repo Classes",
     "selectDatabase": "Select a database",
     "selectMainTables": "Select main tables",
@@ -19,9 +22,5 @@
     "selectTables": "Select tables",
     "source": "Data Source",
     "table": "Table"
-  },
-  "importWizard": "Import Wizard",
-  "ivySystemDatabase": "IvySystemDatabase",
-  "noData": "No Data",
-  "system": "System"
+  }
 }

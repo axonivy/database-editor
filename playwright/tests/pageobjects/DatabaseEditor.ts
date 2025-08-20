@@ -1,18 +1,18 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Button } from './Button';
+import { ImportDialog } from './ImportDialog';
 import { Toolbar } from './Toolbar';
 
 export class DatabaseEditor {
   readonly page: Page;
   readonly locator: Locator;
   readonly toolbar: Toolbar;
-  readonly importButton: Button;
+  readonly importDialog: ImportDialog;
 
   constructor(page: Page) {
     this.page = page;
     this.locator = page.locator(':root');
     this.toolbar = new Toolbar(page, this.locator);
-    this.importButton = new Button(this.locator, { name: 'Import Wizard' });
+    this.importDialog = new ImportDialog(page, this.locator);
   }
 
   static async openMock(page: Page, options?: { virtualize?: boolean; lng?: string }) {

@@ -26,7 +26,7 @@ export const CreationPage = ({ tables, updateSelection, parameters }: CreationPa
   };
 
   return (
-    <Flex direction='column' className='import-page'>
+    <Flex direction='column' className='import-page creation-page'>
       <Table className='table-creation'>
         <TableHeader>
           <TableRow>

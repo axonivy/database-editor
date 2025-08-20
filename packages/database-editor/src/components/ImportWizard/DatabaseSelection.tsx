@@ -19,11 +19,11 @@ export const DatabaseSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{t('system')}</SelectLabel>
-          <SelectItem value='IvySystemDatabase'>{t('ivySystemDatabase')}</SelectItem>
+          <SelectLabel>{t('import.ivySystemDatabase')}</SelectLabel>
+          <SelectItem value='IvySystemDatabase'>{t('import.ivySystemDatabase')}</SelectItem>
         </SelectGroup>
         <SelectGroup>
-          <SelectLabel>{t('databasesYaml')}</SelectLabel>
+          <SelectLabel>{t('import.databasesYaml')}</SelectLabel>
           {databases.map(database => (
             <SelectItem key={database} value={database}>
               {database}

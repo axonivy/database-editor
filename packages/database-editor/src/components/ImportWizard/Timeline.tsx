@@ -31,15 +31,15 @@ const TimelineItem = ({
 }) => {
   return (
     <Flex
-      className='timeline-item'
+      className={`timeline-item${activeOrPassed(active, passed)}`}
       alignItems='center'
       direction='column'
       onClick={() => {
         setActive(index);
       }}
     >
-      <Label className={`timeline-title${activeOrPassed(active)}`}>{title}</Label>
-      <div className={`timeline-circle${activeOrPassed(active, passed)}`}></div>
+      <Label className='timeline-title'>{title}</Label>
+      <div className='timeline-circle'></div>
     </Flex>
   );
 };

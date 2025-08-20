@@ -2,7 +2,7 @@ import type { DatabaseColumn, DatabaseData, DatabaseInfoData, DatabaseTable } fr
 
 export const databases: DatabaseData = {
   context: { app: '', pmv: '', file: '' },
-  databaseNames: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase--03']
+  databaseNames: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003']
 };
 
 const columns: Array<DatabaseColumn> = [

@@ -1,9 +1,8 @@
 .timeline {
   --circle-width: 15px;
-  width: auto;
   min-width: 300px;
-  align-items: end;
   margin: 0 100px 0 100px;
+  align-items: end;
 }
 
 .timeline-connector {
@@ -29,13 +28,11 @@
 
 .timeline-title {
   color: var(--N700);
-  font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  margin: 0;
 }
 
-.timeline-title.active {
+.active .timeline-title {
   color: var(--P300);
 }
 
@@ -47,12 +44,12 @@
   border: 2px solid var(--N400);
 }
 
-.timeline-circle.active {
+.active .timeline-circle {
   background-color: var(--P300);
   border-color: var(--P300);
 }
 
-.timeline-circle.passed {
+.passed .timeline-circle {
   background-color: var(--background);
   border-color: var(--P300);
 }

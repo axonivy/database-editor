@@ -1,5 +1,5 @@
 import { ClientContextProvider, DatabaseEditor, initQueryClient, QueryProvider } from '@axonivy/database-editor';
-import { ThemeProvider } from '@axonivy/ui-components';
+import { ThemeProvider, Toaster } from '@axonivy/ui-components';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initTranslation } from './i18n';
@@ -23,6 +23,7 @@ root.render(
           <DatabaseEditor context={{ app: '', pmv: 'project-name', file: '' }} />
         </QueryProvider>
       </ClientContextProvider>
+      <Toaster closeButton={true} position='bottom-left' />
     </ThemeProvider>
   </React.StrictMode>
 );

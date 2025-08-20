@@ -22,6 +22,13 @@ export const ImportWizard = ({ context }: { context: DatabaseEditorContext }) =>
   const [creationParams, setCreationParams] = useState<Array<CreationParameter>>([]);
   const [activePage, setActivePage] = useState(0);
 
+  const resetAll = () => {
+    setActivePage(0);
+    setSelectedDatabase('');
+    setSelectedTables([]);
+    setCreationParams([]);
+  };
+
   const updateSelectedDatabase = (db: string) => {
     setSelectedDatabase(db);
     setSelectedTables([]);
@@ -97,9 +104,9 @@ export const ImportWizard = ({ context }: { context: DatabaseEditorContext }) =>
   ];
 
   return (
-    <Dialog modal>
+    <Dialog modal onOpenChange={resetAll}>
       <DialogTrigger asChild>
-        <Button variant='outline'>{t('importWizard')}</Button>
+        <Button variant='outline'>{t('import.importWizard')}</Button>
       </DialogTrigger>
       <DialogContent className='import-dialog'>
         <BasicDialogHeader title={t('import.dataImport')} description={''} />
