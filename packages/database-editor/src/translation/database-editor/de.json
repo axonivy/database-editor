@@ -1,10 +1,25 @@
 {
-  "close": "Schliessen",
-  "database": "Database",
   "databaseEditor": "Database Editor",
-  "databasesYaml": "databases.yaml",
-  "importWizard": "Import Wizard",
-  "ivySystemDatabase": "IvySystemDatabase",
-  "noData": "No Data",
-  "system": "System"
+  "import": {
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "create": "Erstellen",
+    "createOptions": "Erstellungs Optionen",
+    "csv": "CSV/Excel",
+    "database": "Datenbank",
+    "databasesYaml": "databases.yaml",
+    "dataImport": "Daten-Import",
+    "entityClass": "Entity Class",
+    "enum": "Enum",
+    "importWizard": "Import Wizard",
+    "ivySystemDatabase": "IvySystemDatabase",
+    "next": "Zum nächsten Schritt",
+    "repository": "DAO/Repo Classes",
+    "selectDatabase": "Datenbank auswählen",
+    "selectMainTables": "Tabellen auswählen",
+    "selectTable": "Tabelle & Referenz auswählen",
+    "selectTables": "Tabellen auswählen",
+    "source": "Datenquelle",
+    "table": "Tabelle"
+  }
 }

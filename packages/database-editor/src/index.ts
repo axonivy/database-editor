@@ -1,3 +1,4 @@
+export * from './components/ImportWizard/ImportWizard';
 export * from './DatabaseEditor';
 export * from './protocol/client-json-rpc';
 export * from './protocol/ClientContextProvider';

@@ -2,7 +2,7 @@ import type { EditorProps } from '@axonivy/database-editor-protocol';
 import { Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ImportWizard } from './components/ImportWizard';
+import { ImportWizard } from './components/ImportWizard/ImportWizard';
 import './DatabaseEditor.css';
 
 export const DatabaseEditor = (props: EditorProps) => {

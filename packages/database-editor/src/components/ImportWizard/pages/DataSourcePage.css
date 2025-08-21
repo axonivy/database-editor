@@ -1,0 +1,20 @@
+.source-group {
+  width: fit-content;
+  padding: 4px;
+  border-radius: 5px;
+  background-color: var(--N50);
+  border: 1px solid var(--N200);
+}
+
+.source-button {
+  width: 100px;
+}
+
+.source-button[data-state='off'] {
+  background-color: transparent;
+  color: var(--N700);
+}
+
+.source-button[data-state='off']:hover {
+  background-color: var(--N200);
+}
