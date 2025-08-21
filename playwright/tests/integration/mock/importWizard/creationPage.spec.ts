@@ -3,29 +3,28 @@ import type { CreationPage } from '../../../pageobjects/CreationPage';
 import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
 import type { ImportDialog } from '../../../pageobjects/ImportDialog';
 
-let editor: DatabaseEditor;
-let importDialog: ImportDialog;
-
-let creationPage: CreationPage;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DatabaseEditor.openMock(page);
-  importDialog = editor.importDialog;
-  await importDialog.open();
-  await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
-  await importDialog.next.click();
-  await importDialog.tableSelectionPage.tableSelect.choose('Users-001');
-  await importDialog.next.click();
-  creationPage = importDialog.creationPage;
-});
-
 test.describe('creationPage page', () => {
+  let editor: DatabaseEditor;
+  let importDialog: ImportDialog;
+  let creationPage: CreationPage;
+
+  test.beforeEach(async ({ page }) => {
+    editor = await DatabaseEditor.openMock(page);
+    importDialog = editor.importDialog;
+    await importDialog.open();
+    await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
+    await importDialog.next.click();
+    await importDialog.tableSelectionPage.tableSelect.choose('Users-001');
+    await importDialog.next.click();
+    creationPage = importDialog.creationPage;
+  });
+
   test('visible', async () => {
     await expect(creationPage.locator).toBeVisible();
     await expect(creationPage.table.locator).toBeVisible();
-    await importDialog.back.expectEnabled();
-    await expect(importDialog.next.locator).toBeHidden();
-    await importDialog.create.expectDisabled();
+    await expect(importDialog.back).toBeEnabled();
+    await expect(importDialog.next).toBeHidden();
+    await expect(importDialog.create).toBeDisabled();
   });
 
   test('table headers', async () => {
@@ -43,13 +42,13 @@ test.describe('creationPage page', () => {
 
   test('creation requirements', async () => {
     await creationPage.table.locator.getByRole('checkbox').first().click();
-    await importDialog.create.expectEnabled();
+    await expect(importDialog.create).toBeEnabled();
   });
 
   test('back button', async () => {
-    await importDialog.back.expectEnabled();
+    await expect(importDialog.back).toBeEnabled();
     await importDialog.back.click();
     await expect(importDialog.tableSelectionPage.locator).toBeVisible();
-    await importDialog.next.expectEnabled();
+    await expect(importDialog.next).toBeEnabled();
   });
 });

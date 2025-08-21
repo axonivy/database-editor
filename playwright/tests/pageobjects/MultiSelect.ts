@@ -8,7 +8,7 @@ export class MultiSelect {
   constructor(page: Page, parent: Locator) {
     this.page = page;
     this.parent = parent;
-    this.locator = parent.locator('.table-dropdown-trigger');
+    this.locator = parent.locator('.table-select-trigger');
   }
 
   async choose(value: string) {

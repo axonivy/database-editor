@@ -1,7 +1,7 @@
-import { Flex, Label } from '@axonivy/ui-components';
+import { cn, Flex, Label } from '@axonivy/ui-components';
 import { Fragment } from 'react';
-import type { ImportPage } from './ImportWizard';
 import './Timeline.css';
+import type { ImportPage } from './WizardContent';
 
 export const Timeline = ({ pages, active, setActive }: { pages: Array<ImportPage>; active: number; setActive: (i: number) => void }) => {
   return (
@@ -31,7 +31,7 @@ const TimelineItem = ({
 }) => {
   return (
     <Flex
-      className={`timeline-item${activeOrPassed(active, passed)}`}
+      className={cn('timeline-item', active && 'active', passed && 'passed')}
       alignItems='center'
       direction='column'
       onClick={() => {
@@ -45,9 +45,5 @@ const TimelineItem = ({
 };
 
 const Connector = ({ active }: { active: boolean }) => {
-  return <hr className={`timeline-connector${activeOrPassed(active)}`}></hr>;
-};
-
-const activeOrPassed = (active: boolean, passed: boolean = false) => {
-  return (active ? ' active' : '') + (passed ? ' passed' : '');
+  return <hr className={cn('timeline-connector', active && 'active')}></hr>;
 };

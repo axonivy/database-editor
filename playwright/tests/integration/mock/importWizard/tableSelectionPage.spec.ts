@@ -3,26 +3,25 @@ import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
 import type { ImportDialog } from '../../../pageobjects/ImportDialog';
 import type { TableSelectionPage } from '../../../pageobjects/TableSelectionPage';
 
-let editor: DatabaseEditor;
-let importDialog: ImportDialog;
-
-let tableSelectionPage: TableSelectionPage;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DatabaseEditor.openMock(page);
-  importDialog = editor.importDialog;
-  await importDialog.open();
-  await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
-  await importDialog.next.click();
-  tableSelectionPage = importDialog.tableSelectionPage;
-});
-
 test.describe('table selection page', () => {
+  let editor: DatabaseEditor;
+  let importDialog: ImportDialog;
+  let tableSelectionPage: TableSelectionPage;
+
+  test.beforeEach(async ({ page }) => {
+    editor = await DatabaseEditor.openMock(page);
+    importDialog = editor.importDialog;
+    await importDialog.open();
+    await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
+    await importDialog.next.click();
+    tableSelectionPage = importDialog.tableSelectionPage;
+  });
+
   test('visible', async () => {
     await expect(tableSelectionPage.locator).toBeVisible();
     await expect(tableSelectionPage.tableSelect.locator).toBeVisible();
-    await importDialog.back.expectEnabled();
-    await importDialog.next.expectDisabled();
+    await expect(importDialog.back).toBeEnabled();
+    await expect(importDialog.next).toBeDisabled();
   });
 
   test('select multiple tables', async () => {
@@ -35,15 +34,15 @@ test.describe('table selection page', () => {
 
   test('proceed requirement', async () => {
     const select = tableSelectionPage.tableSelect;
-    await importDialog.next.expectDisabled();
+    await expect(importDialog.next).toBeDisabled();
     await select.choose('Users-001');
-    await importDialog.next.expectEnabled();
+    await expect(importDialog.next).toBeEnabled();
   });
 
   test('back button', async () => {
-    await importDialog.back.expectEnabled();
+    await expect(importDialog.back).toBeEnabled();
     await importDialog.back.click();
     await expect(importDialog.dataSourcePage.locator).toBeVisible();
-    await importDialog.next.expectEnabled();
+    await expect(importDialog.next).toBeEnabled();
   });
 });

@@ -3,19 +3,18 @@ import type { DataSourcePage } from '../../../pageobjects/DataSourcePage';
 import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
 import type { ImportDialog } from '../../../pageobjects/ImportDialog';
 
-let editor: DatabaseEditor;
-let importDialog: ImportDialog;
-
-let dataSourcePage: DataSourcePage;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DatabaseEditor.openMock(page);
-  importDialog = editor.importDialog;
-  await importDialog.open();
-  dataSourcePage = importDialog.dataSourcePage;
-});
-
 test.describe('data source page', () => {
+  let editor: DatabaseEditor;
+  let importDialog: ImportDialog;
+  let dataSourcePage: DataSourcePage;
+
+  test.beforeEach(async ({ page }) => {
+    editor = await DatabaseEditor.openMock(page);
+    importDialog = editor.importDialog;
+    await importDialog.open();
+    dataSourcePage = importDialog.dataSourcePage;
+  });
+
   test('type toggle', async () => {
     const typeSelection = dataSourcePage.typeSelection;
     await expect(typeSelection).toBeVisible();
@@ -33,8 +32,8 @@ test.describe('data source page', () => {
   });
 
   test('proceed requirement', async () => {
-    await importDialog.next.expectDisabled();
+    await expect(importDialog.next).toBeDisabled();
     await dataSourcePage.databaseSelect.choose('IvySystemDatabase');
-    await importDialog.next.expectEnabled();
+    await expect(importDialog.next).toBeEnabled();
   });
 });

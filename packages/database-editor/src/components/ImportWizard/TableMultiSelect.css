@@ -1,9 +1,10 @@
-button.table-dropdown-trigger {
+button.table-select-trigger {
   cursor: pointer;
   overflow: hidden;
   padding: var(--input-padding);
   font-size: 12px;
   height: 36px;
+  width: 100%;
   border-radius: var(--border-r1);
   border: var(--input-border);
   background: var(--N25);
@@ -23,7 +24,7 @@ button.table-dropdown-trigger {
   white-space: nowrap;
 }
 
-div.table-dropdown-content {
+div.table-select-content {
   width: 100%;
   width: var(--radix-popper-anchor-width);
   max-height: 400px;

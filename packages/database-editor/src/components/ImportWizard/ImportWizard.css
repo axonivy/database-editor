@@ -18,17 +18,6 @@ div.import-dialog {
   gap: 2rem;
 }
 
-.import-label {
-  align-self: center;
-}
-
-.import-grid {
-  display: grid;
-  grid-template-columns: 2fr 10fr 1fr;
-  grid-column-gap: 1em;
-  grid-row-gap: 1em;
-}
-
 .import-dialog .import-button-back {
   background-color: var(--N50);
   border-color: var(--N100);

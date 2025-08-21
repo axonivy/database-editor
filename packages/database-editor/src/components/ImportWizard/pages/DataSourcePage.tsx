@@ -1,5 +1,5 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { Button, Flex, Label, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import { BasicField, Button, Flex, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -33,17 +33,18 @@ export const DataSourcePage = ({ context, selection, updateSelection }: DataSour
   return (
     <Flex className='import-page data-source-page' direction='column'>
       <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
-      <div className='import-grid'>
-        <Label className='import-label'>{t('import.database')}</Label>
-        <DatabaseSelection
-          databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
-          selection={selection}
-          updateSelection={updateSelection}
-        />
-        <Button variant='outline' icon={IvyIcons.Plus} onClick={notImplemented}>
-          {t('import.add')}
-        </Button>
-      </div>
+      <BasicField label={t('import.database')}>
+        <Flex gap={2}>
+          <DatabaseSelection
+            databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
+            selection={selection}
+            updateSelection={updateSelection}
+          />
+          <Button variant='outline' icon={IvyIcons.Plus} onClick={notImplemented}>
+            {t('import.add')}
+          </Button>
+        </Flex>
+      </BasicField>
     </Flex>
   );
 };

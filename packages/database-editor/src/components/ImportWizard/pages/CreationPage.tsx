@@ -21,8 +21,7 @@ export const CreationPage = ({ tables, updateSelection, parameters }: CreationPa
 
   const checkState = (tableName: string, key: Exclude<keyof CreationParameter, 'tableName'>): boolean => {
     const param = parameters.find(p => p.tableName === tableName);
-    if (!param) return false;
-    return param[key] === true;
+    return param !== undefined && param[key] === true;
   };
 
   return (
