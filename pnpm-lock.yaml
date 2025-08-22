@@ -14,6 +14,9 @@ importers:
       '@axonivy/prettier-config':
         specifier: ~13.2.0-next.847.a8ce22a
         version: 13.2.0-next.847.a8ce22a
+      '@axonivy/ts-config':
+        specifier: ~13.2.0-next.847.a8ce22a
+        version: 13.2.0-next.847.a8ce22a
       '@lerna-lite/cli':
         specifier: ^4.0.0
         version: 4.7.2(@lerna-lite/publish@4.7.2)(@lerna-lite/run@4.7.2)(@lerna-lite/version@4.7.2)(@types/node@22.17.2)
@@ -213,6 +216,9 @@ packages:
 
   '@axonivy/prettier-config@13.2.0-next.847.a8ce22a':
     resolution: {integrity: sha512-6UJ2izmShKhbkE7sA+acYdMyPmFSAjtr/IEHYzaDvTRRPdFubhR9wiFQt3LNKwVrKxdB78+mG/lEMNFOS1GRHg==}
+
+  '@axonivy/ts-config@13.2.0-next.847.a8ce22a':
+    resolution: {integrity: sha512-Qp8K+DaiawxFFhqgbVHG3sBkKr0psm8r+QsW1Bik67shp0a/Gc8w1k2WckYqMj1iXQtNR2ESxur8tJPK7xs9vg==}
 
   '@axonivy/ui-components@13.2.0-next.847.a8ce22a':
     resolution: {integrity: sha512-lOOtrUFhJUQqpj/vmfNBDBpb5rWsKjJ/8jP17RJ5BEBmYxxSdSmbGAzK8oYKtJ5SKt5+HtI7DbcUbkgO2cApbw==}
@@ -4899,6 +4905,8 @@ snapshots:
   '@axonivy/prettier-config@13.2.0-next.847.a8ce22a':
     dependencies:
       prettier: 3.6.2
+
+  '@axonivy/ts-config@13.2.0-next.847.a8ce22a': {}
 
   '@axonivy/ui-components@13.2.0-next.847.a8ce22a(@axonivy/ui-icons@13.2.0-next.847.a8ce22a)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:

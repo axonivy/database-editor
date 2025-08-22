@@ -1,4 +1,5 @@
 import type { Client, DatabaseData, DatabaseInfoData, Event } from '@axonivy/database-editor-protocol';
+import { Emitter } from '@axonivy/jsonrpc';
 import { databaseInfoData, databases } from './data';
 
 export class DatabaseClientMock implements Client {
@@ -13,5 +14,5 @@ export class DatabaseClientMock implements Client {
     return Promise.resolve(this.databaseInfoData);
   }
 
-  onDataChanged: Event<void>;
+  onDataChanged: Event<void> = new Emitter<void>().event;
 }
