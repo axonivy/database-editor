@@ -96,7 +96,7 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
   return (
     <Flex className='import-dialog-content' direction='column' justifyContent='space-between'>
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
-      {pages[activePage].page}
+      {pages[activePage]?.page}
       <Flex direction='row' justifyContent='flex-end' gap={1}>
         <Button
           disabled={activePage <= 0}
@@ -108,12 +108,12 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
           {t('import.back')}
         </Button>
         {activePage !== pages.length - 1 ? (
-          <Button disabled={!pages[activePage].requiredData} variant='primary' size='xl' onClick={() => updateActivePage()}>
+          <Button disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={() => updateActivePage()}>
             {t('import.next')}
             <IvyIcon icon={IvyIcons.Chevron} />
           </Button>
         ) : (
-          <Button disabled={!pages[activePage].requiredData} variant='primary' size='xl' onClick={notImplemented}>
+          <Button disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={notImplemented}>
             {t('import.create')}
           </Button>
         )}
