@@ -8,7 +8,7 @@ export const ImportWizard = ({ context }: { context: DatabaseEditorContext }) =>
   const { t } = useTranslation();
 
   return (
-    <Dialog modal>
+    <Dialog modal open>
       <DialogTrigger asChild>
         <Button variant='outline'>{t('import.importWizard')}</Button>
       </DialogTrigger>

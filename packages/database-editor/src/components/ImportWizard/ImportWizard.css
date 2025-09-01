@@ -1,20 +1,23 @@
 div.import-dialog {
+  --height: clamp(360px, 100%, 900px);
+  height: var(--height);
+  width: clamp(700px, 100%, var(--height) / 5 * 6);
+  max-width: unset;
   display: flex;
   flex-direction: column;
-  height: calc(100% - 40px);
-  width: auto;
-  max-height: 900px;
-  max-width: calc(100% - 40px);
-  aspect-ratio: 6/5;
 }
 
 .import-dialog-content {
-  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
   gap: 2rem;
 }
 
 .import-page {
-  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
   gap: 2rem;
 }
 

@@ -13,6 +13,8 @@
     "enum": "Enum",
     "importWizard": "Import Wizard",
     "ivySystemDatabase": "IvySystemDatabase",
+    "namespace": "__MISSING_TRANSLATION__",
+    "namespaceRequired": "__MISSING_TRANSLATION__",
     "next": "Go to next step",
     "repository": "DAO/Repo Classes",
     "selectDatabase": "Select a database",

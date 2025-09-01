@@ -1,9 +1,9 @@
-import type { DatabaseEditorContext, DatabaseTable } from '@axonivy/database-editor-protocol';
-import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
+import type { DatabaseEditorContext, DatabaseTable, ImportOptions, TableOptions } from '@axonivy/database-editor-protocol';
+import { Button, Flex, IvyIcon, toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { notImplemented } from './ImportWizard';
+import { useFunction } from '../../query/useFunction';
 import { CreationPage, type CreationParameter } from './pages/CreationPage';
 import { DataSourcePage } from './pages/DataSourcePage';
 import { SelectTablesPage } from './pages/TableSelectionPage';
@@ -20,6 +20,7 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
   const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
   const [creationParams, setCreationParams] = useState<Array<CreationParameter>>([]);
+  const [namespace, setNamespace] = useState<string>('');
   const [activePage, setActivePage] = useState(0);
 
   const updateActivePage = (forward: boolean = true) => {
@@ -61,12 +62,43 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
     }
   };
 
-  const updateParameter = (table: string, key: Exclude<keyof CreationParameter, 'tableName'>, value: boolean) => {
+  const updateParameter = (table: string, key: ImportOptions, value: boolean) => {
     const param = creationParams.find(p => p.tableName === table) ?? { tableName: table };
     param[key] = value;
     const obsolete = Object.keys(param).filter(k => param[k as keyof CreationParameter]).length <= 1;
     setCreationParams([...creationParams.filter(p => p.tableName !== table), ...(obsolete ? [] : [param])]);
   };
+
+  const creationProps = (): Array<TableOptions> => {
+    const tableOptions: Array<TableOptions> = [];
+    creationParams.forEach(c => {
+      const name = namespace + '.' + c.tableName;
+      Object.keys(c).forEach(key => {
+        if (c[key as keyof typeof c]) {
+          if (key === 'tableName') return;
+          tableOptions.push({
+            name: name,
+            type: key as ImportOptions,
+            attributes: selectedTables.find(t => t.name === c.tableName)?.columns ?? []
+          });
+        }
+      });
+    });
+    console.log(tableOptions);
+    return tableOptions;
+  };
+
+  const creationFunction = useFunction(
+    'function/createImportOptions',
+    {
+      context,
+      options: creationProps()
+    },
+    {
+      onSuccess: () => toast.info('Creation successful'),
+      onError: error => toast.error('Creation failed: ', { description: error.message })
+    }
+  );
 
   const pages: Array<ImportPage> = [
     {
@@ -87,9 +119,17 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
       requiredData: selectedTables.length > 0
     },
     {
-      page: <CreationPage tables={selectedTables} updateSelection={updateParameter} parameters={creationParams} />,
+      page: (
+        <CreationPage
+          tables={selectedTables}
+          updateSelection={updateParameter}
+          parameters={creationParams}
+          namespace={namespace}
+          updateNamespace={setNamespace}
+        />
+      ),
       title: t('import.createOptions'),
-      requiredData: creationParams.length >= selectedTables.length
+      requiredData: creationParams.length >= selectedTables.length && namespace !== undefined && namespace.trim() !== ''
     }
   ];
 
@@ -108,12 +148,18 @@ export const WizardContent = ({ context }: { context: DatabaseEditorContext }) =
           {t('import.back')}
         </Button>
         {activePage !== pages.length - 1 ? (
-          <Button disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={() => updateActivePage()}>
+          <Button type='submit' disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={() => updateActivePage()}>
             {t('import.next')}
             <IvyIcon icon={IvyIcons.Chevron} />
           </Button>
         ) : (
-          <Button disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={notImplemented}>
+          <Button
+            type='submit'
+            disabled={!pages[activePage]?.requiredData}
+            variant='primary'
+            size='xl'
+            onClick={() => creationFunction.mutate()}
+          >
             {t('import.create')}
           </Button>
         )}

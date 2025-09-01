@@ -1,4 +1,11 @@
-import type { DatabaseData, DatabaseEditorDataContext, DatabaseEditorDBContext, DatabaseInfoData } from './editor';
+import type {
+  CreationError,
+  DatabaseData,
+  DatabaseEditorDataContext,
+  DatabaseEditorDBContext,
+  DatabaseImportCreationArgs,
+  DatabaseInfoData
+} from './editor';
 
 export type DatabaseEditorContext = DatabaseEditorDBContext | DatabaseEditorDataContext;
 
@@ -13,7 +20,7 @@ export interface Disposable {
   dispose(): void;
 }
 
-export interface RequestTypes {
+export interface RequestTypes extends FunctionRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseInfo: [DatabaseEditorDBContext, DatabaseInfoData];
 }
@@ -22,8 +29,16 @@ export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
   databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData>;
   onDataChanged: Event<void>;
+  function<TFunct extends keyof FunctionRequestTypes>(
+    path: TFunct,
+    args: FunctionRequestTypes[TFunct][0]
+  ): Promise<FunctionRequestTypes[TFunct][1]>;
 }
 
 export interface ClientContext {
   client: Client;
+}
+
+export interface FunctionRequestTypes {
+  'function/createImportOptions': [DatabaseImportCreationArgs, Array<CreationError>];
 }
