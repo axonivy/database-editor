@@ -8,19 +8,27 @@ export const databases: DatabaseData = {
 const columns: Array<DatabaseColumn> = [
   {
     name: 'id',
-    type: 'double'
+    type: 'double',
+    autoIncrement: true,
+    primaryKey: true
   },
   {
     name: 'userId',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   },
   {
     name: 'firstName',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   },
   {
     name: 'lastName',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   }
 ];
 

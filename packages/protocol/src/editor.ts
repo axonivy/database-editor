@@ -6,7 +6,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type ImportOptions = ("EntityClass" | "FormDialog")
+export type ImportOptions = ("EntityClass" | "FormDialog" | "Repository" | "Enum")
 
 export interface Database {
   creationError: CreationError[];
@@ -18,6 +18,7 @@ export interface Database {
   [k: string]: unknown;
 }
 export interface CreationError {
+  message: string;
   name: string;
   type: ImportOptions;
 }

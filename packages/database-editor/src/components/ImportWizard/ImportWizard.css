@@ -1,7 +1,7 @@
 div.import-dialog {
-  --height: clamp(360px, 100%, 900px);
+  --height: clamp(360px, calc(100% - 40px), 900px);
   height: var(--height);
-  width: clamp(700px, 100%, var(--height) / 5 * 6);
+  width: clamp(700px, calc(100% - 40px), var(--height) / 5 * 6);
   max-width: unset;
   display: flex;
   flex-direction: column;

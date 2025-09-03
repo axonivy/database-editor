@@ -20,25 +20,26 @@ export interface Disposable {
   dispose(): void;
 }
 
-export interface RequestTypes extends FunctionRequestTypes {
+export interface RequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseInfo: [DatabaseEditorDBContext, DatabaseInfoData];
+  importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
   databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData>;
+  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
-  function<TFunct extends keyof FunctionRequestTypes>(
-    path: TFunct,
-    args: FunctionRequestTypes[TFunct][0]
-  ): Promise<FunctionRequestTypes[TFunct][1]>;
 }
 
 export interface ClientContext {
   client: Client;
 }
 
-export interface FunctionRequestTypes {
-  'function/createImportOptions': [DatabaseImportCreationArgs, Array<CreationError>];
-}
+export const ImportOptionsLookup = {
+  0: 'EntityClass',
+  1: 'FormDialog',
+  2: 'Repository',
+  3: 'Enum'
+};

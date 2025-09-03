@@ -1,11 +1,12 @@
 import type {
   Client,
+  CreationError,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseImportCreationArgs,
   DatabaseInfoData,
   Event,
-  FunctionRequestTypes,
   RequestTypes
 } from '@axonivy/database-editor-protocol';
 import { BaseRpcClient, createMessageConnection, Emitter, urlBuilder, type Connection, type MessageConnection } from '@axonivy/jsonrpc';
@@ -26,11 +27,8 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('databaseInfo', context);
   }
 
-  function<TFunct extends keyof FunctionRequestTypes>(
-    path: TFunct,
-    args: FunctionRequestTypes[TFunct][0]
-  ): Promise<FunctionRequestTypes[TFunct][1]> {
-    return this.sendRequest(path, args);
+  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {
+    return this.sendRequest('importFromDatabase', args);
   }
 
   sendRequest<K extends keyof RequestTypes>(command: K, args: RequestTypes[K][0]): Promise<RequestTypes[K][1]> {

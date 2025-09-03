@@ -1,14 +1,18 @@
-.table-creation .table-header {
+.table-errors .table-header {
   font-weight: 600;
   width: 100px;
 }
 
-.table-header.table-name {
+.table-header.table-message {
   width: 200px;
 }
 
-.table-creation td {
+.table-errors td {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.result-title {
+  margin: 0;
 }

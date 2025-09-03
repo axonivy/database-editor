@@ -1,5 +1,5 @@
 import type { EditorProps } from '@axonivy/database-editor-protocol';
-import { Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
+import { Button, Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImportWizard } from './components/ImportWizard/ImportWizard';
@@ -20,7 +20,9 @@ export const DatabaseEditor = (props: EditorProps) => {
         </Toolbar>
       </ToolbarContainer>
       <div className='editor'>
-        <ImportWizard context={context} />
+        <ImportWizard context={context}>
+          <Button variant='outline'>{t('import.importWizard')}</Button>
+        </ImportWizard>
       </div>
     </>
   );

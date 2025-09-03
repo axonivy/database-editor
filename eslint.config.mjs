@@ -1,7 +1,8 @@
 import config from '@axonivy/eslint-config';
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
+  globalIgnores(['packages/protocol/src/editor.ts']),
   ...config.base,
   ...config.i18n,
   // TypeScript configs
