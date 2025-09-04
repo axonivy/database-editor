@@ -1,4 +1,11 @@
-import type { CreationError, DatabaseEditorContext, DatabaseTable, ImportOptions, TableOptions } from '@axonivy/database-editor-protocol';
+import {
+  type CreationError,
+  type DatabaseEditorContext,
+  type DatabaseTable,
+  type ImportOptions,
+  type ImportWizardContext,
+  type TableOptions
+} from '@axonivy/database-editor-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -11,7 +18,7 @@ import { CreationResult } from './CreationResult';
 import { DataSourcePage } from './DataSourcePage';
 import { SelectTablesPage } from './TableSelectionPage';
 
-export const usePages = (context: DatabaseEditorContext, setOpen: (forward: boolean) => void) => {
+export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void) => {
   const { t } = useTranslation();
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
   const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
@@ -19,6 +26,19 @@ export const usePages = (context: DatabaseEditorContext, setOpen: (forward: bool
   const [namespace, setNamespace] = useState<string>('');
   const [activePage, setActivePage] = useState(0);
   const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
+  const [context, setContext] = useState<DatabaseEditorContext>({
+    app: importContext.app,
+    file: importContext.file,
+    pmv: importContext.projects.length === 1 ? (importContext.projects[0] as string) : ''
+  });
+
+  const updatePmv = (pmv: string) => {
+    setContext({
+      app: context.app,
+      file: context.file,
+      pmv: pmv
+    });
+  };
 
   const updateActivePage = (forward: boolean = true) => {
     if (forward && activePage < pages.length - 1) {
@@ -89,12 +109,12 @@ export const usePages = (context: DatabaseEditorContext, setOpen: (forward: bool
   const client = useClient();
   const creationFunction = useMutation({
     mutationKey: genQueryKey('importFromDatabase', {
-      context,
+      context: context,
       options: creationProps()
     }),
     mutationFn: () =>
       client.importFromDatabase({
-        context,
+        context: context,
         options: creationProps()
       }),
     onSuccess: data => setCreationErrors(data),
@@ -103,7 +123,15 @@ export const usePages = (context: DatabaseEditorContext, setOpen: (forward: bool
 
   const pages: Array<ImportPage> = [
     {
-      page: <DataSourcePage context={context} updateSelection={updateSelectedDatabase} selection={selectedDatabase} />,
+      page: (
+        <DataSourcePage
+          context={context}
+          updateSelection={updateSelectedDatabase}
+          selection={selectedDatabase}
+          projects={importContext.projects.length > 1 ? importContext.projects : undefined}
+          updatePmv={updatePmv}
+        />
+      ),
       title: t('import.source'),
       requiredData: selectedDatabase != null && selectedDatabase != ''
     },

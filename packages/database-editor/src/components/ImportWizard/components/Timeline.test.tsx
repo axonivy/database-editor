@@ -1,8 +1,8 @@
 import { Flex, Label } from '@axonivy/ui-components';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import type { ImportPage } from '../WizardContent';
 import { Timeline } from './Timeline';
-import type { ImportPage } from './WizardContent';
 
 const pages: Array<ImportPage> = [
   {

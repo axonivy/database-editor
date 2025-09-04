@@ -7,9 +7,15 @@ import type {
   DatabaseInfoData
 } from './editor';
 
+export type ImportWizardContext = {
+  app: string;
+  file: string;
+  projects: Array<string>;
+};
+
 export type DatabaseEditorContext = DatabaseEditorDBContext | DatabaseEditorDataContext;
 
-export type EditorProps = { context: DatabaseEditorContext; directSave?: boolean };
+export type EditorProps = { context: ImportWizardContext; directSave?: boolean };
 
 export interface Event<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

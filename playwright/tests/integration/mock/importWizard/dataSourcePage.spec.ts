@@ -23,7 +23,14 @@ test.describe('data source page', () => {
     expect(options).toContain('CSV/Excel');
   });
 
+  test('project selection', async () => {
+    await expect(dataSourcePage.databaseSelect.locator).toBeDisabled();
+    await dataSourcePage.projectSelection.choose('project1-name');
+    await expect(dataSourcePage.databaseSelect.locator).toBeEnabled();
+  });
+
   test('database selection', async () => {
+    await dataSourcePage.projectSelection.choose('project1-name');
     const select = dataSourcePage.databaseSelect;
     await expect(select.locator).toBeVisible();
     await select.expectToHaveOptions('IvySystemDatabase', 'MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003');
@@ -33,6 +40,7 @@ test.describe('data source page', () => {
 
   test('proceed requirement', async () => {
     await expect(importDialog.next).toBeDisabled();
+    await dataSourcePage.projectSelection.choose('project1-name');
     await dataSourcePage.databaseSelect.choose('IvySystemDatabase');
     await expect(importDialog.next).toBeEnabled();
   });

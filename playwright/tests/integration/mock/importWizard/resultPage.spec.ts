@@ -12,6 +12,7 @@ test.describe('CreationResult page', () => {
     editor = await DatabaseEditor.openMock(page);
     importDialog = editor.importDialog;
     await importDialog.open();
+    await importDialog.dataSourcePage.projectSelection.choose('project1-name');
     await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
     await importDialog.next.click();
     await importDialog.tableSelectionPage.tableSelect.choose('Users-001');

@@ -40,7 +40,7 @@ export async function start(): Promise<void> {
           <ClientContextProvider client={client}>
             <QueryProvider client={queryClient}>
               <HotkeysProvider initiallyActiveScopes={['global']}>
-                <DatabaseEditor context={{ app, pmv, file: 'config/databases.yaml' }} directSave={directSave} />
+                <DatabaseEditor context={{ app, projects: [pmv], file: 'config/databases.yaml' }} directSave={directSave} />
               </HotkeysProvider>
             </QueryProvider>
           </ClientContextProvider>

@@ -1,7 +1,7 @@
 import { cn, Flex, Label } from '@axonivy/ui-components';
 import { Fragment } from 'react';
+import type { ImportPage } from '../WizardContent';
 import './Timeline.css';
-import type { ImportPage } from './WizardContent';
 
 export const Timeline = ({ pages, active, setActive }: { pages: Array<ImportPage>; active: number; setActive: (i: number) => void }) => {
   return (
