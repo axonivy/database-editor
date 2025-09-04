@@ -17,7 +17,7 @@
     "entityClass": "Entity Class",
     "enum": "Enum",
     "errorAlreadyExists": "Object already exists",
-    "errorMessage": "Error message",
+    "errorMessage": "Error Message",
     "errorsDuringCreation": "Errors during creation",
     "formDialog": "Form Dialog",
     "importWizard": "Import from Database",

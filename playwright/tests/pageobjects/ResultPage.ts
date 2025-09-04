@@ -1,14 +1,14 @@
 import type { Locator, Page } from '@playwright/test';
 import { Table } from './Table';
 
-export class CreationPage {
+export class ResultPage {
   readonly locator: Locator;
-  readonly namespace: Locator;
+  readonly header: Locator;
   readonly table: Table;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.creation-page');
+    this.locator = parent.locator('.creation-result-page');
     this.table = new Table(page, this.locator);
-    this.namespace = parent.getByLabel('Namespace*');
+    this.header = parent.locator('h3');
   }
 }

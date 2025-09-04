@@ -1,16 +1,18 @@
-.table-errors .table-header {
-  font-weight: 600;
-  width: 100px;
-}
+.table-errors {
+  .table-header {
+    font-weight: 600;
+    width: 100px;
+  }
 
-.table-header.table-message {
-  width: 200px;
-}
+  td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-.table-errors td {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  .table-header.table-message {
+    width: 200px;
+  }
 }
 
 .result-title {
