@@ -1,4 +1,11 @@
-import type { DatabaseData, DatabaseEditorDataContext, DatabaseEditorDBContext, DatabaseInfoData } from './editor';
+import type {
+  CreationError,
+  DatabaseData,
+  DatabaseEditorDataContext,
+  DatabaseEditorDBContext,
+  DatabaseImportCreationArgs,
+  DatabaseInfoData
+} from './editor';
 
 export type DatabaseEditorContext = DatabaseEditorDBContext | DatabaseEditorDataContext;
 
@@ -16,14 +23,23 @@ export interface Disposable {
 export interface RequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseInfo: [DatabaseEditorDBContext, DatabaseInfoData];
+  importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
   databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData>;
+  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
 }
 
 export interface ClientContext {
   client: Client;
 }
+
+export const ImportOptionsLookup = {
+  0: 'EntityClass',
+  1: 'FormDialog',
+  2: 'Repository',
+  3: 'Enum'
+};

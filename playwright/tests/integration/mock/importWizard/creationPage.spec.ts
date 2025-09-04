@@ -29,19 +29,20 @@ test.describe('creationPage page', () => {
 
   test('table headers', async () => {
     const table = creationPage.table;
-    await table.expectHeaders('Table', 'Enum', 'Entity Class', 'DAO/Repo Classes');
+    await table.expectHeaders('Table', 'Entity Class', 'Enum', 'Form Dialog', 'DAO/Repo Classes');
   });
 
   test('table rows', async () => {
     const row = creationPage.table.rows.nth(1);
     await expect(row).toContainText('Users-001');
     const cells = row.locator('.ui-table-cell');
-    await expect(cells).toHaveCount(4);
-    await expect(cells.getByRole('checkbox')).toHaveCount(3);
+    await expect(cells).toHaveCount(5);
+    await expect(cells.getByRole('checkbox')).toHaveCount(4);
   });
 
   test('creation requirements', async () => {
     await creationPage.table.locator.getByRole('checkbox').first().click();
+    await creationPage.namespace.fill('testNamespace');
     await expect(importDialog.create).toBeEnabled();
   });
 

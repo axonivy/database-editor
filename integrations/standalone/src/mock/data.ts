@@ -1,4 +1,11 @@
-import type { DatabaseColumn, DatabaseData, DatabaseInfoData, DatabaseTable } from '@axonivy/database-editor-protocol';
+import type {
+  Database,
+  DatabaseColumn,
+  DatabaseData,
+  DatabaseInfoData,
+  DatabaseTable,
+  ImportOptions
+} from '@axonivy/database-editor-protocol';
 
 export const databases: DatabaseData = {
   context: { app: '', pmv: '', file: '' },
@@ -8,19 +15,27 @@ export const databases: DatabaseData = {
 const columns: Array<DatabaseColumn> = [
   {
     name: 'id',
-    type: 'double'
+    type: 'double',
+    autoIncrement: true,
+    primaryKey: true
   },
   {
     name: 'userId',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   },
   {
     name: 'firstName',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   },
   {
     name: 'lastName',
-    type: 'varchar'
+    type: 'varchar',
+    autoIncrement: false,
+    primaryKey: false
   }
 ];
 
@@ -43,3 +58,13 @@ export const databaseInfoData: DatabaseInfoData = {
   connectionName: 'MockDatabase-001',
   tables: tables
 };
+
+export const creationError: Database['creationError'] = [];
+
+export const mockError: Database['creationError'] = [
+  {
+    name: 'Users-001',
+    message: 'Users-001',
+    type: 0 as unknown as ImportOptions
+  }
+];

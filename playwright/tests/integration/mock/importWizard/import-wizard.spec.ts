@@ -12,7 +12,7 @@ test.describe('import wizard', () => {
   });
 
   test('opening behaviour', async () => {
-    await expect(importDialog.trigger).toHaveText('Import Wizard');
+    await expect(importDialog.trigger).toHaveText('Import from Database');
     await importDialog.open();
     await expect(importDialog.locator.first()).toBeVisible();
   });
@@ -28,10 +28,11 @@ test.describe('import wizard', () => {
   test('timeline', async () => {
     await importDialog.open();
     const timeline = importDialog.timeline;
-    await timeline.expectItemsCount(3);
+    await timeline.expectItemsCount(4);
     await timeline.expectItem('Data Source');
     await timeline.expectItem('Select Table & Define References');
     await timeline.expectItem('Create Options');
+    await timeline.expectItem('Import Result');
     await timeline.expectItemToBeActive('Data Source');
   });
 });

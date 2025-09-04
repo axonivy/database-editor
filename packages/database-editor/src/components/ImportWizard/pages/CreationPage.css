@@ -1,3 +1,14 @@
 .table-creation .table-header {
   font-weight: 600;
+  width: 100px;
+}
+
+.table-header.table-name {
+  width: 200px;
+}
+
+.table-creation td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

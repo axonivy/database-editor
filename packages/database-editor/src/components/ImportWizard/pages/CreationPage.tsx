@@ -1,37 +1,53 @@
-import type { DatabaseTable } from '@axonivy/database-editor-protocol';
-import { Checkbox, Flex, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
+import type { DatabaseTable, ImportOptions } from '@axonivy/database-editor-protocol';
+import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
+import { notImplemented } from '../ImportWizard';
 import './CreationPage.css';
 
 export type CreationParameter = {
   tableName: string;
-  enum?: boolean;
-  entity?: boolean;
-  repository?: boolean;
+  Enum?: boolean;
+  EntityClass?: boolean;
+  Repository?: boolean;
+  FormDialog?: boolean;
 };
 
 export type CreationPageProps = {
   tables: Array<DatabaseTable>;
   parameters: Array<CreationParameter>;
-  updateSelection: (table: string, key: Exclude<keyof CreationParameter, 'tableName'>, value: boolean) => void;
+  updateSelection: (table: string, key: ImportOptions, value: boolean) => void;
+  namespace: string;
+  updateNamespace: (ns: string) => void;
 };
 
-export const CreationPage = ({ tables, updateSelection, parameters }: CreationPageProps) => {
+export const CreationPage = ({ tables, updateSelection, parameters, namespace, updateNamespace }: CreationPageProps) => {
   const { t } = useTranslation();
 
-  const checkState = (tableName: string, key: Exclude<keyof CreationParameter, 'tableName'>): boolean => {
+  const checkState = (tableName: string, key: ImportOptions): boolean => {
     const param = parameters.find(p => p.tableName === tableName);
     return param !== undefined && param[key] === true;
   };
 
+  const namespaceMessage =
+    namespace.trim() !== '' && !namespace.match('^\\w+(?:\\.\\w+)*$')
+      ? ({
+          message: t('import.namespaceRequired'),
+          variant: 'error'
+        } as const)
+      : undefined;
+
   return (
     <Flex direction='column' className='import-page creation-page'>
+      <BasicField message={namespaceMessage} label={`${t('import.namespace')}*`}>
+        <Input required value={namespace} onChange={event => updateNamespace(event.target.value)}></Input>
+      </BasicField>
       <Table className='table-creation'>
         <TableHeader>
           <TableRow>
-            <TableHead className='table-header'>{t('import.table')}</TableHead>
-            <TableHead className='table-header'>{t('import.enum')}</TableHead>
+            <TableHead className='table-header table-name'>{t('import.table')}</TableHead>
             <TableHead className='table-header'>{t('import.entityClass')}</TableHead>
+            <TableHead className='table-header'>{t('import.enum')}</TableHead>
+            <TableHead className='table-header'>{t('import.formDialog')}</TableHead>
             <TableHead className='table-header'>{t('import.repository')}</TableHead>
           </TableRow>
         </TableHeader>
@@ -41,20 +57,32 @@ export const CreationPage = ({ tables, updateSelection, parameters }: CreationPa
               <TableCell>{table.name}</TableCell>
               <TableCell>
                 <Checkbox
-                  checked={checkState(table.name, 'enum')}
-                  onCheckedChange={value => updateSelection(table.name, 'enum', value as boolean)}
+                  checked={checkState(table.name, 'EntityClass')}
+                  onCheckedChange={value => updateSelection(table.name, 'EntityClass', value as boolean)}
                 ></Checkbox>
               </TableCell>
               <TableCell>
                 <Checkbox
-                  checked={checkState(table.name, 'entity')}
-                  onCheckedChange={value => updateSelection(table.name, 'entity', value as boolean)}
+                  onMouseOver={notImplemented}
+                  checked={checkState(table.name, 'Enum')}
+                  onCheckedChange={value => updateSelection(table.name, 'Enum', value as boolean)}
+                  disabled
                 ></Checkbox>
               </TableCell>
               <TableCell>
                 <Checkbox
-                  checked={checkState(table.name, 'repository')}
-                  onCheckedChange={value => updateSelection(table.name, 'repository', value as boolean)}
+                  onMouseOver={notImplemented}
+                  checked={checkState(table.name, 'FormDialog')}
+                  onCheckedChange={value => updateSelection(table.name, 'FormDialog', value as boolean)}
+                  disabled
+                ></Checkbox>
+              </TableCell>
+              <TableCell>
+                <Checkbox
+                  onMouseOver={notImplemented}
+                  checked={checkState(table.name, 'Repository')}
+                  onCheckedChange={value => updateSelection(table.name, 'Repository', value as boolean)}
+                  disabled
                 ></Checkbox>
               </TableCell>
             </TableRow>

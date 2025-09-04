@@ -1,8 +1,10 @@
 import type {
   Client,
+  CreationError,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseImportCreationArgs,
   DatabaseInfoData,
   Event,
   RequestTypes
@@ -23,6 +25,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData> {
     return this.sendRequest('databaseInfo', context);
+  }
+
+  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {
+    return this.sendRequest('importFromDatabase', args);
   }
 
   sendRequest<K extends keyof RequestTypes>(command: K, args: RequestTypes[K][0]): Promise<RequestTypes[K][1]> {

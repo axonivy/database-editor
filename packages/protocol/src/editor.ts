@@ -6,16 +6,25 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type ImportOptions = ("EntityClass" | "FormDialog" | "Repository" | "Enum")
+
 export interface Database {
-databaseData: DatabaseData
-databaseEditorDataContext: DatabaseEditorDataContext
-databaseEditorDBContext: DatabaseEditorDBContext
-databaseInfoData: DatabaseInfoData
-[k: string]: unknown
+  creationError: CreationError[];
+  databaseData: DatabaseData;
+  databaseEditorDataContext: DatabaseEditorDataContext;
+  databaseEditorDBContext: DatabaseEditorDBContext;
+  databaseImportCreationArgs: DatabaseImportCreationArgs;
+  databaseInfoData: DatabaseInfoData;
+  [k: string]: unknown;
+}
+export interface CreationError {
+  message: string;
+  name: string;
+  type: ImportOptions;
 }
 export interface DatabaseData {
   context: DatabaseEditorDataContext;
-  databaseNames: Array<String>;
+  databaseNames: string[];
 }
 export interface DatabaseEditorDataContext {
   app: string;
@@ -28,6 +37,21 @@ export interface DatabaseEditorDBContext {
   file: string;
   pmv: string;
 }
+export interface DatabaseImportCreationArgs {
+  context: DatabaseEditorDataContext;
+  options: TableOptions[];
+}
+export interface TableOptions {
+  attributes: DatabaseColumn[];
+  name: string;
+  type: ImportOptions;
+}
+export interface DatabaseColumn {
+  autoIncrement: boolean;
+  name: string;
+  primaryKey: boolean;
+  type: string;
+}
 export interface DatabaseInfoData {
   connectionName: string;
   tables: DatabaseTable[];
@@ -35,8 +59,4 @@ export interface DatabaseInfoData {
 export interface DatabaseTable {
   columns: DatabaseColumn[];
   name: string;
-}
-export interface DatabaseColumn {
-  name: string;
-  type: string;
 }

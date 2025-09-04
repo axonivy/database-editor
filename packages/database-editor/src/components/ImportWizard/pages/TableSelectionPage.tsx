@@ -1,12 +1,10 @@
 import type { DatabaseEditorContext, DatabaseTable } from '@axonivy/database-editor-protocol';
-import { BasicField, Button, Flex } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { BasicField, Flex } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
-import { notImplemented } from '../ImportWizard';
 import { TableMultiSelect } from '../TableMultiSelect';
 
 export type SelectTablesPageProps = {
@@ -42,12 +40,7 @@ export const SelectTablesPage = ({ context, selectedDatabase, updateSelection, s
   return (
     <Flex className='import-page table-selection-page' direction='column'>
       <BasicField label={t('import.selectMainTables')}>
-        <Flex gap={2}>
-          <TableMultiSelect tables={tableQuery.data?.tables ?? []} updateSelection={updateSelection} selection={selectedTables} />
-          <Button onClick={notImplemented} variant='outline' icon={IvyIcons.Plus}>
-            {t('import.add')}
-          </Button>
-        </Flex>
+        <TableMultiSelect tables={tableQuery.data?.tables ?? []} updateSelection={updateSelection} selection={selectedTables} />
       </BasicField>
     </Flex>
   );
