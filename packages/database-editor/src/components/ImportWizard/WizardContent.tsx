@@ -22,7 +22,7 @@ export const WizardContent = ({
   callback?: () => void;
 }) => {
   const { t } = useTranslation();
-  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen);
+  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen, callback);
 
   return (
     <Flex className='import-dialog-content' direction='column' justifyContent='space-between'>
@@ -50,7 +50,6 @@ export const WizardContent = ({
             size='xl'
             onClick={() => {
               creationFunction.mutate();
-              if (callback) callback();
               updateActivePage();
             }}
           >

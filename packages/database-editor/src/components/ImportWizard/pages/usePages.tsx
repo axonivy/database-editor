@@ -18,7 +18,7 @@ import { CreationResult } from './CreationResult';
 import { DataSourcePage } from './DataSourcePage';
 import { SelectTablesPage } from './TableSelectionPage';
 
-export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void) => {
+export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
   const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
@@ -117,7 +117,10 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
         context: context,
         options: creationProps()
       }),
-    onSuccess: data => setCreationErrors(data),
+    onSuccess: data => {
+      setCreationErrors(data);
+      if (creationCallback) creationCallback();
+    },
     onError: error => toast.error(t('import.creationFailed'), { description: error.message })
   });
 
