@@ -6,7 +6,8 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
-import { DatabaseSelection } from '../DatabaseSelection';
+import { DatabaseSelection } from '../components/DatabaseSelection';
+import { ProjectSelection } from '../components/ProjectSelection';
 import { notImplemented } from '../ImportWizard';
 import './DataSourcePage.css';
 
@@ -14,9 +15,11 @@ export type DataSourcePageProps = {
   context: DatabaseEditorContext;
   selection?: string;
   updateSelection: (value: string) => void;
+  projects?: Array<string>;
+  updatePmv: (pmv: string) => void;
 };
 
-export const DataSourcePage = ({ context, selection, updateSelection }: DataSourcePageProps) => {
+export const DataSourcePage = ({ context, selection, updateSelection, projects, updatePmv }: DataSourcePageProps) => {
   const { t } = useTranslation();
   const [sourceType, setSourceType] = useState('database');
   const client = useClient();
@@ -33,12 +36,18 @@ export const DataSourcePage = ({ context, selection, updateSelection }: DataSour
   return (
     <Flex className='import-page data-source-page' direction='column'>
       <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
+      {projects && (
+        <BasicField label={t('import.project')}>
+          <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />
+        </BasicField>
+      )}
       <BasicField label={t('import.database')}>
         <Flex gap={2}>
           <DatabaseSelection
             databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
             selection={selection}
             updateSelection={updateSelection}
+            disabled={context.pmv === ''}
           />
           <Button variant='outline' icon={IvyIcons.Plus} onClick={notImplemented}>
             {t('import.add')}

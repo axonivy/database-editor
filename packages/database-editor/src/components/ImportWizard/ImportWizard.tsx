@@ -1,11 +1,11 @@
-import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { ImportWizardContext } from '@axonivy/database-editor-protocol';
 import { BasicDialogHeader, Dialog, DialogContent, DialogTrigger, toast } from '@axonivy/ui-components';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import './ImportWizard.css';
 import { WizardContent } from './WizardContent';
 
-export const ImportWizard = ({ context, children }: { context: DatabaseEditorContext; children: ReactNode }) => {
+export const ImportWizard = ({ context, children }: { context: ImportWizardContext; children: ReactNode }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
 

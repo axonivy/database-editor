@@ -20,7 +20,7 @@ root.render(
     <ThemeProvider defaultTheme={'light'}>
       <ClientContextProvider client={client}>
         <QueryProvider client={queryClient}>
-          <DatabaseEditor context={{ app: '', pmv: 'project-name', file: '' }} />
+          <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
         </QueryProvider>
       </ClientContextProvider>
       <Toaster closeButton={true} position='bottom-left' />

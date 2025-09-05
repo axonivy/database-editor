@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
-import { TableMultiSelect } from '../TableMultiSelect';
+import { TableMultiSelect } from '../components/TableMultiSelect';
 
 export type SelectTablesPageProps = {
   context: DatabaseEditorContext;

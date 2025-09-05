@@ -1,10 +1,10 @@
-import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { ImportWizardContext } from '@axonivy/database-editor-protocol';
 import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Timeline } from './components/Timeline';
 import { usePages } from './pages/usePages';
-import { Timeline } from './Timeline';
 
 export type ImportPage = {
   page: ReactNode;
@@ -12,9 +12,9 @@ export type ImportPage = {
   requiredData: boolean;
 };
 
-export const WizardContent = ({ context, setOpen }: { context: DatabaseEditorContext; setOpen: (open: boolean) => void }) => {
+export const WizardContent = ({ context: importContext, setOpen }: { context: ImportWizardContext; setOpen: (open: boolean) => void }) => {
   const { t } = useTranslation();
-  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(context, setOpen);
+  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen);
 
   return (
     <Flex className='import-dialog-content' direction='column' justifyContent='space-between'>
