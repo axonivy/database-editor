@@ -19,7 +19,7 @@ export const DatabaseEditor = (props: EditorProps) => {
           <ToolbarTitle>{t('databaseEditor')}</ToolbarTitle>
         </Toolbar>
       </ToolbarContainer>
-      <div className='editor'>
+      <div className='database-editor'>
         <ImportWizard context={context}>
           <Button variant='outline'>{t('import.importWizard')}</Button>
         </ImportWizard>
