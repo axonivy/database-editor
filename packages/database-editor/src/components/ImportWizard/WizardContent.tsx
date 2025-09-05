@@ -12,7 +12,15 @@ export type ImportPage = {
   requiredData: boolean;
 };
 
-export const WizardContent = ({ context: importContext, setOpen }: { context: ImportWizardContext; setOpen: (open: boolean) => void }) => {
+export const WizardContent = ({
+  context: importContext,
+  setOpen,
+  callback
+}: {
+  context: ImportWizardContext;
+  setOpen: (open: boolean) => void;
+  callback?: () => void;
+}) => {
   const { t } = useTranslation();
   const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen);
 
@@ -42,6 +50,7 @@ export const WizardContent = ({ context: importContext, setOpen }: { context: Im
             size='xl'
             onClick={() => {
               creationFunction.mutate();
+              if (callback) callback();
               updateActivePage();
             }}
           >

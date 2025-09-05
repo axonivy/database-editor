@@ -5,7 +5,15 @@ import { useTranslation } from 'react-i18next';
 import './ImportWizard.css';
 import { WizardContent } from './WizardContent';
 
-export const ImportWizard = ({ context, children }: { context: ImportWizardContext; children: ReactNode }) => {
+export const ImportWizard = ({
+  context,
+  children,
+  callback
+}: {
+  context: ImportWizardContext;
+  children: ReactNode;
+  callback?: () => void;
+}) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -14,7 +22,7 @@ export const ImportWizard = ({ context, children }: { context: ImportWizardConte
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='import-dialog'>
         <BasicDialogHeader title={t('import.dataImport')} description={''} />
-        <WizardContent context={context} setOpen={setOpen} />
+        <WizardContent context={context} setOpen={setOpen} callback={callback} />
       </DialogContent>
     </Dialog>
   );
