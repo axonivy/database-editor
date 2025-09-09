@@ -15,7 +15,7 @@ export const ImportWizard = ({
   callback?: () => void;
 }) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <Dialog modal open={open} onOpenChange={setOpen}>

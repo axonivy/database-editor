@@ -1,8 +1,8 @@
 import type { ImportWizardContext } from '@axonivy/database-editor-protocol';
-import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { Button, Flex } from '@axonivy/ui-components';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ProceedButton } from './components/ProceedButton';
 import { Timeline } from './components/Timeline';
 import { usePages } from './pages/usePages';
 
@@ -38,24 +38,13 @@ export const WizardContent = ({
         >
           {t('import.back')}
         </Button>
-        {activePage !== pages.length - 2 ? (
-          <Button disabled={!pages[activePage]?.requiredData} variant='primary' size='xl' onClick={() => updateActivePage()}>
-            {activePage === pages.length - 1 ? t('import.close') : t('import.next')}
-            <IvyIcon icon={IvyIcons.Chevron} />
-          </Button>
-        ) : (
-          <Button
-            disabled={!pages[activePage]?.requiredData}
-            variant='primary'
-            size='xl'
-            onClick={() => {
-              creationFunction.mutate();
-              updateActivePage();
-            }}
-          >
-            {t('import.create')}
-          </Button>
-        )}
+        <ProceedButton
+          disabled={!pages[activePage]?.requiredData}
+          create={activePage === pages.length - 2}
+          close={activePage === pages.length - 1}
+          createFunction={creationFunction.mutate}
+          pageUpdate={updateActivePage}
+        />
       </Flex>
     </Flex>
   );
