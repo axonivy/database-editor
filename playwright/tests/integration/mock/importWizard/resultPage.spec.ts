@@ -21,30 +21,20 @@ test.describe('CreationResult page', () => {
     resultPage = importDialog.resultPage;
   });
 
-  test('visible', async () => {
-    await importDialog.creationPage.namespace.fill('test');
-    await importDialog.create.click();
-    await expect(resultPage.locator).toBeVisible();
-    await expect(importDialog.back).toBeEnabled();
-  });
-
   test('success', async () => {
     await importDialog.creationPage.namespace.fill('test');
     await importDialog.create.click();
     await expect(resultPage.header).toHaveText('Creation of entities was successful');
+    await expect(resultPage.locator).toBeVisible();
+    await expect(importDialog.back).toBeEnabled();
   });
 
-  test('error table headers', async () => {
-    await importDialog.creationPage.namespace.fill('testError');
-    await importDialog.create.click();
-    const table = resultPage.table;
-    await table.expectHeaders('Table', 'Entity Type', 'Error Message');
-  });
-
-  test('table rows', async () => {
+  test('error', async () => {
     await importDialog.creationPage.namespace.fill('testError');
     await importDialog.create.click();
     const row = resultPage.table.rows.nth(1);
+    const table = resultPage.table;
+    await table.expectHeaders('Table', 'Entity Type', 'Error Message');
     await expect(row).toContainText('Users-001');
     await expect(row).toContainText('EntityClass');
     await expect(row).toContainText('Object already exists');

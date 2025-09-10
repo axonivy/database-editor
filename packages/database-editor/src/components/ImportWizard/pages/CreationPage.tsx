@@ -3,6 +3,7 @@ import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHe
 import { useTranslation } from 'react-i18next';
 import { notImplemented } from '../ImportWizard';
 import './CreationPage.css';
+import { useNamespaceValidation } from './useNamespaceValidation';
 
 export type CreationParameter = {
   tableName: string;
@@ -28,13 +29,7 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
     return param !== undefined && param[key] === true;
   };
 
-  const namespaceMessage =
-    namespace.trim() !== '' && !namespace.match('^\\w+(?:\\.\\w+)*$')
-      ? ({
-          message: t('import.namespaceRequired'),
-          variant: 'error'
-        } as const)
-      : undefined;
+  const namespaceMessage = useNamespaceValidation(namespace);
 
   return (
     <Flex direction='column' className='import-page creation-page'>
