@@ -1,0 +1,8 @@
+table.attribute-selection-table {
+  width: clamp(200px, 100%, 300px);
+  max-width: 300px;
+}
+
+.attribute-selection-table .table-header {
+  font-weight: 600;
+}

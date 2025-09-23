@@ -8,7 +8,7 @@ export class ResultPage {
 
   constructor(page: Page, parent: Locator) {
     this.locator = parent.locator('.creation-result-page');
-    this.table = new Table(page, this.locator);
+    this.table = new Table(page, '.table-errors');
     this.header = parent.locator('h3');
   }
 }

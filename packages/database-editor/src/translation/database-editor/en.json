@@ -2,8 +2,10 @@
   "databaseEditor": "Database Editor",
   "import": {
     "add": "Add",
+    "attributes": "Attributes",
     "back": "Back",
     "close": "Close",
+    "column": "Column",
     "create": "Create",
     "createOptions": "Create Options",
     "creationFailed": "Creation failed with following errors",
@@ -15,7 +17,6 @@
     "databasesYaml": "databases.yaml",
     "dataImport": "Data Import",
     "entityClass": "Entity Class",
-    "enum": "Enum",
     "errorAlreadyExists": "Object already exists",
     "errorMessage": "Error Message",
     "errorsDuringCreation": "Errors during creation",
@@ -26,13 +27,13 @@
     "namespaceRequired": "Valid namespace is required",
     "next": "Go to next step",
     "project": "Project",
-    "repository": "DAO/Repo Classes",
     "selectDatabase": "Select a database",
     "selectMainTables": "Select main tables",
     "selectProject": "Select a project",
     "selectTable": "Select Table & Define References",
     "selectTables": "Select tables",
     "source": "Data Source",
-    "table": "Table"
+    "table": "Table",
+    "type": "Type"
   }
 }

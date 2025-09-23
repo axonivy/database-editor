@@ -2,8 +2,10 @@
   "databaseEditor": "Database Editor",
   "import": {
     "add": "Hinzufügen",
+    "attributes": "Attribute",
     "back": "Zurück",
     "close": "Schliessen",
+    "column": "Spalte",
     "create": "Erstellen",
     "createOptions": "Erstellungs Optionen",
     "creationFailed": "Erstellen fehlgeschlagen",
@@ -15,7 +17,6 @@
     "databasesYaml": "databases.yaml",
     "dataImport": "Daten-Import",
     "entityClass": "Entity Class",
-    "enum": "Enum",
     "errorAlreadyExists": "Entity existiert bereits",
     "errorMessage": "Fehlermeldung",
     "errorsDuringCreation": "Fehler bei der Erstellung",
@@ -26,13 +27,13 @@
     "namespaceRequired": "Korrekter Namespace wird benötigt",
     "next": "Zum nächsten Schritt",
     "project": "Projekt",
-    "repository": "DAO/Repo Classes",
     "selectDatabase": "Datenbank auswählen",
     "selectMainTables": "Tabellen auswählen",
     "selectProject": "Projekt auswählen",
     "selectTable": "Tabelle & Referenz auswählen",
     "selectTables": "Tabellen auswählen",
     "source": "Datenquelle",
-    "table": "Tabelle"
+    "table": "Tabelle",
+    "type": "Typ"
   }
 }

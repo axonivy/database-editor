@@ -2,9 +2,7 @@ import {
   type CreationError,
   type DatabaseEditorContext,
   type DatabaseTable,
-  type ImportOptions,
-  type ImportWizardContext,
-  type TableOptions
+  type ImportWizardContext
 } from '@axonivy/database-editor-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useMutation } from '@tanstack/react-query';
@@ -13,19 +11,21 @@ import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
 import { type ImportPage } from '../WizardContent';
-import { CreationPage, type CreationParameter } from './CreationPage';
+import { CreationPage } from './CreationPage';
 import { CreationResult } from './CreationResult';
 import { DataSourcePage } from './DataSourcePage';
 import { SelectTablesPage } from './TableSelectionPage';
+import { useCreationTables } from './useCreationTables';
 
 export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
   const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
-  const [creationParams, setCreationParams] = useState<Array<CreationParameter>>([]);
   const [namespace, setNamespace] = useState<string>('');
   const [activePage, setActivePage] = useState(0);
   const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
+  const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
+  const client = useClient();
   const [context, setContext] = useState<DatabaseEditorContext>({
     app: importContext.app,
     file: importContext.file,
@@ -69,7 +69,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
   const updateSelectedDatabase = (db: string) => {
     setSelectedDatabase(db);
     setSelectedTables([]);
-    setCreationParams([]);
+    setTablesToCreate(new Map());
   };
 
   const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
@@ -77,36 +77,14 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
     } else {
       setSelectedTables(selectedTables.filter(t => t.name !== table.name));
-      setCreationParams(creationParams.filter(p => p.tableName !== table.name));
+      setTablesToCreate(prev => {
+        const update = new Map(prev);
+        update.delete(table.name);
+        return update;
+      });
     }
   };
 
-  const updateParameter = (table: string, key: ImportOptions, value: boolean) => {
-    const param = creationParams.find(p => p.tableName === table) ?? { tableName: table };
-    param[key] = value;
-    const obsolete = Object.keys(param).filter(k => param[k as keyof CreationParameter]).length <= 1;
-    setCreationParams([...creationParams.filter(p => p.tableName !== table), ...(obsolete ? [] : [param])]);
-  };
-
-  const creationProps = (): Array<TableOptions> => {
-    const tableOptions: Array<TableOptions> = [];
-    creationParams.forEach(c => {
-      const name = namespace + '.' + c.tableName;
-      Object.keys(c).forEach(key => {
-        if (c[key as keyof typeof c]) {
-          if (key === 'tableName') return;
-          tableOptions.push({
-            name: name,
-            type: key as ImportOptions,
-            attributes: selectedTables.find(t => t.name === c.tableName)?.columns ?? []
-          });
-        }
-      });
-    });
-    return tableOptions;
-  };
-
-  const client = useClient();
   const creationFunction = useMutation({
     mutationKey: genQueryKey('importFromDatabase', {
       context: context,
@@ -154,14 +132,14 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       page: (
         <CreationPage
           tables={selectedTables}
-          updateSelection={updateParameter}
-          parameters={creationParams}
+          updateSelection={updateTablesToCreate}
+          parameters={tablesToCreate}
           namespace={namespace}
           updateNamespace={setNamespace}
         />
       ),
       title: t('import.createOptions'),
-      requiredData: creationParams.length >= selectedTables.length && namespace !== undefined && namespace.trim() !== ''
+      requiredData: tablesToCreate.size > 0 && namespace !== undefined && namespace.trim() !== ''
     },
     {
       page: <CreationResult errors={creationErrors} />,

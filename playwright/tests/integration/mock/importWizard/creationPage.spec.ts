@@ -30,15 +30,15 @@ test.describe('creationPage page', () => {
 
   test('table headers', async () => {
     const table = creationPage.table;
-    await table.expectHeaders('Table', 'Entity Class', 'Enum', 'Form Dialog', 'DAO/Repo Classes');
+    await table.expectHeaders('Table', 'Entity Class', 'Form Dialog', 'Attributes');
   });
 
   test('table rows', async () => {
     const row = creationPage.table.rows.nth(1);
     await expect(row).toContainText('Users-001');
     const cells = row.locator('.ui-table-cell');
-    await expect(cells).toHaveCount(5);
-    await expect(cells.getByRole('checkbox')).toHaveCount(4);
+    await expect(cells).toHaveCount(4);
+    await expect(cells.getByRole('checkbox')).toHaveCount(2);
   });
 
   test('creation requirements', async () => {
@@ -52,5 +52,18 @@ test.describe('creationPage page', () => {
     await importDialog.back.click();
     await expect(importDialog.tableSelectionPage.locator).toBeVisible();
     await expect(importDialog.next).toBeEnabled();
+  });
+
+  test('attributes', async () => {
+    await creationPage.attributeButton.click();
+    const attributeTable = creationPage.attributeTable;
+    await expect(attributeTable.locator).toBeVisible();
+    await attributeTable.expectHeaders('Column', 'Type', 'Entity Class');
+    const row = attributeTable.rows.nth(1);
+    await expect(row).toContainText('id');
+    await expect(row).toContainText('double');
+    const cells = row.locator('.ui-table-cell');
+    await expect(cells).toHaveCount(3);
+    await expect(cells.getByRole('checkbox')).toHaveCount(1);
   });
 });
