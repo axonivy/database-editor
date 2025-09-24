@@ -1,0 +1,8 @@
+.table-container {
+  overflow: scroll;
+  background-color: var(--N25);
+  padding: 1em;
+  border-radius: var(--border-r1);
+  border: var(--basic-border);
+  height: 100%;
+}

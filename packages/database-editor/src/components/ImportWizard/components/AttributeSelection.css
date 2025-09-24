@@ -3,6 +3,11 @@ table.attribute-selection-table {
   max-width: 300px;
 }
 
+.attribute-selection-content {
+  max-height: 500px;
+  overflow: scroll;
+}
+
 .attribute-selection-table .table-header {
   font-weight: 600;
 }

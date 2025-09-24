@@ -44,7 +44,7 @@ export const AttributeSelection = ({
   };
 
   return (
-    <Popover>
+    <Popover modal>
       <PopoverTrigger asChild>
         <Button className='attribute-selection-trigger' icon={IvyIcons.Settings} />
       </PopoverTrigger>

@@ -1,0 +1,8 @@
+button.table-button:not(.active) {
+  background: var(--background);
+}
+
+.table-button-text {
+  width: 100%;
+  text-align: start;
+}
