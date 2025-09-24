@@ -6,9 +6,9 @@ export class Table {
   readonly headers: Locator;
   readonly rows: Locator;
 
-  constructor(page: Page, parent: Locator) {
+  constructor(page: Page, locator: string) {
     this.page = page;
-    this.locator = parent.locator('.ui-table');
+    this.locator = this.page.locator(locator);
     this.headers = this.locator.locator('.ui-table-head');
     this.rows = this.locator.locator('.ui-table-row');
   }
