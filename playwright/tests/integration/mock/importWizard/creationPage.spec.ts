@@ -15,7 +15,7 @@ test.describe('creationPage page', () => {
     await importDialog.dataSourcePage.projectSelection.choose('project1-name');
     await importDialog.dataSourcePage.databaseSelect.choose('IvySystemDatabase');
     await importDialog.next.click();
-    await importDialog.tableSelectionPage.tableSelect.choose('Users-001');
+    await importDialog.tableSelectionPage.tableSelect.first().click();
     await importDialog.next.click();
     creationPage = importDialog.creationPage;
   });

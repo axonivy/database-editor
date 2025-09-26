@@ -20,23 +20,24 @@ test.describe('table selection page', () => {
 
   test('visible', async () => {
     await expect(tableSelectionPage.locator).toBeVisible();
-    await expect(tableSelectionPage.tableSelect.locator).toBeVisible();
+    await expect(tableSelectionPage.tableSelect.first()).toBeVisible();
     await expect(importDialog.back).toBeEnabled();
     await expect(importDialog.next).toBeDisabled();
   });
 
   test('select multiple tables', async () => {
     const select = tableSelectionPage.tableSelect;
-    await select.expectToHaveOptions('Users-001', 'Users-002', 'Users-003');
-    await select.choose('Users-001');
-    await select.choose('Users-002');
-    await expect(select.locator).toContainText('Users-001, Users-002');
+    await select.nth(0).click();
+    await select.nth(1).click();
+    await select.nth(2).click();
+    const selection = await tableSelectionPage.locator.locator('.active').all();
+    expect(selection).toHaveLength(3);
   });
 
   test('proceed requirement', async () => {
     const select = tableSelectionPage.tableSelect;
     await expect(importDialog.next).toBeDisabled();
-    await select.choose('Users-001');
+    await select.first().click();
     await expect(importDialog.next).toBeEnabled();
   });
 
