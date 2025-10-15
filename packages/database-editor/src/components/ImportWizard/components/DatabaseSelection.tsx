@@ -1,4 +1,4 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@axonivy/ui-components';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 
 export const DatabaseSelection = ({
@@ -21,11 +21,7 @@ export const DatabaseSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>{t('import.ivySystemDatabase')}</SelectLabel>
           <SelectItem value='IvySystemDatabase'>{t('import.ivySystemDatabase')}</SelectItem>
-        </SelectGroup>
-        <SelectGroup>
-          <SelectLabel>{t('import.databasesYaml')}</SelectLabel>
           {databases.map(database => (
             <SelectItem key={database} value={database}>
               {database}

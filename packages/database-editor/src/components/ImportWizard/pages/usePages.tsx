@@ -29,7 +29,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
   const [context, setContext] = useState<DatabaseEditorContext>({
     app: importContext.app,
     file: importContext.file,
-    pmv: importContext.projects.length === 1 ? (importContext.projects[0] as string) : ''
+    pmv: (importContext.projects[0] as string) ?? ''
   });
 
   const updatePmv = (pmv: string) => {

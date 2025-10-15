@@ -28,23 +28,28 @@ export const WizardContent = ({
     <Flex className='import-dialog-content' direction='column' justifyContent='space-between'>
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
       {pages[activePage]?.page}
-      <Flex direction='row' justifyContent='flex-end' gap={1}>
-        <Button
-          disabled={activePage <= 0}
-          variant='outline'
-          className='import-button-back'
-          size='xl'
-          onClick={() => updateActivePage(false)}
-        >
-          {t('import.back')}
+      <Flex direction='row' justifyContent='space-between'>
+        <Button variant='primary-outline' onClick={() => setOpen(false)}>
+          {t('import.cancel')}
         </Button>
-        <ProceedButton
-          disabled={!pages[activePage]?.requiredData}
-          create={activePage === pages.length - 2}
-          close={activePage === pages.length - 1}
-          createFunction={creationFunction.mutate}
-          pageUpdate={updateActivePage}
-        />
+        <Flex direction='row' gap={1}>
+          <Button
+            disabled={activePage <= 0}
+            variant='outline'
+            className='import-button-back'
+            size='xl'
+            onClick={() => updateActivePage(false)}
+          >
+            {t('import.back')}
+          </Button>
+          <ProceedButton
+            disabled={!pages[activePage]?.requiredData}
+            create={activePage === pages.length - 2}
+            close={activePage === pages.length - 1}
+            createFunction={creationFunction.mutate}
+            pageUpdate={updateActivePage}
+          />
+        </Flex>
       </Flex>
     </Flex>
   );

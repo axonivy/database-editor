@@ -27,8 +27,18 @@ export const useCreationTables = (namespace: string) => {
       }
     };
 
+    const addOption = () => {
+      let update = tablesToCreate.get(table.name);
+      if (update) {
+        update.push([table, type]);
+      } else {
+        update = [[table, type]];
+      }
+      setTablesToCreate(prev => new Map(prev).set(table.name, update));
+    };
+
     if (add) {
-      setTablesToCreate(prev => new Map(prev).set(table.name, [[table, type]]));
+      addOption();
     } else if (column) {
       removeColumn(column);
     } else {
