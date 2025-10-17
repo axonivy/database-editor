@@ -5,12 +5,19 @@ export const useCreationTables = (namespace: string) => {
   const [tablesToCreate, setTablesToCreate] = useState<Map<string, Array<[DatabaseTable, ImportOptions]>>>(new Map());
 
   const updateTablesToCreate = (table: DatabaseTable, type: ImportOptions, column?: DatabaseColumn, add: boolean = true) => {
-    const removeColumn = (column: DatabaseColumn) => {
-      const update = tablesToCreate.get(table.name)?.find(t => t[1] === type)?.[0];
-      if (update) {
-        const i = update.columns.findIndex(e => e.name === column.name) ?? -1;
-        update.columns.splice(i, 1);
-        updateTablesToCreate(update, type, undefined, update.columns.length > 0);
+    const updateColumn = (column: DatabaseColumn, generate: boolean) => {
+      const update = tablesToCreate.get(table.name)?.filter(t => t[1] === type);
+      if (update && update.length) {
+        const table = update.find(t => t[1] === type)?.[0];
+        if (!table) {
+          return;
+        }
+        const col = table.columns.find(e => e.name === column.name);
+        if (!col) {
+          return;
+        }
+        col.generate = generate;
+        setTablesToCreate(prev => new Map(prev).set(table.name, update));
       }
     };
 
@@ -29,21 +36,26 @@ export const useCreationTables = (namespace: string) => {
 
     if (add) {
       setTablesToCreate(prev => new Map(prev).set(table.name, [[table, type]]));
+      if (column) {
+        updateColumn(column, true);
+      }
     } else if (column) {
-      removeColumn(column);
+      updateColumn(column, false);
     } else {
       removeImportOption();
     }
   };
 
-  const creationProps = (): Array<TableOptions> => {
+  const creationProps = (database: string): Array<TableOptions> => {
     const tableOptions: Array<TableOptions> = [];
-    tablesToCreate.forEach((value, key) => {
+
+    tablesToCreate.forEach(value => {
       value.forEach(v => {
         tableOptions.push({
-          name: namespace + '.' + key,
-          type: v[1] as ImportOptions,
-          attributes: v[0].columns
+          database: database,
+          namespace: namespace,
+          table: v[0],
+          type: v[1] as ImportOptions
         });
       });
     });

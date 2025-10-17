@@ -54,7 +54,12 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
                 <Checkbox
                   checked={checkState(table.name, 'EntityClass')}
                   onCheckedChange={value =>
-                    updateSelection({ name: table.name, columns: [...table.columns] }, 'EntityClass', undefined, value as boolean)
+                    updateSelection(
+                      { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
+                      'EntityClass',
+                      undefined,
+                      value as boolean
+                    )
                   }
                 ></Checkbox>
               </TableCell>
@@ -63,7 +68,12 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
                   onMouseOver={notImplemented}
                   checked={checkState(table.name, 'FormDialog')}
                   onCheckedChange={value =>
-                    updateSelection({ name: table.name, columns: [...table.columns] }, 'FormDialog', undefined, value as boolean)
+                    updateSelection(
+                      { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
+                      'FormDialog',
+                      undefined,
+                      value as boolean
+                    )
                   }
                 ></Checkbox>
               </TableCell>

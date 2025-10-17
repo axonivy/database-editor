@@ -88,12 +88,12 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
   const creationFunction = useMutation({
     mutationKey: genQueryKey('importFromDatabase', {
       context: context,
-      options: creationProps()
+      options: creationProps(selectedDatabase ?? '')
     }),
     mutationFn: () =>
       client.importFromDatabase({
         context: context,
-        options: creationProps()
+        options: creationProps(selectedDatabase ?? '')
       }),
     onSuccess: data => {
       setCreationErrors(data);
