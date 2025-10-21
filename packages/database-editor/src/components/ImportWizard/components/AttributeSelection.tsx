@@ -30,14 +30,21 @@ export const AttributeSelection = ({
   const checkState = (attribute: string, key: ImportOptions): boolean => {
     const tableToCreate = creationTables.get(table.name);
     const state = tableToCreate?.find(t => t[1] === key);
-    return state !== undefined && state[0].columns.some(c => c.name === attribute);
+    if (state === undefined) {
+      return false;
+    }
+    const column = state[0].columns.find(c => c.name === attribute);
+    if (column) {
+      return column.generate;
+    }
+    return false;
   };
 
   const updateTables = (type: ImportOptions, column: DatabaseColumn, add: boolean) => {
     if (add) {
       const update = creationTables.get(table.name)?.find(t => t[1] === type)?.[0].columns ?? [];
       update.push(column);
-      updateSelection({ name: table.name, columns: update }, type);
+      updateSelection({ name: table.name, entityClassName: table.entityClassName, columns: update }, type, column);
     } else {
       updateSelection(table, type, column, false);
     }

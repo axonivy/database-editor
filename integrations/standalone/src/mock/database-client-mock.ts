@@ -24,7 +24,7 @@ export class DatabaseClientMock implements Client {
   }
 
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {
-    if (args.options[0]?.name.startsWith('testError')) {
+    if (args.options[0]?.namespace.startsWith('testError')) {
       return Promise.resolve(this.mockError);
     }
     return Promise.resolve(this.creationError);

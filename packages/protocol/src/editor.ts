@@ -42,8 +42,9 @@ export interface DatabaseImportCreationArgs {
   options: TableOptions[];
 }
 export interface TableOptions {
-  attributes: DatabaseColumn[];
-  name: string;
+  database: string;
+  namespace: string;
+  table: DatabaseTable;
   type: ImportOptions;
 }
 export interface DatabaseColumn {
@@ -51,12 +52,16 @@ export interface DatabaseColumn {
   name: string;
   primaryKey: boolean;
   type: string;
+  entityAttributeName: string;
+  entityAttributeType: string;
+  generate: boolean;
 }
 export interface DatabaseInfoData {
   connectionName: string;
   tables: DatabaseTable[];
 }
 export interface DatabaseTable {
-  columns: DatabaseColumn[];
   name: string;
+  entityClassName: string;
+  columns: DatabaseColumn[];
 }

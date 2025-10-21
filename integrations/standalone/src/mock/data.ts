@@ -16,40 +16,55 @@ const columns: Array<DatabaseColumn> = [
   {
     name: 'id',
     type: 'double',
+    entityAttributeName: 'id',
+    entityAttributeType: 'double',
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
+    generate: true
   },
   {
     name: 'userId',
     type: 'varchar',
+    entityAttributeName: 'userId',
+    entityAttributeType: 'String',
     autoIncrement: false,
-    primaryKey: false
+    primaryKey: false,
+    generate: true
   },
   {
     name: 'firstName',
     type: 'varchar',
+    entityAttributeName: 'firstName',
+    entityAttributeType: 'String',
     autoIncrement: false,
-    primaryKey: false
+    primaryKey: false,
+    generate: true
   },
   {
     name: 'lastName',
     type: 'varchar',
+    entityAttributeName: 'lastName',
+    entityAttributeType: 'String',
     autoIncrement: false,
-    primaryKey: false
+    primaryKey: false,
+    generate: true
   }
 ];
 
 const tables: Array<DatabaseTable> = [
   {
     name: 'Users-001',
+    entityClassName: 'Users001',
     columns: columns
   },
   {
     name: 'Users-002',
+    entityClassName: 'Users002',
     columns: columns
   },
   {
     name: 'Users-003',
+    entityClassName: 'Users003',
     columns: columns
   }
 ];
