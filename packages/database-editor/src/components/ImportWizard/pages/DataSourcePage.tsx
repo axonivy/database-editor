@@ -34,7 +34,7 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
   });
 
   return (
-    <Flex className='import-page data-source-page' direction='column'>
+    <>
       <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
       {projects && (
         <BasicField label={t('import.project')}>
@@ -54,7 +54,7 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
           </Button>
         </Flex>
       </BasicField>
-    </Flex>
+    </>
   );
 };
 

@@ -9,7 +9,7 @@ export class CreationPage {
   readonly attributeTable: Table;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.creation-page');
+    this.locator = parent.locator('.database-editor-import-page-creation');
     this.table = new Table(page, '.table-creation');
     this.namespace = parent.getByLabel('Namespace*');
     this.attributeButton = this.locator.locator('.attribute-selection-trigger');

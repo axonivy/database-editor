@@ -12,6 +12,7 @@ const pages: Array<ImportPage> = [
       </Flex>
     ),
     requiredData: true,
+    identifier: 'test-page',
     title: 'TestPage'
   },
   {
@@ -21,6 +22,7 @@ const pages: Array<ImportPage> = [
       </Flex>
     ),
     requiredData: true,
+    identifier: 'test-page',
     title: 'TestPage'
   }
 ];

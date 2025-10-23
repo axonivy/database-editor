@@ -114,6 +114,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
         />
       ),
       title: t('import.source'),
+      identifier: 'data-source',
       requiredData: selectedDatabase != null && selectedDatabase != ''
     },
     {
@@ -126,6 +127,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
         />
       ),
       title: t('import.selectTable'),
+      identifier: 'table-selection',
       requiredData: selectedTables.length > 0
     },
     {
@@ -139,11 +141,13 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
         />
       ),
       title: t('import.createOptions'),
+      identifier: 'creation',
       requiredData: tablesToCreate.size > 0 && namespace !== undefined && namespace.trim() !== ''
     },
     {
       page: <CreationResult errors={creationErrors} />,
       title: t('import.creationResult'),
+      identifier: 'creation-result',
       requiredData: true
     }
   ];

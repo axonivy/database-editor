@@ -22,17 +22,13 @@ export type CreationResultProps = {
 
 export const CreationResult = ({ errors }: CreationResultProps) => {
   const { t } = useTranslation();
-  return (
-    <Flex direction='column' className='import-page creation-result-page'>
-      {errors.length > 0 ? (
-        <>
-          <h3 className='result-title'>{t('import.errorsDuringCreation')}</h3>
-          <ErrorTable errors={errors} />
-        </>
-      ) : (
-        <h3 className='result-title'>{t('import.creationSuccess')}</h3>
-      )}
-    </Flex>
+  return errors.length > 0 ? (
+    <>
+      <h3 className='result-title'>{t('import.errorsDuringCreation')}</h3>
+      <ErrorTable errors={errors} />
+    </>
+  ) : (
+    <h3 className='result-title'>{t('import.creationSuccess')}</h3>
   );
 };
 
