@@ -48,7 +48,7 @@ export const SelectTablesPage = ({ context, selectedDatabase, updateSelection, s
   };
 
   return (
-    <Flex className='import-page table-selection-page' direction='column'>
+    <>
       <BasicField label={t('import.filter')}>
         <Input value={filter} onChange={e => setFilter(e.target.value)}></Input>
       </BasicField>
@@ -65,6 +65,6 @@ export const SelectTablesPage = ({ context, selectedDatabase, updateSelection, s
             />
           ))}
       </Flex>
-    </Flex>
+    </>
   );
 };

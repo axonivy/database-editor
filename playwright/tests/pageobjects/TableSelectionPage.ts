@@ -5,7 +5,7 @@ export class TableSelectionPage {
   readonly tableSelect: Locator;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.table-selection-page');
+    this.locator = parent.locator('.database-editor-import-page-table-selection');
     this.tableSelect = parent.locator('.table-button');
   }
 }

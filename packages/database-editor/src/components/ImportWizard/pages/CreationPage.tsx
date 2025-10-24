@@ -1,5 +1,5 @@
 import type { DatabaseColumn, DatabaseTable, ImportOptions } from '@axonivy/database-editor-protocol';
-import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
+import { BasicField, Checkbox, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { AttributeSelection } from '../components/AttributeSelection';
 import { notImplemented } from '../ImportWizard';
@@ -33,7 +33,7 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
   const namespaceMessage = useNamespaceValidation(namespace);
 
   return (
-    <Flex direction='column' className='import-page creation-page'>
+    <>
       <BasicField message={namespaceMessage} label={`${t('import.namespace')}*`}>
         <Input required value={namespace} onChange={event => updateNamespace(event.target.value)}></Input>
       </BasicField>
@@ -84,6 +84,6 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
           ))}
         </TableBody>
       </Table>
-    </Flex>
+    </>
   );
 };

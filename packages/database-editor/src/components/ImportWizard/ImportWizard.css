@@ -1,27 +1,5 @@
-div.import-dialog {
-  --height: clamp(360px, calc(100% - 40px), 900px);
-  height: var(--height);
-  width: clamp(700px, calc(100% - 40px), var(--height) / 5 * 6);
+div.database-editor-import-dialog {
+  height: 80vh;
+  width: 60vw;
   max-width: unset;
-  display: flex;
-  flex-direction: column;
-}
-
-.import-dialog-content {
-  flex: 1 1 auto;
-  min-height: 0;
-  min-width: 0;
-  gap: 2rem;
-}
-
-.import-page {
-  flex: 1 1 auto;
-  min-height: 0;
-  min-width: 0;
-  gap: 2rem;
-}
-
-.import-dialog .import-button-back {
-  background-color: var(--N50);
-  border-color: var(--N100);
 }
