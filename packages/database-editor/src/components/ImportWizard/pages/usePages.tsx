@@ -19,18 +19,18 @@ import { useCreationTables } from './useCreationTables';
 
 export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
-  const [selectedDatabase, setSelectedDatabase] = useState<string>();
-  const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
-  const [namespace, setNamespace] = useState<string>('');
-  const [activePage, setActivePage] = useState(0);
-  const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
-  const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
-  const client = useClient();
   const [context, setContext] = useState<DatabaseEditorContext>({
     app: importContext.app,
     file: importContext.file,
-    pmv: importContext.projects.length === 1 ? (importContext.projects[0] as string) : ''
+    pmv: importContext.projects.length >= 1 ? (importContext.projects[0] as string) : ''
   });
+  const [selectedDatabase, setSelectedDatabase] = useState<string>();
+  const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
+  const [activePage, setActivePage] = useState(0);
+  const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
+  const [namespace, setNamespace] = useState<string>(context.pmv.replaceAll('-', '.'));
+  const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
+  const client = useClient();
 
   const updatePmv = (pmv: string) => {
     setContext({
@@ -38,6 +38,9 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       file: context.file,
       pmv: pmv
     });
+    setNamespace(pmv.replaceAll('-', '.'));
+    setSelectedDatabase('');
+    setSelectedTables([]);
   };
 
   const updateActivePage = (forward: boolean = true) => {
@@ -90,11 +93,14 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       context: context,
       options: creationProps(selectedDatabase ?? '')
     }),
-    mutationFn: () =>
-      client.importFromDatabase({
+    mutationFn: () => {
+      const options = creationProps(selectedDatabase ?? '');
+      console.log(options);
+      return client.importFromDatabase({
         context: context,
-        options: creationProps(selectedDatabase ?? '')
-      }),
+        options: options
+      });
+    },
     onSuccess: data => {
       setCreationErrors(data);
       if (creationCallback) creationCallback();
@@ -140,13 +146,13 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
           updateNamespace={setNamespace}
         />
       ),
-      title: t('import.createOptions'),
+      title: t('import.options'),
       identifier: 'creation',
       requiredData: tablesToCreate.size > 0 && namespace !== undefined && namespace.trim() !== ''
     },
     {
       page: <CreationResult errors={creationErrors} />,
-      title: t('import.creationResult'),
+      title: t('import.result'),
       identifier: 'creation-result',
       requiredData: true
     }

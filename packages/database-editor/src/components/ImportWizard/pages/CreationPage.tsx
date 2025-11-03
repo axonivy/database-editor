@@ -16,7 +16,7 @@ export type CreationParameter = {
 
 export type CreationPageProps = {
   tables: Array<DatabaseTable>;
-  parameters: Map<string, Array<[DatabaseTable, ImportOptions]>>;
+  parameters: Map<string, Map<ImportOptions, Array<DatabaseColumn>>>;
   updateSelection: (table: DatabaseTable, type: ImportOptions, column?: DatabaseColumn, add?: boolean) => void;
   namespace: string;
   updateNamespace: (ns: string) => void;
@@ -27,7 +27,35 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
 
   const checkState = (tableName: string, key: ImportOptions): boolean => {
     const param = parameters.get(tableName);
-    return param !== undefined && param.some(p => p[1] === key);
+    return param !== undefined && param.has(key) && param.get(key)?.length !== 0;
+  };
+
+  const manageState = (table: DatabaseTable, type: ImportOptions, checked: boolean) => {
+    if (type === 'EntityClass' || (checked && ['FormDialog', 'Process'].includes(type))) {
+      updateSelection(
+        { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
+        'EntityClass',
+        undefined,
+        checked
+      );
+    }
+
+    if (type === 'FormDialog' || (checked && ['Process'].includes(type))) {
+      updateSelection(
+        { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
+        'FormDialog',
+        undefined,
+        checked
+      );
+    }
+    if (type === 'Process') {
+      updateSelection(
+        { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
+        'Process',
+        undefined,
+        checked
+      );
+    }
   };
 
   const namespaceMessage = useNamespaceValidation(namespace);
@@ -43,6 +71,7 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
             <TableHead className='table-header table-name'>{t('import.table')}</TableHead>
             <TableHead className='table-header'>{t('import.entityClass')}</TableHead>
             <TableHead className='table-header'>{t('import.formDialog')}</TableHead>
+            <TableHead className='table-header'>{t('import.process')}</TableHead>
             <TableHead className='table-header'>{t('import.attributes')}</TableHead>
           </TableRow>
         </TableHeader>
@@ -53,28 +82,21 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
               <TableCell>
                 <Checkbox
                   checked={checkState(table.name, 'EntityClass')}
-                  onCheckedChange={value =>
-                    updateSelection(
-                      { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
-                      'EntityClass',
-                      undefined,
-                      value as boolean
-                    )
-                  }
+                  onCheckedChange={value => manageState(table, 'EntityClass', value as boolean)}
                 ></Checkbox>
               </TableCell>
               <TableCell>
                 <Checkbox
                   onMouseOver={notImplemented}
                   checked={checkState(table.name, 'FormDialog')}
-                  onCheckedChange={value =>
-                    updateSelection(
-                      { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
-                      'FormDialog',
-                      undefined,
-                      value as boolean
-                    )
-                  }
+                  onCheckedChange={value => manageState(table, 'FormDialog', value as boolean)}
+                ></Checkbox>
+              </TableCell>
+              <TableCell>
+                <Checkbox
+                  onMouseOver={notImplemented}
+                  checked={checkState(table.name, 'Process')}
+                  onCheckedChange={value => manageState(table, 'Process', value as boolean)}
                 ></Checkbox>
               </TableCell>
               <TableCell>

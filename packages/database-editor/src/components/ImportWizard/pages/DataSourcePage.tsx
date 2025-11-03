@@ -1,8 +1,8 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { BasicField, Button, Flex, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import { BasicField, Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
@@ -21,7 +21,6 @@ export type DataSourcePageProps = {
 
 export const DataSourcePage = ({ context, selection, updateSelection, projects, updatePmv }: DataSourcePageProps) => {
   const { t } = useTranslation();
-  const [sourceType, setSourceType] = useState('database');
   const client = useClient();
 
   const databaseQuery = useQuery({
@@ -35,7 +34,6 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
 
   return (
     <>
-      <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
       {projects && (
         <BasicField label={t('import.project')}>
           <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />
@@ -55,31 +53,5 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
         </Flex>
       </BasicField>
     </>
-  );
-};
-
-const SourceTypeToggle = ({ sourceType, setSourceType }: { sourceType: string; setSourceType: (type: string) => void }) => {
-  const { t } = useTranslation();
-  return (
-    <ToggleGroup
-      className='source-group'
-      type='single'
-      value={sourceType}
-      onValueChange={value => {
-        setSourceType(value);
-        notImplemented();
-      }}
-    >
-      <ToggleGroupItem asChild value='database'>
-        <Button className='source-button' variant='primary'>
-          {t('import.database')}
-        </Button>
-      </ToggleGroupItem>
-      <ToggleGroupItem asChild value='csv'>
-        <Button className='source-button' variant='primary'>
-          {t('import.csv')}
-        </Button>
-      </ToggleGroupItem>
-    </ToggleGroup>
   );
 };
