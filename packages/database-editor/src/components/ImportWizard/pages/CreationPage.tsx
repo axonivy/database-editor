@@ -2,7 +2,6 @@ import type { DatabaseColumn, DatabaseTable, ImportOptions } from '@axonivy/data
 import { BasicField, Checkbox, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { AttributeSelection } from '../components/AttributeSelection';
-import { notImplemented } from '../ImportWizard';
 import './CreationPage.css';
 import { useNamespaceValidation } from './useNamespaceValidation';
 
@@ -87,14 +86,12 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
               </TableCell>
               <TableCell>
                 <Checkbox
-                  onMouseOver={notImplemented}
                   checked={checkState(table.name, 'FormDialog')}
                   onCheckedChange={value => manageState(table, 'FormDialog', value as boolean)}
                 ></Checkbox>
               </TableCell>
               <TableCell>
                 <Checkbox
-                  onMouseOver={notImplemented}
                   checked={checkState(table.name, 'Process')}
                   onCheckedChange={value => manageState(table, 'Process', value as boolean)}
                 ></Checkbox>

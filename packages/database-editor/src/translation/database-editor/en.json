@@ -1,7 +1,6 @@
 {
   "databaseEditor": "Database Editor",
   "import": {
-    "add": "Add",
     "attributes": "Attributes",
     "back": "Back",
     "close": "Close",
@@ -12,7 +11,6 @@
     "creationType": "Entity Type",
     "database": "Database",
     "databasesYaml": "databases.yaml",
-    "dataImport": "Data Import",
     "entityClass": "Entity Class",
     "errorAlreadyExists": "Object already exists",
     "errorMessage": "Error Message",

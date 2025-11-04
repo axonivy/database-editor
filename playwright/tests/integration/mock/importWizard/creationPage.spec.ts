@@ -30,15 +30,15 @@ test.describe('creationPage page', () => {
 
   test('table headers', async () => {
     const table = creationPage.table;
-    await table.expectHeaders('Table', 'Entity Class', 'Form Dialog', 'Attributes');
+    await table.expectHeaders('Table', 'Entity Class', 'Form Dialog', 'Process', 'Attributes');
   });
 
   test('table rows', async () => {
     const row = creationPage.table.rows.nth(1);
     await expect(row).toContainText('Users-001');
     const cells = row.locator('.ui-table-cell');
-    await expect(cells).toHaveCount(4);
-    await expect(cells.getByRole('checkbox')).toHaveCount(2);
+    await expect(cells).toHaveCount(5);
+    await expect(cells.getByRole('checkbox')).toHaveCount(3);
   });
 
   test('creation requirements', async () => {
@@ -58,7 +58,7 @@ test.describe('creationPage page', () => {
     await creationPage.attributeButton.click();
     const attributeTable = creationPage.attributeTable;
     await expect(attributeTable.locator).toBeVisible();
-    await attributeTable.expectHeaders('Column', 'Type', 'Entity Class');
+    await attributeTable.expectHeaders('Column', 'Type', 'Generate');
     const row = attributeTable.rows.nth(1);
     await expect(row).toContainText('id');
     await expect(row).toContainText('double');

@@ -19,7 +19,7 @@ export class ImportDialog {
 
   constructor(page: Page, parent: Locator) {
     this.locator = parent.getByRole('dialog');
-    this.trigger = parent.getByRole('button', { name: 'Import from Database' });
+    this.trigger = parent.getByRole('button', { name: 'Generate' });
     this.next = this.locator.getByRole('button', { name: 'Go to next step' });
     this.create = this.locator.getByRole('button', { name: 'Create' });
     this.back = this.locator.getByRole('button', { name: 'Back' });

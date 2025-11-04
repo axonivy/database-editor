@@ -1,6 +1,5 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { BasicField, Button, Flex } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { BasicField, Flex } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +7,6 @@ import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
 import { DatabaseSelection } from '../components/DatabaseSelection';
 import { ProjectSelection } from '../components/ProjectSelection';
-import { notImplemented } from '../ImportWizard';
-import './DataSourcePage.css';
 
 export type DataSourcePageProps = {
   context: DatabaseEditorContext;
@@ -47,9 +44,6 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
             updateSelection={updateSelection}
             disabled={context.pmv === ''}
           />
-          <Button variant='outline' icon={IvyIcons.Plus} onClick={notImplemented}>
-            {t('import.add')}
-          </Button>
         </Flex>
       </BasicField>
     </>

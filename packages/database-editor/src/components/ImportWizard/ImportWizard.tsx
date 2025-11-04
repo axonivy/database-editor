@@ -1,5 +1,5 @@
 import type { ImportWizardContext } from '@axonivy/database-editor-protocol';
-import { Dialog, DialogContent, DialogTrigger, toast } from '@axonivy/ui-components';
+import { Dialog, DialogContent, DialogTrigger } from '@axonivy/ui-components';
 import { useState, type ReactNode } from 'react';
 import './ImportWizard.css';
 import { WizardContent } from './WizardContent';
@@ -24,5 +24,3 @@ export const ImportWizard = ({
     </Dialog>
   );
 };
-
-export const notImplemented = () => toast.info('not yet implemented');

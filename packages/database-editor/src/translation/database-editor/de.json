@@ -1,7 +1,6 @@
 {
   "databaseEditor": "Database Editor",
   "import": {
-    "add": "Hinzufügen",
     "attributes": "Attribute",
     "back": "Zurück",
     "close": "Schliessen",
@@ -12,7 +11,6 @@
     "creationType": "Entity Type",
     "database": "Datenbank",
     "databasesYaml": "databases.yaml",
-    "dataImport": "Daten-Import",
     "entityClass": "Entity Class",
     "errorAlreadyExists": "Entity existiert bereits",
     "errorMessage": "Fehlermeldung",

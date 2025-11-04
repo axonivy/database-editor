@@ -32,6 +32,12 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
   const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
   const client = useClient();
 
+  const resetAll = () => {
+    setSelectedDatabase('');
+    setSelectedTables([]);
+    setTablesToCreate(new Map());
+  };
+
   const updatePmv = (pmv: string) => {
     setContext({
       app: context.app,
@@ -39,8 +45,25 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       pmv: pmv
     });
     setNamespace(pmv.replaceAll('-', '.'));
-    setSelectedDatabase('');
-    setSelectedTables([]);
+    resetAll();
+  };
+
+  const updateSelectedDatabase = (db: string) => {
+    resetAll();
+    setSelectedDatabase(db);
+  };
+
+  const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
+    if (add) {
+      setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
+    } else {
+      setSelectedTables(selectedTables.filter(t => t.name !== table.name));
+      setTablesToCreate(prev => {
+        const update = new Map(prev);
+        update.delete(table.name);
+        return update;
+      });
+    }
   };
 
   const updateActivePage = (forward: boolean = true) => {
@@ -69,38 +92,16 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     }
   };
 
-  const updateSelectedDatabase = (db: string) => {
-    setSelectedDatabase(db);
-    setSelectedTables([]);
-    setTablesToCreate(new Map());
-  };
-
-  const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
-    if (add) {
-      setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
-    } else {
-      setSelectedTables(selectedTables.filter(t => t.name !== table.name));
-      setTablesToCreate(prev => {
-        const update = new Map(prev);
-        update.delete(table.name);
-        return update;
-      });
-    }
-  };
-
   const creationFunction = useMutation({
     mutationKey: genQueryKey('importFromDatabase', {
       context: context,
       options: creationProps(selectedDatabase ?? '')
     }),
-    mutationFn: () => {
-      const options = creationProps(selectedDatabase ?? '');
-      console.log(options);
-      return client.importFromDatabase({
+    mutationFn: () =>
+      client.importFromDatabase({
         context: context,
-        options: options
-      });
-    },
+        options: creationProps(selectedDatabase ?? '')
+      }),
     onSuccess: data => {
       setCreationErrors(data);
       if (creationCallback) creationCallback();
