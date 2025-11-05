@@ -1,0 +1,13 @@
+button.selection-list-button {
+  background-color: var(--N25);
+  border: var(--basic-border);
+}
+
+.selection-list-button-text {
+  width: 100%;
+  text-align: start;
+}
+
+.selection-list-button i {
+  align-content: center;
+}

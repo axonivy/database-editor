@@ -7,7 +7,7 @@ export class ResultPage {
   readonly table: Table;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.database-editor-import-page-creation-result');
+    this.locator = parent.locator('.database-creation-result');
     this.table = new Table(page, '.table-errors');
     this.header = parent.locator('h3');
   }

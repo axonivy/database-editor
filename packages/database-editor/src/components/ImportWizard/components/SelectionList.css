@@ -1,0 +1,38 @@
+.selection-list-container {
+  overflow: scroll;
+  background-color: var(--background);
+  border-radius: var(--border-r1);
+  border: var(--basic-border);
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  padding: 1em;
+}
+
+.selection-list-content {
+  height: 100%;
+  overflow: auto;
+}
+
+.selection-list {
+  width: 100%;
+}
+
+button.selection-list-button-all {
+  font-size: 12px;
+}
+
+button.selection-list-add-all {
+  color: var(--P300);
+}
+
+button.selection-list-remove-all {
+  color: var(--error-color);
+}
+
+.selection-list-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
