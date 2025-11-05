@@ -30,7 +30,8 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
   };
 
   const manageState = (table: DatabaseTable, type: ImportOptions, checked: boolean) => {
-    if (type === 'EntityClass' || (checked && ['FormDialog', 'Process'].includes(type))) {
+    const TRIGGERS: Array<ImportOptions> = ['FormDialog', 'Process'];
+    if (type === 'EntityClass' || (checked && TRIGGERS.includes(type))) {
       updateSelection(
         { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
         'EntityClass',
@@ -39,7 +40,7 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
       );
     }
 
-    if (type === 'FormDialog' || (checked && ['Process'].includes(type))) {
+    if (type === 'FormDialog' || (checked && type === 'Process')) {
       updateSelection(
         { name: table.name, entityClassName: table.entityClassName, columns: [...table.columns] },
         'FormDialog',
