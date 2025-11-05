@@ -22,32 +22,15 @@ export const AttributeSelection = ({
   updateSelection
 }: {
   table: DatabaseTable;
-  creationTables: Map<string, Array<[DatabaseTable, ImportOptions]>>;
+  creationTables: Map<string, Map<ImportOptions, Array<DatabaseColumn>>>;
   updateSelection: (table: DatabaseTable, type: ImportOptions, column?: DatabaseColumn, add?: boolean) => void;
 }) => {
   const { t } = useTranslation();
 
   const checkState = (attribute: string, key: ImportOptions): boolean => {
     const tableToCreate = creationTables.get(table.name);
-    const state = tableToCreate?.find(t => t[1] === key);
-    if (state === undefined) {
-      return false;
-    }
-    const column = state[0].columns.find(c => c.name === attribute);
-    if (column) {
-      return column.generate;
-    }
-    return false;
-  };
-
-  const updateTables = (type: ImportOptions, column: DatabaseColumn, add: boolean) => {
-    if (add) {
-      const update = creationTables.get(table.name)?.find(t => t[1] === type)?.[0].columns ?? [];
-      update.push(column);
-      updateSelection({ name: table.name, entityClassName: table.entityClassName, columns: update }, type, column);
-    } else {
-      updateSelection(table, type, column, false);
-    }
+    const column = tableToCreate?.get(key)?.find(c => c.name === attribute);
+    return column !== undefined;
   };
 
   return (
@@ -61,7 +44,7 @@ export const AttributeSelection = ({
             <TableRow>
               <TableHead className='table-header'>{t('import.column')}</TableHead>
               <TableHead className='table-header'>{t('import.type')}</TableHead>
-              <TableHead className='table-header'>{t('import.entityClass')}</TableHead>
+              <TableHead className='table-header'>{t('import.generate')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -72,7 +55,12 @@ export const AttributeSelection = ({
                 <TableCell>
                   <Checkbox
                     checked={checkState(column.name, 'EntityClass')}
-                    onCheckedChange={checked => updateTables('EntityClass', column, checked as boolean)}
+                    onCheckedChange={checked => {
+                      // Update attributes for all creation types, this will be split at a later date
+                      updateSelection(table, 'EntityClass', column, checked as boolean);
+                      updateSelection(table, 'FormDialog', column, checked as boolean);
+                      updateSelection(table, 'Process', column, checked as boolean);
+                    }}
                   ></Checkbox>
                 </TableCell>
               </TableRow>

@@ -1,15 +1,12 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { BasicField, Button, Flex, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { BasicField, Flex } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
 import { DatabaseSelection } from '../components/DatabaseSelection';
 import { ProjectSelection } from '../components/ProjectSelection';
-import { notImplemented } from '../ImportWizard';
-import './DataSourcePage.css';
 
 export type DataSourcePageProps = {
   context: DatabaseEditorContext;
@@ -21,7 +18,6 @@ export type DataSourcePageProps = {
 
 export const DataSourcePage = ({ context, selection, updateSelection, projects, updatePmv }: DataSourcePageProps) => {
   const { t } = useTranslation();
-  const [sourceType, setSourceType] = useState('database');
   const client = useClient();
 
   const databaseQuery = useQuery({
@@ -35,7 +31,6 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
 
   return (
     <>
-      <SourceTypeToggle sourceType={sourceType} setSourceType={setSourceType} />
       {projects && (
         <BasicField label={t('import.project')}>
           <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />
@@ -49,37 +44,8 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
             updateSelection={updateSelection}
             disabled={context.pmv === ''}
           />
-          <Button variant='outline' icon={IvyIcons.Plus} onClick={notImplemented}>
-            {t('import.add')}
-          </Button>
         </Flex>
       </BasicField>
     </>
-  );
-};
-
-const SourceTypeToggle = ({ sourceType, setSourceType }: { sourceType: string; setSourceType: (type: string) => void }) => {
-  const { t } = useTranslation();
-  return (
-    <ToggleGroup
-      className='source-group'
-      type='single'
-      value={sourceType}
-      onValueChange={value => {
-        setSourceType(value);
-        notImplemented();
-      }}
-    >
-      <ToggleGroupItem asChild value='database'>
-        <Button className='source-button' variant='primary'>
-          {t('import.database')}
-        </Button>
-      </ToggleGroupItem>
-      <ToggleGroupItem asChild value='csv'>
-        <Button className='source-button' variant='primary'>
-          {t('import.csv')}
-        </Button>
-      </ToggleGroupItem>
-    </ToggleGroup>
   );
 };

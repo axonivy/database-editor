@@ -15,17 +15,8 @@ test.describe('data source page', () => {
     dataSourcePage = importDialog.dataSourcePage;
   });
 
-  test('type toggle', async () => {
-    const typeSelection = dataSourcePage.typeSelection;
-    await expect(typeSelection).toBeVisible();
-    const options = await typeSelection.getByRole('radio').allInnerTexts();
-    expect(options).toContain('Database');
-    expect(options).toContain('CSV/Excel');
-  });
-
   test('project selection', async () => {
-    await expect(dataSourcePage.databaseSelect.locator).toBeDisabled();
-    await dataSourcePage.projectSelection.choose('project1-name');
+    await expect(dataSourcePage.projectSelection.locator).toHaveText('project1-name');
     await expect(dataSourcePage.databaseSelect.locator).toBeEnabled();
   });
 

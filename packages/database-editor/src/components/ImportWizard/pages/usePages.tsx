@@ -19,18 +19,24 @@ import { useCreationTables } from './useCreationTables';
 
 export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
-  const [selectedDatabase, setSelectedDatabase] = useState<string>();
-  const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
-  const [namespace, setNamespace] = useState<string>('');
-  const [activePage, setActivePage] = useState(0);
-  const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
-  const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
-  const client = useClient();
   const [context, setContext] = useState<DatabaseEditorContext>({
     app: importContext.app,
     file: importContext.file,
-    pmv: importContext.projects.length === 1 ? (importContext.projects[0] as string) : ''
+    pmv: importContext.projects.length >= 1 ? (importContext.projects[0] as string) : ''
   });
+  const [selectedDatabase, setSelectedDatabase] = useState<string>();
+  const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
+  const [activePage, setActivePage] = useState(0);
+  const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
+  const [namespace, setNamespace] = useState<string>(context.pmv.replaceAll('-', '.'));
+  const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
+  const client = useClient();
+
+  const resetAll = () => {
+    setSelectedDatabase('');
+    setSelectedTables([]);
+    setTablesToCreate(new Map());
+  };
 
   const updatePmv = (pmv: string) => {
     setContext({
@@ -38,6 +44,26 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       file: context.file,
       pmv: pmv
     });
+    setNamespace(pmv.replaceAll('-', '.'));
+    resetAll();
+  };
+
+  const updateSelectedDatabase = (db: string) => {
+    resetAll();
+    setSelectedDatabase(db);
+  };
+
+  const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
+    if (add) {
+      setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
+    } else {
+      setSelectedTables(selectedTables.filter(t => t.name !== table.name));
+      setTablesToCreate(prev => {
+        const update = new Map(prev);
+        update.delete(table.name);
+        return update;
+      });
+    }
   };
 
   const updateActivePage = (forward: boolean = true) => {
@@ -63,25 +89,6 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       if (valid) {
         setActivePage(index);
       }
-    }
-  };
-
-  const updateSelectedDatabase = (db: string) => {
-    setSelectedDatabase(db);
-    setSelectedTables([]);
-    setTablesToCreate(new Map());
-  };
-
-  const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
-    if (add) {
-      setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
-    } else {
-      setSelectedTables(selectedTables.filter(t => t.name !== table.name));
-      setTablesToCreate(prev => {
-        const update = new Map(prev);
-        update.delete(table.name);
-        return update;
-      });
     }
   };
 
@@ -140,13 +147,13 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
           updateNamespace={setNamespace}
         />
       ),
-      title: t('import.createOptions'),
+      title: t('import.options'),
       identifier: 'creation',
       requiredData: tablesToCreate.size > 0 && namespace !== undefined && namespace.trim() !== ''
     },
     {
       page: <CreationResult errors={creationErrors} />,
-      title: t('import.creationResult'),
+      title: t('import.result'),
       identifier: 'creation-result',
       requiredData: true
     }

@@ -21,7 +21,7 @@ export const DatabaseEditor = (props: EditorProps) => {
       </ToolbarContainer>
       <div className='database-editor'>
         <ImportWizard context={context}>
-          <Button variant='outline'>{t('import.importWizard')}</Button>
+          <Button variant='outline'>{t('import.generate')}</Button>
         </ImportWizard>
       </div>
     </>

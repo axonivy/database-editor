@@ -6,7 +6,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type ImportOptions = ("EntityClass" | "FormDialog" | "Repository" | "Enum")
+export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
 
 export interface Database {
   creationError: CreationError[];
@@ -47,21 +47,21 @@ export interface TableOptions {
   table: DatabaseTable;
   type: ImportOptions;
 }
+export interface DatabaseTable {
+  columns: DatabaseColumn[];
+  entityClassName: string;
+  name: string;
+}
 export interface DatabaseColumn {
   autoIncrement: boolean;
-  name: string;
-  primaryKey: boolean;
-  type: string;
   entityAttributeName: string;
   entityAttributeType: string;
   generate: boolean;
+  name: string;
+  primaryKey: boolean;
+  type: string;
 }
 export interface DatabaseInfoData {
   connectionName: string;
   tables: DatabaseTable[];
-}
-export interface DatabaseTable {
-  name: string;
-  entityClassName: string;
-  columns: DatabaseColumn[];
 }

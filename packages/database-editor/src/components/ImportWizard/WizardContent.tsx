@@ -28,7 +28,7 @@ export const WizardContent = ({
   return (
     <Flex direction='column' gap={4} style={{ overflow: 'auto' }}>
       <DialogHeader>
-        <DialogTitle>{t('import.dataImport')}</DialogTitle>
+        <DialogTitle>{t('import.generate')}</DialogTitle>
       </DialogHeader>
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
       <Flex direction='column' gap={4} justifyContent='space-between' style={{ height: '100%', overflow: 'auto' }}>
