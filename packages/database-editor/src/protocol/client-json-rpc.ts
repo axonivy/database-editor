@@ -4,8 +4,10 @@ import type {
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseEditorTableContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData,
+  DatabaseTableData,
+  DatabaseTableInfoData,
   Event,
   RequestTypes
 } from '@axonivy/database-editor-protocol';
@@ -23,8 +25,12 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('data', context);
   }
 
-  databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData> {
-    return this.sendRequest('databaseInfo', context);
+  databaseTableNames(context: DatabaseEditorTableContext): Promise<DatabaseTableData> {
+    return this.sendRequest('databaseTableNames', context);
+  }
+
+  databaseTableInfo(context: DatabaseEditorDBContext): Promise<DatabaseTableInfoData> {
+    return this.sendRequest('databaseTableInfo', context);
   }
 
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {

@@ -2,16 +2,19 @@ import type {
   Client,
   CreationError,
   DatabaseData,
+  DatabaseEditorDBContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData,
+  DatabaseTableData,
+  DatabaseTableInfoData,
   Event
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
-import { creationError, databaseInfoData, databases, mockError } from './data';
+import { creationError, databases, databaseTableData, databaseTableInfoData, mockError } from './data';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
-  private databaseInfoData: DatabaseInfoData = databaseInfoData;
+  private databaseTableInfoData: DatabaseTableInfoData = databaseTableInfoData;
+  private databaseTableData: DatabaseTableData = databaseTableData;
   private creationError: CreationError[] = creationError;
   private mockError: CreationError[] = mockError;
 
@@ -19,8 +22,16 @@ export class DatabaseClientMock implements Client {
     return Promise.resolve(this.databaseData);
   }
 
-  databaseInfo(): Promise<DatabaseInfoData> {
-    return Promise.resolve(this.databaseInfoData);
+  databaseTableNames(): Promise<DatabaseTableData> {
+    return Promise.resolve(this.databaseTableData);
+  }
+
+  databaseTableInfo(context: DatabaseEditorDBContext): Promise<DatabaseTableInfoData> {
+    const data: DatabaseTableInfoData = {
+      connectionName: this.databaseTableInfoData.connectionName,
+      tables: this.databaseTableInfoData.tables.filter(t => context.tableNames.includes(t.name))
+    };
+    return Promise.resolve(data);
   }
 
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {

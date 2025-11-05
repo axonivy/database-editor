@@ -3,8 +3,10 @@ import type {
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseEditorTableContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData
+  DatabaseTableData,
+  DatabaseTableInfoData
 } from './editor';
 
 export type ImportWizardContext = {
@@ -28,13 +30,15 @@ export interface Disposable {
 
 export interface RequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
-  databaseInfo: [DatabaseEditorDBContext, DatabaseInfoData];
+  databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
+  databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
   importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
-  databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData>;
+  databaseTableNames(context: DatabaseEditorTableContext): Promise<DatabaseTableData>;
+  databaseTableInfo(context: DatabaseEditorDBContext): Promise<DatabaseTableInfoData>;
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
 }
