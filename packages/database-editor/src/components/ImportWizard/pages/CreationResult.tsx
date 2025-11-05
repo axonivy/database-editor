@@ -36,7 +36,7 @@ const ErrorTable = ({ errors }: { errors: Array<CreationError> }) => {
   const { t } = useTranslation();
 
   const generateErrorMessage = (error: CreationError) => {
-    if (error.name === error.message) {
+    if (error.message.endsWith(error.name)) {
       return t('import.errorAlreadyExists');
     }
     return error.message;
