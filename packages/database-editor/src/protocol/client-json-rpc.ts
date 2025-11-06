@@ -3,10 +3,9 @@ import type {
   CreationError,
   DatabaseData,
   DatabaseEditorDataContext,
-  DatabaseEditorDBContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData,
   Event,
+  MetaRequestTypes,
   RequestTypes
 } from '@axonivy/database-editor-protocol';
 import { BaseRpcClient, createMessageConnection, Emitter, urlBuilder, type Connection, type MessageConnection } from '@axonivy/jsonrpc';
@@ -23,8 +22,8 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     return this.sendRequest('data', context);
   }
 
-  databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData> {
-    return this.sendRequest('databaseInfo', context);
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
+    return this.sendRequest(path, args);
   }
 
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {

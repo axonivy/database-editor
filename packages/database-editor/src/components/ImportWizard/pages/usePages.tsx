@@ -1,9 +1,4 @@
-import {
-  type CreationError,
-  type DatabaseEditorContext,
-  type DatabaseTable,
-  type ImportWizardContext
-} from '@axonivy/database-editor-protocol';
+import { type CreationError, type DatabaseEditorContext, type ImportWizardContext } from '@axonivy/database-editor-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -25,7 +20,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     pmv: importContext.projects.length >= 1 ? (importContext.projects[0] as string) : ''
   });
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
-  const [selectedTables, setSelectedTables] = useState<Array<DatabaseTable>>([]);
+  const [selectedTables, setSelectedTables] = useState<Array<string>>([]);
   const [activePage, setActivePage] = useState(0);
   const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
   const [namespace, setNamespace] = useState<string>(context.pmv.replaceAll('-', '.'));
@@ -53,14 +48,14 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     setSelectedDatabase(db);
   };
 
-  const updateSelectedTables = (table: DatabaseTable, add: boolean) => {
+  const updateSelectedTables = (table: string, add: boolean) => {
     if (add) {
-      setSelectedTables([...selectedTables, table].sort((a, b) => a.name.localeCompare(b.name)));
+      setSelectedTables([...selectedTables, table].sort((a, b) => a.localeCompare(b)));
     } else {
-      setSelectedTables(selectedTables.filter(t => t.name !== table.name));
+      setSelectedTables(selectedTables.filter(t => t !== table));
       setTablesToCreate(prev => {
         const update = new Map(prev);
-        update.delete(table.name);
+        update.delete(table);
         return update;
       });
     }
@@ -140,7 +135,9 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     {
       page: (
         <CreationPage
-          tables={selectedTables}
+          tableNames={selectedTables}
+          context={context}
+          databaseName={selectedDatabase ?? ''}
           updateSelection={updateTablesToCreate}
           parameters={tablesToCreate}
           namespace={namespace}

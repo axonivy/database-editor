@@ -1,6 +1,16 @@
-import type { DatabaseColumn, DatabaseTable, ImportOptions } from '@axonivy/database-editor-protocol';
+import type {
+  DatabaseColumn,
+  DatabaseEditorContext,
+  DatabaseEditorDBContext,
+  DatabaseTable,
+  ImportOptions
+} from '@axonivy/database-editor-protocol';
 import { BasicField, Checkbox, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useClient } from '../../../protocol/ClientContextProvider';
+import { genQueryKey } from '../../../query/query-client';
 import { AttributeSelection } from '../components/AttributeSelection';
 import './CreationPage.css';
 import { useNamespaceValidation } from './useNamespaceValidation';
@@ -14,15 +24,45 @@ export type CreationParameter = {
 };
 
 export type CreationPageProps = {
-  tables: Array<DatabaseTable>;
+  context: DatabaseEditorContext;
+  tableNames: Array<string>;
+  databaseName: string;
   parameters: Map<string, Map<ImportOptions, Array<DatabaseColumn>>>;
   updateSelection: (table: DatabaseTable, type: ImportOptions, column?: DatabaseColumn, add?: boolean) => void;
   namespace: string;
   updateNamespace: (ns: string) => void;
 };
 
-export const CreationPage = ({ tables, updateSelection, parameters, namespace, updateNamespace }: CreationPageProps) => {
+export const CreationPage = ({
+  context,
+  tableNames,
+  databaseName,
+  updateSelection,
+  parameters,
+  namespace,
+  updateNamespace
+}: CreationPageProps) => {
   const { t } = useTranslation();
+  const client = useClient();
+
+  const infoContext: DatabaseEditorDBContext = useMemo(
+    () => ({
+      app: context.app,
+      pmv: context.pmv,
+      file: context.file,
+      databaseName: databaseName,
+      tableNames: tableNames
+    }),
+    [context, tableNames, databaseName]
+  );
+
+  const tableQuery = useQuery({
+    queryKey: useMemo(() => genQueryKey('databaseTableInfo', infoContext), [infoContext]),
+    queryFn: async () => {
+      return await client.meta('meta/databaseTableInfo', infoContext);
+    },
+    structuralSharing: false
+  });
 
   const checkState = (tableName: string, key: ImportOptions): boolean => {
     const param = parameters.get(tableName);
@@ -76,7 +116,7 @@ export const CreationPage = ({ tables, updateSelection, parameters, namespace, u
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tables.map(table => (
+          {tableQuery.data?.tables.map(table => (
             <TableRow key={table.name}>
               <TableCell>{table.name}</TableCell>
               <TableCell>

@@ -2,8 +2,9 @@ import type {
   Database,
   DatabaseColumn,
   DatabaseData,
-  DatabaseInfoData,
   DatabaseTable,
+  DatabaseTableData,
+  DatabaseTableInfoData,
   ImportOptions
 } from '@axonivy/database-editor-protocol';
 
@@ -51,6 +52,13 @@ const columns: Array<DatabaseColumn> = [
   }
 ];
 
+const tableNames: Array<string> = ['Users-001', 'Users-002', 'Users-003'];
+
+export const databaseTableData: DatabaseTableData = {
+  connectionName: 'MockDatabase-001',
+  tables: tableNames
+};
+
 const tables: Array<DatabaseTable> = [
   {
     name: 'Users-001',
@@ -69,7 +77,7 @@ const tables: Array<DatabaseTable> = [
   }
 ];
 
-export const databaseInfoData: DatabaseInfoData = {
+export const databaseTableInfoData: DatabaseTableInfoData = {
   connectionName: 'MockDatabase-001',
   tables: tables
 };

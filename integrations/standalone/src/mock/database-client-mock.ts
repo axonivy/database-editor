@@ -2,16 +2,20 @@ import type {
   Client,
   CreationError,
   DatabaseData,
+  DatabaseEditorDBContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData,
-  Event
+  DatabaseTableData,
+  DatabaseTableInfoData,
+  Event,
+  MetaRequestTypes
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
-import { creationError, databaseInfoData, databases, mockError } from './data';
+import { creationError, databases, databaseTableData, databaseTableInfoData, mockError } from './data';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
-  private databaseInfoData: DatabaseInfoData = databaseInfoData;
+  private databaseTableInfoData: DatabaseTableInfoData = databaseTableInfoData;
+  private databaseTableData: DatabaseTableData = databaseTableData;
   private creationError: CreationError[] = creationError;
   private mockError: CreationError[] = mockError;
 
@@ -19,8 +23,18 @@ export class DatabaseClientMock implements Client {
     return Promise.resolve(this.databaseData);
   }
 
-  databaseInfo(): Promise<DatabaseInfoData> {
-    return Promise.resolve(this.databaseInfoData);
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
+    switch (path) {
+      case 'meta/databaseTableNames':
+        return Promise.resolve(this.databaseTableData);
+      case 'meta/databaseTableInfo':
+        return Promise.resolve({
+          ...this.databaseTableInfoData,
+          tables: this.databaseTableInfoData.tables.filter(t => (args as DatabaseEditorDBContext).tableNames.includes(t.name))
+        });
+      default:
+        throw Error('mock meta path not programmed');
+    }
   }
 
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {

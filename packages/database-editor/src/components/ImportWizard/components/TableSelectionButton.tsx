@@ -1,4 +1,3 @@
-import type { DatabaseTable } from '@axonivy/database-editor-protocol';
 import { Button, cn, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import './TableSelectionButton.css';
@@ -8,9 +7,9 @@ export const TableSelectionButton = ({
   active,
   onClick: update
 }: {
-  table: DatabaseTable;
+  table: string;
   active: boolean;
-  onClick: (table: DatabaseTable) => void;
+  onClick: (table: string) => void;
 }) => {
   return (
     <Button
@@ -18,7 +17,7 @@ export const TableSelectionButton = ({
       className={cn('table-button', active && 'active')}
       onClick={() => update(table)}
     >
-      <span className='table-button-text'>{table.name}</span>
+      <span className='table-button-text'>{table}</span>
       {active && <IvyIcon icon={IvyIcons.Check} />}
     </Button>
   );

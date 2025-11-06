@@ -13,8 +13,10 @@ export interface Database {
   databaseData: DatabaseData;
   databaseEditorDataContext: DatabaseEditorDataContext;
   databaseEditorDBContext: DatabaseEditorDBContext;
+  databaseEditorTableContext: DatabaseEditorTableContext;
   databaseImportCreationArgs: DatabaseImportCreationArgs;
-  databaseInfoData: DatabaseInfoData;
+  databaseTableData: DatabaseTableData;
+  databaseTableInfoData: DatabaseTableInfoData;
   [k: string]: unknown;
 }
 export interface CreationError {
@@ -32,6 +34,13 @@ export interface DatabaseEditorDataContext {
   pmv: string;
 }
 export interface DatabaseEditorDBContext {
+  app: string;
+  databaseName: string;
+  file: string;
+  pmv: string;
+  tableNames: string[];
+}
+export interface DatabaseEditorTableContext {
   app: string;
   databaseName: string;
   file: string;
@@ -61,7 +70,11 @@ export interface DatabaseColumn {
   primaryKey: boolean;
   type: string;
 }
-export interface DatabaseInfoData {
+export interface DatabaseTableData {
+  connectionName: string;
+  tables: string[];
+}
+export interface DatabaseTableInfoData {
   connectionName: string;
   tables: DatabaseTable[];
 }

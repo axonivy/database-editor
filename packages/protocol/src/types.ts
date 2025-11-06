@@ -3,8 +3,10 @@ import type {
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseEditorTableContext,
   DatabaseImportCreationArgs,
-  DatabaseInfoData
+  DatabaseTableData,
+  DatabaseTableInfoData
 } from './editor';
 
 export type ImportWizardContext = {
@@ -26,17 +28,24 @@ export interface Disposable {
   dispose(): void;
 }
 
-export interface RequestTypes {
+export interface RequestTypes extends MetaRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
-  databaseInfo: [DatabaseEditorDBContext, DatabaseInfoData];
+  databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
+  databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
   importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
-  databaseInfo(context: DatabaseEditorDBContext): Promise<DatabaseInfoData>;
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
+
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
+}
+
+export interface MetaRequestTypes {
+  'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
+  'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
 }
 
 export interface ClientContext {
