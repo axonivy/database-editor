@@ -6,11 +6,9 @@ import type {
   ImportOptions
 } from '@axonivy/database-editor-protocol';
 import { BasicField, Checkbox, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
-import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useClient } from '../../../protocol/ClientContextProvider';
-import { genQueryKey } from '../../../query/query-client';
+import { useMeta } from '../../../protocol/use-meta';
 import { AttributeSelection } from '../components/AttributeSelection';
 import './CreationPage.css';
 import { useNamespaceValidation } from './useNamespaceValidation';
@@ -43,7 +41,6 @@ export const CreationPage = ({
   updateNamespace
 }: CreationPageProps) => {
   const { t } = useTranslation();
-  const client = useClient();
 
   const infoContext: DatabaseEditorDBContext = useMemo(
     () => ({
@@ -56,13 +53,7 @@ export const CreationPage = ({
     [context, tableNames, databaseName]
   );
 
-  const tableQuery = useQuery({
-    queryKey: useMemo(() => genQueryKey('databaseTableInfo', infoContext), [infoContext]),
-    queryFn: async () => {
-      return await client.meta('meta/databaseTableInfo', infoContext);
-    },
-    structuralSharing: false
-  });
+  const metaQuery = useMeta('meta/databaseTableInfo', infoContext);
 
   const checkState = (tableName: string, key: ImportOptions): boolean => {
     const param = parameters.get(tableName);
@@ -116,7 +107,7 @@ export const CreationPage = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tableQuery.data?.tables.map(table => (
+          {metaQuery.data?.tables.map(table => (
             <TableRow key={table.name}>
               <TableCell>{table.name}</TableCell>
               <TableCell>
