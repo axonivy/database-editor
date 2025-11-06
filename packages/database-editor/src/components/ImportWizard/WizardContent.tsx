@@ -26,7 +26,7 @@ export const WizardContent = ({
   const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen, callback);
 
   return (
-    <Flex direction='column' gap={4} style={{ overflow: 'auto' }}>
+    <>
       <DialogHeader>
         <DialogTitle>{t('import.generate')}</DialogTitle>
       </DialogHeader>
@@ -53,6 +53,6 @@ export const WizardContent = ({
           />
         </DialogFooter>
       </Flex>
-    </Flex>
+    </>
   );
 };
