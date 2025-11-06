@@ -59,8 +59,7 @@ export const CreationPage = ({
   const tableQuery = useQuery({
     queryKey: useMemo(() => genQueryKey('databaseTableInfo', infoContext), [infoContext]),
     queryFn: async () => {
-      const content = await client.databaseTableInfo(infoContext);
-      return { ...content };
+      return await client.meta('meta/databaseTableInfo', infoContext);
     },
     structuralSharing: false
   });

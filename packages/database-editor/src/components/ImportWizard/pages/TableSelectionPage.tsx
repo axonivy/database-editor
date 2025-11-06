@@ -32,10 +32,7 @@ export const SelectTablesPage = ({ context, selectedDatabase, updateSelection, s
 
   const tableQuery = useQuery({
     queryKey: useMemo(() => genQueryKey('databaseTableNames', tableContext), [tableContext]),
-    queryFn: async () => {
-      const content = await client.databaseTableNames(tableContext);
-      return { ...content };
-    },
+    queryFn: () => client.meta('meta/databaseTableNames', tableContext),
     structuralSharing: false
   });
 

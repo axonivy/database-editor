@@ -28,7 +28,7 @@ export interface Disposable {
   dispose(): void;
 }
 
-export interface RequestTypes {
+export interface RequestTypes extends MetaRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
   databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
@@ -37,10 +37,15 @@ export interface RequestTypes {
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
-  databaseTableNames(context: DatabaseEditorTableContext): Promise<DatabaseTableData>;
-  databaseTableInfo(context: DatabaseEditorDBContext): Promise<DatabaseTableInfoData>;
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
+
+  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
+}
+
+export interface MetaRequestTypes {
+  'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
+  'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
 }
 
 export interface ClientContext {
