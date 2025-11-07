@@ -2,6 +2,7 @@ import { ImportOptionsLookup, type CreationError } from '@axonivy/database-edito
 import {
   Flex,
   Label,
+  Message,
   Table,
   TableBody,
   TableCell,
@@ -63,7 +64,7 @@ const ErrorTable = ({ errors }: { errors: Array<CreationError> }) => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <TableCell>
-                      <Label>{generateErrorMessage(error)}</Label>
+                      <Message variant='error'>{generateErrorMessage(error)}</Message>
                     </TableCell>
                   </TooltipTrigger>
                   <TooltipContent>{generateErrorMessage(error)}</TooltipContent>
