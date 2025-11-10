@@ -34,7 +34,7 @@
       <url>https://maven.axonivy.com</url>
     </repository>
   </repositories>
-<pluginRepositories>
+  <pluginRepositories>
     <pluginRepository>
       <releases>
         <enabled>false</enabled>
