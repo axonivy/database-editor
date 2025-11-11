@@ -46,6 +46,7 @@ export const SelectionList = ({
         selectionTitle={listTitle}
         control={btnSelectAll}
         filter={filter}
+        icon={IvyIcons.Check}
       />
       <SelectionListField
         items={selection}
@@ -54,6 +55,7 @@ export const SelectionList = ({
         control={btnDeselectAll}
         filter={filter}
         placeholder={selectionPlaceholder}
+        icon={IvyIcons.Close}
       />
     </Flex>
   );
@@ -66,16 +68,17 @@ type SelectionListFieldProps = {
   filter?: string;
   onClick: (value: string) => void;
   placeholder?: string;
+  icon?: IvyIcons;
 };
 
-const SelectionListField = ({ selectionTitle, control, items, filter, onClick, placeholder }: SelectionListFieldProps) => {
+const SelectionListField = ({ selectionTitle, control, items, filter, onClick, placeholder, icon }: SelectionListFieldProps) => {
   return (
     <BasicField label={selectionTitle} control={control} className='selection-list'>
-      <Flex className='selection-list-container' direction='column' gap={2}>
+      <Flex className='selection-list-container' direction='column' gap={1}>
         {items.length > 0 ? (
           items
             .filter(t => t.toLocaleLowerCase().includes(filter ? filter.toLocaleLowerCase() : ''))
-            .map(item => <SelectionListButton key={item} value={item} selected={items.some(i1 => i1 === item)} onClick={onClick} />)
+            .map(item => <SelectionListButton key={item} value={item} icon={icon} onClick={onClick} />)
         ) : (
           <div className='selection-list-placeholder'>
             <span>{placeholder}</span>
