@@ -24,15 +24,15 @@ test.describe('data source page', () => {
     await dataSourcePage.projectSelection.choose('project1-name');
     const select = dataSourcePage.databaseSelect;
     await expect(select.locator).toBeVisible();
-    await select.expectToHaveOptions('IvySystemDatabase', 'MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003');
-    await select.choose('IvySystemDatabase');
-    await expect(select.locator).toContainText('IvySystemDatabase');
+    await select.expectToHaveOptions('MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003');
+    await select.choose('MockDatabase-001');
+    await expect(select.locator).toContainText('MockDatabase-001');
   });
 
   test('proceed requirement', async () => {
     await expect(importDialog.next).toBeDisabled();
     await dataSourcePage.projectSelection.choose('project1-name');
-    await dataSourcePage.databaseSelect.choose('IvySystemDatabase');
+    await dataSourcePage.databaseSelect.choose('MockDatabase-001');
     await expect(importDialog.next).toBeEnabled();
   });
 });

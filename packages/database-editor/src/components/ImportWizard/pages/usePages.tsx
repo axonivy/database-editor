@@ -48,19 +48,6 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     setSelectedDatabase(db);
   };
 
-  const updateSelectedTables = (table: string, add: boolean) => {
-    if (add) {
-      setSelectedTables([...selectedTables, table].sort((a, b) => a.localeCompare(b)));
-    } else {
-      setSelectedTables(selectedTables.filter(t => t !== table));
-      setTablesToCreate(prev => {
-        const update = new Map(prev);
-        update.delete(table);
-        return update;
-      });
-    }
-  };
-
   const updateActivePage = (forward: boolean = true) => {
     if (forward && activePage < pages.length - 1) {
       setActivePage(activePage + 1);
@@ -124,7 +111,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
         <SelectTablesPage
           selectedDatabase={selectedDatabase ?? ''}
           context={context}
-          updateSelection={updateSelectedTables}
+          setSelectedTables={setSelectedTables}
           selectedTables={selectedTables}
         />
       ),

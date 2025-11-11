@@ -7,6 +7,7 @@ import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
 import { DatabaseSelection } from '../components/DatabaseSelection';
 import { ProjectSelection } from '../components/ProjectSelection';
+import './DataSourcePage.css';
 
 export type DataSourcePageProps = {
   context: DatabaseEditorContext;
@@ -30,22 +31,20 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
   });
 
   return (
-    <>
+    <Flex direction='row' gap={4}>
       {projects && (
-        <BasicField label={t('import.project')}>
+        <BasicField label={t('import.project')} className='source-selection-field'>
           <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />
         </BasicField>
       )}
-      <BasicField label={t('import.database')}>
-        <Flex gap={2}>
-          <DatabaseSelection
-            databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
-            selection={selection}
-            updateSelection={updateSelection}
-            disabled={context.pmv === ''}
-          />
-        </Flex>
+      <BasicField label={t('import.database')} className='source-selection-field'>
+        <DatabaseSelection
+          databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
+          selection={selection}
+          updateSelection={updateSelection}
+          disabled={context.pmv === ''}
+        />
       </BasicField>
-    </>
+    </Flex>
   );
 };

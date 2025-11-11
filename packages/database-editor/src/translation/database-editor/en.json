@@ -1,4 +1,7 @@
 {
+  "database": {
+    "addFirstDatabase": "Add your first database and generate entities"
+  },
   "databaseEditor": "Database Editor",
   "import": {
     "attributes": "Attributes",
@@ -10,7 +13,7 @@
     "creationSuccess": "Creation of entities was successful",
     "creationType": "Entity Type",
     "database": "Database",
-    "databasesYaml": "databases.yaml",
+    "deselectAll": "Deselect all",
     "entityClass": "Entity Class",
     "errorAlreadyExists": "Object already exists",
     "errorMessage": "Error Message",
@@ -19,7 +22,6 @@
     "formDialog": "Form Dialog",
     "generate": "Generate",
     "invalidNamespace": "Invalid Namspace",
-    "ivySystemDatabase": "IvySystemDatabase",
     "namespace": "Namespace",
     "namespaceRequired": "Namespace is required",
     "next": "Go to next step",
@@ -27,11 +29,15 @@
     "process": "Process",
     "project": "Project",
     "result": "Result",
+    "selectAll": "Select all",
     "selectDatabase": "Select a database",
     "selectProject": "Select a project",
     "selectTable": "Tables",
+    "selectTables": "Choose the tables you want to select",
     "source": "Data Source",
     "table": "Table",
+    "tableSelection": "Your selection",
+    "tableSelectionPlaceholder": "You have not yet selected a table. Click on one to select it.",
     "type": "Type"
   }
 }

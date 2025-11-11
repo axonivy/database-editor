@@ -44,7 +44,7 @@ const ErrorTable = ({ errors }: { errors: Array<CreationError> }) => {
   };
 
   return (
-    <Flex direction='column'>
+    <Flex direction='column' gap={4}>
       <Table className='table-errors'>
         <TableHeader>
           <TableRow>

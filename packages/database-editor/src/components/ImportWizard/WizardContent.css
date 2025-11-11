@@ -1,0 +1,18 @@
+.database-editor-import-wizard {
+  height: 100vh;
+  background-color: var(--N75);
+}
+
+.database-editor-import-content {
+  width: clamp(300px, 900px, calc(100% - 200px));
+  margin: 20px 0 20px 0;
+  align-self: center;
+}
+
+.import-page {
+  height: 100%;
+}
+
+.database-import-margin {
+  margin: 20px 50px 20px 50px;
+}
