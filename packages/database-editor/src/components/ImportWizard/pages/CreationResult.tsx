@@ -29,7 +29,9 @@ export const CreationResult = ({ errors }: CreationResultProps) => {
       <ErrorTable errors={errors} />
     </>
   ) : (
-    <h3 className='result-title'>{t('import.creationSuccess')}</h3>
+    <Flex justifyContent='center' alignItems='center'>
+      <h3 className='result-title'>{t('import.creationSuccess')}</h3>
+    </Flex>
   );
 };
 
@@ -44,7 +46,7 @@ const ErrorTable = ({ errors }: { errors: Array<CreationError> }) => {
   };
 
   return (
-    <Flex direction='column' gap={4}>
+    <Flex direction='column' gap={4} className='import-wizard-page'>
       <Table className='table-errors'>
         <TableHeader>
           <TableRow>

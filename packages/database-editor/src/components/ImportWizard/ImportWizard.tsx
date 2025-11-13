@@ -21,7 +21,7 @@ export const ImportWizard = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='database-editor-import-dialog'>
-        <DialogTitle className='databse-editor-import-title'>{t('import.generate')}</DialogTitle>
+        <DialogTitle>{t('import.generate')}</DialogTitle>
         <WizardContent context={context} setOpen={setOpen} callback={callback} />
       </DialogContent>
     </Dialog>

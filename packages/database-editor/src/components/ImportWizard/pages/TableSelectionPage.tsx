@@ -1,5 +1,5 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { BasicField, Input } from '@axonivy/ui-components';
+import { BasicField, Flex, Input } from '@axonivy/ui-components';
 import { useMemo, useState, type Dispatch, type SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
@@ -29,7 +29,7 @@ export const SelectTablesPage = ({ context, selectedDatabase, setSelectedTables,
   const metaQuery = useMeta('meta/databaseTableNames', tableContext);
 
   return (
-    <>
+    <Flex direction='column' className='import-wizard-page' gap={4}>
       <BasicField label={t('import.filter')}>
         <Input value={filter} onChange={e => setFilter(e.target.value)}></Input>
       </BasicField>
@@ -42,6 +42,6 @@ export const SelectTablesPage = ({ context, selectedDatabase, setSelectedTables,
         selectionTitle={t('import.tableSelection')}
         selectionPlaceholder={t('import.tableSelectionPlaceholder')}
       />
-    </>
+    </Flex>
   );
 };
