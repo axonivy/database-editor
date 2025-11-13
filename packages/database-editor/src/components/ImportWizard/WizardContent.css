@@ -8,6 +8,7 @@
 
 .import-wizard-page {
   height: 100%;
+  overflow: auto;
 }
 .import-wizard-proceed-buttons {
   width: 100%;
