@@ -5,7 +5,7 @@ import type {
   DatabaseTable,
   ImportOptions
 } from '@axonivy/database-editor-protocol';
-import { BasicField, Checkbox, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
+import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
@@ -92,7 +92,7 @@ export const CreationPage = ({
   const namespaceMessage = useNamespaceValidation(namespace);
 
   return (
-    <>
+    <Flex direction='column' className='import-wizard-page' gap={4}>
       <BasicField message={namespaceMessage} label={`${t('import.namespace')}*`}>
         <Input required value={namespace} onChange={event => updateNamespace(event.target.value)}></Input>
       </BasicField>
@@ -135,6 +135,6 @@ export const CreationPage = ({
           ))}
         </TableBody>
       </Table>
-    </>
+    </Flex>
   );
 };

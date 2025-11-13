@@ -19,7 +19,7 @@ test.describe('import wizard', () => {
 
   test('navigation buttons', async () => {
     await importDialog.open();
-    await expect(importDialog.next).toHaveText('Go to next step');
+    await expect(importDialog.next).toHaveText('Next');
     await expect(importDialog.next).toBeDisabled();
     await expect(importDialog.back).toHaveText('Back');
     await expect(importDialog.back).toBeDisabled();

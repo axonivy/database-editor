@@ -31,7 +31,7 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
   });
 
   return (
-    <Flex direction='row' gap={4}>
+    <Flex direction='column' gap={4} className='import-wizard-page'>
       {projects && (
         <BasicField label={t('import.project')} className='source-selection-field'>
           <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />

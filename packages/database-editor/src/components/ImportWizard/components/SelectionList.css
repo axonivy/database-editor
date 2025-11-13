@@ -1,6 +1,6 @@
 .selection-list-container {
   overflow: scroll;
-  background-color: var(--background);
+  background-color: var(--N75);
   border-radius: var(--border-r1);
   border: var(--basic-border);
   box-sizing: border-box;

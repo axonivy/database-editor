@@ -1,13 +1,7 @@
 div.database-editor-import-dialog {
   max-width: unset;
   max-height: unset;
-  padding: 0;
-  border-radius: 0;
-  gap: 0;
-}
-
-.database-editor-import-dialog > button:has(i.ivy-close) {
-  visibility: collapse;
+  width: clamp(300px, 1200px, calc(100% - 200px));
 }
 
 .databse-editor-import-title {

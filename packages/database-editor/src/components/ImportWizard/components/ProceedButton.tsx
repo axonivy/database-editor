@@ -1,4 +1,4 @@
-import { Button, IvyIcon } from '@axonivy/ui-components';
+import { Button } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
 
@@ -18,19 +18,19 @@ export const ProceedButton = ({ create, close, disabled, createFunction, pageUpd
         disabled={disabled}
         variant='primary'
         size='xl'
+        icon={IvyIcons.SettingsCog}
         onClick={() => {
           createFunction();
           pageUpdate();
         }}
       >
-        {t('import.create')}
+        {t('import.generate')}
       </Button>
     );
   }
   return (
-    <Button disabled={disabled} variant='primary' size='xl' onClick={() => pageUpdate()}>
-      {close ? t('import.close') : t('import.next')}
-      <IvyIcon icon={IvyIcons.Chevron} />
+    <Button disabled={disabled} variant='primary' size='xl' onClick={() => pageUpdate()} icon={close ? IvyIcons.Check : IvyIcons.Chevron}>
+      {close ? t('import.finish') : t('import.next')}
     </Button>
   );
 };

@@ -20,8 +20,8 @@ export class ImportDialog {
   constructor(page: Page, parent: Locator) {
     this.locator = parent.getByRole('dialog');
     this.trigger = parent.getByRole('button', { name: 'Generate' });
-    this.next = this.locator.getByRole('button', { name: 'Go to next step' });
-    this.create = this.locator.getByRole('button', { name: 'Create' });
+    this.next = this.locator.getByRole('button', { name: 'Next' });
+    this.create = this.locator.getByRole('button', { name: 'Generate' });
     this.back = this.locator.getByRole('button', { name: 'Back' });
     this.timeline = new Timeline(this.locator);
     this.dataSourcePage = new DataSourcePage(page, this.locator);
