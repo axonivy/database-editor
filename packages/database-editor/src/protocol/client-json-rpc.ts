@@ -1,6 +1,8 @@
 import type {
   Client,
   CreationError,
+  DatabaseConnectionData,
+  DatabaseConnectionSaveArgs,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseImportCreationArgs,
@@ -11,6 +13,12 @@ import type {
 import { BaseRpcClient, createMessageConnection, Emitter, urlBuilder, type Connection, type MessageConnection } from '@axonivy/jsonrpc';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
+  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean> {
+    return this.sendRequest('saveDatabaseConnection', args);
+  }
+  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>> {
+    return this.sendRequest('databaseConnections', context);
+  }
   protected onDataChangedEmitter = new Emitter<void>();
   onDataChanged: Event<void> = this.onDataChangedEmitter.event;
   protected override setupConnection(): void {

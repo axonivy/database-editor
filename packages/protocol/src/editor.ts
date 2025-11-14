@@ -9,7 +9,10 @@
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
 
 export interface Database {
+  boolean: boolean;
   creationError: CreationError[];
+  databaseConnectionData: DatabaseConnectionData[];
+  databaseConnectionSaveArgs: DatabaseConnectionSaveArgs;
   databaseData: DatabaseData;
   databaseEditorDataContext: DatabaseEditorDataContext;
   databaseEditorDBContext: DatabaseEditorDBContext;
@@ -24,14 +27,25 @@ export interface CreationError {
   name: string;
   type: ImportOptions;
 }
-export interface DatabaseData {
+export interface DatabaseConnectionData {
+  connectionProperties: MapStringObject;
+  name: string;
+}
+export interface MapStringObject {
+  [k: string]: unknown;
+}
+export interface DatabaseConnectionSaveArgs {
   context: DatabaseEditorDataContext;
-  databaseNames: string[];
+  data: DatabaseConnectionData;
 }
 export interface DatabaseEditorDataContext {
   app: string;
   file: string;
   pmv: string;
+}
+export interface DatabaseData {
+  context: DatabaseEditorDataContext;
+  databaseNames: string[];
 }
 export interface DatabaseEditorDBContext {
   app: string;

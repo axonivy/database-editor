@@ -1,5 +1,7 @@
 import type {
   CreationError,
+  DatabaseConnectionData,
+  DatabaseConnectionSaveArgs,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
@@ -32,13 +34,17 @@ export interface RequestTypes extends MetaRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
   databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
+  databaseConnections: [DatabaseEditorDataContext, Array<DatabaseConnectionData>];
   importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
+  saveDatabaseConnection: [DatabaseConnectionSaveArgs, boolean];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
+  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>>;
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
+  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 }
@@ -46,6 +52,7 @@ export interface Client {
 export interface MetaRequestTypes {
   'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
   'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
+  'meta/jdbcDrivers': [undefined, Array<DatabaseConnectionData>];
 }
 
 export interface ClientContext {
