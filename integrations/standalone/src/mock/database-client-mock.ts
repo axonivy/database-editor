@@ -1,16 +1,18 @@
 import type {
   Client,
   CreationError,
+  DatabaseConnectionData,
   DatabaseData,
   DatabaseEditorDBContext,
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
   Event,
+  JdbcDriverProperties,
   MetaRequestTypes
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
-import { creationError, databases, databaseTableData, databaseTableInfoData, mockError } from './data';
+import { conenctions, creationError, databases, databaseTableData, databaseTableInfoData, jdbcDrivers, mockError } from './data';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
@@ -18,6 +20,18 @@ export class DatabaseClientMock implements Client {
   private databaseTableData: DatabaseTableData = databaseTableData;
   private creationError: CreationError[] = creationError;
   private mockError: CreationError[] = mockError;
+  private databaseConnectionData: Array<DatabaseConnectionData> = conenctions;
+  private jdbcDrivers: Array<JdbcDriverProperties> = jdbcDrivers;
+
+  databaseConnections(): Promise<Array<DatabaseConnectionData>> {
+    return Promise.resolve(this.databaseConnectionData);
+  }
+  saveDatabaseConnection(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+  deleteDatabaseConnection(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
 
   data(): Promise<DatabaseData> {
     return Promise.resolve(this.databaseData);
@@ -32,6 +46,8 @@ export class DatabaseClientMock implements Client {
           ...this.databaseTableInfoData,
           tables: this.databaseTableInfoData.tables.filter(t => (args as DatabaseEditorDBContext).tableNames.includes(t.name))
         });
+      case 'meta/jdbcDrivers':
+        return Promise.resolve(this.jdbcDrivers);
       default:
         throw Error('mock meta path not programmed');
     }

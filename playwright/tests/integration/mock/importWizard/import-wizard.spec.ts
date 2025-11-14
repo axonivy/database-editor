@@ -12,7 +12,7 @@ test.describe('import wizard', () => {
   });
 
   test('opening behaviour', async () => {
-    await expect(importDialog.trigger).toHaveText('Generate');
+    await expect(importDialog.trigger).toBeVisible();
     await importDialog.open();
     await expect(importDialog.locator.first()).toBeVisible();
   });

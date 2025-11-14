@@ -5,9 +5,9 @@
   "dependencies": {
     "@axonivy/database-editor": "workspace:~14.0.0-next",
     "@axonivy/database-editor-protocol": "workspace:~14.0.0-next",
-    "@axonivy/jsonrpc": "~14.0.0-next.957.4046f5f",
-    "@axonivy/ui-components": "~14.0.0-next.957.4046f5f",
-    "@axonivy/ui-icons": "~14.0.0-next.957.4046f5f",
+    "@axonivy/jsonrpc": "~14.0.0-next.969.b2664cb",
+    "@axonivy/ui-components": "~14.0.0-next.969.b2664cb",
+    "@axonivy/ui-icons": "~14.0.0-next.969.b2664cb",
     "@tanstack/react-query": "^5.64",
     "@tanstack/react-query-devtools": "^5.64",
     "i18next": "^25.0.0",

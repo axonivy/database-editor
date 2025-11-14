@@ -1,8 +1,26 @@
 {
-  "database": {
-    "addFirstDatabase": "Add your first database and generate entities"
+  "common": {
+    "label": {
+      "cancel": "Cancel",
+      "configuration": "Configuration",
+      "create": "Create",
+      "delete": "Delete",
+      "details": "Details",
+      "general": "General",
+      "name": "Name",
+      "properties": "Properties"
+    }
   },
-  "databaseEditor": "Database Editor",
+  "database": {
+    "allConnections": "All Database Connections",
+    "connenctionProperties": "Connection-Properties",
+    "createNewConnection": "Create new Database Connection",
+    "databaseEditor": "Database Editor",
+    "jdbcDriver": "Jdbc Driver",
+    "maxConnections": "Max. Connections",
+    "selectDatabase": "Select a Database",
+    "selectDriver": "Select a Database Driver"
+  },
   "import": {
     "attributes": "Attributes",
     "back": "Back",
