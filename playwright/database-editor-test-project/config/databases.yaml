@@ -6,11 +6,14 @@ Databases:
     UserName: test
     Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
   TestDatabaseConnection-002:
-    Url: jdbc:mysql://localhost:3307/TestDatabase002
+    Url: jdbc:mysql://localhost/TestDatabase002
     Driver: com.mysql.cj.jdbc.Driver
     UserName: test
     Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
   IvySystemDatabase:
     Url: jdbc:mysql://null
     Driver: com.mysql.cj.jdbc.Driver
+    UserName: test
+    Password: ${decrypt:brEw2s6VCLX1IFLbZlz7eA==}
+  test:
     Password: ${decrypt:}

@@ -1,6 +1,8 @@
 {
   "database": {
-    "addFirstDatabase": "Konfiguriere deine erste Datenbank und generiere Entitäten."
+    "databases": "Datenbankverbindungen",
+    "jdbcDriver": "Jdbc Driver",
+    "properties": "Konfiguration"
   },
   "databaseEditor": "Database Editor",
   "import": {

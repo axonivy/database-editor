@@ -17,6 +17,7 @@ export interface Database {
   databaseEditorDataContext: DatabaseEditorDataContext;
   databaseEditorDBContext: DatabaseEditorDBContext;
   databaseEditorTableContext: DatabaseEditorTableContext;
+  databaseEditorTestConnectionArgs: DatabaseEditorTestConnectionArgs;
   databaseImportCreationArgs: DatabaseImportCreationArgs;
   databaseTableData: DatabaseTableData;
   databaseTableInfoData: DatabaseTableInfoData;
@@ -59,6 +60,10 @@ export interface DatabaseEditorTableContext {
   databaseName: string;
   file: string;
   pmv: string;
+}
+export interface DatabaseEditorTestConnectionArgs {
+  context: DatabaseEditorDataContext;
+  databaseConnectionName: string;
 }
 export interface DatabaseImportCreationArgs {
   context: DatabaseEditorDataContext;

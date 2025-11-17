@@ -5,6 +5,7 @@ import type {
   DatabaseConnectionSaveArgs,
   DatabaseData,
   DatabaseEditorDataContext,
+  DatabaseEditorTestConnectionArgs,
   DatabaseImportCreationArgs,
   Event,
   MetaRequestTypes,
@@ -13,6 +14,9 @@ import type {
 import { BaseRpcClient, createMessageConnection, Emitter, urlBuilder, type Connection, type MessageConnection } from '@axonivy/jsonrpc';
 
 export class ClientJsonRpc extends BaseRpcClient implements Client {
+  testDatabaseConnection(args: DatabaseEditorTestConnectionArgs): Promise<boolean> {
+    return this.sendRequest('testDatabaseConnection', args);
+  }
   saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean> {
     return this.sendRequest('saveDatabaseConnection', args);
   }

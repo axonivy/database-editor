@@ -6,6 +6,7 @@ import type {
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
   DatabaseEditorTableContext,
+  DatabaseEditorTestConnectionArgs,
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData
@@ -37,6 +38,7 @@ export interface RequestTypes extends MetaRequestTypes {
   databaseConnections: [DatabaseEditorDataContext, Array<DatabaseConnectionData>];
   importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
   saveDatabaseConnection: [DatabaseConnectionSaveArgs, boolean];
+  testDatabaseConnection: [DatabaseEditorTestConnectionArgs, boolean];
 }
 
 export interface Client {
@@ -45,6 +47,7 @@ export interface Client {
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
   saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean>;
+  testDatabaseConnection(args: DatabaseEditorTestConnectionArgs): Promise<boolean>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 }
