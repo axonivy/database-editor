@@ -1,5 +1,15 @@
 import type { EditorProps } from '@axonivy/database-editor-protocol';
-import { Button, Flex, Toolbar, ToolbarContainer, ToolbarTitle } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  Toolbar,
+  ToolbarContainer,
+  ToolbarTitle,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,11 +32,18 @@ export const DatabaseEditor = (props: EditorProps) => {
       </ToolbarContainer>
       <Flex className='database-editor' direction='column' gap={4}>
         <span>{t('database.addFirstDatabase')}</span>
-        <ImportWizard context={context}>
-          <Button icon={IvyIcons.SettingsCog} variant='primary'>
-            {t('import.generate')}
-          </Button>
-        </ImportWizard>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
+            <ImportWizard context={context}>
+              <TooltipTrigger asChild>
+                <Button icon={IvyIcons.SettingsCog} variant='primary'>
+                  {t('import.generate')}
+                </Button>
+              </TooltipTrigger>
+            </ImportWizard>
+          </Tooltip>
+        </TooltipProvider>
       </Flex>
     </>
   );
