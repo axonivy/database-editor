@@ -1,19 +1,18 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
+import { useContextProvider } from '../../../util/ContextProvider';
 
 export const ProjectSelection = ({
   projects,
-  selection,
   updateSelection
 }: {
   projects: Array<string>;
-  selection?: string;
   updateSelection: (database: string) => void;
 }) => {
   const { t } = useTranslation();
-
+  const { context } = useContextProvider();
   return (
-    <Select value={selection ?? ''} onValueChange={updateSelection}>
+    <Select value={context.pmv} onValueChange={updateSelection}>
       <SelectTrigger>
         <SelectValue placeholder={t('import.selectProject')} />
       </SelectTrigger>

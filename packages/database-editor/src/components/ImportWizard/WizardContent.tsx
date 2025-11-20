@@ -1,4 +1,3 @@
-import type { ImportWizardContext } from '@axonivy/database-editor-protocol';
 import { Button, cn, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
@@ -16,16 +15,17 @@ export type ImportPage = {
 };
 
 export const WizardContent = ({
-  context: importContext,
   setOpen,
-  callback
+  callback,
+  projects
 }: {
-  context: ImportWizardContext;
+  projects: Array<string>;
   setOpen: (open: boolean) => void;
   callback?: () => void;
 }) => {
   const { t } = useTranslation();
-  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(importContext, setOpen, callback);
+
+  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(projects, setOpen, callback);
 
   return (
     <Flex

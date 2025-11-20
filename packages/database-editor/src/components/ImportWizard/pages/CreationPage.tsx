@@ -1,14 +1,9 @@
-import type {
-  DatabaseColumn,
-  DatabaseEditorContext,
-  DatabaseEditorDBContext,
-  DatabaseTable,
-  ImportOptions
-} from '@axonivy/database-editor-protocol';
+import type { DatabaseColumn, DatabaseEditorDBContext, DatabaseTable, ImportOptions } from '@axonivy/database-editor-protocol';
 import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
+import { useContextProvider } from '../../../util/ContextProvider';
 import { AttributeSelection } from '../components/AttributeSelection';
 import './CreationPage.css';
 import { useNamespaceValidation } from './useNamespaceValidation';
@@ -22,7 +17,6 @@ export type CreationParameter = {
 };
 
 export type CreationPageProps = {
-  context: DatabaseEditorContext;
   tableNames: Array<string>;
   databaseName: string;
   parameters: Map<string, Map<ImportOptions, Array<DatabaseColumn>>>;
@@ -31,17 +25,9 @@ export type CreationPageProps = {
   updateNamespace: (ns: string) => void;
 };
 
-export const CreationPage = ({
-  context,
-  tableNames,
-  databaseName,
-  updateSelection,
-  parameters,
-  namespace,
-  updateNamespace
-}: CreationPageProps) => {
+export const CreationPage = ({ tableNames, databaseName, updateSelection, parameters, namespace, updateNamespace }: CreationPageProps) => {
   const { t } = useTranslation();
-
+  const { context } = useContextProvider();
   const infoContext: DatabaseEditorDBContext = useMemo(
     () => ({
       app: context.app,
