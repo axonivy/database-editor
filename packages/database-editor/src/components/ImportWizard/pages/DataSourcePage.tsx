@@ -1,7 +1,7 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { BasicField, Flex } from '@axonivy/ui-components';
+import { BasicField, Field, Flex, Label, Switch } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
@@ -20,6 +20,7 @@ export type DataSourcePageProps = {
 export const DataSourcePage = ({ context, selection, updateSelection, projects, updatePmv }: DataSourcePageProps) => {
   const { t } = useTranslation();
   const client = useClient();
+  const [showAll, setShowAll] = useState(false);
 
   const databaseQuery = useQuery({
     queryKey: useMemo(() => genQueryKey('data', context), [context]),
@@ -30,6 +31,13 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
     structuralSharing: false
   });
 
+  const requiredProjectToggle = (
+    <Field direction='row' alignItems='center' gap={2}>
+      <Label>{t('import.requiredProjects')}</Label>
+      <Switch checked={showAll} onCheckedChange={() => setShowAll(p => !p)} />
+    </Field>
+  );
+
   return (
     <Flex direction='column' gap={4} className='import-wizard-page'>
       {projects && (
@@ -37,11 +45,13 @@ export const DataSourcePage = ({ context, selection, updateSelection, projects, 
           <ProjectSelection projects={projects} updateSelection={updatePmv} selection={context.pmv} />
         </BasicField>
       )}
-      <BasicField label={t('import.database')} className='source-selection-field'>
+      <BasicField label={t('import.database')} className='source-selection-field' control={requiredProjectToggle}>
         <DatabaseSelection
-          databases={(databaseQuery.data?.databaseNames as Array<string>) ?? []}
+          databases={databaseQuery.data?.databaseNames ?? {}}
           selection={selection}
           updateSelection={updateSelection}
+          pmv={context.pmv}
+          showAll={showAll}
           disabled={context.pmv === ''}
         />
       </BasicField>

@@ -29,6 +29,15 @@ test.describe('data source page', () => {
     await expect(select.locator).toContainText('MockDatabase-001');
   });
 
+  test('required projects', async () => {
+    const select = dataSourcePage.databaseSelect;
+    await expect(select.locator).toBeVisible();
+    await select.expectToHaveOptions('MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003');
+    await dataSourcePage.requiredProjects.click();
+    await select.expectToHaveGroups('project1-name', 'project2-name');
+    await select.expectToHaveOptions('MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003', 'MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003');
+  });
+
   test('proceed requirement', async () => {
     await expect(importDialog.next).toBeDisabled();
     await dataSourcePage.projectSelection.choose('project1-name');

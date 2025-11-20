@@ -26,12 +26,15 @@ export interface CreationError {
 }
 export interface DatabaseData {
   context: DatabaseEditorDataContext;
-  databaseNames: string[];
+  databaseNames: MapStringListString;
 }
 export interface DatabaseEditorDataContext {
   app: string;
   file: string;
   pmv: string;
+}
+export interface MapStringListString {
+  [k: string]: string[];
 }
 export interface DatabaseEditorDBContext {
   app: string;
