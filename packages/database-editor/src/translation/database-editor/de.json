@@ -6,7 +6,7 @@
   "import": {
     "attributes": "Attribute",
     "back": "Zurück",
-    "close": "Schliessen",
+    "cancel": "Abbrechen",
     "column": "Spalte",
     "creationFailed": "Erstellen fehlgeschlagen",
     "creationSuccess": "Erstellung erfolgreich",
@@ -21,6 +21,7 @@
     "finish": "Beenden",
     "formDialog": "Form Dialog",
     "generate": "Generieren",
+    "generateTooltip": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank",
     "invalidNamespace": "Ungültiger Namespace",
     "namespace": "Namespace",
     "namespaceRequired": "Namespace wird benötigt",

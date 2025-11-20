@@ -46,7 +46,6 @@ export const SelectionList = ({
         selectionTitle={listTitle}
         control={btnSelectAll}
         filter={filter}
-        icon={IvyIcons.Check}
       />
       <SelectionListField
         items={selection}
@@ -55,7 +54,6 @@ export const SelectionList = ({
         control={btnDeselectAll}
         filter={filter}
         placeholder={selectionPlaceholder}
-        icon={IvyIcons.Close}
       />
     </Flex>
   );

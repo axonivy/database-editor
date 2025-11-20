@@ -43,7 +43,7 @@ export const WizardContent = ({
           onClick={() => setOpen(false)}
           className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}
         >
-          {t('import.close')}
+          {t('import.cancel')}
         </Button>
         <Flex direction='row' gap={2} justifyContent='flex-end' className='import-wizard-proceed-buttons'>
           <Button

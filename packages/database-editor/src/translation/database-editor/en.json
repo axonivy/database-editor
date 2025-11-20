@@ -6,7 +6,7 @@
   "import": {
     "attributes": "Attributes",
     "back": "Back",
-    "close": "Close",
+    "cancel": "Cancel",
     "column": "Column",
     "creationFailed": "Creation failed with following errors",
     "creationSuccess": "Creation of entities was successful",
@@ -21,6 +21,7 @@
     "finish": "Finish",
     "formDialog": "Form Dialog",
     "generate": "Generate",
+    "generateTooltip": "Generate Data Classes, Forms and Processes from a database",
     "invalidNamespace": "Invalid Namspace",
     "namespace": "Namespace",
     "namespaceRequired": "Namespace is required",
