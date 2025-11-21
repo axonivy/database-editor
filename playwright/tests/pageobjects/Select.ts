@@ -8,6 +8,7 @@ export class Select {
   constructor(page: Page, parent: Locator, options?: { label?: string; nth?: number }) {
     this.page = page;
     this.parent = parent;
+
     if (options?.label) {
       this.locator = parent.getByRole('combobox', { name: options.label }).first();
     } else {
@@ -18,6 +19,16 @@ export class Select {
   async choose(value: string) {
     await this.locator.click();
     await this.page.getByRole('option', { name: value, exact: true }).first().click();
+  }
+
+  async expectToHaveGroups(...options: Array<string>) {
+    await this.locator.click();
+    const group = this.page.getByRole('group');
+    for (const option of options) {
+      await expect(group.getByText(option)).toBeVisible();
+    }
+
+    await this.page.keyboard.press('Escape');
   }
 
   async expectToHaveOptions(...options: Array<string>) {

@@ -1,21 +1,20 @@
-import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
 import { BasicField, Flex, Input } from '@axonivy/ui-components';
 import { useMemo, useState, type Dispatch, type SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
+import { useContextProvider } from '../../../util/ContextProvider';
 import { SelectionList } from '../components/SelectionList';
 
 export type SelectTablesPageProps = {
-  context: DatabaseEditorContext;
   selectedDatabase: string;
   setSelectedTables: Dispatch<SetStateAction<string[]>>;
   selectedTables: Array<string>;
 };
 
-export const SelectTablesPage = ({ context, selectedDatabase, setSelectedTables, selectedTables }: SelectTablesPageProps) => {
+export const SelectTablesPage = ({ selectedDatabase, setSelectedTables, selectedTables }: SelectTablesPageProps) => {
   const { t } = useTranslation();
   const [filter, setFilter] = useState('');
-
+  const { context } = useContextProvider();
   const tableContext = useMemo(
     () => ({
       app: context.app,

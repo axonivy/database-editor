@@ -1,10 +1,11 @@
-import { type CreationError, type DatabaseEditorContext, type ImportWizardContext } from '@axonivy/database-editor-protocol';
+import { type CreationError } from '@axonivy/database-editor-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useClient } from '../../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../../query/query-client';
+import { useContextProvider } from '../../../util/ContextProvider';
 import { type ImportPage } from '../WizardContent';
 import { CreationPage } from './CreationPage';
 import { CreationResult } from './CreationResult';
@@ -12,13 +13,10 @@ import { DataSourcePage } from './DataSourcePage';
 import { SelectTablesPage } from './TableSelectionPage';
 import { useCreationTables } from './useCreationTables';
 
-export const usePages = (importContext: ImportWizardContext, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
+export const usePages = (projects: Array<string>, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
-  const [context, setContext] = useState<DatabaseEditorContext>({
-    app: importContext.app,
-    file: importContext.file,
-    pmv: importContext.projects.length >= 1 ? (importContext.projects[0] as string) : ''
-  });
+  const { context } = useContextProvider();
+
   const [selectedDatabase, setSelectedDatabase] = useState<string>();
   const [selectedTables, setSelectedTables] = useState<Array<string>>([]);
   const [activePage, setActivePage] = useState(0);
@@ -33,12 +31,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     setTablesToCreate(new Map());
   };
 
-  const updatePmv = (pmv: string) => {
-    setContext({
-      app: context.app,
-      file: context.file,
-      pmv: pmv
-    });
+  const resetOnPmvChange = (pmv: string) => {
     setNamespace(pmv.replaceAll('-', '.'));
     resetAll();
   };
@@ -95,11 +88,10 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     {
       page: (
         <DataSourcePage
-          context={context}
           updateSelection={updateSelectedDatabase}
           selection={selectedDatabase}
-          projects={importContext.projects.length > 1 ? importContext.projects : undefined}
-          updatePmv={updatePmv}
+          projects={projects.length > 1 ? projects : undefined}
+          pmvUpdateCallback={resetOnPmvChange}
         />
       ),
       title: t('import.source'),
@@ -108,12 +100,7 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
     },
     {
       page: (
-        <SelectTablesPage
-          selectedDatabase={selectedDatabase ?? ''}
-          context={context}
-          setSelectedTables={setSelectedTables}
-          selectedTables={selectedTables}
-        />
+        <SelectTablesPage selectedDatabase={selectedDatabase ?? ''} setSelectedTables={setSelectedTables} selectedTables={selectedTables} />
       ),
       title: t('import.selectTable'),
       identifier: 'table-selection',
@@ -123,7 +110,6 @@ export const usePages = (importContext: ImportWizardContext, setOpen: (forward: 
       page: (
         <CreationPage
           tableNames={selectedTables}
-          context={context}
           databaseName={selectedDatabase ?? ''}
           updateSelection={updateTablesToCreate}
           parameters={tablesToCreate}

@@ -10,7 +10,10 @@ import type {
 
 export const databases: DatabaseData = {
   context: { app: '', pmv: '', file: '' },
-  databaseNames: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003']
+  databaseNames: {
+    ['project1-name']: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003'],
+    ['project2-name']: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003']
+  }
 };
 
 const columns: Array<DatabaseColumn> = [
