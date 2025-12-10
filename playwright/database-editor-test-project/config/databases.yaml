@@ -15,5 +15,3 @@ Databases:
     Driver: com.mysql.cj.jdbc.Driver
     UserName: test
     Password: ${decrypt:brEw2s6VCLX1IFLbZlz7eA==}
-  test:
-    Password: ${decrypt:}
