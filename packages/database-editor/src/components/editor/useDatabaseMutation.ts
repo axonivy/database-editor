@@ -1,6 +1,7 @@
 import type { DatabaseConnectionData, DatabaseEditorContext } from '@axonivy/database-editor-protocol';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useAppContext } from '../../AppContext';
 import { useClient } from '../../protocol/ClientContextProvider';
 import { useMeta } from '../../protocol/use-meta';
 import { genQueryKey } from '../../query/query-client';
@@ -8,8 +9,8 @@ import { genQueryKey } from '../../query/query-client';
 export const useDatabaseMutation = (context: DatabaseEditorContext) => {
   const client = useClient();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
-  const [activeDb, setActiveDb] = useState<DatabaseConnectionData>();
   const UNDEFINED_DB = { name: '', connectionProperties: {} };
+  const { activeDb } = useAppContext();
 
   const databaseQuery = useQuery({
     queryKey: useMemo(() => genQueryKey('databaseConnections', context), [context]),
@@ -41,5 +42,5 @@ export const useDatabaseMutation = (context: DatabaseEditorContext) => {
     structuralSharing: false
   });
 
-  return { jdbcDrivers, activeDb, setActiveDb, UNDEFINED_DB, saveFunction, databaseQuery, databaseTest };
+  return { jdbcDrivers, UNDEFINED_DB, saveFunction, databaseQuery, databaseTest };
 };
