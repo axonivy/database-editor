@@ -51,10 +51,4 @@ pipeline {
       }
     }
   }
-
-  post {
-    success {
-      cleanWs()
-    }
-  }
 }
