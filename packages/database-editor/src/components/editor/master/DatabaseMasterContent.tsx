@@ -1,11 +1,13 @@
 import type { DatabaseConnectionData } from '@axonivy/database-editor-protocol';
 import { BasicField, Button, Flex, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { SelectionListField } from '../../ImportWizard/components/SelectionList';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
 import { useDatabaseMutation } from '../useDatabaseMutation';
+import { DbConnectionAddDialog } from './DbConnectionAddDialog';
 
 export const DatabaseMasterContent = ({
   setDetail
@@ -38,16 +40,26 @@ export const DatabaseMasterContent = ({
 };
 
 const DbConnectionControls = () => {
-  const { context, projects } = useAppContext();
+  const { context, projects, setActiveDb } = useAppContext();
+  const { deleteFunction } = useDatabaseMutation();
+  const [addDialog, setAddDialog] = useState(false);
   const { t } = useTranslation();
   return (
     <Flex direction='row' gap={2}>
+      <DbConnectionAddDialog open={addDialog} setOpen={setAddDialog} />
+      <Button
+        icon={IvyIcons.Trash}
+        onClick={() => {
+          deleteFunction.mutate();
+          setActiveDb(undefined);
+        }}
+      ></Button>
       <TooltipProvider>
         <Tooltip>
           <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
           <ImportWizard context={{ file: context.file, app: context.app, projects }}>
             <TooltipTrigger asChild>
-              <Button icon={IvyIcons.SettingsCog} />
+              <Button aria-label={t('import.generate')} icon={IvyIcons.SettingsCog} />
             </TooltipTrigger>
           </ImportWizard>
         </Tooltip>

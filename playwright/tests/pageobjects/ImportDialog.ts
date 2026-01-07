@@ -19,7 +19,7 @@ export class ImportDialog {
 
   constructor(page: Page, parent: Locator) {
     this.locator = parent.getByRole('dialog');
-    this.trigger = parent.locator('button:has(i.ivy-settings-cog)');
+    this.trigger = parent.getByRole('button', { name: 'Generate' });
     this.next = this.locator.getByRole('button', { name: 'Next' });
     this.create = this.locator.getByRole('button', { name: 'Generate' });
     this.back = this.locator.getByRole('button', { name: 'Back' });

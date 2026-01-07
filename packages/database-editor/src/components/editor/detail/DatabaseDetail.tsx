@@ -2,13 +2,14 @@ import { BasicInscriptionTabs, Flex, SidebarHeader, type InscriptionTabProps } f
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ConfigurationTab } from './ConfigurationTab';
 
 export const DatabaseDetail = () => {
   const { t } = useTranslation();
   const [tab, setTab] = useState('Configuration');
 
   const configTab: InscriptionTabProps = {
-    content: <div>{t('common.label.placeholder')}</div>,
+    content: <ConfigurationTab />,
     name: t('common.label.configuration'),
     id: 'Configuration',
     icon: IvyIcons.Configuration

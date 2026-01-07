@@ -1,15 +1,25 @@
 {
   "common": {
     "label": {
+      "cancel": "Cancel",
       "configuration": "Configuration",
+      "create": "Create",
+      "delete": "Delete",
       "details": "Details",
-      "placeholder": "Placholder"
+      "general": "General",
+      "name": "Name",
+      "properties": "Properties"
     }
   },
   "database": {
     "allConnections": "All Database Connections",
     "connenctionProperties": "Connection Properties",
-    "databaseEditor": "Database Editor"
+    "createNewConnection": "Create new Database Connection",
+    "databaseEditor": "Database Editor",
+    "jdbcDriver": "Jdbc Driver",
+    "maxConnections": "Max. Connections",
+    "selectDatabase": "Select a Database",
+    "selectDriver": "Select a Database Driver"
   },
   "import": {
     "attributes": "Attributes",
