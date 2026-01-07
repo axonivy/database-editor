@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { ImportDialog } from './ImportDialog';
+import { ImportDialog } from '../ImportWizard/ImportDialog';
+import { DetailView } from './DetailView';
 import { Toolbar } from './Toolbar';
 
 export class DatabaseEditor {
@@ -7,12 +8,14 @@ export class DatabaseEditor {
   readonly locator: Locator;
   readonly toolbar: Toolbar;
   readonly importDialog: ImportDialog;
+  readonly detailView: DetailView;
 
   constructor(page: Page) {
     this.page = page;
     this.locator = page.locator(':root');
     this.toolbar = new Toolbar(page, this.locator);
     this.importDialog = new ImportDialog(page, this.locator);
+    this.detailView = new DetailView(page, this.locator);
   }
 
   static async openMock(page: Page, options?: { virtualize?: boolean; lng?: string }) {

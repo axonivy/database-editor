@@ -16,8 +16,8 @@ export const DatabaseDetail = () => {
   };
 
   return (
-    <Flex direction='column'>
-      <SidebarHeader title={t('database.connenctionProperties')} icon={IvyIcons.PenEdit} />
+    <Flex direction='column' className='database-detail-view'>
+      <SidebarHeader title={t('database.connenctionProperties')} icon={IvyIcons.PenEdit} className='detail-view-header' />
       <BasicInscriptionTabs value={tab} onChange={setTab} tabs={[configTab]} />
     </Flex>
   );

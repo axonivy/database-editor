@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
-import type { ImportDialog } from '../../../pageobjects/ImportDialog';
+import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
+import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
 
 test.describe('import wizard', () => {
   let editor: DatabaseEditor;
