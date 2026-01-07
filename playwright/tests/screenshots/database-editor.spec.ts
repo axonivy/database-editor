@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { DatabaseEditor } from '../pageobjects/DatabaseEditor';
+import { DatabaseEditor } from '../pageobjects/Editor/DatabaseEditor';
 
 let editor: DatabaseEditor;
 

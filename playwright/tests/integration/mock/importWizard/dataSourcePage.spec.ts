@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
-import type { DataSourcePage } from '../../../pageobjects/DataSourcePage';
-import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
-import type { ImportDialog } from '../../../pageobjects/ImportDialog';
+import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
+import type { DataSourcePage } from '../../../pageobjects/ImportWizard/DataSourcePage';
+import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
 
 test.describe('data source page', () => {
   let editor: DatabaseEditor;

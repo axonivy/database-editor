@@ -12,8 +12,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useDatabaseMutation } from '../useDatabaseMutation';
+import './ConfigurationProperties.css';
 
-export const ConfigurationTab = () => {
+export const ConfigurationProperties = () => {
   const { t } = useTranslation();
   const { setActiveDb, activeDb } = useAppContext();
   const { jdbcDrivers, saveFunction, UNDEFINED_DB } = useDatabaseMutation();
@@ -39,17 +40,21 @@ export const ConfigurationTab = () => {
       return update;
     });
 
-  return activeDb ? (
-    <>
-      <GeneralCollapsible updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
-      <PropertiesCollapsible
-        jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
-        jdbcProps={jdbcProps}
-        updateDb={updateDb}
-      />
-    </>
-  ) : (
-    <Message variant='info'>{t('database.selectDatabase')}</Message>
+  return (
+    <Flex direction='column' gap={3} className='configuration-options'>
+      {activeDb ? (
+        <>
+          <GeneralCollapsible updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
+          <PropertiesCollapsible
+            jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
+            jdbcProps={jdbcProps}
+            updateDb={updateDb}
+          />
+        </>
+      ) : (
+        <Message variant='info'>{t('database.selectDatabase')}</Message>
+      )}
+    </Flex>
   );
 };
 

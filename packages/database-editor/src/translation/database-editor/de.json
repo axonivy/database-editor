@@ -2,9 +2,7 @@
   "common": {
     "label": {
       "cancel": "Abbrechen",
-      "configuration": "Konfiguration",
       "create": "Erstellen",
-      "delete": "Löschen",
       "details": "Details",
       "general": "Allgemein",
       "name": "Name",
@@ -18,8 +16,7 @@
     "databaseEditor": "Datenbank Editor",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
-    "selectDatabase": "Wähle eine Datenbank aus",
-    "selectDriver": "Wähle einen Datenbank-Treiber aus"
+    "selectDatabase": "Wähle eine Datenbank aus"
   },
   "import": {
     "attributes": "Attribute",
