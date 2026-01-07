@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
-import type { ImportDialog } from '../../../pageobjects/ImportDialog';
-import type { ResultPage } from '../../../pageobjects/ResultPage';
+import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
+import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
+import type { ResultPage } from '../../../pageobjects/ImportWizard/ResultPage';
 
 test.describe('CreationResult page', () => {
   let editor: DatabaseEditor;
