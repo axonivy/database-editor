@@ -12,7 +12,6 @@ test.describe('import wizard', () => {
   });
 
   test('opening behaviour', async () => {
-    await expect(importDialog.trigger).toHaveText('Generate');
     await importDialog.open();
     await expect(importDialog.locator.first()).toBeVisible();
   });

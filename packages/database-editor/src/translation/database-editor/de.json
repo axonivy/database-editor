@@ -1,8 +1,16 @@
 {
-  "database": {
-    "addFirstDatabase": "Konfiguriere deine erste Datenbank und generiere Entitäten."
+  "common": {
+    "label": {
+      "configuration": "Konfiguration",
+      "details": "Details",
+      "placeholder": "Placeholder"
+    }
   },
-  "databaseEditor": "Database Editor",
+  "database": {
+    "allConnections": "Alle Datenbank Verbindungen",
+    "connenctionProperties": "Verbindungseigenschaften",
+    "databaseEditor": "Datenbank Editor"
+  },
   "import": {
     "attributes": "Attribute",
     "back": "Zurück",

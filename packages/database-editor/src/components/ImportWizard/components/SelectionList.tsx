@@ -69,7 +69,7 @@ type SelectionListFieldProps = {
   icon?: IvyIcons;
 };
 
-const SelectionListField = ({ selectionTitle, control, items, filter, onClick, placeholder, icon }: SelectionListFieldProps) => {
+export const SelectionListField = ({ selectionTitle, control, items, filter, onClick, placeholder, icon }: SelectionListFieldProps) => {
   return (
     <BasicField label={selectionTitle} control={control} className='selection-list'>
       <Flex className='selection-list-container' direction='column' gap={1}>

@@ -1,6 +1,9 @@
 import type {
   Client,
   CreationError,
+  DatabaseConnectionData,
+  DatabaseConnectionDeleteArgs,
+  DatabaseConnectionSaveArgs,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseImportCreationArgs,
@@ -20,6 +23,16 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   data(context: DatabaseEditorDataContext): Promise<DatabaseData> {
     return this.sendRequest('data', context);
+  }
+
+  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean> {
+    return this.sendRequest('saveDatabaseConnection', args);
+  }
+  deleteDatabaseConnection(args: DatabaseConnectionDeleteArgs): Promise<boolean> {
+    return this.sendRequest('deleteDatabaseConnection', args);
+  }
+  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>> {
+    return this.sendRequest('databaseConnections', context);
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {

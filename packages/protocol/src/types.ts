@@ -1,12 +1,16 @@
 import type {
   CreationError,
+  DatabaseConnectionData,
+  DatabaseConnectionDeleteArgs,
+  DatabaseConnectionSaveArgs,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
   DatabaseEditorTableContext,
   DatabaseImportCreationArgs,
   DatabaseTableData,
-  DatabaseTableInfoData
+  DatabaseTableInfoData,
+  JdbcDriverProperties
 } from './editor';
 
 export type ImportWizardContext = {
@@ -32,13 +36,19 @@ export interface RequestTypes extends MetaRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseData];
   databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
   databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
+  databaseConnections: [DatabaseEditorDataContext, Array<DatabaseConnectionData>];
   importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
+  saveDatabaseConnection: [DatabaseConnectionSaveArgs, boolean];
+  deleteDatabaseConnection: [DatabaseConnectionDeleteArgs, boolean];
 }
 
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
+  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>>;
   importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
   onDataChanged: Event<void>;
+  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean>;
+  deleteDatabaseConnection(args: DatabaseConnectionDeleteArgs): Promise<boolean>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
 }
@@ -46,6 +56,7 @@ export interface Client {
 export interface MetaRequestTypes {
   'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
   'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
+  'meta/jdbcDrivers': [undefined, Array<JdbcDriverProperties>];
 }
 
 export interface ClientContext {
