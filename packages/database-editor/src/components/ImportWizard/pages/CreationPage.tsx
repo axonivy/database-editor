@@ -1,5 +1,16 @@
 import type { DatabaseColumn, DatabaseEditorDBContext, DatabaseTable, ImportOptions } from '@axonivy/database-editor-protocol';
-import { BasicField, Checkbox, Flex, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@axonivy/ui-components';
+import {
+  BasicField,
+  BasicInput,
+  Checkbox,
+  Flex,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
@@ -80,7 +91,7 @@ export const CreationPage = ({ tableNames, databaseName, updateSelection, parame
   return (
     <Flex direction='column' className='import-wizard-page' gap={4}>
       <BasicField message={namespaceMessage} label={`${t('import.namespace')}*`}>
-        <Input required value={namespace} onChange={event => updateNamespace(event.target.value)}></Input>
+        <BasicInput required value={namespace} onChange={event => updateNamespace(event.target.value)} />
       </BasicField>
       <Table className='table-creation'>
         <TableHeader>

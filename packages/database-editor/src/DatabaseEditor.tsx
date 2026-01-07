@@ -1,50 +1,36 @@
 import type { EditorProps } from '@axonivy/database-editor-protocol';
-import {
-  Button,
-  Flex,
-  Toolbar,
-  ToolbarContainer,
-  ToolbarTitle,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ImportWizard } from './components/ImportWizard/ImportWizard';
+import { AppProvider } from './AppContext';
 import './DatabaseEditor.css';
+import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
+import { DatabaseMasterContent } from './components/editor/master/DatabaseMasterContent';
+import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
 
 export const DatabaseEditor = (props: EditorProps) => {
-  const { t } = useTranslation();
+  const [detail, setDetail] = useState(false);
   const [context, setContext] = useState(props.context);
+
   useEffect(() => {
     setContext(props.context);
   }, [props]);
 
   return (
-    <>
-      <ToolbarContainer>
-        <Toolbar className='database-editor-main-toolbar'>
-          <ToolbarTitle>{t('databaseEditor')}</ToolbarTitle>
-        </Toolbar>
-      </ToolbarContainer>
-      <Flex className='database-editor' direction='column' gap={4}>
-        <span>{t('database.addFirstDatabase')}</span>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
-            <ImportWizard context={context}>
-              <TooltipTrigger asChild>
-                <Button icon={IvyIcons.SettingsCog} variant='primary'>
-                  {t('import.generate')}
-                </Button>
-              </TooltipTrigger>
-            </ImportWizard>
-          </Tooltip>
-        </TooltipProvider>
-      </Flex>
-    </>
+    <AppProvider projects={props.context.projects} context={{ file: context.file, app: context.app, pmv: context.projects[0] ?? '' }}>
+      <ResizablePanelGroup direction='horizontal'>
+        <ResizablePanel>
+          <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />
+          <DatabaseMasterContent setDetail={setDetail} />
+        </ResizablePanel>
+        {detail && (
+          <>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={25} minSize={10}>
+              <DatabaseDetail />
+            </ResizablePanel>
+          </>
+        )}
+      </ResizablePanelGroup>
+    </AppProvider>
   );
 };

@@ -9,7 +9,11 @@
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
 
 export interface Database {
+  boolean: boolean;
   creationError: CreationError[];
+  databaseConnectionData: DatabaseConnectionData[];
+  databaseConnectionDeleteArgs: DatabaseConnectionDeleteArgs;
+  databaseConnectionSaveArgs: DatabaseConnectionSaveArgs;
   databaseData: DatabaseData;
   databaseEditorDataContext: DatabaseEditorDataContext;
   databaseEditorDBContext: DatabaseEditorDBContext;
@@ -17,6 +21,7 @@ export interface Database {
   databaseImportCreationArgs: DatabaseImportCreationArgs;
   databaseTableData: DatabaseTableData;
   databaseTableInfoData: DatabaseTableInfoData;
+  jdbcDriverProperties: JdbcDriverProperties[];
   [k: string]: unknown;
 }
 export interface CreationError {
@@ -24,14 +29,30 @@ export interface CreationError {
   name: string;
   type: ImportOptions;
 }
-export interface DatabaseData {
+export interface DatabaseConnectionData {
+  connectionProperties: MapStringObject;
+  maxConnections: number;
+  name: string;
+}
+export interface MapStringObject {
+  [k: string]: unknown;
+}
+export interface DatabaseConnectionDeleteArgs {
+  connectionName: string;
   context: DatabaseEditorDataContext;
-  databaseNames: MapStringListString;
 }
 export interface DatabaseEditorDataContext {
   app: string;
   file: string;
   pmv: string;
+}
+export interface DatabaseConnectionSaveArgs {
+  context: DatabaseEditorDataContext;
+  data: DatabaseConnectionData;
+}
+export interface DatabaseData {
+  context: DatabaseEditorDataContext;
+  databaseNames: MapStringListString;
 }
 export interface MapStringListString {
   [k: string]: string[];
@@ -80,4 +101,8 @@ export interface DatabaseTableData {
 export interface DatabaseTableInfoData {
   connectionName: string;
   tables: DatabaseTable[];
+}
+export interface JdbcDriverProperties {
+  name: string;
+  properties: MapStringObject;
 }
