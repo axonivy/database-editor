@@ -12,12 +12,14 @@
     }
   },
   "database": {
-    "allConnections": "Alle Datenbank-Verbindungen",
+    "allConnections": "Datenbank-Verbindungen",
     "connenctionProperties": "Verbindungseigenschaften",
     "createNewConnection": "Neue Datenbank-Verbindung Erstellen",
     "databaseEditor": "Datenbank Editor",
+    "host": "__MISSING_TRANSLATION__",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
+    "port": "__MISSING_TRANSLATION__",
     "selectDatabase": "Wähle eine Datenbank aus",
     "selectDriver": "Wähle einen Datenbank-Treiber aus"
   },

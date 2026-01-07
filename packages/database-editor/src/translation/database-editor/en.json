@@ -10,12 +10,14 @@
     }
   },
   "database": {
-    "allConnections": "All Database Connections",
+    "allConnections": "Database Connections",
     "connenctionProperties": "Connection Properties",
     "createNewConnection": "Create new Database Connection",
     "databaseEditor": "Database Editor",
+    "host": "Host",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Connections",
+    "port": "Port",
     "selectDatabase": "Select a Database",
     "selectDriver": "Select a Database Driver"
   },
