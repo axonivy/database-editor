@@ -9,18 +9,17 @@
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
 
 export interface Database {
-  boolean: boolean;
   creationError: CreationError[];
-  databaseConnectionData: DatabaseConnectionData[];
-  databaseConnectionDeleteArgs: DatabaseConnectionDeleteArgs;
-  databaseConnectionSaveArgs: DatabaseConnectionSaveArgs;
+  databaseconfigs: Databaseconfigs;
   databaseData: DatabaseData;
   databaseEditorDataContext: DatabaseEditorDataContext;
   databaseEditorDBContext: DatabaseEditorDBContext;
+  databaseEditorSaveArgs: DatabaseEditorSaveArgs;
   databaseEditorTableContext: DatabaseEditorTableContext;
   databaseImportCreationArgs: DatabaseImportCreationArgs;
   databaseTableData: DatabaseTableData;
   databaseTableInfoData: DatabaseTableInfoData;
+  editorFileContent: EditorFileContent;
   jdbcDriverProperties: JdbcDriverProperties[];
   [k: string]: unknown;
 }
@@ -29,30 +28,31 @@ export interface CreationError {
   name: string;
   type: ImportOptions;
 }
-export interface DatabaseConnectionData {
-  connectionProperties: MapStringObject;
+export interface Databaseconfigs {
+  databaseConfigs: DatabaseConfig[];
+}
+export interface DatabaseConfig {
+  driver: string;
+  icon: string;
   maxConnections: number;
   name: string;
+  password: string;
+  properties: Property[];
+  url: string;
+  user: string;
 }
-export interface MapStringObject {
-  [k: string]: unknown;
+export interface Property {
+  name: string;
+  value: string;
 }
-export interface DatabaseConnectionDeleteArgs {
-  connectionName: string;
+export interface DatabaseData {
   context: DatabaseEditorDataContext;
+  databaseNames: MapStringListString;
 }
 export interface DatabaseEditorDataContext {
   app: string;
   file: string;
   pmv: string;
-}
-export interface DatabaseConnectionSaveArgs {
-  context: DatabaseEditorDataContext;
-  data: DatabaseConnectionData;
-}
-export interface DatabaseData {
-  context: DatabaseEditorDataContext;
-  databaseNames: MapStringListString;
 }
 export interface MapStringListString {
   [k: string]: string[];
@@ -63,6 +63,11 @@ export interface DatabaseEditorDBContext {
   file: string;
   pmv: string;
   tableNames: string[];
+}
+export interface DatabaseEditorSaveArgs {
+  context: DatabaseEditorDataContext;
+  data: Databaseconfigs;
+  directSave: boolean;
 }
 export interface DatabaseEditorTableContext {
   app: string;
@@ -102,7 +107,13 @@ export interface DatabaseTableInfoData {
   connectionName: string;
   tables: DatabaseTable[];
 }
+export interface EditorFileContent {
+  content: string;
+}
 export interface JdbcDriverProperties {
   name: string;
   properties: MapStringObject;
+}
+export interface MapStringObject {
+  [k: string]: unknown;
 }

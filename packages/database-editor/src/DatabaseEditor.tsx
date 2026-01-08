@@ -1,6 +1,6 @@
 import type { EditorProps } from '@axonivy/database-editor-protocol';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@axonivy/ui-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AppProvider } from './AppContext';
 import './DatabaseEditor.css';
 import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
@@ -9,14 +9,10 @@ import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMaster
 
 export const DatabaseEditor = (props: EditorProps) => {
   const [detail, setDetail] = useState(false);
-  const [context, setContext] = useState(props.context);
-
-  useEffect(() => {
-    setContext(props.context);
-  }, [props]);
+  const context = { file: props.context.file, app: props.context.app, pmv: props.context.projects[0] ?? '' };
 
   return (
-    <AppProvider projects={props.context.projects} context={{ file: context.file, app: context.app, pmv: context.projects[0] ?? '' }}>
+    <AppProvider projects={props.context.projects} context={context}>
       <ResizablePanelGroup direction='horizontal'>
         <ResizablePanel>
           <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />

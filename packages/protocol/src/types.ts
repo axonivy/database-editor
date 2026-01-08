@@ -1,15 +1,15 @@
 import type {
   CreationError,
-  DatabaseConnectionData,
-  DatabaseConnectionDeleteArgs,
-  DatabaseConnectionSaveArgs,
+  Databaseconfigs,
   DatabaseData,
   DatabaseEditorDataContext,
   DatabaseEditorDBContext,
+  DatabaseEditorSaveArgs,
   DatabaseEditorTableContext,
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
+  EditorFileContent,
   JdbcDriverProperties
 } from './editor';
 
@@ -32,28 +32,30 @@ export interface Disposable {
   dispose(): void;
 }
 
-export interface RequestTypes extends MetaRequestTypes {
-  data: [DatabaseEditorDataContext, DatabaseData];
-  databaseTableNames: [DatabaseEditorTableContext, DatabaseTableData];
-  databaseTableInfo: [DatabaseEditorDBContext, DatabaseTableInfoData];
-  databaseConnections: [DatabaseEditorDataContext, Array<DatabaseConnectionData>];
-  importFromDatabase: [DatabaseImportCreationArgs, Array<CreationError>];
-  saveDatabaseConnection: [DatabaseConnectionSaveArgs, boolean];
-  deleteDatabaseConnection: [DatabaseConnectionDeleteArgs, boolean];
+export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
+  data: [DatabaseEditorDataContext, Databaseconfigs];
+  save: [DatabaseEditorSaveArgs, EditorFileContent];
 }
 
 export interface Client {
-  data(context: DatabaseEditorDataContext): Promise<DatabaseData>;
-  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>>;
-  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>>;
-  onDataChanged: Event<void>;
-  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean>;
-  deleteDatabaseConnection(args: DatabaseConnectionDeleteArgs): Promise<boolean>;
+  data(context: DatabaseEditorDataContext): Promise<Databaseconfigs>;
+  save(args: DatabaseEditorSaveArgs): Promise<EditorFileContent>;
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]>;
+  functions<TFunction extends keyof FunctionRequestTypes>(
+    Path: TFunction,
+    args: FunctionRequestTypes[TFunction][0]
+  ): Promise<FunctionRequestTypes[TFunction][1]>;
+
+  onDataChanged: Event<void>;
+}
+
+export interface FunctionRequestTypes {
+  'function/importFromDatabase': [DatabaseImportCreationArgs, Array<CreationError>];
 }
 
 export interface MetaRequestTypes {
+  'meta/allDatabaseNames': [DatabaseEditorDataContext, DatabaseData];
   'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
   'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
   'meta/jdbcDrivers': [undefined, Array<JdbcDriverProperties>];

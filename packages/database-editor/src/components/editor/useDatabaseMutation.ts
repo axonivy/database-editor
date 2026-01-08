@@ -1,4 +1,4 @@
-import type { DatabaseConnectionData } from '@axonivy/database-editor-protocol';
+import type { Databaseconfigs } from '@axonivy/database-editor-protocol';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useAppContext } from '../../AppContext';
@@ -10,56 +10,35 @@ export const useDatabaseMutation = () => {
   const { context } = useAppContext();
   const client = useClient();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
-  const UNDEFINED_DB: DatabaseConnectionData = { name: '', connectionProperties: {}, maxConnections: 0 };
-  const { activeDb, setActiveDb } = useAppContext();
+  const { data, setData } = useAppContext();
 
-  const createConnection = (name: string) => {
-    const connection: DatabaseConnectionData = {
-      name,
-      maxConnections: 5,
-      connectionProperties: {
-        'Driver Class': jdbcDrivers?.at(0)?.name
-      }
-    };
-    setActiveDb(connection);
-    return saveFunction.mutate(connection);
+  const getData = () => {
+    dataQuery.refetch().then(result => setData(result.data));
+    return data;
   };
 
-  const databaseQuery = useQuery({
+  const dataQuery = useQuery({
     queryKey: useMemo(() => genQueryKey('databaseConnections', context), [context]),
     queryFn: async () => {
-      return await client.databaseConnections(context);
+      return await client.data(context);
     },
     structuralSharing: false
   });
 
-  const saveFunction = useMutation({
+  const saveQuery = useMutation({
     mutationKey: genQueryKey('saveDatabaseConnection', {
       context: context,
-      data: activeDb?.name ?? ''
+      data: data
     }),
-    mutationFn: (data: DatabaseConnectionData) =>
-      client.saveDatabaseConnection({
+    mutationFn: (data: Databaseconfigs) =>
+      client.save({
         context,
-        data
+        data,
+        directSave: true
       }),
-    onSuccess: () => databaseQuery.refetch(),
+    onSuccess: () => getData(),
     onError: error => console.log('error', error)
   });
 
-  const deleteFunction = useMutation({
-    mutationKey: genQueryKey('deleteDatabaseConnection', {
-      context: context,
-      connectionName: activeDb?.name ?? ''
-    }),
-    mutationFn: () =>
-      client.deleteDatabaseConnection({
-        context,
-        connectionName: activeDb?.name ?? ''
-      }),
-    onSuccess: () => databaseQuery.refetch(),
-    onError: error => console.log('error', error)
-  });
-
-  return { jdbcDrivers, UNDEFINED_DB, saveFunction, createConnection, deleteFunction, databaseQuery };
+  return { jdbcDrivers, dataQuery, saveQuery };
 };

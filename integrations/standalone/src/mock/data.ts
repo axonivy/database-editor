@@ -1,7 +1,7 @@
 import type {
   Database,
   DatabaseColumn,
-  DatabaseConnectionData,
+  Databaseconfigs,
   DatabaseData,
   DatabaseTable,
   DatabaseTableData,
@@ -97,32 +97,40 @@ export const mockError: Database['creationError'] = [
   }
 ];
 
-export const conenctions: Array<DatabaseConnectionData> = [
-  {
-    name: 'mock-connection-001',
-    maxConnections: 5,
-    connectionProperties: {
-      User: 'test',
-      'Database Name': 'mock-database-001',
-      Port: '3306',
-      Host: 'localhost',
-      'Driver Class': 'com.mysql.cj.jdbc.Driver',
-      Password: 'test'
+export const databaseconfigs: Databaseconfigs = {
+  databaseConfigs: [
+    {
+      properties: [],
+      name: 'TestDatabaseConnection-001',
+      url: 'jdbc:mysql://localhost:3306/TestDatabase001',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      user: 'test',
+      password: '${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}',
+      icon: '',
+      maxConnections: 1
+    },
+    {
+      properties: [],
+      name: 'TestDatabaseConnection-002',
+      url: 'jdbc:mysql://localhost:3307/TestDatabase002',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      user: 'test',
+      password: '${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}',
+      icon: '',
+      maxConnections: 2
+    },
+    {
+      properties: [],
+      name: 'TestDatabaseConnection-003',
+      url: 'jdbc:mysql://localhost:3307/TestDatabase002',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      user: 'test',
+      password: '${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}',
+      icon: '',
+      maxConnections: 2
     }
-  },
-  {
-    name: 'mock-connection-002',
-    maxConnections: 5,
-    connectionProperties: {
-      User: 'test',
-      'Database Name': 'mock-database-002',
-      Port: '3306',
-      Host: '9.9.9.9',
-      'Driver Class': 'com.mysql.cj.jdbc.Driver',
-      Password: 'test'
-    }
-  }
-];
+  ]
+};
 
 export const jdbcDrivers: Array<JdbcDriverProperties> = [
   {

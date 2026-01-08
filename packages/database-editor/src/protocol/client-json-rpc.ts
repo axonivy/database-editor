@@ -1,13 +1,11 @@
 import type {
   Client,
-  CreationError,
-  DatabaseConnectionData,
-  DatabaseConnectionDeleteArgs,
-  DatabaseConnectionSaveArgs,
-  DatabaseData,
+  Databaseconfigs,
   DatabaseEditorDataContext,
-  DatabaseImportCreationArgs,
+  DatabaseEditorSaveArgs,
+  EditorFileContent,
   Event,
+  FunctionRequestTypes,
   MetaRequestTypes,
   RequestTypes
 } from '@axonivy/database-editor-protocol';
@@ -21,26 +19,23 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     this.toDispose.push(this.onDataChangedEmitter);
   }
 
-  data(context: DatabaseEditorDataContext): Promise<DatabaseData> {
+  data(context: DatabaseEditorDataContext): Promise<Databaseconfigs> {
     return this.sendRequest('data', context);
   }
 
-  saveDatabaseConnection(args: DatabaseConnectionSaveArgs): Promise<boolean> {
-    return this.sendRequest('saveDatabaseConnection', args);
-  }
-  deleteDatabaseConnection(args: DatabaseConnectionDeleteArgs): Promise<boolean> {
-    return this.sendRequest('deleteDatabaseConnection', args);
-  }
-  databaseConnections(context: DatabaseEditorDataContext): Promise<Array<DatabaseConnectionData>> {
-    return this.sendRequest('databaseConnections', context);
+  save(args: DatabaseEditorSaveArgs): Promise<EditorFileContent> {
+    return this.sendRequest('save', args);
   }
 
   meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
     return this.sendRequest(path, args);
   }
 
-  importFromDatabase(args: DatabaseImportCreationArgs): Promise<Array<CreationError>> {
-    return this.sendRequest('importFromDatabase', args);
+  functions<TFunction extends keyof FunctionRequestTypes>(
+    path: TFunction,
+    args: FunctionRequestTypes[TFunction][0]
+  ): Promise<FunctionRequestTypes[TFunction][1]> {
+    return this.sendRequest(path, args);
   }
 
   sendRequest<K extends keyof RequestTypes>(command: K, args: RequestTypes[K][0]): Promise<RequestTypes[K][1]> {

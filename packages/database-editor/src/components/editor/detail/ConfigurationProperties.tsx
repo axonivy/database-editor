@@ -1,4 +1,4 @@
-import type { DatabaseConnectionData, JdbcDriverProperties } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfig, JdbcDriverProperties } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
   BasicInput,
@@ -14,41 +14,33 @@ import { useAppContext } from '../../../AppContext';
 import { useDatabaseMutation } from '../useDatabaseMutation';
 import './ConfigurationProperties.css';
 
+const UNDEFINED_DB: DatabaseConfig = {
+  name: 'UNDEFINED',
+  driver: '',
+  icon: '',
+  maxConnections: 0,
+  password: '',
+  properties: [],
+  url: '',
+  user: ''
+};
+
 export const ConfigurationProperties = () => {
   const { t } = useTranslation();
-  const { setActiveDb, activeDb } = useAppContext();
-  const { jdbcDrivers, saveFunction, UNDEFINED_DB } = useDatabaseMutation();
-  const jdbcDriver = jdbcDrivers?.filter(d => d.name === activeDb?.connectionProperties['Driver Class'])[0];
+  const { activeDb } = useAppContext();
+  const { jdbcDrivers } = useDatabaseMutation();
+  const jdbcDriver = jdbcDrivers?.filter(d => d.name === activeDb?.driver)[0];
   const jdbcProps = Object.keys(jdbcDriver?.properties ?? {});
-
-  const updateDb = (value: string, key: string) =>
-    setActiveDb(prev => {
-      const db = prev ?? UNDEFINED_DB;
-      const update: DatabaseConnectionData = {
-        name: db.name,
-        maxConnections: db.maxConnections,
-        connectionProperties: {
-          ...(db.connectionProperties ?? {})
-        }
-      };
-      if (key === 'maxConnections') {
-        update.maxConnections = Number(value);
-      } else {
-        update.connectionProperties[key] = value;
-      }
-      saveFunction.mutate(update);
-      return update;
-    });
 
   return (
     <Flex direction='column' gap={3} className='configuration-options'>
       {activeDb ? (
         <>
-          <GeneralCollapsible updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
+          <GeneralCollapsible updateDb={() => {}} jdbcDrivers={jdbcDrivers ?? []} />
           <PropertiesCollapsible
             jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
             jdbcProps={jdbcProps}
-            updateDb={updateDb}
+            updateDb={() => {}}
           />
         </>
       ) : (
@@ -78,7 +70,7 @@ const GeneralCollapsible = ({
                 value: d.name,
                 label: d.name
               }))}
-              value={activeDb?.connectionProperties['Driver Class'] as string}
+              value={activeDb?.driver}
               onValueChange={value => updateDb(value, 'Driver Class')}
             />
           </BasicField>
