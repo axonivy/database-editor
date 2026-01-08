@@ -1,7 +1,7 @@
 import type {
   Database,
   DatabaseColumn,
-  DatabaseConnectionData,
+  DatabaseConfigurations,
   DatabaseData,
   DatabaseTable,
   DatabaseTableData,
@@ -97,92 +97,126 @@ export const mockError: Database['creationError'] = [
   }
 ];
 
-export const conenctions: Array<DatabaseConnectionData> = [
-  {
-    name: 'mock-connection-001',
-    maxConnections: 5,
-    connectionProperties: {
-      User: 'test',
-      'Database Name': 'mock-database-001',
-      Port: '3306',
-      Host: 'localhost',
-      'Driver Class': 'com.mysql.cj.jdbc.Driver',
-      Password: 'test'
+export const databaseConnections: DatabaseConfigurations = {
+  connections: [
+    {
+      properties: {
+        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
+        'ch.ivyteam.jdbc.UserName': 'userName',
+        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.Port': '3306',
+        'ch.ivyteam.jdbc.Host': 'localhost',
+        'ch.ivyteam.jdbc.Password': 'password',
+        'ch.ivyteam.jdbc.ODBC': 'odbc'
+      },
+      additionalProperties: {
+        prop1: 'value1',
+        prop2: 'value2',
+        prop3: 'value3',
+        prop4: 'value4'
+      },
+      name: 'TestDatabaseConnection-001',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      icon: '',
+      maxConnections: 1
+    },
+    {
+      properties: {
+        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
+        'ch.ivyteam.jdbc.UserName': 'userName',
+        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.Port': '3306',
+        'ch.ivyteam.jdbc.Host': 'localhost',
+        'ch.ivyteam.jdbc.Password': 'password',
+        'ch.ivyteam.jdbc.ODBC': 'odbc'
+      },
+      additionalProperties: {},
+      name: 'TestDatabaseConnection-002',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      icon: '',
+      maxConnections: 1
+    },
+    {
+      properties: {
+        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
+        'ch.ivyteam.jdbc.UserName': 'userName',
+        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.Port': '3306',
+        'ch.ivyteam.jdbc.Host': 'localhost',
+        'ch.ivyteam.jdbc.Password': 'password',
+        'ch.ivyteam.jdbc.ODBC': 'odbc'
+      },
+      additionalProperties: {
+        prop1: 'value1',
+        prop2: 'value2',
+        prop3: 'value3',
+        prop4: 'value4'
+      },
+      name: 'TestDatabaseConnection-003',
+      driver: 'com.mysql.cj.jdbc.Driver',
+      icon: '',
+      maxConnections: 1
     }
-  },
-  {
-    name: 'mock-connection-002',
-    maxConnections: 5,
-    connectionProperties: {
-      User: 'test',
-      'Database Name': 'mock-database-002',
-      Port: '3306',
-      Host: '9.9.9.9',
-      'Driver Class': 'com.mysql.cj.jdbc.Driver',
-      Password: 'test'
-    }
-  }
-];
+  ]
+};
 
 export const jdbcDrivers: Array<JdbcDriverProperties> = [
   {
     name: 'com.mysql.cj.jdbc.Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
   },
   {
     name: 'org.mariadb.jdbc.Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number'
+    }
   },
   {
     name: 'net.sourceforge.jtds.jdbc.Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
   },
   {
     name: 'com.sybase.jdbc3.jdbc.SybDriver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
   },
   {
     name: 'com.ibm.db2.jcc.DB2Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
   },
   {
     name: 'com.microsoft.sqlserver.jdbc.SQLServerDriver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
-  },
-  {
-    name: 'net.sourceforge.jtds.jdbc.Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
-  },
-  {
-    name: 'com.inet.tds.TdsDriver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
-  },
-  { name: 'sun.jdbc.odbc.JdbcOdbcDriver', properties: { 'ODBC Name': 'string', User: 'string', Password: 'string' } },
-  {
-    name: 'oracle.jdbc.OracleDriver',
     properties: {
-      User: 'string',
-      'Oracle Service Name': 'string',
-      'Oracle Service ID (SID)': 'string',
-      Port: 'number',
-      Host: 'string',
-      'Oracle LDAP Name': 'string',
-      'Oracle LDAPS Name': 'string',
-      Password: 'string',
-      'Oracle TNS': 'string'
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
     }
-  },
-  { name: 'org.hsqldb.jdbc.JDBCDriver', properties: { User: 'string', 'Database Name': 'string', Password: 'string' } },
-  {
-    name: 'org.hsqldb.jdbc.JDBCDriver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
-  },
-  {
-    name: 'com.ibm.as400.access.AS400JDBCDriver',
-    properties: { User: 'string', Port: 'number', Schema: 'string', Host: 'string', Password: 'string' }
-  },
-  {
-    name: 'org.postgresql.Driver',
-    properties: { User: 'string', 'Database Name': 'string', Port: 'number', Host: 'string', Password: 'string' }
   }
 ];

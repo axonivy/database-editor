@@ -16,18 +16,14 @@ test.describe('detail view', () => {
   test('configuration elements', async () => {
     await expect(detailView.locator).toBeVisible();
     await expect(detailView.title).toHaveText('Connection Properties');
-    await expect(detailView.collapsibles).toHaveCount(2);
   });
 
   test('inputs', async () => {
-    const general = detailView.collapsibles.getByText('General');
-    const properties = detailView.collapsibles.getByText('Properties');
-
-    await expect(general).toBeVisible();
-    await expect(properties).toBeVisible();
+    await expect(detailView.collapsibles).toHaveCount(3);
 
     const generalInputs = detailView.collapsibles.nth(0).locator('.ui-field');
     const propertiesInputs = detailView.collapsibles.nth(1).locator('.ui-field');
+    const additionalInputs = detailView.collapsibles.nth(2).locator('.ui-table-row');
 
     await expect(generalInputs).toHaveCount(2);
     await expect(generalInputs.getByText('Jdbc Driver')).toBeVisible();
@@ -39,14 +35,18 @@ test.describe('detail view', () => {
     await expect(propertiesInputs.getByText('Port')).toBeVisible();
     await expect(propertiesInputs.getByText('Host')).toBeVisible();
     await expect(propertiesInputs.getByText('Password')).toBeVisible();
+
+    await expect(additionalInputs).toHaveCount(0);
+    await detailView.collapsibles.nth(2).click();
+    await expect(additionalInputs).toHaveCount(5);
   });
 
   test('switch driver', async () => {
     const driver = detailView.locator.getByRole('combobox');
     await expect(driver).toHaveText('com.mysql.cj.jdbc.Driver');
     await driver.click();
-    await editor.locator.getByText('sun.jdbc.odbc.JdbcOdbcDriver').click();
-    await expect(driver).toHaveText('sun.jdbc.odbc.JdbcOdbcDriver');
+    await editor.locator.getByText('org.mariadb.jdbc.Driver').click();
+    await expect(driver).toHaveText('org.mariadb.jdbc.Driver');
     await expect(detailView.collapsibles.nth(1).locator('.ui-field')).toHaveCount(3);
   });
 });

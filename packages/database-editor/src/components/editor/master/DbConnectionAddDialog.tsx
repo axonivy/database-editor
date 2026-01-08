@@ -1,8 +1,10 @@
+import { UNDEFINED_CONNECTION, type DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { BasicDialogContent, BasicField, BasicInput, Button, Dialog, DialogContent, DialogTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDatabaseMutation } from '../useDatabaseMutation';
+import { useAppContext } from '../../../AppContext';
+import { useMeta } from '../../../protocol/use-meta';
 
 export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpen: (state: boolean) => void }) => {
   return (
@@ -18,9 +20,25 @@ export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpe
 };
 
 const AddConnectionDialog = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
-  const { createConnection } = useDatabaseMutation();
   const [name, setName] = useState('');
+  const { data, setData } = useAppContext();
   const { t } = useTranslation();
+  const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
+
+  const addConfig = () => {
+    if (!data) {
+      return;
+    }
+    const newConnection: DatabaseConfigurationData = {
+      ...UNDEFINED_CONNECTION
+    };
+    newConnection.driver = jdbcDrivers?.at(0)?.name ?? '';
+    newConnection.name = name;
+    const update = { ...data };
+    update.connections?.push(newConnection);
+    setData(update);
+  };
+
   return (
     <BasicDialogContent
       title={t('database.createNewConnection')}
@@ -35,7 +53,7 @@ const AddConnectionDialog = ({ setOpen }: { setOpen: (state: boolean) => void })
           disabled={name.trim() === ''}
           variant='primary'
           onClick={() => {
-            createConnection(name);
+            addConfig();
             setOpen(false);
           }}
         >
