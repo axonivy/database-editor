@@ -65,9 +65,11 @@ export const DatabaseEditor = (props: EditorProps) => {
   return (
     <AppProvider projects={props.context.projects} context={context} data={data} setData={setData.mutate}>
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
-        <ResizablePanel id='main' defaultSize='50%' minSize='30%' className='database-editor-main-panel'>
-          <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />
-          <DatabaseMasterContent setDetail={setDetail} />
+        <ResizablePanel id='main' defaultSize='75%' minSize='50%' className='database-editor-main-panel'>
+          <Flex direction='column' className='database-editor-panel-content'>
+            <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />
+            <DatabaseMasterContent detail={detail} setDetail={setDetail} />
+          </Flex>
         </ResizablePanel>
         {detail && (
           <>

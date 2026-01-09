@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
-import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
+import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
+import type { ImportDialog } from '../../../pageobjects/main/import-wizard/ImportDialog';
 
 test.describe('import wizard', () => {
   let editor: DatabaseEditor;
@@ -8,7 +8,7 @@ test.describe('import wizard', () => {
 
   test.beforeEach(async ({ page }) => {
     editor = await DatabaseEditor.openMock(page);
-    importDialog = editor.importDialog;
+    importDialog = editor.main.control.importDialog;
   });
 
   test('opening behaviour', async () => {
