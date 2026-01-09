@@ -7,8 +7,7 @@ let detailView: DetailView;
 
 test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
-  await editor.main.toolbar.detailButton.click();
-  await editor.locator.locator('.selection-list-button-text').first().click();
+  await editor.main.table.row(0).locator.click();
   detailView = editor.detailView;
 });
 

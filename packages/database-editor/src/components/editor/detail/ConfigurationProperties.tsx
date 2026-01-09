@@ -1,4 +1,4 @@
-import { UNDEFINED_CONNECTION, type DatabaseConfigurationData, type DatabaseConfigurations } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { Flex, Message } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
@@ -10,53 +10,36 @@ import { PropertyCollapsible } from './PropertyCollapsible';
 
 export const ConfigurationProperties = () => {
   const { t } = useTranslation();
-  const { activeDb, setActiveDb, data, setData } = useAppContext();
+  const { databaseConfigs, setData, selectedDatabase } = useAppContext();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
-  const jdbcDriver = jdbcDrivers?.filter(d => d.name === activeDb?.driver)[0];
+
+  const databaseConfig = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
+  if (!databaseConfig) {
+    return <Message variant='info'>{t('database.selectDatabase')}</Message>;
+  }
+
+  const jdbcDriver = jdbcDrivers?.find(driver => driver.name === databaseConfig.driver);
   const jdbcProps = Object.keys(jdbcDriver?.properties ?? {});
 
-  const updateData = (update: DatabaseConfigurationData) => {
-    const updateData: DatabaseConfigurations = { connections: data?.connections ?? [], ...data };
-    const index = updateData.connections.findIndex(c => c.name === update.name);
-    updateData.connections[index] = update;
-    setData(updateData);
-  };
-
-  const updateDb = (key: string, value: string) => {
-    setActiveDb(prev => {
-      if (!prev) return prev;
-      let update: DatabaseConfigurationData;
-      if (key in UNDEFINED_CONNECTION) {
-        update = { ...prev, [key]: value };
-      } else {
-        update = {
-          ...prev,
-          properties: {
-            ...prev.properties,
-            [key]: value
-          }
-        };
-      }
-      updateData(update);
-      return update;
-    });
+  const updateDb = (propertyUpdater: (database: DatabaseConfigurationData) => void) => {
+    if (selectedDatabase === undefined) return;
+    const updateData = structuredClone(databaseConfigs);
+    const updateDatabase = updateData[selectedDatabase];
+    if (!updateDatabase) return;
+    propertyUpdater(updateDatabase);
+    setData({ connections: updateData });
   };
 
   return (
     <Flex direction='column' gap={3} className='configuration-options'>
-      {activeDb ? (
-        <>
-          <GeneralCollapsible updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
-          <PropertyCollapsible
-            jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
-            jdbcProps={jdbcProps}
-            updateDb={updateDb}
-          />
-          <AdditionalCollapsible updateData={updateData} />
-        </>
-      ) : (
-        <Message variant='info'>{t('database.selectDatabase')}</Message>
-      )}
+      <GeneralCollapsible activeDb={databaseConfig} updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
+      <PropertyCollapsible
+        activeDb={databaseConfig}
+        jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
+        jdbcProps={jdbcProps}
+        updateDb={updateDb}
+      />
+      <AdditionalCollapsible activeDb={databaseConfig} updateDb={updateDb} />
     </Flex>
   );
 };
