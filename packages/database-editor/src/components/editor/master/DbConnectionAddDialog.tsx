@@ -2,7 +2,6 @@ import { BasicDialogContent, BasicField, BasicInput, Button, Dialog, DialogConte
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDatabaseMutation } from '../useDatabaseMutation';
 
 export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpen: (state: boolean) => void }) => {
   return (
@@ -18,7 +17,6 @@ export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpe
 };
 
 const AddConnectionDialog = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
-  const { createConnection } = useDatabaseMutation();
   const [name, setName] = useState('');
   const { t } = useTranslation();
   return (
@@ -35,7 +33,6 @@ const AddConnectionDialog = ({ setOpen }: { setOpen: (state: boolean) => void })
           disabled={name.trim() === ''}
           variant='primary'
           onClick={() => {
-            createConnection(name);
             setOpen(false);
           }}
         >

@@ -1,3 +1,4 @@
+import type { Databaseconfigs } from '@axonivy/database-editor-protocol';
 import { BasicField, Button, Flex, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
@@ -32,7 +33,7 @@ export const DatabaseMasterContent = ({ setDetail }: { setDetail: (state: boolea
 };
 
 const DbConnectionControls = () => {
-  const { context, projects, setActiveDb } = useAppContext();
+  const { context, projects, setActiveDb, activeDb, setData, data } = useAppContext();
   const [addDialog, setAddDialog] = useState(false);
   const { t } = useTranslation();
   return (
@@ -41,6 +42,10 @@ const DbConnectionControls = () => {
       <Button
         icon={IvyIcons.Trash}
         onClick={() => {
+          if (!data) return;
+          const update: Databaseconfigs = { ...data };
+          update.databaseConfigs = update.databaseConfigs.filter(c => c.name !== activeDb?.name);
+          setData(update);
           setActiveDb(undefined);
         }}
       ></Button>

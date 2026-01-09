@@ -1,4 +1,4 @@
-import type { DatabaseConfig, JdbcDriverProperties } from '@axonivy/database-editor-protocol';
+import type { JdbcDriverProperties } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
   BasicInput,
@@ -11,24 +11,11 @@ import {
 } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
-import { useDatabaseMutation } from '../useDatabaseMutation';
 import './ConfigurationProperties.css';
-
-const UNDEFINED_DB: DatabaseConfig = {
-  name: 'UNDEFINED',
-  driver: '',
-  icon: '',
-  maxConnections: 0,
-  password: '',
-  properties: [],
-  url: '',
-  user: ''
-};
 
 export const ConfigurationProperties = () => {
   const { t } = useTranslation();
-  const { activeDb } = useAppContext();
-  const { jdbcDrivers } = useDatabaseMutation();
+  const { jdbcDrivers, activeDb } = useAppContext();
   const jdbcDriver = jdbcDrivers?.filter(d => d.name === activeDb?.driver)[0];
   const jdbcProps = Object.keys(jdbcDriver?.properties ?? {});
 
@@ -98,6 +85,8 @@ const PropertiesCollapsible = ({
 }) => {
   const { activeDb } = useAppContext();
   const { t } = useTranslation();
+  console.log(activeDb);
+  console.log(jdbcDriver);
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.properties')}</CollapsibleTrigger>
@@ -108,7 +97,7 @@ const PropertiesCollapsible = ({
               <BasicInput
                 type={jdbcDriver?.properties[k] == 'number' ? 'number' : 'text'}
                 onChange={event => updateDb(event.target.value, k)}
-                value={(activeDb?.connectionProperties[k] as string) ?? ''}
+                value={(activeDb?.properties[k] as string) ?? ''}
               />
             </BasicField>
           ))}

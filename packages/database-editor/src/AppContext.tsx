@@ -1,8 +1,12 @@
-import { type DatabaseConfig, type Databaseconfigs, type DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { useQuery } from '@tanstack/react-query';
-import { createContext, useContext, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
-import { useClient } from './protocol/ClientContextProvider';
-import { genQueryKey } from './query/query-client';
+import {
+  type DatabaseConfig,
+  type Databaseconfigs,
+  type DatabaseEditorContext,
+  type EditorFileContent,
+  type JdbcDriverProperties
+} from '@axonivy/database-editor-protocol';
+import type { UseMutateFunction } from '@tanstack/react-query';
+import { createContext, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 
 type AppContext = {
   context: DatabaseEditorContext;
@@ -10,33 +14,32 @@ type AppContext = {
   setActiveDb: Dispatch<SetStateAction<DatabaseConfig | undefined>>;
   projects: Array<string>;
   data: Databaseconfigs | undefined;
-  setData: Dispatch<SetStateAction<Databaseconfigs | undefined>>;
+  setData: UseMutateFunction<EditorFileContent, Error, Databaseconfigs, unknown>;
+  jdbcDrivers: Array<JdbcDriverProperties>;
 };
 
 const AppContext = createContext<AppContext | undefined>(undefined);
 
 export function AppProvider({
   context,
+  data,
+  setData,
   projects,
-  children
+  children,
+  jdbcDrivers
 }: {
   context: DatabaseEditorContext;
   projects: Array<string>;
   children: ReactNode;
+  data: Databaseconfigs;
+  setData: UseMutateFunction<EditorFileContent, Error, Databaseconfigs, unknown>;
+  jdbcDrivers: Array<JdbcDriverProperties>;
 }) {
-  const client = useClient();
-
-  const dataQuery = useQuery({
-    queryKey: useMemo(() => genQueryKey('databaseConnections', context), [context]),
-    queryFn: async () => {
-      return await client.data(context);
-    },
-    structuralSharing: false
-  });
-
   const [activeDb, setActiveDb] = useState<DatabaseConfig>();
-  const [data, setData] = useState<Databaseconfigs | undefined>(dataQuery.data);
-  return <AppContext.Provider value={{ context, activeDb, setActiveDb, data, setData, projects }}>{children}</AppContext.Provider>;
+
+  return (
+    <AppContext.Provider value={{ context, activeDb, setActiveDb, data, setData, projects, jdbcDrivers }}>{children}</AppContext.Provider>
+  );
 }
 
 export function useAppContext(): AppContext {

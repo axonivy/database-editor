@@ -13,7 +13,7 @@ import type {
   MetaRequestTypes
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
-import { creationError, databases, databaseTableData, databaseTableInfoData, jdbcDrivers, mockError } from './data';
+import { creationError, databaseconfigs, databases, databaseTableData, databaseTableInfoData, jdbcDrivers, mockError } from './data';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
@@ -22,9 +22,10 @@ export class DatabaseClientMock implements Client {
   private creationError: CreationError[] = creationError;
   private mockError: CreationError[] = mockError;
   private jdbcDrivers: Array<JdbcDriverProperties> = jdbcDrivers;
+  private databaseconfigs: Databaseconfigs = databaseconfigs;
 
   data(): Promise<Databaseconfigs> {
-    return Promise.resolve({ databaseConfigs: [] });
+    return Promise.resolve(this.databaseconfigs);
   }
 
   save(): Promise<EditorFileContent> {

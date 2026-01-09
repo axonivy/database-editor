@@ -1,9 +1,7 @@
 import { BasicField, Field, Flex, Label, Switch } from '@axonivy/ui-components';
-import { useQuery } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useClient } from '../../../protocol/ClientContextProvider';
-import { genQueryKey } from '../../../query/query-client';
+import { useMeta } from '../../../protocol/use-meta';
 import { useContextProvider } from '../../../util/ContextProvider';
 import { DatabaseSelection } from '../components/DatabaseSelection';
 import { ProjectSelection } from '../components/ProjectSelection';
@@ -19,17 +17,8 @@ export type DataSourcePageProps = {
 export const DataSourcePage = ({ selection, updateSelection, projects, pmvUpdateCallback }: DataSourcePageProps) => {
   const { context, updatePmv } = useContextProvider();
   const { t } = useTranslation();
-  const client = useClient();
   const [showAll, setShowAll] = useState(false);
-
-  const databaseQuery = useQuery({
-    queryKey: useMemo(() => genQueryKey('data', context), [context]),
-    queryFn: async () => {
-      const content = await client.data(context);
-      return { ...content };
-    },
-    structuralSharing: false
-  });
+  const databaseQuery = useMeta('meta/allDatabaseNames', context);
 
   const requiredProjectToggle = (
     <Field direction='row' alignItems='center' gap={2}>
