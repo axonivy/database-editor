@@ -1,10 +1,11 @@
 import { ClientContextProvider, DatabaseEditor, initQueryClient, QueryProvider } from '@axonivy/database-editor';
-import { ThemeProvider, Toaster } from '@axonivy/ui-components';
+import { ReadonlyProvider, ThemeProvider, Toaster } from '@axonivy/ui-components';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initTranslation } from './i18n';
 import './index.css';
 import { DatabaseClientMock } from './mock/database-client-mock';
+import { readonlyParam } from './url-helper';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -13,6 +14,8 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 const client = new DatabaseClientMock();
 const queryClient = initQueryClient();
+
+const readonly = readonlyParam();
 initTranslation();
 
 root.render(
@@ -20,7 +23,9 @@ root.render(
     <ThemeProvider defaultTheme={'light'}>
       <ClientContextProvider client={client}>
         <QueryProvider client={queryClient}>
-          <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
+          <ReadonlyProvider readonly={readonly}>
+            <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
+          </ReadonlyProvider>
         </QueryProvider>
       </ClientContextProvider>
       <Toaster closeButton={true} position='bottom-left' />

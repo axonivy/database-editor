@@ -6,7 +6,8 @@
       "details": "Details",
       "general": "General",
       "name": "Name",
-      "properties": "Properties"
+      "properties": "Properties",
+      "url": "URL"
     }
   },
   "database": {

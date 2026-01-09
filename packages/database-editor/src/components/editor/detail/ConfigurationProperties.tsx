@@ -97,7 +97,7 @@ const PropertiesCollapsible = ({
               <BasicInput
                 type={jdbcDriver?.properties[k] == 'number' ? 'number' : 'text'}
                 onChange={event => updateDb(event.target.value, k)}
-                value={(activeDb?.properties[k] as string) ?? ''}
+                value={(activeDb?.properties.find(p => p.name === k)?.value as string) ?? ''}
               />
             </BasicField>
           ))}
