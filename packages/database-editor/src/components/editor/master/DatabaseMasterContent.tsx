@@ -1,36 +1,42 @@
-import type { DatabaseConfig, Databaseconfigs } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfig } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
-  Button,
   Flex,
   SelectRow,
-  Separator,
   SortableHeader,
   Table,
   TableBody,
   TableCell,
   TableResizableHeader,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
   useReadonly,
   useTableKeyHandler,
+  useTableSelect,
   useTableSort
 } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
-import { ImportWizard } from '../../ImportWizard/ImportWizard';
 import './DatabaseMasterContent.css';
-import { DbConnectionAddDialog } from './DbConnectionAddDialog';
+import { MasterControl } from './MasterControl';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
-  const { data } = useAppContext();
+  const { databaseConfigs, setSelectedDatabase } = useAppContext();
 
+  const selection = useTableSelect<DatabaseConfig>({
+    onSelect: selectedRows => {
+      const selectedRowId = Object.keys(selectedRows).find(key => selectedRows[key]);
+      if (selectedRowId === undefined) {
+        setSelectedDatabase(undefined);
+        return;
+      }
+      const selectedDatabase = table.getRowModel().flatRows.find(row => row.id === selectedRowId)?.index;
+      if (selectedDatabase !== undefined) {
+        setSelectedDatabase(selectedDatabase);
+      }
+    }
+  });
   const sort = useTableSort();
 
   const columns = useMemo<Array<ColumnDef<DatabaseConfig, string>>>(
@@ -55,13 +61,14 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
     [t]
   );
 
-  const databaseConfigs = data?.databaseConfigs ?? [];
   const table = useReactTable({
+    ...selection.options,
     ...sort.options,
     data: databaseConfigs,
     columns,
     getCoreRowModel: getCoreRowModel(),
     state: {
+      ...selection.tableState,
       ...sort.tableState
     }
   });
@@ -74,7 +81,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
     <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content'>
       <BasicField
         label={t('database.allConnections')}
-        control={!readonly && <DbConnectionControls />}
+        control={!readonly && <MasterControl table={table} />}
         onClick={event => event.stopPropagation()}
         className='database-editor-table-field'
       >
@@ -91,39 +98,6 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
           </TableBody>
         </Table>
       </BasicField>
-    </Flex>
-  );
-};
-
-const DbConnectionControls = () => {
-  const { context, projects, setActiveDb, activeDb, setData, data } = useAppContext();
-  const [addDialog, setAddDialog] = useState(false);
-  const { t } = useTranslation();
-  return (
-    <Flex direction='row' gap={2} className='database-editor-main-control'>
-      <DbConnectionAddDialog open={addDialog} setOpen={setAddDialog} />
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <Button
-        icon={IvyIcons.Trash}
-        onClick={() => {
-          if (!data) return;
-          const update: Databaseconfigs = { ...data };
-          update.databaseConfigs = update.databaseConfigs.filter(c => c.name !== activeDb?.name);
-          setData(update);
-          setActiveDb(undefined);
-        }}
-      />
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
-          <ImportWizard context={{ file: context.file, app: context.app, projects }}>
-            <TooltipTrigger asChild>
-              <Button aria-label={t('import.generate')} icon={IvyIcons.SettingsCog} />
-            </TooltipTrigger>
-          </ImportWizard>
-        </Tooltip>
-      </TooltipProvider>
     </Flex>
   );
 };

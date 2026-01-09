@@ -1,4 +1,4 @@
-import type { JdbcDriverProperties } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfig, JdbcDriverProperties } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
   BasicInput,
@@ -15,37 +15,37 @@ import './ConfigurationProperties.css';
 
 export const ConfigurationProperties = () => {
   const { t } = useTranslation();
-  const { jdbcDrivers, activeDb } = useAppContext();
-  const jdbcDriver = jdbcDrivers?.filter(d => d.name === activeDb?.driver)[0];
+  const { jdbcDrivers, databaseConfigs, selectedDatabase } = useAppContext();
+
+  const databaseConfig = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
+  if (!databaseConfig) {
+    return <Message variant='info'>{t('database.selectDatabase')}</Message>;
+  }
+
+  const jdbcDriver = jdbcDrivers.find(driver => driver.name === databaseConfig.driver);
   const jdbcProps = Object.keys(jdbcDriver?.properties ?? {});
 
   return (
     <Flex direction='column' gap={3} className='configuration-options'>
-      {activeDb ? (
-        <>
-          <GeneralCollapsible updateDb={() => {}} jdbcDrivers={jdbcDrivers ?? []} />
-          <PropertiesCollapsible
-            jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
-            jdbcProps={jdbcProps}
-            updateDb={() => {}}
-          />
-        </>
-      ) : (
-        <Message variant='info'>{t('database.selectDatabase')}</Message>
-      )}
+      <GeneralCollapsible databaseConfig={databaseConfig} updateDb={() => {}} jdbcDrivers={jdbcDrivers ?? []} />
+      <PropertiesCollapsible
+        databaseConfig={databaseConfig}
+        jdbcDriver={jdbcDriver ?? { name: 'unknown driver', properties: {} }}
+        jdbcProps={jdbcProps}
+        updateDb={() => {}}
+      />
     </Flex>
   );
 };
 
-const GeneralCollapsible = ({
-  updateDb,
-  jdbcDrivers
-}: {
+type GeneralCollapsibleProps = {
+  databaseConfig: DatabaseConfig;
   updateDb: (value: string, key: string) => void;
   jdbcDrivers: Array<JdbcDriverProperties>;
-}) => {
+};
+
+const GeneralCollapsible = ({ databaseConfig, updateDb, jdbcDrivers }: GeneralCollapsibleProps) => {
   const { t } = useTranslation();
-  const { activeDb } = useAppContext();
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.general')}</CollapsibleTrigger>
@@ -57,14 +57,14 @@ const GeneralCollapsible = ({
                 value: d.name,
                 label: d.name
               }))}
-              value={activeDb?.driver}
+              value={databaseConfig.driver}
               onValueChange={value => updateDb(value, 'Driver Class')}
             />
           </BasicField>
           <BasicField label={t('database.maxConnections')}>
             <BasicInput
               type='number'
-              value={activeDb?.maxConnections ?? 0}
+              value={databaseConfig.maxConnections ?? 0}
               onChange={value => updateDb(value.target.value, 'maxConnections')}
             />
           </BasicField>
@@ -74,19 +74,15 @@ const GeneralCollapsible = ({
   );
 };
 
-const PropertiesCollapsible = ({
-  jdbcProps,
-  jdbcDriver,
-  updateDb
-}: {
+type PropertiesCollapsibleProps = {
+  databaseConfig: DatabaseConfig;
   jdbcProps: Array<string>;
   jdbcDriver: JdbcDriverProperties;
   updateDb: (value: string, key: string) => void;
-}) => {
-  const { activeDb } = useAppContext();
+};
+
+const PropertiesCollapsible = ({ databaseConfig, jdbcProps, jdbcDriver, updateDb }: PropertiesCollapsibleProps) => {
   const { t } = useTranslation();
-  console.log(activeDb);
-  console.log(jdbcDriver);
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.properties')}</CollapsibleTrigger>
@@ -95,9 +91,9 @@ const PropertiesCollapsible = ({
           {jdbcProps.map(k => (
             <BasicField key={k} label={k}>
               <BasicInput
-                type={jdbcDriver?.properties[k] == 'number' ? 'number' : 'text'}
+                type={jdbcDriver.properties[k] == 'number' ? 'number' : 'text'}
                 onChange={event => updateDb(event.target.value, k)}
-                value={(activeDb?.properties.find(p => p.name === k)?.value as string) ?? ''}
+                value={(databaseConfig.properties.find(p => p.name === k)?.value as string) ?? ''}
               />
             </BasicField>
           ))}

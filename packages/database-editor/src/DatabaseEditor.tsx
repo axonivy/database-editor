@@ -14,8 +14,11 @@ import { useMeta } from './protocol/use-meta';
 import { genQueryKey } from './query/query-client';
 
 export const DatabaseEditor = (props: EditorProps) => {
-  const [detail, setDetail] = useState(true);
   const { t } = useTranslation();
+  const [detail, setDetail] = useState(true);
+
+  const [selectedDatabase, setSelectedDatabase] = useState<number>();
+
   const context = useMemo(
     () => ({
       file: props.context.file,
@@ -70,7 +73,17 @@ export const DatabaseEditor = (props: EditorProps) => {
   }
 
   return (
-    <AppProvider projects={props.context.projects} context={context} data={data} setData={setData.mutate} jdbcDrivers={jdbcDrivers.data}>
+    <AppProvider
+      value={{
+        projects: props.context.projects,
+        context: context,
+        databaseConfigs: data.databaseConfigs,
+        setData: setData.mutate,
+        jdbcDrivers: jdbcDrivers.data,
+        selectedDatabase: selectedDatabase,
+        setSelectedDatabase: setSelectedDatabase
+      }}
+    >
       <ResizablePanelGroup direction='horizontal'>
         <ResizablePanel defaultSize={75} minSize={50} className='database-editor-main-panel'>
           <Flex direction='column' className='database-editor-panel-content'>
