@@ -1,17 +1,15 @@
 import { UNDEFINED_CONNECTION, type DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { BasicDialogContent, BasicField, BasicInput, Button, Dialog, DialogContent, DialogTrigger } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 
-export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpen: (state: boolean) => void }) => {
+export const DbConnectionAddDialog = ({ children }: { children: ReactNode }) => {
+  const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button icon={IvyIcons.Plus} />
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <AddConnectionDialog setOpen={setOpen} />
       </DialogContent>

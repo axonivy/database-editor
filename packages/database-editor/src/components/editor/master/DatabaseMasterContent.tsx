@@ -18,7 +18,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import './DatabaseMasterContent.css';
-import { MasterControl } from './MasterControl';
+import { EmptyMasterControl, MasterControl } from './MasterControl';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
@@ -71,6 +71,10 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   });
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
+
+  if (databaseConfigs.length === 0) {
+    return <EmptyMasterControl />;
+  }
 
   return (
     <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content'>
