@@ -73,7 +73,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
 
   if (databaseConfigs.length === 0) {
-    return <EmptyMasterControl />;
+    return <EmptyMasterControl table={table} />;
   }
 
   return (

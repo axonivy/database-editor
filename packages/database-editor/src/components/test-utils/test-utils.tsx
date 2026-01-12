@@ -1,9 +1,11 @@
-import type { Client, DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { Client, DatabaseConfigurationData, DatabaseConfigurations, DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { Unary } from '@axonivy/ui-components';
 import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import i18n from 'i18next';
 import type { ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
+import { AppProvider } from '../../AppContext';
 import { ClientContextProvider } from '../../protocol/ClientContextProvider';
 import { initQueryClient } from '../../query/query-client';
 import { QueryProvider } from '../../query/QueryProvider';
@@ -13,6 +15,11 @@ type ContextHelperProps = {
   client?: Partial<Client>;
   appContext?: {
     context?: DatabaseEditorContext;
+    selectedDatabase?: number;
+    setSelectedDatabase?: (index?: number) => void;
+    projects?: Array<string>;
+    databaseConfigs?: Array<DatabaseConfigurationData>;
+    setData?: (data: Unary<DatabaseConfigurations>) => void;
   };
 };
 
@@ -31,10 +38,21 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   const client = (props.client ?? new EmptyClient()) as Client;
   initTranslation();
 
+  const appContext = {
+    context: props.appContext?.context ?? { app: '', pmv: '', file: '' },
+    selectedDatabase: props.appContext?.selectedDatabase,
+    setSelectedDatabase: props.appContext?.setSelectedDatabase ?? (() => {}),
+    projects: props.appContext?.projects ?? [],
+    databaseConfigs: props.appContext?.databaseConfigs ?? [],
+    setData: props.appContext?.setData ?? (() => {})
+  };
+
   return (
-    <ClientContextProvider client={client}>
-      <QueryProvider client={initQueryClient()}>{props.children}</QueryProvider>
-    </ClientContextProvider>
+    <AppProvider value={appContext}>
+      <ClientContextProvider client={client}>
+        <QueryProvider client={initQueryClient()}>{props.children}</QueryProvider>
+      </ClientContextProvider>
+    </AppProvider>
   );
 };
 
