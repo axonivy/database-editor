@@ -13,8 +13,9 @@
   "database": {
     "allConnections": "All Database Connections",
     "connenctionProperties": "Connection Properties",
-    "createNewConnection": "Create new Database Connection",
+    "createNewConnection": "Add Database Connection",
     "databaseEditor": "Database Editor",
+    "deleteConnection": "Delete Database Connection",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Connections",
     "selectDatabase": "Select a Database"
@@ -57,5 +58,8 @@
     "tableSelection": "Your selection",
     "tableSelectionPlaceholder": "You have not yet selected a table. Click on one to select it.",
     "type": "Type"
+  },
+  "main": {
+    "addFirstDbConnection": "Add your first Database Connection to get started"
   }
 }
