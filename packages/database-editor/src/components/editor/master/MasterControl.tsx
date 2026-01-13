@@ -43,11 +43,6 @@ export const EmptyMasterControl = () => {
               {t('database.createNewConnection')}
             </Button>
           </DbConnectionAddDialog>
-          <ImportWizard>
-            <Button size='large' variant='primary' icon={IvyIcons.SettingsCog} aria-label={t('import.generate')}>
-              {t('import.generate')}
-            </Button>
-          </ImportWizard>
         </Flex>
       </PanelMessage>
     </Flex>

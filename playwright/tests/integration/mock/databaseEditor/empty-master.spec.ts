@@ -20,8 +20,4 @@ test('empty', async () => {
 
   await editor.main.locator.getByRole('button', { name: 'Add Database Connection' }).click();
   await expect(editor.main.control.add.locator).toBeVisible();
-
-  await editor.main.control.add.cancel.click();
-  await editor.main.locator.getByRole('button', { name: 'Generate' }).click();
-  await expect(editor.main.control.importDialog.locator).toBeVisible();
 });
