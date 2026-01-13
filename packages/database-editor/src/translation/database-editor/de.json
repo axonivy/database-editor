@@ -3,7 +3,9 @@
     "hotkey": {
       "focusInscription": "Fokus Inskription ({{hotkey}})",
       "focusMain": "Fokus Main ({{hotkey}})",
-      "focusToolbar": "Fokus Toolbar ({{hotkey}})"
+      "focusToolbar": "Fokus Toolbar ({{hotkey}})",
+      "redo": "Wiederholen ({{hotkey}})",
+      "undo": "Rückgängig ({{hotkey}})"
     },
     "label": {
       "cancel": "Abbrechen",

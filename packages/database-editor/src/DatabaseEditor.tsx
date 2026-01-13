@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   Spinner,
   useDefaultLayout,
+  useHistoryData,
   type Unary
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -27,6 +28,8 @@ export const DatabaseEditor = (props: EditorProps) => {
   const { t } = useTranslation();
 
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
+
+  const history = useHistoryData<DatabaseConfigurations>();
 
   const context = useMemo<DatabaseEditorContext>(
     () => ({
@@ -51,6 +54,7 @@ export const DatabaseEditor = (props: EditorProps) => {
     queryKey: queryKeys.data(context),
     queryFn: async () => {
       const data = await client.data(context);
+      history.push(data);
       return data;
     },
     structuralSharing: false
@@ -96,7 +100,8 @@ export const DatabaseEditor = (props: EditorProps) => {
         databaseConfigs: data.connections,
         setData: setData.mutate,
         selectedDatabase,
-        setSelectedDatabase
+        setSelectedDatabase,
+        history
       }}
     >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
