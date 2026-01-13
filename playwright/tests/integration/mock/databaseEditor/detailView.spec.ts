@@ -47,9 +47,9 @@ test('switch driver', async () => {
 });
 
 test('title', async () => {
-  await expect(editor.detail.title).toHaveText('Connection Properties');
+  await expect(editor.detail.toolbar).toHaveText('Connection Properties');
   await editor.main.table.row(1).locator.click();
-  await expect(editor.detail.title).toHaveText('Connection Properties - TestDatabaseConnection-002');
+  await expect(editor.detail.toolbar).toHaveText('Connection Properties - TestDatabaseConnection-002');
 });
 
 test('empty', async () => {

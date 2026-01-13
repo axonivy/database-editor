@@ -1,5 +1,10 @@
 {
   "common": {
+    "hotkey": {
+      "focusInscription": "Focus Inscription ({{hotkey}})",
+      "focusMain": "Focus Main ({{hotkey}})",
+      "focusToolbar": "Focus Toolbar ({{hotkey}})"
+    },
     "label": {
       "cancel": "Cancel",
       "details": "Details",
@@ -46,11 +51,16 @@
   "dialog": {
     "addDatabaseConnection": {
       "createDatabaseConnection": "Create Database Connection",
+      "createDatabaseConnectionTooltip": "Hold {{modifier}} to add an additional Database Connection.",
       "description": "Choose the name of the Database Connection you want to add.",
       "emptyNameError": "Name cannot be empty.",
       "nameTakenError": "Name is already taken.",
       "title": "Add Database Connection"
     }
+  },
+  "hotkey": {
+    "addDatabaseConnection": "Add Database Connection ({{hotkey}})",
+    "deleteDatabaseConnection": "Delete Database Connection ({{hotkey}})"
   },
   "import": {
     "attributes": "Attributes",

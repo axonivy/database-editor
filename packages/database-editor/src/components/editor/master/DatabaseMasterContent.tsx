@@ -1,6 +1,7 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
+  deleteFirstSelectedRow,
   Flex,
   SelectRow,
   SortableHeader,
@@ -8,21 +9,23 @@ import {
   TableBody,
   TableCell,
   TableResizableHeader,
+  useHotkeys,
   useReadonly,
   useTableKeyHandler,
   useTableSelect,
   useTableSort
 } from '@axonivy/ui-components';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
+import { useKnownHotkeys } from '../../../util/hotkeys';
 import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
-  const { databaseConfigs, setSelectedDatabase } = useAppContext();
+  const { databaseConfigs, setSelectedDatabase, setData } = useAppContext();
 
   const readonly = useReadonly();
 
@@ -72,17 +75,35 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
 
+  const hotkeys = useKnownHotkeys();
+
+  const firstElement = useRef<HTMLDivElement>(null);
+  useHotkeys(hotkeys.focusMain.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
+
+  const deleteDatabaseConnection = () => {
+    setData(prev => {
+      const { newData } = deleteFirstSelectedRow(table, prev.connections);
+      return { connections: newData };
+    });
+  };
+  const ref = useHotkeys(hotkeys.deleteDatabaseConnection.hotkey, () => deleteDatabaseConnection(), {
+    scopes: ['global'],
+    enabled: !readonly
+  });
+
   if (databaseConfigs.length === 0) {
     return <EmptyMasterControl table={table} />;
   }
 
   return (
-    <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content'>
+    <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content' ref={ref}>
       <BasicField
         label={t('database.allConnections')}
-        control={!readonly && <MasterControl table={table} />}
+        control={!readonly && <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} />}
         onClick={event => event.stopPropagation()}
         className='database-editor-table-field'
+        tabIndex={-1}
+        ref={firstElement}
       >
         <Table onKeyDown={event => handleKeyDown(event, () => setDetail(!detail))}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => table.resetRowSelection()} />
