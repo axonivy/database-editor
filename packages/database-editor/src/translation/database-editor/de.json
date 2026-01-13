@@ -41,6 +41,9 @@
     },
     "selectDatabase": "Wähle eine Datenbank aus"
   },
+  "detail": {
+    "noSelection": "Wähle eine Datenbank-Verbindung aus, um deren Eigenschaften zu bearbeiten."
+  },
   "dialog": {
     "addDatabaseConnection": {
       "createDatabaseConnection": "Datenbank-Verbindung erstellen",
