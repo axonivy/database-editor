@@ -13,7 +13,6 @@ type MasterControlProps = {
 };
 
 export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
-  const { t } = useTranslation();
   const hotkeys = useKnownHotkeys();
   return (
     <Flex direction='row' gap={2} className='database-editor-main-control'>
@@ -36,7 +35,7 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
       </TooltipProvider>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <ImportWizard>
-        <Button aria-label={t('import.generate')} icon={IvyIcons.SettingsCog} />
+        <Button aria-label={hotkeys.generate.label} icon={IvyIcons.SettingsCog} />
       </ImportWizard>
     </Flex>
   );

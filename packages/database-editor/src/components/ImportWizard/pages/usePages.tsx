@@ -13,7 +13,7 @@ import { DataSourcePage } from './DataSourcePage';
 import { SelectTablesPage } from './TableSelectionPage';
 import { useCreationTables } from './useCreationTables';
 
-export const usePages = (projects: Array<string>, setOpen: (forward: boolean) => void, creationCallback?: () => void) => {
+export const usePages = (projects: Array<string>, closeDialog: () => void, creationCallback?: () => void) => {
   const { t } = useTranslation();
   const { context } = useContextProvider();
 
@@ -45,7 +45,7 @@ export const usePages = (projects: Array<string>, setOpen: (forward: boolean) =>
     if (forward && activePage < pages.length - 1) {
       setActivePage(activePage + 1);
     } else if (forward) {
-      setOpen(false);
+      closeDialog();
     }
     if (!forward && activePage > 0) {
       setActivePage(activePage - 1);

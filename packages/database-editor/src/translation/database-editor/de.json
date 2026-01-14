@@ -61,7 +61,8 @@
   },
   "hotkey": {
     "addDatabaseConnection": "Datenbank-Verbindung hinzufügen ({{hotkey}})",
-    "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})"
+    "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})",
+    "generate": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank-Verbindung ({{hotkey}})"
   },
   "import": {
     "attributes": "Attribute",
@@ -81,7 +82,6 @@
     "finish": "Beenden",
     "formDialog": "Form Dialog",
     "generate": "Generieren",
-    "generateTooltip": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank",
     "invalidNamespace": "Ungültiger Namespace",
     "namespace": "Namespace",
     "namespaceRequired": "Namespace wird benötigt",

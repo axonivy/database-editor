@@ -11,7 +11,7 @@ test.describe('data source page', () => {
   test.beforeEach(async ({ page }) => {
     editor = await DatabaseEditor.openMock(page);
     importDialog = editor.main.control.importDialog;
-    await importDialog.open();
+    await importDialog.trigger.click();
     dataSourcePage = importDialog.dataSourcePage;
   });
 
