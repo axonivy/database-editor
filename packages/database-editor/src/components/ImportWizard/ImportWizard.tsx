@@ -7,19 +7,27 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
+  TooltipTrigger,
+  useDialogHotkeys,
+  useHotkeys
 } from '@axonivy/ui-components';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../AppContext';
 import { ContextProvider } from '../../util/ContextProvider';
+import { useKnownHotkeys } from '../../util/hotkeys';
 import './ImportWizard.css';
 import { WizardContent } from './WizardContent';
 
+const DIALOG_HOTKEY_IDS = ['importWizardDialog'];
+
 export const ImportWizard = ({ children, callback }: { children: ReactNode; callback?: () => void }) => {
-  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { context, projects } = useAppContext();
+
+  const hotkeys = useKnownHotkeys();
+  const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
+  useHotkeys(hotkeys.generate.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
 
   const [importContext] = useState<DatabaseEditorContext>({
     app: context.app,
@@ -29,18 +37,18 @@ export const ImportWizard = ({ children, callback }: { children: ReactNode; call
 
   return (
     <ContextProvider context={importContext}>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={onOpenChange}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <DialogTrigger asChild>{children}</DialogTrigger>
             </TooltipTrigger>
-            <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
+            <TooltipContent>{hotkeys.generate.label}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
         <DialogContent className='database-editor-import-dialog'>
           <DialogTitle>{t('import.generate')}</DialogTitle>
-          <WizardContent projects={projects} setOpen={setOpen} callback={callback} />
+          <WizardContent projects={projects} closeDialog={() => onOpenChange(false)} callback={callback} />
         </DialogContent>
       </Dialog>
     </ContextProvider>
