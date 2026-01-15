@@ -6,16 +6,40 @@
       "details": "Details",
       "general": "Allgemein",
       "name": "Name",
-      "properties": "Eigenschaften"
+      "properties": "Eigenschaften",
+      "value": "Wert"
+    },
+    "message": {
+      "errorOccured": "Error aufgetreten"
     }
   },
   "database": {
+    "additionalProperties": "Zusätzliche Eigenschaften",
     "allConnections": "Alle Datenbank-Verbindungen",
     "connenctionProperties": "Verbindungseigenschaften",
     "createNewConnection": "Neue Datenbank-Verbindung Erstellen",
     "databaseEditor": "Datenbank Editor",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
+    "placeholder": {
+      "key": "Key",
+      "value": "Wert"
+    },
+    "property": {
+      "databaseName": "Datenbankname",
+      "fileName": "Filename",
+      "host": "Host",
+      "odbc": "ODBC",
+      "oracleLdap": "Oracle LDAP",
+      "oracleLdaps": "Oracle LDAPS",
+      "oracleServiceId": "Oracle Service ID",
+      "oracleServiceName": "Oracle Service Name",
+      "oracleTNS": "Oracle TNS",
+      "password": "Passwort",
+      "port": "Port",
+      "schemaName": "Schemaname",
+      "userName": "Benutzername"
+    },
     "selectDatabase": "Wähle eine Datenbank aus"
   },
   "import": {

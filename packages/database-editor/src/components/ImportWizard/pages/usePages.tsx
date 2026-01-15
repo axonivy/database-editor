@@ -73,7 +73,7 @@ export const usePages = (projects: Array<string>, setOpen: (forward: boolean) =>
       options: creationProps(selectedDatabase ?? '')
     }),
     mutationFn: () =>
-      client.importFromDatabase({
+      client.functions('function/importFromDatabase', {
         context: context,
         options: creationProps(selectedDatabase ?? '')
       }),

@@ -1,4 +1,4 @@
-import type { DatabaseConnectionData } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfigurations } from '@axonivy/database-editor-protocol';
 import { BasicField, Button, Flex, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
@@ -6,27 +6,20 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { SelectionListField } from '../../ImportWizard/components/SelectionList';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
-import { useDatabaseMutation } from '../useDatabaseMutation';
 import { DbConnectionAddDialog } from './DbConnectionAddDialog';
 
-export const DatabaseMasterContent = ({
-  setDetail
-}: {
-  activeConnection?: DatabaseConnectionData;
-  setDetail: (state: boolean) => void;
-}) => {
+export const DatabaseMasterContent = ({ setDetail }: { setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
-  const { setActiveDb } = useAppContext();
-  const { databaseQuery } = useDatabaseMutation();
+  const { setActiveDb, data } = useAppContext();
 
   return (
     <Flex direction='row' gap={4}>
       <BasicField style={{ width: '100%', height: '100%' }} label={t('database.allConnections')} control={<DbConnectionControls />}>
         <SelectionListField
           selectionTitle=''
-          items={databaseQuery.data?.map(d => d.name) ?? []}
+          items={data?.connections.map(d => d.name) ?? []}
           onClick={value => {
-            const db = databaseQuery.data?.filter(d => d.name === value)[0];
+            const db = data?.connections?.filter(d => d.name === value)[0];
             if (db) {
               setActiveDb(db);
               setDetail(true);
@@ -40,8 +33,7 @@ export const DatabaseMasterContent = ({
 };
 
 const DbConnectionControls = () => {
-  const { context, projects, setActiveDb } = useAppContext();
-  const { deleteFunction } = useDatabaseMutation();
+  const { context, projects, setActiveDb, activeDb, setData, data } = useAppContext();
   const [addDialog, setAddDialog] = useState(false);
   const { t } = useTranslation();
   return (
@@ -50,7 +42,10 @@ const DbConnectionControls = () => {
       <Button
         icon={IvyIcons.Trash}
         onClick={() => {
-          deleteFunction.mutate();
+          if (!data) return;
+          const update: DatabaseConfigurations = { ...data };
+          update.connections = update.connections.filter(c => c.name !== activeDb?.name);
+          setData(update);
           setActiveDb(undefined);
         }}
       ></Button>
