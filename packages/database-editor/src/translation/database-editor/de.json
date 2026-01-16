@@ -51,7 +51,7 @@
   "dialog": {
     "addDatabaseConnection": {
       "createDatabaseConnection": "Datenbank-Verbindung erstellen",
-      "createDatabaseConnectionTooltip": "Halte {{modifier}} um eine weitere Datenbank-Verbindung zu erstellen.",
+      "createDatabaseConnectionTooltip": "Halte {{modifier}} gedrückt, um eine weitere Datenbank-Verbindung zu erstellen.",
       "description": "Wähle den Namen der Datenbank-Verbindung, die du hinzufügen möchtest.",
       "emptyNameError": "Name darf nicht leer sein.",
       "nameTakenError": "Name ist bereits vergeben.",
