@@ -22,7 +22,6 @@
     "allConnections": "All Database Connections",
     "connectionProperties": "Connection Properties",
     "databaseEditor": "Database Editor - {{projectName}}",
-    "deleteConnection": "Delete Database Connection",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Connections",
     "placeholder": {
