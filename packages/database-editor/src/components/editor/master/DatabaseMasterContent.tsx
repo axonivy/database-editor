@@ -31,6 +31,8 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const { t } = useTranslation();
   const { data } = useAppContext();
 
+  const readonly = useReadonly();
+
   const sort = useTableSort();
 
   const columns = useMemo<Array<ColumnDef<DatabaseConfigurationData, string>>>(
@@ -62,8 +64,6 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   });
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
-
-  const readonly = useReadonly();
 
   return (
     <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content'>
