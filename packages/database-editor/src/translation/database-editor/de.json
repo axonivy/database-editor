@@ -38,8 +38,7 @@
       "port": "Port",
       "schemaName": "Schemaname",
       "userName": "Benutzername"
-    },
-    "selectDatabase": "Wähle eine Datenbank aus"
+    }
   },
   "detail": {
     "noSelection": "Wähle eine Datenbank-Verbindung aus, um deren Eigenschaften zu bearbeiten."

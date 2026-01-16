@@ -38,8 +38,7 @@
       "port": "Port",
       "schemaName": "Schema Name",
       "userName": "User Name"
-    },
-    "selectDatabase": "Select a Database"
+    }
   },
   "detail": {
     "noSelection": "Select a Database Connection to edit its properties."
