@@ -5,23 +5,26 @@ import type { Table } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
-import { DbConnectionAddDialog } from './DbConnectionAddDialog';
+import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 export const MasterControl = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
-  const { databaseConfigs, setData } = useAppContext();
+  const { setData } = useAppContext();
   const { t } = useTranslation();
   return (
     <Flex direction='row' gap={2} className='database-editor-main-control'>
-      <DbConnectionAddDialog>
-        <Button icon={IvyIcons.Plus} aria-label={t('database.createNewConnection')} />
-      </DbConnectionAddDialog>
+      <AddDatabaseConnectionDialog table={table}>
+        <Button icon={IvyIcons.Plus} aria-label={t('dialog.addDatabaseConnection.title')} />
+      </AddDatabaseConnectionDialog>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <Button
         icon={IvyIcons.Trash}
         onClick={() => {
-          const { newData } = deleteFirstSelectedRow(table, databaseConfigs);
-          setData({ connections: newData });
+          setData(prev => {
+            const { newData } = deleteFirstSelectedRow(table, prev.connections);
+            return { connections: newData };
+          });
         }}
+        disabled={table.getSelectedRowModel().flatRows.length === 0}
         aria-label={t('database.deleteConnection')}
       />
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
@@ -32,17 +35,17 @@ export const MasterControl = ({ table }: { table: Table<DatabaseConfigurationDat
   );
 };
 
-export const EmptyMasterControl = () => {
+export const EmptyMasterControl = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
   const { t } = useTranslation();
   return (
     <Flex direction='column' alignItems='center' justifyContent='center' style={{ height: '100%' }}>
       <PanelMessage icon={IvyIcons.Tool} message={t('main.addFirstDbConnection')} mode='column'>
         <Flex gap={2}>
-          <DbConnectionAddDialog>
+          <AddDatabaseConnectionDialog table={table}>
             <Button size='large' variant='primary' icon={IvyIcons.Plus}>
-              {t('database.createNewConnection')}
+              {t('dialog.addDatabaseConnection.title')}
             </Button>
-          </DbConnectionAddDialog>
+          </AddDatabaseConnectionDialog>
         </Flex>
       </PanelMessage>
     </Flex>

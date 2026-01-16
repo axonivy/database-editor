@@ -3,6 +3,7 @@ import { Flex, Message } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
+import { useSelectedDatabaseConfig } from '../../../util/database';
 import { AdditionalCollapsible } from './AdditionalPropertyCollapsible';
 import './ConfigurationProperties.css';
 import { GeneralCollapsible } from './GeneralCollapsible';
@@ -10,10 +11,10 @@ import { PropertyCollapsible } from './PropertyCollapsible';
 
 export const ConfigurationProperties = () => {
   const { t } = useTranslation();
-  const { databaseConfigs, setData, selectedDatabase } = useAppContext();
+  const { setData, selectedDatabase } = useAppContext();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
 
-  const databaseConfig = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
+  const databaseConfig = useSelectedDatabaseConfig();
   if (!databaseConfig) {
     return <Message variant='info'>{t('database.selectDatabase')}</Message>;
   }
@@ -23,11 +24,15 @@ export const ConfigurationProperties = () => {
 
   const updateDb = (propertyUpdater: (database: DatabaseConfigurationData) => void) => {
     if (selectedDatabase === undefined) return;
-    const updateData = structuredClone(databaseConfigs);
-    const updateDatabase = updateData[selectedDatabase];
-    if (!updateDatabase) return;
-    propertyUpdater(updateDatabase);
-    setData({ connections: updateData });
+    setData(prev => {
+      const newConfigs = structuredClone(prev);
+      const updateDatabase = newConfigs.connections[selectedDatabase];
+      if (!updateDatabase) {
+        return prev;
+      }
+      propertyUpdater(updateDatabase);
+      return newConfigs;
+    });
   };
 
   return (

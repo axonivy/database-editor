@@ -2,7 +2,6 @@
   "common": {
     "label": {
       "cancel": "Cancel",
-      "create": "Create",
       "details": "Details",
       "general": "General",
       "name": "Name",
@@ -16,8 +15,7 @@
   "database": {
     "additionalProperties": "Additional Properties",
     "allConnections": "All Database Connections",
-    "connenctionProperties": "Connection Properties",
-    "createNewConnection": "Add Database Connection",
+    "connectionProperties": "Connection Properties",
     "databaseEditor": "Database Editor",
     "deleteConnection": "Delete Database Connection",
     "jdbcDriver": "Jdbc Driver",
@@ -42,6 +40,15 @@
       "userName": "User Name"
     },
     "selectDatabase": "Select a Database"
+  },
+  "dialog": {
+    "addDatabaseConnection": {
+      "createDatabaseConnection": "Create Database Connection",
+      "description": "Choose the name of the Database Connection you want to add.",
+      "emptyNameError": "Name cannot be empty.",
+      "nameTakenError": "Name is already taken.",
+      "title": "Add Database Connection"
+    }
   },
   "import": {
     "attributes": "Attributes",

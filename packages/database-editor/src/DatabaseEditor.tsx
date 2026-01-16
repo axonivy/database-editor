@@ -1,7 +1,16 @@
-import type { DatabaseConfigurations, EditorProps } from '@axonivy/database-editor-protocol';
-import { Flex, PanelMessage, ResizableGroup, ResizableHandle, ResizablePanel, Spinner, useDefaultLayout } from '@axonivy/ui-components';
+import type { DatabaseConfigurations, DatabaseEditorContext, EditorProps } from '@axonivy/database-editor-protocol';
+import {
+  Flex,
+  PanelMessage,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  Spinner,
+  useDefaultLayout,
+  type Unary
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
@@ -19,7 +28,7 @@ export const DatabaseEditor = (props: EditorProps) => {
 
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
 
-  const context = useMemo(
+  const context = useMemo<DatabaseEditorContext>(
     () => ({
       file: props.context.file,
       app: props.context.app,
@@ -28,9 +37,18 @@ export const DatabaseEditor = (props: EditorProps) => {
     [props.context.file, props.context.app, props.context.projects]
   );
   const client = useClient();
+  const queryClient = useQueryClient();
 
-  const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: useMemo(() => genQueryKey('databaseConnections', context), [context]),
+  const queryKeys = useMemo(
+    () => ({
+      data: (context: DatabaseEditorContext) => genQueryKey('databaseConnections', context),
+      saveData: (context: DatabaseEditorContext) => genQueryKey('saveDatabaseConnections', context)
+    }),
+    []
+  );
+
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: queryKeys.data(context),
     queryFn: async () => {
       const data = await client.data(context);
       return data;
@@ -39,18 +57,23 @@ export const DatabaseEditor = (props: EditorProps) => {
   });
 
   const setData = useMutation({
-    mutationKey: genQueryKey('saveDatabaseConnection', {
-      context: context,
-      data: data
-    }),
-    mutationFn: (data: DatabaseConfigurations) =>
-      client.save({
-        context,
-        data,
-        directSave: true
-      }),
-    onSuccess: () => refetch(),
-    onError: error => console.log('error', error)
+    mutationKey: queryKeys.saveData(context),
+    mutationFn: async (data: Unary<DatabaseConfigurations>) => {
+      const saveData = queryClient.setQueryData<DatabaseConfigurations>(queryKeys.data(context), prev => {
+        if (prev) {
+          return data(prev);
+        }
+        return;
+      });
+      if (saveData) {
+        return client.save({
+          context,
+          data: saveData,
+          directSave: true
+        });
+      }
+      return Promise.resolve();
+    }
   });
 
   if (isPending) {

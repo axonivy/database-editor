@@ -2,7 +2,6 @@
   "common": {
     "label": {
       "cancel": "Abbrechen",
-      "create": "Erstellen",
       "details": "Details",
       "general": "Allgemein",
       "name": "Name",
@@ -16,8 +15,7 @@
   "database": {
     "additionalProperties": "Zusätzliche Eigenschaften",
     "allConnections": "Alle Datenbank-Verbindungen",
-    "connenctionProperties": "Verbindungseigenschaften",
-    "createNewConnection": "Datenbank-Verbindung hinzufügen",
+    "connectionProperties": "Verbindungseigenschaften",
     "databaseEditor": "Datenbank Editor",
     "deleteConnection": "Datenbank-Verbindung löschen",
     "jdbcDriver": "Jdbc Driver",
@@ -42,6 +40,15 @@
       "userName": "Benutzername"
     },
     "selectDatabase": "Wähle eine Datenbank aus"
+  },
+  "dialog": {
+    "addDatabaseConnection": {
+      "createDatabaseConnection": "Datenbank-Verbindung erstellen",
+      "description": "Wähle den Namen der Datenbank-Verbindung, die du hinzufügen möchtest.",
+      "emptyNameError": "Name darf nicht leer sein.",
+      "nameTakenError": "Name ist bereits vergeben.",
+      "title": "Datenbank-Verbindung hinzufügen"
+    }
   },
   "import": {
     "attributes": "Attribute",
