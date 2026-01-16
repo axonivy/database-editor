@@ -1,5 +1,5 @@
 import { ClientContextProvider, DatabaseEditor, initQueryClient, QueryProvider } from '@axonivy/database-editor';
-import { ReadonlyProvider, ThemeProvider, Toaster } from '@axonivy/ui-components';
+import { HotkeysProvider, ReadonlyProvider, ThemeProvider, Toaster } from '@axonivy/ui-components';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initTranslation } from './i18n';
@@ -24,7 +24,9 @@ root.render(
       <ClientContextProvider client={client}>
         <QueryProvider client={queryClient}>
           <ReadonlyProvider readonly={readonly}>
-            <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
+            <HotkeysProvider initiallyActiveScopes={['global']}>
+              <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
+            </HotkeysProvider>
           </ReadonlyProvider>
         </QueryProvider>
       </ClientContextProvider>

@@ -1,32 +1,39 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
-import { Button, deleteFirstSelectedRow, Flex, PanelMessage, Separator } from '@axonivy/ui-components';
+import { Button, Flex, PanelMessage, Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { Table } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../../AppContext';
+import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
-export const MasterControl = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
-  const { setData } = useAppContext();
+type MasterControlProps = {
+  table: Table<DatabaseConfigurationData>;
+  deleteDatabaseConnection: () => void;
+};
+
+export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
   const { t } = useTranslation();
+  const hotkeys = useKnownHotkeys();
   return (
     <Flex direction='row' gap={2} className='database-editor-main-control'>
       <AddDatabaseConnectionDialog table={table}>
-        <Button icon={IvyIcons.Plus} aria-label={t('dialog.addDatabaseConnection.title')} />
+        <Button icon={IvyIcons.Plus} aria-label={hotkeys.addDatabaseConnection.label} />
       </AddDatabaseConnectionDialog>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <Button
-        icon={IvyIcons.Trash}
-        onClick={() => {
-          setData(prev => {
-            const { newData } = deleteFirstSelectedRow(table, prev.connections);
-            return { connections: newData };
-          });
-        }}
-        disabled={table.getSelectedRowModel().flatRows.length === 0}
-        aria-label={t('database.deleteConnection')}
-      />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              icon={IvyIcons.Trash}
+              onClick={deleteDatabaseConnection}
+              disabled={table.getSelectedRowModel().flatRows.length === 0}
+              aria-label={hotkeys.deleteDatabaseConnection.label}
+            />
+          </TooltipTrigger>
+          <TooltipContent>{hotkeys.deleteDatabaseConnection.label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <ImportWizard>
         <Button aria-label={t('import.generate')} icon={IvyIcons.SettingsCog} />
