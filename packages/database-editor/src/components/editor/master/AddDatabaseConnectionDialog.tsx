@@ -91,7 +91,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
   };
 
   const allInputsValid = nameValidationMessage === undefined;
-  const enter = useHotkeys(
+  const enter = useHotkeys<HTMLDivElement>(
     ['Enter', 'mod+Enter'],
     event => {
       if (allInputsValid) {

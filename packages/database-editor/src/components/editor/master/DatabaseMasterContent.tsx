@@ -86,7 +86,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       return { connections: newData };
     });
   };
-  const ref = useHotkeys(hotkeys.deleteDatabaseConnection.hotkey, () => deleteDatabaseConnection(), {
+  const ref = useHotkeys<HTMLDivElement>(hotkeys.deleteDatabaseConnection.hotkey, () => deleteDatabaseConnection(), {
     scopes: ['global'],
     enabled: !readonly
   });
