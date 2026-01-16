@@ -17,8 +17,9 @@
     "additionalProperties": "Zusätzliche Eigenschaften",
     "allConnections": "Alle Datenbank-Verbindungen",
     "connenctionProperties": "Verbindungseigenschaften",
-    "createNewConnection": "Neue Datenbank-Verbindung Erstellen",
+    "createNewConnection": "Datenbank-Verbindung hinzufügen",
     "databaseEditor": "Datenbank Editor",
+    "deleteConnection": "Datenbank-Verbindung löschen",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
     "placeholder": {
@@ -80,5 +81,8 @@
     "tableSelection": "Ausgewählte Tabellen",
     "tableSelectionPlaceholder": "Du hast noch keine Tabelle ausgewählt. Füge durch klicken Tabellen hinzu.",
     "type": "Typ"
+  },
+  "main": {
+    "addFirstDbConnection": "Füge deine erste Datenbankverbindung hinzu, um zu beginnen"
   }
 }
