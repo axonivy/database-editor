@@ -1,18 +1,15 @@
-import type { JdbcDriverProperties, MapStringString } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfigurationData, JdbcDriverProperties, MapStringString } from '@axonivy/database-editor-protocol';
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../../AppContext';
 
-export const PropertyCollapsible = ({
-  jdbcProps,
-  jdbcDriver,
-  updateDb
-}: {
+type PropertyCollapsibleProps = {
+  activeDb: DatabaseConfigurationData;
   jdbcProps: Array<string>;
   jdbcDriver: JdbcDriverProperties;
-  updateDb: (value: string, key: string) => void;
-}) => {
-  const { activeDb } = useAppContext();
+  updateDb: (propertyUpdater: (database: DatabaseConfigurationData) => void) => void;
+};
+
+export const PropertyCollapsible = ({ activeDb, jdbcProps, jdbcDriver, updateDb }: PropertyCollapsibleProps) => {
   const { t } = useTranslation();
 
   const propertyTranslation: MapStringString = {
@@ -43,17 +40,19 @@ export const PropertyCollapsible = ({
       <CollapsibleTrigger>{t('common.label.properties')}</CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          {jdbcProps.map(k => {
-            return (
-              <BasicField key={k} label={getLabel(k) ?? ''}>
-                <BasicInput
-                  type={jdbcDriver?.properties[k] == 'number' ? 'number' : 'text'}
-                  onChange={event => updateDb(k ?? '', event.target.value)}
-                  value={activeDb?.properties[k]}
-                />
-              </BasicField>
-            );
-          })}
+          {jdbcProps.map(k => (
+            <BasicField key={k} label={getLabel(k)}>
+              <BasicInput
+                type={jdbcDriver.properties[k] === 'number' ? 'number' : 'text'}
+                onChange={event =>
+                  updateDb(database => {
+                    database.properties[k] = event.target.value;
+                  })
+                }
+                value={activeDb.properties[k]}
+              />
+            </BasicField>
+          ))}
         </Flex>
       </CollapsibleContent>
     </Collapsible>

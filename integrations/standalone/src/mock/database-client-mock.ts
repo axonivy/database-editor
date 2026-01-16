@@ -4,6 +4,7 @@ import type {
   DatabaseConfigurations,
   DatabaseData,
   DatabaseEditorDBContext,
+  DatabaseEditorSaveArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
   EditorFileContent,
@@ -28,7 +29,8 @@ export class DatabaseClientMock implements Client {
     return Promise.resolve(this.databaseConnections);
   }
 
-  save(): Promise<EditorFileContent> {
+  save(args: DatabaseEditorSaveArgs): Promise<EditorFileContent> {
+    this.databaseConnections = args.data;
     return Promise.resolve({ content: '' });
   }
 

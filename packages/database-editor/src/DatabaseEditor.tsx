@@ -16,6 +16,9 @@ export const DatabaseEditor = (props: EditorProps) => {
   const [detail, setDetail] = useState(true);
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({ groupId: 'database-editor-resize', storage: localStorage });
   const { t } = useTranslation();
+
+  const [selectedDatabase, setSelectedDatabase] = useState<number>();
+
   const context = useMemo(
     () => ({
       file: props.context.file,
@@ -63,7 +66,16 @@ export const DatabaseEditor = (props: EditorProps) => {
   }
 
   return (
-    <AppProvider projects={props.context.projects} context={context} data={data} setData={setData.mutate}>
+    <AppProvider
+      value={{
+        projects: props.context.projects,
+        context,
+        databaseConfigs: data.connections,
+        setData: setData.mutate,
+        selectedDatabase,
+        setSelectedDatabase
+      }}
+    >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
         <ResizablePanel id='main' defaultSize='75%' minSize='50%' className='database-editor-main-panel'>
           <Flex direction='column' className='database-editor-panel-content'>
