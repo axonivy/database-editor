@@ -1,7 +1,7 @@
-.database-editor {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+.database-editor-main-panel {
   background-color: var(--N75);
+}
+
+.database-editor-panel-content {
+  height: 100%;
 }

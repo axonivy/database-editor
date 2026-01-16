@@ -1,64 +1,98 @@
-import type { DatabaseConfigurations } from '@axonivy/database-editor-protocol';
-import { BasicField, Button, Flex, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
-import { useState } from 'react';
+import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
+import {
+  BasicField,
+  Flex,
+  SelectRow,
+  SortableHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableResizableHeader,
+  useReadonly,
+  useTableKeyHandler,
+  useTableSelect,
+  useTableSort
+} from '@axonivy/ui-components';
+import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
-import { SelectionListField } from '../../ImportWizard/components/SelectionList';
-import { ImportWizard } from '../../ImportWizard/ImportWizard';
-import { DbConnectionAddDialog } from './DbConnectionAddDialog';
+import './DatabaseMasterContent.css';
+import { MasterControl } from './MasterControl';
 
-export const DatabaseMasterContent = ({ setDetail }: { setDetail: (state: boolean) => void }) => {
+export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
-  const { setActiveDb, data } = useAppContext();
+  const { databaseConfigs, setSelectedDatabase } = useAppContext();
 
-  return (
-    <Flex direction='row' gap={4}>
-      <BasicField style={{ width: '100%', height: '100%' }} label={t('database.allConnections')} control={<DbConnectionControls />}>
-        <SelectionListField
-          selectionTitle=''
-          items={data?.connections.map(d => d.name) ?? []}
-          onClick={value => {
-            const db = data?.connections?.filter(d => d.name === value)[0];
-            if (db) {
-              setActiveDb(db);
-              setDetail(true);
-            }
-          }}
-          control={undefined}
-        />
-      </BasicField>
-    </Flex>
+  const readonly = useReadonly();
+
+  const selection = useTableSelect<DatabaseConfigurationData>({
+    onSelect: selectedRows => {
+      const selectedRowId = Object.keys(selectedRows).find(key => selectedRows[key]);
+      if (selectedRowId === undefined) {
+        setSelectedDatabase(undefined);
+        return;
+      }
+      const selectedDatabase = table.getRowModel().flatRows.find(row => row.id === selectedRowId)?.index;
+      if (selectedDatabase !== undefined) {
+        setSelectedDatabase(selectedDatabase);
+      }
+    }
+  });
+  const sort = useTableSort();
+
+  const columns = useMemo<Array<ColumnDef<DatabaseConfigurationData, string>>>(
+    () => [
+      {
+        accessorKey: 'name',
+        header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
+        cell: cell => <span>{cell.getValue()}</span>,
+        minSize: 50
+      },
+      {
+        accessorKey: 'driver',
+        header: ({ column }) => <SortableHeader column={column} name={t('database.jdbcDriver')} />,
+        cell: cell => <span>{cell.getValue()}</span>
+      }
+    ],
+    [t]
   );
-};
 
-const DbConnectionControls = () => {
-  const { context, projects, setActiveDb, activeDb, setData, data } = useAppContext();
-  const [addDialog, setAddDialog] = useState(false);
-  const { t } = useTranslation();
+  const table = useReactTable({
+    ...selection.options,
+    ...sort.options,
+    data: databaseConfigs,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    state: {
+      ...selection.tableState,
+      ...sort.tableState
+    }
+  });
+
+  const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
+
   return (
-    <Flex direction='row' gap={2}>
-      <DbConnectionAddDialog open={addDialog} setOpen={setAddDialog} />
-      <Button
-        icon={IvyIcons.Trash}
-        onClick={() => {
-          if (!data) return;
-          const update: DatabaseConfigurations = { ...data };
-          update.connections = update.connections.filter(c => c.name !== activeDb?.name);
-          setData(update);
-          setActiveDb(undefined);
-        }}
-      ></Button>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipContent>{t('import.generateTooltip')}</TooltipContent>
-          <ImportWizard context={{ file: context.file, app: context.app, projects }}>
-            <TooltipTrigger asChild>
-              <Button aria-label={t('import.generate')} icon={IvyIcons.SettingsCog} />
-            </TooltipTrigger>
-          </ImportWizard>
-        </Tooltip>
-      </TooltipProvider>
+    <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content'>
+      <BasicField
+        label={t('database.allConnections')}
+        control={!readonly && <MasterControl table={table} />}
+        onClick={event => event.stopPropagation()}
+        className='database-editor-table-field'
+      >
+        <Table onKeyDown={event => handleKeyDown(event, () => setDetail(!detail))}>
+          <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => table.resetRowSelection()} />
+          <TableBody>
+            {table.getRowModel().rows.map(row => (
+              <SelectRow key={row.id} row={row}>
+                {row.getVisibleCells().map(cell => (
+                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                ))}
+              </SelectRow>
+            ))}
+          </TableBody>
+        </Table>
+      </BasicField>
     </Flex>
   );
 };

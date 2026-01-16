@@ -1,24 +1,21 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { ImportDialog } from '../ImportWizard/ImportDialog';
-import { DetailView } from './DetailView';
-import { Toolbar } from './Toolbar';
+import { DetailView } from './detail/DetailView';
+import { MainPanel } from './main/MainPanel';
 
 export class DatabaseEditor {
   readonly page: Page;
   readonly locator: Locator;
-  readonly toolbar: Toolbar;
-  readonly importDialog: ImportDialog;
+  readonly main: MainPanel;
   readonly detailView: DetailView;
 
   constructor(page: Page) {
     this.page = page;
     this.locator = page.locator(':root');
-    this.toolbar = new Toolbar(page, this.locator);
-    this.importDialog = new ImportDialog(page, this.locator);
+    this.main = new MainPanel(page);
     this.detailView = new DetailView(page, this.locator);
   }
 
-  static async openMock(page: Page, options?: { virtualize?: boolean; lng?: string }) {
+  static async openMock(page: Page, options?: { readonly?: boolean }) {
     let url = 'mock.html';
     if (options) {
       url += '?';

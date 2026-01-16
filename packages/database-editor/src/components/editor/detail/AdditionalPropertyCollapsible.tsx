@@ -1,9 +1,11 @@
 import {
+  addRow,
   BasicField,
   Button,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
+  deleteFirstSelectedRow,
   Flex,
   InputCell,
   SelectRow,
@@ -16,7 +18,6 @@ import {
   useTableSelect
 } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../../AppContext';
 
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -25,10 +26,14 @@ import { useMemo } from 'react';
 
 type StringObject = { key: string; value: string | undefined };
 
-export const AdditionalCollapsible = ({ updateData }: { updateData: (update: DatabaseConfigurationData) => void }) => {
-  const { activeDb, setActiveDb } = useAppContext();
+type AdditionalCollapsibleProps = {
+  activeDb: DatabaseConfigurationData;
+  updateDb: (propertyUpdater: (database: DatabaseConfigurationData) => void) => void;
+};
+
+export const AdditionalCollapsible = ({ activeDb, updateDb }: AdditionalCollapsibleProps) => {
   const props = useMemo(
-    () => Object.entries(activeDb?.additionalProperties ?? []).map(entry => ({ key: entry[0] as string, value: entry[1] as string })),
+    () => Object.entries(activeDb.additionalProperties).map(entry => ({ key: entry[0] as string, value: entry[1] as string })),
     [activeDb]
   );
 
@@ -66,49 +71,26 @@ export const AdditionalCollapsible = ({ updateData }: { updateData: (update: Dat
     }
   });
 
-  const addRow = () => {
-    setActiveDb(prev => {
-      if (!prev) return;
-      const update = { ...prev };
-      update.additionalProperties[t('database.placeholder.key')] = t('database.placeholder.value');
-      updateData(update);
-      return update;
-    });
+  const updateProperty = (key: string, value: string, oldKey: string) => {
+    const newProps = structuredClone(props);
+    const updateProp = newProps.find(prop => prop.key === oldKey);
+    if (!updateProp) return;
+
+    updateProp.key = key;
+    updateProp.value = value;
+    updateDb(database => (database.additionalProperties = toProperties(newProps)));
   };
+
+  const addPropertyRow = () =>
+    updateDb(database => {
+      const newData = addRow(table, props, { key: t('database.placeholder.key'), value: t('database.placeholder.value') });
+      database.additionalProperties = toProperties(newData);
+    });
 
   const deleteRow = () => {
-    const key = table.getSelectedRowModel().rows.at(0)?.original.key;
-    if (!key) {
-      return;
-    }
-    setActiveDb(prev => {
-      if (!prev) {
-        return;
-      }
-      const update = { ...prev };
-
-      update.additionalProperties = Object.fromEntries(Object.entries(update.additionalProperties).filter(entry => entry[0] !== key));
-      updateData(update);
-      return update;
-    });
-  };
-
-  const updateProperty = (key: string, value: string, oldKey: string) => {
-    setActiveDb(prev => {
-      if (!prev) return;
-      const entries = Object.entries({ ...prev.additionalProperties }).map(obj => {
-        if (obj[0] === oldKey || obj[0] === key) {
-          obj[0] = key;
-          obj[1] = value;
-        }
-        return obj;
-      });
-      const update = {
-        ...prev,
-        additionalProperties: Object.fromEntries(entries)
-      };
-      updateData(update);
-      return update;
+    updateDb(database => {
+      const { newData } = deleteFirstSelectedRow(table, props);
+      database.additionalProperties = toProperties(newData);
     });
   };
 
@@ -116,7 +98,10 @@ export const AdditionalCollapsible = ({ updateData }: { updateData: (update: Dat
     <Collapsible>
       <CollapsibleTrigger>{t('database.additionalProperties')}</CollapsibleTrigger>
       <CollapsibleContent>
-        <BasicField label={t('database.additionalProperties')} control={<TableControl addRow={addRow} deleteRow={deleteRow} />}>
+        <BasicField
+          label={t('database.additionalProperties')}
+          control={<TableControl addRow={addPropertyRow} deleteRow={deleteRow} hasSelection={table.getIsSomeRowsSelected()} />}
+        >
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
@@ -145,11 +130,19 @@ export const AdditionalCollapsible = ({ updateData }: { updateData: (update: Dat
   );
 };
 
-const TableControl = ({ addRow, deleteRow }: { addRow: () => void; deleteRow: () => void }) => {
+type TableControlProps = {
+  addRow: () => void;
+  deleteRow: () => void;
+  hasSelection: boolean;
+};
+
+const TableControl = ({ addRow, deleteRow, hasSelection }: TableControlProps) => {
   return (
     <Flex direction='row' gap={2}>
       <Button icon={IvyIcons.Plus} onClick={addRow} />
-      <Button icon={IvyIcons.Trash} onClick={deleteRow} />
+      <Button icon={IvyIcons.Trash} onClick={deleteRow} disabled={!hasSelection} />
     </Flex>
   );
 };
+
+const toProperties = (props: Array<StringObject>) => Object.fromEntries(props.map(entry => [entry.key, entry.value ?? '']));

@@ -19,6 +19,10 @@ export function themeParam(): 'dark' | 'light' {
   return 'light';
 }
 
+export function readonlyParam(): boolean {
+  return parameter('readonly') === 'true';
+}
+
 export function directSaveParam(): boolean {
   return parameter('directSave') !== undefined;
 }

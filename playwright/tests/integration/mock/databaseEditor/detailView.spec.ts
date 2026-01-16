@@ -1,14 +1,13 @@
 import test, { expect } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
-import type { DetailView } from '../../../pageobjects/Editor/DetailView';
+import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
+import type { DetailView } from '../../../pageobjects/detail/DetailView';
 
 let editor: DatabaseEditor;
 let detailView: DetailView;
 
 test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
-  await editor.toolbar.detailButton.click();
-  await editor.locator.locator('.selection-list-button-text').first().click();
+  await editor.main.table.row(0).locator.click();
   detailView = editor.detailView;
 });
 

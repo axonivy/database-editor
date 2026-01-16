@@ -21,22 +21,19 @@ export const DbConnectionAddDialog = ({ open, setOpen }: { open: boolean; setOpe
 
 const AddConnectionDialog = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
   const [name, setName] = useState('');
-  const { data, setData } = useAppContext();
+  const { databaseConfigs, setData } = useAppContext();
   const { t } = useTranslation();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
 
   const addConfig = () => {
-    if (!data) {
-      return;
-    }
     const newConnection: DatabaseConfigurationData = {
       ...UNDEFINED_CONNECTION
     };
     newConnection.driver = jdbcDrivers?.at(0)?.name ?? '';
     newConnection.name = name;
-    const update = { ...data };
-    update.connections?.push(newConnection);
-    setData(update);
+    const update = structuredClone(databaseConfigs);
+    update.push(newConnection);
+    setData({ connections: update });
   };
 
   return (

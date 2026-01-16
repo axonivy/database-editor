@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
-import type { CreationPage } from '../../../pageobjects/ImportWizard/CreationPage';
-import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
+import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
+import type { CreationPage } from '../../../pageobjects/main/import-wizard/CreationPage';
+import type { ImportDialog } from '../../../pageobjects/main/import-wizard/ImportDialog';
 
 test.describe('creationPage page', () => {
   let editor: DatabaseEditor;
@@ -10,7 +10,7 @@ test.describe('creationPage page', () => {
 
   test.beforeEach(async ({ page }) => {
     editor = await DatabaseEditor.openMock(page);
-    importDialog = editor.importDialog;
+    importDialog = editor.main.control.importDialog;
     await importDialog.open();
     await importDialog.dataSourcePage.projectSelection.choose('project1-name');
     await importDialog.dataSourcePage.databaseSelect.choose('MockDatabase-001');

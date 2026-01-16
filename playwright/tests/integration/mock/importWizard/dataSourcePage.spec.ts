@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
-import { DatabaseEditor } from '../../../pageobjects/Editor/DatabaseEditor';
-import type { DataSourcePage } from '../../../pageobjects/ImportWizard/DataSourcePage';
-import type { ImportDialog } from '../../../pageobjects/ImportWizard/ImportDialog';
+import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
+import type { DataSourcePage } from '../../../pageobjects/main/import-wizard/DataSourcePage';
+import type { ImportDialog } from '../../../pageobjects/main/import-wizard/ImportDialog';
 
 test.describe('data source page', () => {
   let editor: DatabaseEditor;
@@ -10,7 +10,7 @@ test.describe('data source page', () => {
 
   test.beforeEach(async ({ page }) => {
     editor = await DatabaseEditor.openMock(page);
-    importDialog = editor.importDialog;
+    importDialog = editor.main.control.importDialog;
     await importDialog.open();
     dataSourcePage = importDialog.dataSourcePage;
   });
