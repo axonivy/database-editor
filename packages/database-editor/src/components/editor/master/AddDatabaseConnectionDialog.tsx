@@ -30,7 +30,7 @@ export const AddDatabaseConnectionDialog = ({ table, children }: { table: Table<
 
 const AddDatabaseConnectionContent = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
   const { t } = useTranslation();
-  const { databaseConfigs, setData, setSelectedDatabase } = useAppContext();
+  const { setData, setSelectedDatabase } = useAppContext();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
 
   const [name, setName] = useState('NewDatabaseConnection');
@@ -46,10 +46,10 @@ const AddDatabaseConnectionContent = ({ table }: { table: Table<DatabaseConfigur
       properties: {},
       additionalProperties: {}
     };
-    const newDatabaseConfigs = addRow(table, databaseConfigs, newDatabaseConnection);
 
     setData(prev => {
       const newConfigs = structuredClone(prev);
+      const newDatabaseConfigs = addRow(table, newConfigs.connections, newDatabaseConnection);
       newConfigs.connections = newDatabaseConfigs;
       setSelectedDatabase(newConfigs.connections.findIndex(config => config.name === name));
       return newConfigs;
