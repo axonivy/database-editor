@@ -11,7 +11,7 @@ test.describe('table selection page', () => {
   test.beforeEach(async ({ page }) => {
     editor = await DatabaseEditor.openMock(page);
     importDialog = editor.main.control.importDialog;
-    await importDialog.open();
+    await importDialog.trigger.click();
     await importDialog.dataSourcePage.projectSelection.choose('project1-name');
     await importDialog.dataSourcePage.databaseSelect.choose('MockDatabase-001');
     await importDialog.next.click();
