@@ -29,11 +29,11 @@ test.describe('table keyboard support', () => {
 
   test('toggle detail via enter', async () => {
     await editor.main.table.row(0).locator.click();
-    await expect(editor.detailView.locator).toBeVisible();
+    await expect(editor.detail.locator).toBeVisible();
     await editor.page.keyboard.press('Enter');
-    await expect(editor.detailView.locator).toBeHidden();
+    await expect(editor.detail.locator).toBeHidden();
     await editor.page.keyboard.press('Enter');
-    await expect(editor.detailView.locator).toBeVisible();
+    await expect(editor.detail.locator).toBeVisible();
   });
 });
 
@@ -82,7 +82,7 @@ test.describe('add', () => {
     const row = editor.main.table.row(3);
     await expect(row.column(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
-    await expect(editor.detailView.title).toHaveText('Connection Properties - NewDatabaseConnection');
+    await expect(editor.detail.title).toHaveText('Connection Properties - NewDatabaseConnection');
   });
 });
 
@@ -99,5 +99,5 @@ test('delete', async () => {
   await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-002');
 
   await row.expectToBeSelected();
-  await expect(editor.detailView.title).toHaveText('Connection Properties - TestDatabaseConnection-002');
+  await expect(editor.detail.title).toHaveText('Connection Properties - TestDatabaseConnection-002');
 });

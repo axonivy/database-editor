@@ -109,7 +109,7 @@ export const DatabaseEditor = (props: EditorProps) => {
         {detail && (
           <>
             <ResizableHandle />
-            <ResizablePanel id='properties' defaultSize='25%' minSize='20%' className='database-editor-detail-panel'>
+            <ResizablePanel id='properties' defaultSize='25%' minSize='10%' className='database-editor-detail-panel'>
               <DatabaseDetail />
             </ResizablePanel>
           </>

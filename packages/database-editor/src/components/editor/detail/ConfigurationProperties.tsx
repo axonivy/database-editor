@@ -1,5 +1,5 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
-import { Flex, Message } from '@axonivy/ui-components';
+import { Flex, PanelMessage } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
@@ -16,7 +16,7 @@ export const ConfigurationProperties = () => {
 
   const databaseConfig = useSelectedDatabaseConfig();
   if (!databaseConfig) {
-    return <Message variant='info'>{t('database.selectDatabase')}</Message>;
+    return <PanelMessage message={t('detail.noSelection')} />;
   }
 
   const jdbcDriver = jdbcDrivers?.find(driver => driver.name === databaseConfig.driver);

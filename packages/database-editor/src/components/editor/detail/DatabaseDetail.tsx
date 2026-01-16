@@ -14,8 +14,8 @@ export const DatabaseDetail = () => {
   }
 
   return (
-    <Flex direction='column' className='database-detail-view'>
-      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='detail-view-header' />
+    <Flex direction='column' className='database-editor-panel-content'>
+      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' />
       <ConfigurationProperties />
     </Flex>
   );
