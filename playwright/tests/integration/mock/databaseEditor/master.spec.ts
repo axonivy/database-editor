@@ -7,6 +7,10 @@ test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
 });
 
+test('title', async () => {
+  await expect(editor.main.toolbar.locator).toHaveText('Database Editor - project1-name');
+});
+
 test('remove selection', async () => {
   await editor.main.table.row(0).locator.click();
   await editor.main.table.row(0).expectToBeSelected();
