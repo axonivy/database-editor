@@ -3,7 +3,9 @@
     "hotkey": {
       "focusInscription": "Focus Inscription ({{hotkey}})",
       "focusMain": "Focus Main ({{hotkey}})",
-      "focusToolbar": "Focus Toolbar ({{hotkey}})"
+      "focusToolbar": "Focus Toolbar ({{hotkey}})",
+      "redo": "Redo ({{hotkey}})",
+      "undo": "Undo ({{hotkey}})"
     },
     "label": {
       "cancel": "Cancel",
