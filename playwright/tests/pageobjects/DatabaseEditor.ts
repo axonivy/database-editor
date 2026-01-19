@@ -1,18 +1,18 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { DetailView } from './detail/DetailView';
+import { DetailPanel } from './detail/DetailPanel';
 import { MainPanel } from './main/MainPanel';
 
 export class DatabaseEditor {
   readonly page: Page;
   readonly locator: Locator;
   readonly main: MainPanel;
-  readonly detailView: DetailView;
+  readonly detail: DetailPanel;
 
   constructor(page: Page) {
     this.page = page;
     this.locator = page.locator(':root');
     this.main = new MainPanel(page);
-    this.detailView = new DetailView(page, this.locator);
+    this.detail = new DetailPanel(this.locator);
   }
 
   static async openMock(page: Page, options?: { readonly?: boolean }) {
