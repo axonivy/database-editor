@@ -44,7 +44,8 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     setSelectedDatabase: props.appContext?.setSelectedDatabase ?? (() => {}),
     projects: props.appContext?.projects ?? [],
     databaseConfigs: props.appContext?.databaseConfigs ?? [],
-    setData: props.appContext?.setData ?? (() => {})
+    setData: props.appContext?.setData ?? (() => {}),
+    history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false }
   };
 
   return (
