@@ -16,7 +16,7 @@
     "additionalProperties": "Zusätzliche Eigenschaften",
     "allConnections": "Alle Datenbank-Verbindungen",
     "connectionProperties": "Verbindungseigenschaften",
-    "databaseEditor": "Datenbank Editor",
+    "databaseEditor": "Datenbank Editor - {{projectName}}",
     "deleteConnection": "Datenbank-Verbindung löschen",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
