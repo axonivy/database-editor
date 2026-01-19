@@ -18,6 +18,25 @@ test('remove selection', async () => {
   await editor.main.table.row(0).expectNotToBeSelected();
 });
 
+test.describe('table layout', () => {
+  test('table headers', async () => {
+    const headerName = editor.main.table.header(0);
+    const headerUrl = editor.main.table.header(1);
+    const headerDriver = editor.main.table.header(2);
+
+    await expect(headerName.locator).toHaveText('Name');
+    await expect(headerUrl.locator).toHaveText('URL');
+    await expect(headerDriver.locator).toHaveText('Jdbc Driver');
+  });
+
+  test('table row', async () => {
+    const row = editor.main.table.row(0);
+    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-001');
+    await expect(row.column(1).locator).toHaveText('localhost:3306');
+    await expect(row.column(2).locator).toHaveText('com.mysql.cj.jdbc.Driver');
+  });
+});
+
 test.describe('table keyboard support', () => {
   test('move selection via arrowKey', async () => {
     await editor.main.table.expectToHaveNoSelection();
