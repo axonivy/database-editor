@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { CreationPage } from './CreationPage';
 import { DataSourcePage } from './DataSourcePage';
 import { ResultPage } from './ResultPage';
@@ -28,10 +28,5 @@ export class ImportDialog {
     this.tableSelectionPage = new TableSelectionPage(page, this.locator);
     this.creationPage = new CreationPage(page, this.locator);
     this.resultPage = new ResultPage(page, this.locator);
-  }
-
-  async open() {
-    await this.trigger.click();
-    await expect(this.locator).toBeVisible();
   }
 }

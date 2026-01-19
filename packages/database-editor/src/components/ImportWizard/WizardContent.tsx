@@ -14,18 +14,16 @@ export type ImportPage = {
   requiredData: boolean;
 };
 
-export const WizardContent = ({
-  setOpen,
-  callback,
-  projects
-}: {
+type WizardContentProps = {
   projects: Array<string>;
-  setOpen: (open: boolean) => void;
+  closeDialog: () => void;
   callback?: () => void;
-}) => {
+};
+
+export const WizardContent = ({ projects, closeDialog, callback }: WizardContentProps) => {
   const { t } = useTranslation();
 
-  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(projects, setOpen, callback);
+  const { pages, activePage, updateActivePage, jumpToPage, creationFunction } = usePages(projects, closeDialog, callback);
 
   return (
     <Flex
@@ -38,11 +36,7 @@ export const WizardContent = ({
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
       {pages[activePage]?.page}
       <Flex direction='row' justifyContent='space-between'>
-        <Button
-          variant='outline'
-          onClick={() => setOpen(false)}
-          className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}
-        >
+        <Button variant='outline' onClick={closeDialog} className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}>
           {t('import.cancel')}
         </Button>
         <Flex direction='row' gap={2} justifyContent='flex-end' className='import-wizard-proceed-buttons'>
