@@ -1,10 +1,5 @@
-import {
-  type DatabaseConfigurationData,
-  type DatabaseConfigurations,
-  type DatabaseEditorContext,
-  type EditorFileContent
-} from '@axonivy/database-editor-protocol';
-import type { UseMutateFunction } from '@tanstack/react-query';
+import { type DatabaseConfigurationData, type DatabaseConfigurations, type DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { UpdateConsumer } from '@axonivy/ui-components';
 import { createContext, useContext } from 'react';
 
 type AppContext = {
@@ -13,7 +8,7 @@ type AppContext = {
   setSelectedDatabase: (index?: number) => void;
   projects: Array<string>;
   databaseConfigs: Array<DatabaseConfigurationData>;
-  setData: UseMutateFunction<EditorFileContent, Error, DatabaseConfigurations, unknown>;
+  setData: UpdateConsumer<DatabaseConfigurations>;
 };
 
 const appContext = createContext<AppContext>({
