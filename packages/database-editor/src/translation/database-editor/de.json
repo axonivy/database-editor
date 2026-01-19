@@ -1,5 +1,10 @@
 {
   "common": {
+    "hotkey": {
+      "focusInscription": "Fokus Inskription ({{hotkey}})",
+      "focusMain": "Fokus Main ({{hotkey}})",
+      "focusToolbar": "Fokus Toolbar ({{hotkey}})"
+    },
     "label": {
       "cancel": "Abbrechen",
       "details": "Details",
@@ -17,7 +22,6 @@
     "allConnections": "Alle Datenbank-Verbindungen",
     "connectionProperties": "Verbindungseigenschaften",
     "databaseEditor": "Datenbank Editor - {{projectName}}",
-    "deleteConnection": "Datenbank-Verbindung löschen",
     "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Verbindungen",
     "placeholder": {
@@ -46,11 +50,16 @@
   "dialog": {
     "addDatabaseConnection": {
       "createDatabaseConnection": "Datenbank-Verbindung erstellen",
+      "createDatabaseConnectionTooltip": "Halte {{modifier}} gedrückt, um eine weitere Datenbank-Verbindung zu erstellen.",
       "description": "Wähle den Namen der Datenbank-Verbindung, die du hinzufügen möchtest.",
       "emptyNameError": "Name darf nicht leer sein.",
       "nameTakenError": "Name ist bereits vergeben.",
       "title": "Datenbank-Verbindung hinzufügen"
     }
+  },
+  "hotkey": {
+    "addDatabaseConnection": "Datenbank-Verbindung hinzufügen ({{hotkey}})",
+    "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})"
   },
   "import": {
     "attributes": "Attribute",

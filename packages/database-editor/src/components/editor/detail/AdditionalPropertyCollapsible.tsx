@@ -100,7 +100,9 @@ export const AdditionalCollapsible = ({ activeDb, updateDb }: AdditionalCollapsi
       <CollapsibleContent>
         <BasicField
           label={t('database.additionalProperties')}
-          control={<TableControl addRow={addPropertyRow} deleteRow={deleteRow} hasSelection={table.getIsSomeRowsSelected()} />}
+          control={
+            <TableControl addRow={addPropertyRow} deleteRow={deleteRow} hasSelection={table.getSelectedRowModel().flatRows.length !== 0} />
+          }
         >
           <Table>
             <TableHeader>
