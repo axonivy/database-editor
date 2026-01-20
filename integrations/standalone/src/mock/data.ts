@@ -162,7 +162,7 @@ export const databaseConnections: DatabaseConfigurations = {
 
 export const jdbcDrivers: Array<JdbcDriverProperties> = [
   {
-    name: 'com.mysql.cj.jdbc.Driver',
+    name: 'mySQL',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
@@ -172,7 +172,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'org.mariadb.jdbc.Driver',
+    name: 'MariaDB',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
@@ -180,7 +180,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'net.sourceforge.jtds.jdbc.Driver',
+    name: 'jTDS SQL Server',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
@@ -190,7 +190,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'com.sybase.jdbc3.jdbc.SybDriver',
+    name: 'jConnect (Jdbc3)',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
@@ -200,7 +200,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'com.ibm.db2.jcc.DB2Driver',
+    name: 'DB2',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
@@ -210,7 +210,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'com.microsoft.sqlserver.jdbc.SQLServerDriver',
+    name: 'Microsoft SQL Server',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DatabaseName': 'string',
