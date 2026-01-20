@@ -13,6 +13,7 @@
       "general": "Allgemein",
       "name": "Name",
       "properties": "Eigenschaften",
+      "url": "URL",
       "value": "Wert"
     },
     "message": {

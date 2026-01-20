@@ -53,6 +53,12 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
         minSize: 50
       },
       {
+        id: 'url',
+        accessorFn: data => getUrl(data),
+        header: ({ column }) => <SortableHeader column={column} name={t('common.label.url')} />,
+        cell: cell => <span>{cell.getValue()}</span>
+      },
+      {
         accessorKey: 'driver',
         header: ({ column }) => <SortableHeader column={column} name={t('database.jdbcDriver')} />,
         cell: cell => <span>{cell.getValue()}</span>
@@ -120,4 +126,14 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       </BasicField>
     </Flex>
   );
+};
+
+export const getUrl = (data: DatabaseConfigurationData) => {
+  const properties = data.properties;
+  const host = properties['ch.ivyteam.jdbc.Host'];
+  const port = properties['ch.ivyteam.jdbc.Port'];
+  if (!host) {
+    return '';
+  }
+  return `${host}${port ? ':' + port : ''}`;
 };
