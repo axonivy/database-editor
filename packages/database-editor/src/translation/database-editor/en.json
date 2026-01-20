@@ -48,6 +48,10 @@
     }
   },
   "detail": {
+    "additionalProperties": {
+      "addProperty": "Add Property",
+      "deleteProperty": "Delete Property"
+    },
     "noSelection": "Select a Database Connection to edit its properties."
   },
   "dialog": {

@@ -1,13 +1,20 @@
-import type { Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { AdditionalPropertiesCollapsible } from './AdditionalPropertiesCollapsible';
+import { GeneralCollapsible } from './GeneralCollapsible';
+import { PropertiesCollapsible } from './PropertiesCollapsible';
 
 export class DetailPanel {
   readonly locator: Locator;
   readonly toolbar: Locator;
-  readonly collapsibles: Locator;
+  readonly general: GeneralCollapsible;
+  readonly properties: PropertiesCollapsible;
+  readonly additionalProperties: AdditionalPropertiesCollapsible;
 
-  constructor(parent: Locator) {
+  constructor(page: Page, parent: Locator) {
     this.locator = parent.locator('.database-editor-detail-panel');
     this.toolbar = this.locator.locator('.database-editor-detail-toolbar');
-    this.collapsibles = this.locator.locator('.ui-collapsible');
+    this.general = new GeneralCollapsible(page, this.locator);
+    this.properties = new PropertiesCollapsible(this.locator);
+    this.additionalProperties = new AdditionalPropertiesCollapsible(this.locator);
   }
 }

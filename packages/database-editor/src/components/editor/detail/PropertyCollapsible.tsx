@@ -14,7 +14,7 @@ export const PropertyCollapsible = ({ activeDb, jdbcProps, jdbcDriver, updateDb 
 
   const propertyTranslation: MapStringString = {
     'ch.ivyteam.jdbc.UserName': t('database.property.userName'),
-    'ch.ivyteam.jdbc.DatabaseName': t('database.property.databaseName'),
+    'ch.ivyteam.jdbc.DbName': t('database.property.databaseName'),
     'ch.ivyteam.jdbc.Port': t('database.property.port'),
     'ch.ivyteam.jdbc.Host': t('database.property.host'),
     'ch.ivyteam.jdbc.Password': t('database.property.password'),

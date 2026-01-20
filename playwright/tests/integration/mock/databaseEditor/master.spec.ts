@@ -30,10 +30,7 @@ test.describe('table layout', () => {
   });
 
   test('table row', async () => {
-    const row = editor.main.table.row(0);
-    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-001');
-    await expect(row.column(1).locator).toHaveText('localhost:3306');
-    await expect(row.column(2).locator).toHaveText('mySQL');
+    await editor.main.table.row(0).expectToHaveTexts('TestDatabaseConnection-001', 'localhost:3306', 'mySQL');
   });
 });
 
@@ -58,13 +55,13 @@ test.describe('table keyboard support', () => {
 
 test('sortable', async () => {
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'false');
-  await expect(editor.main.table.row(0).column(0).locator).toHaveText('TestDatabaseConnection-001');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-001');
   await editor.main.table.header(0).sort.click();
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'asc');
-  await expect(editor.main.table.row(0).column(0).locator).toHaveText('TestDatabaseConnection-001');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-001');
   await editor.main.table.header(0).sort.click();
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'desc');
-  await expect(editor.main.table.row(0).column(0).locator).toHaveText('TestDatabaseConnection-003');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-003');
 });
 
 test.describe('add', () => {
@@ -99,9 +96,11 @@ test.describe('add', () => {
     await editor.main.control.add.create.click();
 
     const row = editor.main.table.row(3);
-    await expect(row.column(0).locator).toHaveText('NewDatabaseConnection');
+    await expect(row.cell(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
     await expect(editor.detail.toolbar).toHaveText('Connection Properties - NewDatabaseConnection');
+    await expect(editor.detail.general.jdbcDriver.locator).toHaveText('mySQL');
+    await expect(editor.detail.general.maxConnections).toHaveValue('5');
   });
 
   test('keyboard', async () => {
@@ -122,8 +121,8 @@ test.describe('add', () => {
     await editor.page.keyboard.press('Enter');
     await expect(add.locator).toBeHidden();
 
-    await expect(editor.main.table.row(3).column(0).locator).toHaveText('valid0');
-    await expect(editor.main.table.row(4).column(0).locator).toHaveText('valid1');
+    await expect(editor.main.table.row(3).cell(0).locator).toHaveText('valid0');
+    await expect(editor.main.table.row(4).cell(0).locator).toHaveText('valid1');
 
     await add.trigger.click();
     await editor.page.keyboard.down('ControlOrMeta');
@@ -133,7 +132,7 @@ test.describe('add', () => {
 
     await editor.page.keyboard.press('Escape');
     await expect(add.locator).toBeHidden();
-    await expect(editor.main.table.row(5).column(0).locator).toHaveText('NewDatabaseConnection');
+    await expect(editor.main.table.row(5).cell(0).locator).toHaveText('NewDatabaseConnection');
   });
 });
 
@@ -142,13 +141,13 @@ test.describe('delete', () => {
     const row = editor.main.table.row(0);
 
     await expect(editor.main.control.delete).toBeDisabled();
-    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-001');
+    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-001');
 
     await row.locator.click();
     await expect(editor.main.control.delete).toBeEnabled();
 
     await editor.main.control.delete.click();
-    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-002');
+    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-002');
 
     await row.expectToBeSelected();
     await expect(editor.detail.toolbar).toHaveText('Connection Properties - TestDatabaseConnection-002');
@@ -157,9 +156,9 @@ test.describe('delete', () => {
   test('keyboard', async () => {
     const row = editor.main.table.row(0);
 
-    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-001');
+    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-001');
     await row.locator.click();
     await editor.page.keyboard.press('Delete');
-    await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-002');
+    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-002');
   });
 });
