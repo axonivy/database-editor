@@ -73,7 +73,7 @@ export const DatabaseEditor = (props: EditorProps) => {
         return client.save({
           context,
           data: saveData,
-          directSave: true
+          directSave: props.directSave ?? false
         });
       }
       return Promise.resolve();

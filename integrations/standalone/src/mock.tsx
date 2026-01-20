@@ -25,7 +25,7 @@ root.render(
         <QueryProvider client={queryClient}>
           <ReadonlyProvider readonly={readonly}>
             <HotkeysProvider initiallyActiveScopes={['global']}>
-              <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} />
+              <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} directSave={true} />
             </HotkeysProvider>
           </ReadonlyProvider>
         </QueryProvider>
