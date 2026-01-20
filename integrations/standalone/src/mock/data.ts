@@ -116,7 +116,7 @@ export const databaseConnections: DatabaseConfigurations = {
         prop4: 'value4'
       },
       name: 'TestDatabaseConnection-001',
-      driver: 'com.mysql.cj.jdbc.Driver',
+      driver: 'mySQL',
       icon: '',
       maxConnections: 1
     },
@@ -132,7 +132,7 @@ export const databaseConnections: DatabaseConfigurations = {
       },
       additionalProperties: {},
       name: 'TestDatabaseConnection-002',
-      driver: 'com.mysql.cj.jdbc.Driver',
+      driver: 'mySQL',
       icon: '',
       maxConnections: 1
     },
@@ -153,7 +153,7 @@ export const databaseConnections: DatabaseConfigurations = {
         prop4: 'value4'
       },
       name: 'TestDatabaseConnection-003',
-      driver: 'com.mysql.cj.jdbc.Driver',
+      driver: 'mySQL',
       icon: '',
       maxConnections: 1
     }
