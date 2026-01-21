@@ -1,4 +1,4 @@
-import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type { DatabaseEditorContext, ImportWizardContext } from '@axonivy/database-editor-protocol';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,6 @@ import {
 } from '@axonivy/ui-components';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../AppContext';
 import { ContextProvider } from '../../util/ContextProvider';
 import { useKnownHotkeys } from '../../util/hotkeys';
 import './ImportWizard.css';
@@ -21,9 +20,16 @@ import { WizardContent } from './WizardContent';
 
 const DIALOG_HOTKEY_IDS = ['importWizardDialog'];
 
-export const ImportWizard = ({ children, callback }: { children: ReactNode; callback?: () => void }) => {
+export const ImportWizard = ({
+  children,
+  callback,
+  context
+}: {
+  children: ReactNode;
+  callback?: () => void;
+  context: ImportWizardContext;
+}) => {
   const { t } = useTranslation();
-  const { context, projects } = useAppContext();
 
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
@@ -32,7 +38,7 @@ export const ImportWizard = ({ children, callback }: { children: ReactNode; call
   const [importContext] = useState<DatabaseEditorContext>({
     app: context.app,
     file: context.file,
-    pmv: projects.length >= 1 ? (projects[0] as string) : ''
+    pmv: context.projects.length >= 1 ? (context.projects[0] as string) : ''
   });
 
   return (
@@ -48,7 +54,7 @@ export const ImportWizard = ({ children, callback }: { children: ReactNode; call
         </TooltipProvider>
         <DialogContent className='database-editor-import-dialog'>
           <DialogTitle>{t('import.generate')}</DialogTitle>
-          <WizardContent projects={projects} closeDialog={() => onOpenChange(false)} callback={callback} />
+          <WizardContent projects={context.projects} closeDialog={() => onOpenChange(false)} callback={callback} />
         </DialogContent>
       </Dialog>
     </ContextProvider>
