@@ -39,10 +39,10 @@ test('inputs', async () => {
 test('switch driver', async () => {
   await editor.main.table.row(0).locator.click();
   const driver = editor.detail.locator.getByRole('combobox');
-  await expect(driver).toHaveText('com.mysql.cj.jdbc.Driver');
+  await expect(driver).toHaveText('mySQL');
   await driver.click();
-  await editor.locator.getByText('org.mariadb.jdbc.Driver').click();
-  await expect(driver).toHaveText('org.mariadb.jdbc.Driver');
+  await editor.locator.getByText('MariaDB').click();
+  await expect(driver).toHaveText('MariaDB');
   await expect(editor.detail.collapsibles.nth(1).locator('.ui-field')).toHaveCount(3);
 });
 

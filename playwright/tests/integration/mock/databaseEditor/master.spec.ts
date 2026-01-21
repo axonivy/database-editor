@@ -33,7 +33,7 @@ test.describe('table layout', () => {
     const row = editor.main.table.row(0);
     await expect(row.column(0).locator).toHaveText('TestDatabaseConnection-001');
     await expect(row.column(1).locator).toHaveText('localhost:3306');
-    await expect(row.column(2).locator).toHaveText('com.mysql.cj.jdbc.Driver');
+    await expect(row.column(2).locator).toHaveText('mySQL');
   });
 });
 
