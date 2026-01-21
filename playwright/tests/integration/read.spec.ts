@@ -8,7 +8,8 @@ test('load data', async ({ page }) => {
   await editor.main.table.row(0).locator.click();
   await editor.main.table.row(0).expectToHaveTexts('ivyTeamDatabase', 'ivyteam.io:3306', 'mySQL');
 
-  await expect(editor.detail.general.jdbcDriver.locator).toHaveText('mySQL');
+  await expect(editor.detail.general.database.locator).toHaveText('MySQL');
+  await expect(editor.detail.general.driver.locator).toHaveText('mySQL');
   await expect(editor.detail.general.maxConnections).toHaveValue('10');
 
   await expect(editor.detail.properties.host).toHaveValue('ivyteam.io');
@@ -25,7 +26,8 @@ test('load data', async ({ page }) => {
   await editor.main.table.row(1).locator.click();
   await editor.main.table.row(1).expectToHaveTexts('axonIvyDatabase', '', 'HSQL Db Memory');
 
-  await expect(editor.detail.general.jdbcDriver.locator).toHaveText('HSQL Db Memory');
+  await expect(editor.detail.general.database.locator).toHaveText('Hypersonic SQL Db');
+  await expect(editor.detail.general.driver.locator).toHaveText('HSQL Db Memory');
   await expect(editor.detail.general.maxConnections).toHaveValue('42');
 
   await expect(editor.detail.properties.userName).toHaveValue('admin');

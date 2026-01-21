@@ -31,6 +31,10 @@ export function webSocketBaseParam(): string {
   return `${isSecureConnection() ? 'wss' : 'ws'}://${server()}`;
 }
 
+export function metaJdbcDriversStateParam(): string {
+  return parameter('metaJdbcDriversState') ?? '';
+}
+
 const isSecureConnection = () => {
   const secureParam = parameter('secure');
   if (secureParam === 'true') {

@@ -26,11 +26,12 @@ test.describe('table layout', () => {
 
     await expect(headerName.locator).toHaveText('Name');
     await expect(headerUrl.locator).toHaveText('URL');
-    await expect(headerDriver.locator).toHaveText('Jdbc Driver');
+    await expect(headerDriver.locator).toHaveText('Driver');
   });
 
   test('table row', async () => {
-    await editor.main.table.row(0).expectToHaveTexts('database0', 'host0:3306', 'mySQL');
+    await editor.main.table.row(0).expectToHaveTexts('database0', 'host0:3306', 'MySQL');
+    await editor.main.table.row(1).expectToHaveTexts('database1', '', 'MariaDB');
   });
 });
 
@@ -99,7 +100,8 @@ test.describe('add', () => {
     await expect(row.cell(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
     await expect(editor.detail.toolbar).toHaveText('Connection Properties - NewDatabaseConnection');
-    await expect(editor.detail.general.jdbcDriver.locator).toHaveText('mySQL');
+    await expect(editor.detail.general.database.locator).toHaveText('MySQL');
+    await expect(editor.detail.general.driver.locator).toHaveText('MySQL');
     await expect(editor.detail.general.maxConnections).toHaveValue('5');
   });
 

@@ -16,7 +16,7 @@ test('save data', async () => {
   await editor.main.control.add.name.locator.fill('MyDatabase');
   await editor.main.control.add.create.click();
 
-  await editor.detail.general.jdbcDriver.select('Microsoft SQL Server');
+  await editor.detail.general.database.select('Microsoft SQL Server');
   await editor.detail.general.maxConnections.fill('20');
   await editor.detail.properties.host.fill('myhost');
   await editor.detail.properties.userName.fill('myUserName');
@@ -34,7 +34,8 @@ test('save data', async () => {
   await editor.main.table.row(0).locator.click();
   await editor.main.table.row(0).expectToHaveTexts('MyDatabase', 'myhost:1433', 'Microsoft SQL Server');
 
-  await expect(editor.detail.general.jdbcDriver.locator).toHaveText('Microsoft SQL Server');
+  await expect(editor.detail.general.database.locator).toHaveText('Microsoft SQL Server');
+  await expect(editor.detail.general.driver.locator).toHaveText('Microsoft SQL Server');
   await expect(editor.detail.general.maxConnections).toHaveValue('20');
 
   await expect(editor.detail.properties.host).toHaveValue('myhost');

@@ -5,15 +5,15 @@ import * as ReactDOM from 'react-dom/client';
 import { initTranslation } from './i18n';
 import './index.css';
 import { DatabaseClientMock } from './mock/database-client-mock';
-import { readonlyParam } from './url-helper';
+import { metaJdbcDriversStateParam, readonlyParam } from './url-helper';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('rootElement not found');
 }
 const root = ReactDOM.createRoot(rootElement);
-const client = new DatabaseClientMock();
-const queryClient = initQueryClient();
+const client = new DatabaseClientMock(metaJdbcDriversStateParam());
+const queryClient = initQueryClient({ defaultOptions: { queries: { retry: false } } });
 
 const readonly = readonlyParam();
 initTranslation();

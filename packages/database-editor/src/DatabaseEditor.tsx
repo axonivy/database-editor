@@ -89,7 +89,7 @@ export const DatabaseEditor = (props: EditorProps) => {
   }
 
   if (isError) {
-    return <PanelMessage icon={IvyIcons.ErrorXMark} message={t('common.message.errorOccured', { message: error?.message })} />;
+    return <PanelMessage icon={IvyIcons.ErrorXMark} message={t('common.message.errorOccured', { message: error.message })} />;
   }
 
   return (

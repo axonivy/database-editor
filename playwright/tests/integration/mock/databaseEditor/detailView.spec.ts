@@ -48,19 +48,27 @@ test.describe('additional properties', () => {
 
 test('switch driver', async () => {
   await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.general.jdbcDriver.locator).toHaveText('mySQL');
+  await expect(editor.detail.general.database.locator).toHaveText('MySQL');
+  await editor.detail.general.database.expectToHaveOptions('Hypersonic SQL Db', 'MariaDB', 'Microsoft SQL Server', 'MySQL');
+  await expect(editor.detail.general.driver.locator).toHaveText('MySQL');
+  await editor.detail.general.driver.expectToHaveOptions('MySQL');
+
   await expect(editor.detail.properties.userName).toBeVisible();
   await expect(editor.detail.properties.dbName).toBeVisible();
   await expect(editor.detail.properties.port).toBeVisible();
   await expect(editor.detail.properties.host).toBeVisible();
   await expect(editor.detail.properties.password).toBeVisible();
 
-  await editor.detail.general.jdbcDriver.select('MariaDB');
+  await editor.detail.general.database.select('Hypersonic SQL Db');
+  await expect(editor.detail.general.driver.locator).toHaveText('HSQL Db File');
+  await editor.detail.general.driver.expectToHaveOptions('HSQL Db File', 'HSQL Db Memory', 'HSQL Db Remote Server');
+
+  await editor.detail.general.driver.select('HSQL Db Memory');
   await expect(editor.detail.properties.userName).toBeVisible();
   await expect(editor.detail.properties.dbName).toBeVisible();
-  await expect(editor.detail.properties.port).toBeVisible();
+  await expect(editor.detail.properties.port).toBeHidden();
   await expect(editor.detail.properties.host).toBeHidden();
-  await expect(editor.detail.properties.password).toBeHidden();
+  await expect(editor.detail.properties.password).toBeVisible();
 });
 
 test('title', async () => {
@@ -70,17 +78,30 @@ test('title', async () => {
 });
 
 test('empty', async () => {
-  const panelMessage = editor.detail.locator.locator('.ui-panel-message');
-  await expect(panelMessage).toHaveText('Select a Database Connection to edit its properties.');
+  await expect(editor.detail.panelMessage).toHaveText('Select a Database Connection to edit its properties.');
   await editor.main.table.row(0).locator.click();
-  await expect(panelMessage).toBeHidden();
+  await expect(editor.detail.panelMessage).toBeHidden();
 });
 
 test('do not leak values into details of another connection', async () => {
   await editor.main.table.row(1).locator.click();
-  await editor.detail.general.jdbcDriver.select('mySQL');
+  await editor.detail.general.database.select('MySQL');
   await editor.main.table.row(0).locator.click();
   await editor.main.table.row(1).locator.click();
   await expect(editor.detail.properties.host).toBeEmpty();
   await expect(editor.detail.properties.password).toBeEmpty();
+});
+
+test.describe('driver query', () => {
+  test('isPending', async () => {
+    editor = await DatabaseEditor.openMock(editor.page, { metaJdbcDriversState: 'isPending' });
+    await editor.main.table.row(0).locator.click();
+    await expect(editor.detail.locator.locator('.database-editor-detail-spinner')).toBeVisible();
+  });
+
+  test('isError', async () => {
+    editor = await DatabaseEditor.openMock(editor.page, { metaJdbcDriversState: 'isError' });
+    await editor.main.table.row(0).locator.click();
+    await expect(editor.detail.panelMessage).toHaveText('An error occurred: error message');
+  });
 });

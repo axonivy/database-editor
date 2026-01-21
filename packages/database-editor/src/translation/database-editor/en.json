@@ -9,7 +9,9 @@
     },
     "label": {
       "cancel": "Cancel",
+      "database": "Database",
       "details": "Details",
+      "driver": "Driver",
       "general": "General",
       "name": "Name",
       "properties": "Properties",
@@ -17,7 +19,7 @@
       "value": "Value"
     },
     "message": {
-      "errorOccured": "Error occured"
+      "errorOccured": "An error occurred: {{message}}"
     }
   },
   "database": {
@@ -25,7 +27,6 @@
     "allConnections": "All Database Connections",
     "connectionProperties": "Connection Properties",
     "databaseEditor": "Database Editor - {{projectName}}",
-    "jdbcDriver": "Jdbc Driver",
     "maxConnections": "Max. Connections",
     "placeholder": {
       "key": "Enter a Key",

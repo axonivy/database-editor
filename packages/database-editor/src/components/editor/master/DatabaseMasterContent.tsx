@@ -60,7 +60,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       },
       {
         accessorKey: 'driver',
-        header: ({ column }) => <SortableHeader column={column} name={t('database.jdbcDriver')} />,
+        header: ({ column }) => <SortableHeader column={column} name={t('common.label.driver')} />,
         cell: cell => <span>{cell.getValue()}</span>
       }
     ],

@@ -25,6 +25,12 @@ export class DatabaseClientMock implements Client {
   private jdbcDrivers: Array<JdbcDriverProperties> = jdbcDrivers;
   private databaseConnections: DatabaseConfigurations = databaseConnections;
 
+  private readonly metaJdbcDriversState: string;
+
+  constructor(metaJdbcDriversState: string) {
+    this.metaJdbcDriversState = metaJdbcDriversState;
+  }
+
   data(): Promise<DatabaseConfigurations> {
     return Promise.resolve(this.databaseConnections);
   }
@@ -34,7 +40,7 @@ export class DatabaseClientMock implements Client {
     return Promise.resolve({ content: '' });
   }
 
-  meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
+  async meta<TMeta extends keyof MetaRequestTypes>(path: TMeta, args: MetaRequestTypes[TMeta][0]): Promise<MetaRequestTypes[TMeta][1]> {
     switch (path) {
       case 'meta/allDatabaseNames':
         return Promise.resolve(this.databaseData);
@@ -46,6 +52,11 @@ export class DatabaseClientMock implements Client {
           tables: this.databaseTableInfoData.tables.filter(t => (args as DatabaseEditorDBContext).tableNames.includes(t.name))
         });
       case 'meta/jdbcDrivers':
+        if (this.metaJdbcDriversState === 'isPending') {
+          await new Promise(res => setTimeout(res, 1000));
+        } else if (this.metaJdbcDriversState === 'isError') {
+          throw Error('error message');
+        }
         return Promise.resolve(this.jdbcDrivers);
       default:
         throw Error('mock meta path not programmed');
