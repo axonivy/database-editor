@@ -100,62 +100,49 @@ export const mockError: Database['creationError'] = [
 export const databaseConnections: DatabaseConfigurations = {
   connections: [
     {
+      name: 'database0',
+      driver: 'mySQL',
+      icon: '',
+      maxConnections: 5,
       properties: {
-        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
-        'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DbName': 'databaseName',
+        'ch.ivyteam.jdbc.UserName': 'user0',
+        'ch.ivyteam.jdbc.DbName': 'database0',
         'ch.ivyteam.jdbc.Port': '3306',
-        'ch.ivyteam.jdbc.Host': 'localhost',
-        'ch.ivyteam.jdbc.Password': 'password',
-        'ch.ivyteam.jdbc.ODBC': 'odbc'
+        'ch.ivyteam.jdbc.Host': 'host0',
+        'ch.ivyteam.jdbc.Password': 'password0'
       },
       additionalProperties: {
+        prop0: 'value0',
         prop1: 'value1',
         prop2: 'value2',
-        prop3: 'value3',
-        prop4: 'value4'
-      },
-      name: 'TestDatabaseConnection-001',
-      driver: 'mySQL',
-      icon: '',
-      maxConnections: 1
+        prop3: 'value3'
+      }
     },
     {
-      properties: {
-        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
-        'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DbName': 'databaseName',
-        'ch.ivyteam.jdbc.Port': '3306',
-        'ch.ivyteam.jdbc.Host': 'localhost',
-        'ch.ivyteam.jdbc.Password': 'password',
-        'ch.ivyteam.jdbc.ODBC': 'odbc'
-      },
-      additionalProperties: {},
-      name: 'TestDatabaseConnection-002',
-      driver: 'mySQL',
+      name: 'database1',
+      driver: 'MariaDB',
       icon: '',
-      maxConnections: 1
+      maxConnections: 10,
+      properties: {
+        'ch.ivyteam.jdbc.UserName': 'user1',
+        'ch.ivyteam.jdbc.DbName': 'database1',
+        'ch.ivyteam.jdbc.Port': '3307'
+      },
+      additionalProperties: {}
     },
     {
-      properties: {
-        'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
-        'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DbName': 'databaseName',
-        'ch.ivyteam.jdbc.Port': '3306',
-        'ch.ivyteam.jdbc.Host': 'localhost',
-        'ch.ivyteam.jdbc.Password': 'password',
-        'ch.ivyteam.jdbc.ODBC': 'odbc'
-      },
-      additionalProperties: {
-        prop1: 'value1',
-        prop2: 'value2',
-        prop3: 'value3',
-        prop4: 'value4'
-      },
-      name: 'TestDatabaseConnection-003',
-      driver: 'mySQL',
+      name: 'database2',
+      driver: 'SQL Server jTDS',
       icon: '',
-      maxConnections: 1
+      maxConnections: 20,
+      properties: {
+        'ch.ivyteam.jdbc.UserName': 'user2',
+        'ch.ivyteam.jdbc.DbName': 'database2',
+        'ch.ivyteam.jdbc.Port': '3308',
+        'ch.ivyteam.jdbc.Host': 'host2',
+        'ch.ivyteam.jdbc.Password': 'password2'
+      },
+      additionalProperties: {}
     }
   ]
 };
@@ -180,7 +167,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'jTDS SQL Server',
+    name: 'SQL Server jTDS',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DbName': 'string',

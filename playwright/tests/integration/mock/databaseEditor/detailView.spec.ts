@@ -14,10 +14,10 @@ test.describe('additional properties', () => {
     await editor.detail.additionalProperties.trigger.click();
     await expect(editor.detail.additionalProperties.content).toBeVisible();
     await expect(editor.detail.additionalProperties.table.rows).toHaveCount(4);
-    await editor.detail.additionalProperties.table.row(0).expectToHaveValues('prop1', 'value1');
-    await editor.detail.additionalProperties.table.row(1).expectToHaveValues('prop2', 'value2');
-    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop3', 'value3');
-    await editor.detail.additionalProperties.table.row(3).expectToHaveValues('prop4', 'value4');
+    await editor.detail.additionalProperties.table.row(0).expectToHaveValues('prop0', 'value0');
+    await editor.detail.additionalProperties.table.row(1).expectToHaveValues('prop1', 'value1');
+    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop2', 'value2');
+    await editor.detail.additionalProperties.table.row(3).expectToHaveValues('prop3', 'value3');
   });
 
   test('add', async () => {
@@ -42,7 +42,7 @@ test.describe('additional properties', () => {
     await editor.detail.additionalProperties.delete.click();
     await expect(editor.detail.additionalProperties.table.rows).toHaveCount(3);
     await editor.detail.additionalProperties.table.row(2).expectToBeSelected();
-    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop3', 'value3');
+    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop2', 'value2');
   });
 });
 
@@ -66,7 +66,7 @@ test('switch driver', async () => {
 test('title', async () => {
   await expect(editor.detail.toolbar).toHaveText('Connection Properties');
   await editor.main.table.row(1).locator.click();
-  await expect(editor.detail.toolbar).toHaveText('Connection Properties - TestDatabaseConnection-002');
+  await expect(editor.detail.toolbar).toHaveText('Connection Properties - database1');
 });
 
 test('empty', async () => {
@@ -74,4 +74,13 @@ test('empty', async () => {
   await expect(panelMessage).toHaveText('Select a Database Connection to edit its properties.');
   await editor.main.table.row(0).locator.click();
   await expect(panelMessage).toBeHidden();
+});
+
+test('do not leak values into details of another connection', async () => {
+  await editor.main.table.row(1).locator.click();
+  await editor.detail.general.jdbcDriver.select('mySQL');
+  await editor.main.table.row(0).locator.click();
+  await editor.main.table.row(1).locator.click();
+  await expect(editor.detail.properties.host).toBeEmpty();
+  await expect(editor.detail.properties.password).toBeEmpty();
 });

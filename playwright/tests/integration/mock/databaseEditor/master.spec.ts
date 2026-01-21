@@ -30,7 +30,7 @@ test.describe('table layout', () => {
   });
 
   test('table row', async () => {
-    await editor.main.table.row(0).expectToHaveTexts('TestDatabaseConnection-001', 'localhost:3306', 'mySQL');
+    await editor.main.table.row(0).expectToHaveTexts('database0', 'host0:3306', 'mySQL');
   });
 });
 
@@ -55,13 +55,13 @@ test.describe('table keyboard support', () => {
 
 test('sortable', async () => {
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'false');
-  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-001');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('database0');
   await editor.main.table.header(0).sort.click();
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'asc');
-  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-001');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('database0');
   await editor.main.table.header(0).sort.click();
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'desc');
-  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('TestDatabaseConnection-003');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('database2');
 });
 
 test.describe('add', () => {
@@ -82,7 +82,7 @@ test.describe('add', () => {
     await nameMessage.expectToBeError('Name cannot be empty.');
     await expect(add.create).toBeDisabled();
 
-    await add.name.locator.fill('TestDatabaseConnection-002');
+    await add.name.locator.fill('database1');
     await nameMessage.expectToBeError('Name is already taken.');
     await expect(add.create).toBeDisabled();
 
@@ -141,24 +141,24 @@ test.describe('delete', () => {
     const row = editor.main.table.row(0);
 
     await expect(editor.main.control.delete).toBeDisabled();
-    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-001');
+    await expect(row.cell(0).locator).toHaveText('database0');
 
     await row.locator.click();
     await expect(editor.main.control.delete).toBeEnabled();
 
     await editor.main.control.delete.click();
-    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-002');
+    await expect(row.cell(0).locator).toHaveText('database1');
 
     await row.expectToBeSelected();
-    await expect(editor.detail.toolbar).toHaveText('Connection Properties - TestDatabaseConnection-002');
+    await expect(editor.detail.toolbar).toHaveText('Connection Properties - database1');
   });
 
   test('keyboard', async () => {
     const row = editor.main.table.row(0);
 
-    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-001');
+    await expect(row.cell(0).locator).toHaveText('database0');
     await row.locator.click();
     await editor.page.keyboard.press('Delete');
-    await expect(row.cell(0).locator).toHaveText('TestDatabaseConnection-002');
+    await expect(row.cell(0).locator).toHaveText('database1');
   });
 });
