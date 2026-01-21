@@ -89,7 +89,7 @@ export class DatabaseEditor {
     const result = await fetch(`${server}${ws}/api/web-ide/project?app=${app}&pmv=${this.pmv}`, {
       method: 'DELETE',
       headers: {
-        'X-Requested-By': 'cms-editor-tests',
+        'X-Requested-By': 'database-editor-tests',
         'Content-Type': 'application/json',
         Authorization: 'Basic ' + Buffer.from(user + ':' + user).toString('base64')
       }

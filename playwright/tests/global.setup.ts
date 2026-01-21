@@ -2,7 +2,7 @@ const setup = async () => {
   if (!process.env.BASE_URL) {
     return;
   }
-  const server = process.env.BASE_URL ?? 'http://localhost:8080';
+  const server = process.env.BASE_URL;
   await fetch(`${server}api/web-ide/workspaces`, {
     method: 'GET',
     headers: {
