@@ -43,7 +43,7 @@ export const PropertyCollapsible = () => {
               <BasicInput
                 type={value === 'number' ? 'number' : 'text'}
                 onChange={event => updateDatabaseConfig(database => (database.properties[key] = event.target.value))}
-                value={databaseConfig.properties[key]}
+                value={databaseConfig.properties[key] ?? ''}
               />
             </BasicField>
           ))}
