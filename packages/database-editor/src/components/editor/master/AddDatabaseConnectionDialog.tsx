@@ -69,7 +69,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
       name,
       driver: jdbcDrivers?.at(0)?.name ?? '',
       icon: '',
-      maxConnections: 0,
+      maxConnections: 5,
       properties: {},
       additionalProperties: {}
     };

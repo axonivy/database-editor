@@ -1,16 +1,17 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/app/13.2.1/databases.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/14.0.0/databases.json
 Databases:
-  TestDatabaseConnection-001:
-    Url: jdbc:mysql://localhost:3306/TestDatabase001
+  ivyTeamDatabase:
+    Url: jdbc:mysql://ivyteam.io:3306/ivyteam
     Driver: com.mysql.cj.jdbc.Driver
-    UserName: test
-    Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
-  TestDatabaseConnection-002:
-    Url: jdbc:mysql://localhost:3307/TestDatabase002
-    Driver: com.mysql.cj.jdbc.Driver
-    UserName: test
-    Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
-  IvySystemDatabase:
-    Url: jdbc:mysql://null
-    Driver: com.mysql.cj.jdbc.Driver
-    Password: ${decrypt:}
+    UserName: ivy
+    Password: ${decrypt:/ONFjKtA0h6caXsEaRP29A==}
+    MaxConnections: 10
+    Properties:
+      additionalPropertyName0: additionalPropertyValue0
+      additionalPropertyName1: additionalPropertyValue1
+  axonIvyDatabase:
+    Url: jdbc:hsqldb:mem:axonivy
+    Driver: org.hsqldb.jdbc.JDBCDriver
+    UserName: admin
+    Password: ${decrypt:k1GmwSEiJtUbRb2q6CZ9QQ==}
+    MaxConnections: 42

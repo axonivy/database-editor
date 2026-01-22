@@ -15,6 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   useTableSelect
 } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
@@ -139,10 +143,30 @@ type TableControlProps = {
 };
 
 const TableControl = ({ addRow, deleteRow, hasSelection }: TableControlProps) => {
+  const { t } = useTranslation();
   return (
     <Flex direction='row' gap={2}>
-      <Button icon={IvyIcons.Plus} onClick={addRow} />
-      <Button icon={IvyIcons.Trash} onClick={deleteRow} disabled={!hasSelection} />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button icon={IvyIcons.Plus} onClick={addRow} aria-label={t('detail.additionalProperties.addProperty')} />
+          </TooltipTrigger>
+          <TooltipContent>{t('detail.additionalProperties.addProperty')}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              icon={IvyIcons.Trash}
+              onClick={deleteRow}
+              disabled={!hasSelection}
+              aria-label={t('detail.additionalProperties.deleteProperty')}
+            />
+          </TooltipTrigger>
+          <TooltipContent>{t('detail.additionalProperties.deleteProperty')}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </Flex>
   );
 };

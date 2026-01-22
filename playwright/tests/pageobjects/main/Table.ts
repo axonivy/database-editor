@@ -43,8 +43,12 @@ export class Row {
     this.locator = rows.nth(index);
   }
 
-  column(column: number) {
+  cell(column: number) {
     return new Cell(this.locator, column);
+  }
+
+  inputCell(column: number) {
+    return new InputCell(this.locator, column);
   }
 
   async expectToBeSelected() {
@@ -54,6 +58,18 @@ export class Row {
   async expectNotToBeSelected() {
     await expect(this.locator).toHaveAttribute('data-state', 'unselected');
   }
+
+  async expectToHaveTexts(...values: Array<string>) {
+    for (let i = 0; i < values.length; i++) {
+      await expect(this.cell(i).locator).toHaveText(values[i]!);
+    }
+  }
+
+  async expectToHaveValues(...values: Array<string>) {
+    for (let i = 0; i < values.length; i++) {
+      await expect(this.inputCell(i).locator).toHaveValue(values[i]!);
+    }
+  }
 }
 
 export class Cell {
@@ -61,5 +77,18 @@ export class Cell {
 
   constructor(rowLocator: Locator, index: number) {
     this.locator = rowLocator.getByRole('cell').nth(index);
+  }
+}
+
+export class InputCell {
+  readonly locator: Locator;
+
+  constructor(rowLocator: Locator, index: number) {
+    this.locator = rowLocator.getByRole('cell').nth(index).locator('input');
+  }
+
+  async fill(value: string) {
+    await this.locator.fill(value);
+    await this.locator.blur();
   }
 }

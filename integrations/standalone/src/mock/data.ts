@@ -103,7 +103,7 @@ export const databaseConnections: DatabaseConfigurations = {
       properties: {
         'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
         'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.DbName': 'databaseName',
         'ch.ivyteam.jdbc.Port': '3306',
         'ch.ivyteam.jdbc.Host': 'localhost',
         'ch.ivyteam.jdbc.Password': 'password',
@@ -124,7 +124,7 @@ export const databaseConnections: DatabaseConfigurations = {
       properties: {
         'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
         'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.DbName': 'databaseName',
         'ch.ivyteam.jdbc.Port': '3306',
         'ch.ivyteam.jdbc.Host': 'localhost',
         'ch.ivyteam.jdbc.Password': 'password',
@@ -140,7 +140,7 @@ export const databaseConnections: DatabaseConfigurations = {
       properties: {
         'ch.ivyteam.jdbc.DriverName': 'sun.jdbc.odbc.JdbcOdbcDriver',
         'ch.ivyteam.jdbc.UserName': 'userName',
-        'ch.ivyteam.jdbc.DatabaseName': 'databaseName',
+        'ch.ivyteam.jdbc.DbName': 'databaseName',
         'ch.ivyteam.jdbc.Port': '3306',
         'ch.ivyteam.jdbc.Host': 'localhost',
         'ch.ivyteam.jdbc.Password': 'password',
@@ -165,7 +165,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'mySQL',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
@@ -175,7 +175,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'MariaDB',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number'
     }
   },
@@ -183,7 +183,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'jTDS SQL Server',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
@@ -193,7 +193,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'jConnect (Jdbc3)',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
@@ -203,7 +203,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'DB2',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
@@ -213,7 +213,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'Microsoft SQL Server',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DatabaseName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'

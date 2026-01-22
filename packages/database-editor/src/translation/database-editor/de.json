@@ -48,6 +48,10 @@
     }
   },
   "detail": {
+    "additionalProperties": {
+      "addProperty": "Eigenschaft hinzufügen",
+      "deleteProperty": "Eigenschaft löschen"
+    },
     "noSelection": "Wähle eine Datenbank-Verbindung aus, um deren Eigenschaften zu bearbeiten."
   },
   "dialog": {

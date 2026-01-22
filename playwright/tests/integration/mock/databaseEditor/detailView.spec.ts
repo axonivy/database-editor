@@ -7,43 +7,60 @@ test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
 });
 
-test('configuration elements', async () => {
-  await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.locator).toBeVisible();
-});
+test.describe('additional properties', () => {
+  test('row data', async () => {
+    await editor.main.table.row(0).locator.click();
+    await expect(editor.detail.additionalProperties.content).toBeHidden();
+    await editor.detail.additionalProperties.trigger.click();
+    await expect(editor.detail.additionalProperties.content).toBeVisible();
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(4);
+    await editor.detail.additionalProperties.table.row(0).expectToHaveValues('prop1', 'value1');
+    await editor.detail.additionalProperties.table.row(1).expectToHaveValues('prop2', 'value2');
+    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop3', 'value3');
+    await editor.detail.additionalProperties.table.row(3).expectToHaveValues('prop4', 'value4');
+  });
 
-test('inputs', async () => {
-  await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.collapsibles).toHaveCount(3);
+  test('add', async () => {
+    await editor.main.table.row(0).locator.click();
+    await editor.detail.additionalProperties.trigger.click();
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(4);
 
-  const generalInputs = editor.detail.collapsibles.nth(0).locator('.ui-field');
-  const propertiesInputs = editor.detail.collapsibles.nth(1).locator('.ui-field');
-  const additionalInputs = editor.detail.collapsibles.nth(2).locator('.ui-table-row');
+    await editor.detail.additionalProperties.add.click();
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(5);
+    await editor.detail.additionalProperties.table.row(4).expectToHaveValues('Enter a Key', 'Enter a Value');
+  });
 
-  await expect(generalInputs).toHaveCount(2);
-  await expect(generalInputs.getByText('Jdbc Driver')).toBeVisible();
-  await expect(generalInputs.getByText('Max. Connections')).toBeVisible();
+  test('delete', async () => {
+    await editor.main.table.row(0).locator.click();
+    await editor.detail.additionalProperties.trigger.click();
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(4);
 
-  await expect(propertiesInputs).toHaveCount(5);
-  await expect(propertiesInputs.getByText('User')).toBeVisible();
-  await expect(propertiesInputs.getByText('Database name')).toBeVisible();
-  await expect(propertiesInputs.getByText('Port')).toBeVisible();
-  await expect(propertiesInputs.getByText('Host')).toBeVisible();
-  await expect(propertiesInputs.getByText('Password')).toBeVisible();
+    await expect(editor.detail.additionalProperties.delete).toBeDisabled();
+    await editor.detail.additionalProperties.table.row(3).locator.click();
+    await expect(editor.detail.additionalProperties.delete).toBeEnabled();
 
-  await expect(additionalInputs).toHaveCount(0);
-  await editor.detail.collapsibles.nth(2).click();
-  await expect(additionalInputs).toHaveCount(5);
+    await editor.detail.additionalProperties.delete.click();
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(3);
+    await editor.detail.additionalProperties.table.row(2).expectToBeSelected();
+    await editor.detail.additionalProperties.table.row(2).expectToHaveValues('prop3', 'value3');
+  });
 });
 
 test('switch driver', async () => {
   await editor.main.table.row(0).locator.click();
-  const driver = editor.detail.locator.getByRole('combobox');
-  await expect(driver).toHaveText('mySQL');
-  await driver.click();
-  await editor.locator.getByText('MariaDB').click();
-  await expect(driver).toHaveText('MariaDB');
-  await expect(editor.detail.collapsibles.nth(1).locator('.ui-field')).toHaveCount(3);
+  await expect(editor.detail.general.jdbcDriver.locator).toHaveText('mySQL');
+  await expect(editor.detail.properties.userName).toBeVisible();
+  await expect(editor.detail.properties.dbName).toBeVisible();
+  await expect(editor.detail.properties.port).toBeVisible();
+  await expect(editor.detail.properties.host).toBeVisible();
+  await expect(editor.detail.properties.password).toBeVisible();
+
+  await editor.detail.general.jdbcDriver.select('MariaDB');
+  await expect(editor.detail.properties.userName).toBeVisible();
+  await expect(editor.detail.properties.dbName).toBeVisible();
+  await expect(editor.detail.properties.port).toBeVisible();
+  await expect(editor.detail.properties.host).toBeHidden();
+  await expect(editor.detail.properties.password).toBeHidden();
 });
 
 test('title', async () => {

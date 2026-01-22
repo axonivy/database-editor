@@ -8,7 +8,7 @@
       "name": "Launch Standalone (Chrome)",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3001/?server=localhost:8080/~Developer-database-editor-test-project&app=Developer-database-editor-test-project&pmv=database-editor-test-project&directSave",
+      "url": "http://localhost:3001/?server=localhost:8080/~Developer-database-editor-test-project&app=Developer-database-editor-test-project&pmv=database-editor-test-project",
       "preLaunchTask": "Start Standalone",
       "postDebugTask": "Terminate All Tasks"
     },
