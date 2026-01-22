@@ -33,19 +33,18 @@
       "value": "Enter a Value"
     },
     "property": {
-      "databaseName": "Database name",
-      "fileName": "File Name",
+      "databaseName": "Database Name",
+      "driverName": "Driver Class",
+      "fileName": "File",
       "host": "Host",
-      "odbc": "ODBC",
-      "oracleLdap": "Oracle LDAP",
-      "oracleLdaps": "Oracle LDAPS",
-      "oracleServiceId": "Oracle Service ID",
-      "oracleServiceName": "Oracle Service name",
+      "oracleLdap": "Oracle LDAP Name",
+      "oracleLdaps": "Oracle LDAPS Name",
+      "oracleServiceId": "Oracle Service ID (SID)",
+      "oracleServiceName": "Oracle Service Name",
       "oracleTNS": "Oracle TNS",
       "password": "Password",
       "port": "Port",
-      "schemaName": "Schema Name",
-      "userName": "User Name"
+      "userName": "User"
     }
   },
   "detail": {

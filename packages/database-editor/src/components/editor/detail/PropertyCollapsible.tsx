@@ -9,14 +9,13 @@ export const PropertyCollapsible = () => {
 
   const propertyTranslation: Record<string, string> = useMemo(
     () => ({
-      'ch.ivyteam.jdbc.UserName': t('database.property.userName'),
-      'ch.ivyteam.jdbc.DbName': t('database.property.databaseName'),
-      'ch.ivyteam.jdbc.Port': t('database.property.port'),
       'ch.ivyteam.jdbc.Host': t('database.property.host'),
+      'ch.ivyteam.jdbc.Port': t('database.property.port'),
+      'ch.ivyteam.jdbc.DbName': t('database.property.databaseName'),
+      'ch.ivyteam.jdbc.DriverName': t('database.property.driverName'),
+      'ch.ivyteam.jdbc.UserName': t('database.property.userName'),
       'ch.ivyteam.jdbc.Password': t('database.property.password'),
-      'ch.ivyteam.jdbc.ODBC': t('database.property.odbc'),
       'ch.ivyteam.jdbc.FileName': t('database.property.fileName'),
-      'ch.ivyteam.jdbc.SchemaName': t('database.property.schemaName'),
       'ch.ivyteam.jdbc.OracleTNS': t('database.property.oracleTNS'),
       'ch.ivyteam.jdbc.OracleServiceId': t('database.property.oracleServiceId'),
       'ch.ivyteam.jdbc.OracleServiceName': t('database.property.oracleServiceName'),

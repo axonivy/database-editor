@@ -11,7 +11,7 @@ export class PropertiesCollapsible extends Collapsible {
   constructor(parent: Locator) {
     super(parent, { name: 'Properties' });
     this.host = this.content.getByRole('textbox', { name: 'Host' });
-    this.userName = this.content.getByRole('textbox', { name: 'User Name' });
+    this.userName = this.content.getByRole('textbox', { name: 'User' });
     this.dbName = this.content.getByRole('textbox', { name: 'Database Name' });
     this.port = this.content.getByRole('spinbutton', { name: 'Port' });
     this.password = this.content.getByRole('textbox', { name: 'Password' });
