@@ -68,8 +68,8 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
   };
 
   const selectedDriver = drivers.find(driver => driver.name === databaseConfig.driver) ?? {
-    name: 'unkown',
-    databaseProduct: 'unkown',
+    name: 'unknown',
+    databaseProduct: 'unknown',
     properties: {}
   };
 
