@@ -125,3 +125,14 @@ test.describe('driver query', () => {
     await expect(editor.detail.panelMessage).toHaveText('An error occurred: error message');
   });
 });
+
+test('other driver', async () => {
+  await editor.main.table.row(3).locator.click();
+  await editor.main.table.row(3).expectToHaveTexts('otherDatabase', 'other:connection:url', 'other.driver.class');
+  await expect(editor.detail.general.database.locator).toHaveText('Other');
+  await expect(editor.detail.general.driver.locator).toHaveText('Other');
+  await expect(editor.detail.properties.connectionUrl).toHaveValue('other:connection:url');
+  await expect(editor.detail.properties.driverName).toHaveValue('other.driver.class');
+  await expect(editor.detail.properties.userName).toHaveValue('otherUser');
+  await expect(editor.detail.properties.password).toHaveValue('otherPassword');
+});

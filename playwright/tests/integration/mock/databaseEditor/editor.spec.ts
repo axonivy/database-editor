@@ -27,23 +27,23 @@ test('undo / redo', async ({ page, browserName }) => {
   await expect(editor.main.toolbar.undo).toBeDisabled();
   await expect(editor.main.toolbar.redo).toBeDisabled();
   await editor.main.table.row(1).locator.click();
-  await expect(editor.main.table.rows).toHaveCount(3);
+  await expect(editor.main.table.rows).toHaveCount(4);
   await editor.main.control.delete.click();
-  await expect(editor.main.table.rows).toHaveCount(2);
+  await expect(editor.main.table.rows).toHaveCount(3);
 
   await expect(editor.main.toolbar.undo).toBeEnabled();
   await editor.main.toolbar.undo.click();
-  await expect(editor.main.table.rows).toHaveCount(3);
+  await expect(editor.main.table.rows).toHaveCount(4);
   await expect(editor.main.toolbar.undo).toBeDisabled();
 
   await expect(editor.main.toolbar.redo).toBeEnabled();
   await editor.main.toolbar.redo.click();
-  await expect(editor.main.table.rows).toHaveCount(2);
+  await expect(editor.main.table.rows).toHaveCount(3);
   await expect(editor.main.toolbar.redo).toBeDisabled();
 
   await page.keyboard.press('ControlOrMeta+Z');
-  await expect(editor.main.table.rows).toHaveCount(3);
+  await expect(editor.main.table.rows).toHaveCount(4);
 
   await page.keyboard.press(browserName === 'webkit' ? 'ControlOrMeta+Shift+Z' : 'ControlOrMeta+Y');
-  await expect(editor.main.table.rows).toHaveCount(2);
+  await expect(editor.main.table.rows).toHaveCount(3);
 });

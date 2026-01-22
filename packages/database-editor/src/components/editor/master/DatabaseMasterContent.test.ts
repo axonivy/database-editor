@@ -1,24 +1,35 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
-import { getUrl } from './DatabaseMasterContent';
+import { driverOfConnection, urlOfConnection } from './DatabaseMasterContent';
 
-test('getUrl', () => {
-  const complProps = { 'ch.ivyteam.jdbc.Host': 'localhost', 'ch.ivyteam.jdbc.Port': '3306' };
-  const missingHostProps = { 'ch.ivyteam.jdbc.Port': '3306' };
-  const missingPortProps = { 'ch.ivyteam.jdbc.Host': 'localhost' };
-  const data: DatabaseConfigurationData = {
-    name: 'db1',
-    driver: '',
-    icon: '',
-    maxConnections: 0,
-    properties: complProps,
-    additionalProperties: {}
+test('urlOfConnection', () => {
+  const data = {} as DatabaseConfigurationData;
+
+  data.properties = {
+    'ch.ivyteam.jdbc.Host': 'localhost',
+    'ch.ivyteam.jdbc.Port': '3306',
+    'ch.ivyteam.ivy.connectionUrl': 'connection:url'
   };
+  expect(urlOfConnection(data)).toEqual('localhost:3306');
 
-  expect(getUrl(data)).toEqual('localhost:3306');
+  data.properties = { 'ch.ivyteam.jdbc.Host': 'localhost', 'ch.ivyteam.ivy.connectionUrl': 'connection:url' };
+  expect(urlOfConnection(data)).toEqual('localhost');
 
-  data.properties = missingHostProps;
-  expect(getUrl(data)).toEqual('');
+  data.properties = { 'ch.ivyteam.jdbc.ConnectionUrl': 'connection:url' };
+  expect(urlOfConnection(data)).toEqual('connection:url');
 
-  data.properties = missingPortProps;
-  expect(getUrl(data)).toEqual('localhost');
+  data.properties = {};
+  expect(urlOfConnection(data)).toBeUndefined();
+});
+
+test('driverOfConnection', () => {
+  const data = {} as DatabaseConfigurationData;
+
+  data.properties = { 'ch.ivyteam.jdbc.DriverName': 'DriverFromProperties' };
+  expect(driverOfConnection(data)).toEqual('DriverFromProperties');
+
+  data.driver = '';
+  expect(driverOfConnection(data)).toEqual('DriverFromProperties');
+
+  data.driver = 'DriverFromField';
+  expect(driverOfConnection(data)).toEqual('DriverFromField');
 });

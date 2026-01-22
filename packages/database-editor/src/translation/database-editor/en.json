@@ -34,6 +34,7 @@
       "value": "Enter a Value"
     },
     "property": {
+      "connectionUrl": "Connection URL",
       "databaseName": "Database Name",
       "driverName": "Driver Class",
       "fileName": "File",

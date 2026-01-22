@@ -144,6 +144,19 @@ export const databaseConnections: DatabaseConfigurations = {
         'ch.ivyteam.jdbc.Password': 'password2'
       },
       additionalProperties: {}
+    },
+    {
+      name: 'otherDatabase',
+      driver: '',
+      icon: '',
+      maxConnections: 5,
+      properties: {
+        'ch.ivyteam.jdbc.ConnectionUrl': 'other:connection:url',
+        'ch.ivyteam.jdbc.DriverName': 'other.driver.class',
+        'ch.ivyteam.jdbc.UserName': 'otherUser',
+        'ch.ivyteam.jdbc.Password': 'otherPassword'
+      },
+      additionalProperties: {}
     }
   ]
 };
@@ -166,7 +179,9 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DbName': 'string',
-      'ch.ivyteam.jdbc.Port': 'number'
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
     }
   },
   {
@@ -195,10 +210,8 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     name: 'HSQL Db File',
     databaseProduct: 'Hypersonic SQL Db',
     properties: {
+      'ch.ivyteam.jdbc.FileName': 'string',
       'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DbName': 'string',
-      'ch.ivyteam.jdbc.Port': 'number',
-      'ch.ivyteam.jdbc.Host': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
     }
   },

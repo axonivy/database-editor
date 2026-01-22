@@ -93,9 +93,9 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
   };
 
   const selectedDriver = drivers.find(driver => driver.name === databaseConfig.driver) ?? {
-    name: 'unknown',
-    databaseProduct: 'unknown',
-    properties: {}
+    name: 'Other',
+    databaseProduct: 'Other',
+    properties: Object.fromEntries(Object.entries(databaseConfig.properties).map(([key]) => [key, 'string']))
   };
 
   return (
