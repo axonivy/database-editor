@@ -3,11 +3,12 @@ import { Flex, PanelMessage, SidebarHeader, Spinner, useHotkeys } from '@axonivy
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DetailProvider, useAppContext } from '../../../AppContext';
+import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { AdditionalCollapsible } from './AdditionalPropertyCollapsible';
 import './DatabaseDetail.css';
+import { DetailProvider } from './DetailContext';
 import { GeneralCollapsible } from './GeneralCollapsible';
 import { PropertyCollapsible } from './PropertyCollapsible';
 

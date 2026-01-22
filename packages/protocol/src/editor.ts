@@ -110,8 +110,5 @@ export interface EditorFileContent {
 export interface JdbcDriverProperties {
   databaseProduct: string;
   name: string;
-  properties: MapStringObject;
-}
-export interface MapStringObject {
-  [k: string]: unknown;
+  properties: MapStringString;
 }

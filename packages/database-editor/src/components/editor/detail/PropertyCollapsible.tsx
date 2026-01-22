@@ -1,7 +1,7 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDetailContext } from '../../../AppContext';
+import { useDetailContext } from './DetailContext';
 
 export const PropertyCollapsible = () => {
   const { t } = useTranslation();

@@ -1,9 +1,4 @@
-import {
-  type DatabaseConfigurationData,
-  type DatabaseConfigurations,
-  type DatabaseEditorContext,
-  type JdbcDriverProperties
-} from '@axonivy/database-editor-protocol';
+import { type DatabaseConfigurationData, type DatabaseConfigurations, type DatabaseEditorContext } from '@axonivy/database-editor-protocol';
 import type { UpdateConsumer, useHistoryData } from '@axonivy/ui-components';
 import { createContext, useContext } from 'react';
 
@@ -42,24 +37,4 @@ export function useAppContext(): AppContext & { setUnhistorisedDataClass: Update
     },
     setUnhistorisedDataClass: context.setData
   };
-}
-
-type DetailContext = {
-  databaseConfig: DatabaseConfigurationData;
-  updateDatabaseConfig: (propertyUpdater: (database: DatabaseConfigurationData) => void) => void;
-  drivers: Array<JdbcDriverProperties>;
-  selectedDriver: JdbcDriverProperties;
-};
-
-const detailContext = createContext<DetailContext>({
-  databaseConfig: { name: '', driver: '', icon: '', maxConnections: 0, properties: {}, additionalProperties: {} },
-  updateDatabaseConfig: () => {},
-  drivers: [],
-  selectedDriver: { name: '', databaseProduct: '', properties: {} }
-});
-
-export const DetailProvider = detailContext.Provider;
-
-export function useDetailContext(): DetailContext {
-  return useContext(detailContext);
 }

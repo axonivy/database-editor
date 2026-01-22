@@ -26,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
-import { useDetailContext } from '../../../AppContext';
+import { useDetailContext } from './DetailContext';
 
 type StringObject = { key: string; value: string | undefined };
 
