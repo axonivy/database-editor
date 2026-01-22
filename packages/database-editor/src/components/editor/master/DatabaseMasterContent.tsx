@@ -89,7 +89,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const deleteDatabaseConnection = () => {
     setData(prev => {
       const { newData } = deleteFirstSelectedRow(table, prev.connections);
-      return { connections: newData };
+      return { connections: newData, helpUrl: '' };
     });
   };
   const ref = useHotkeys<HTMLDivElement>(hotkeys.deleteDatabaseConnection.hotkey, () => deleteDatabaseConnection(), {

@@ -5,7 +5,7 @@ import { renderHook } from '@testing-library/react';
 import i18n from 'i18next';
 import type { ReactNode } from 'react';
 import { initReactI18next } from 'react-i18next';
-import { AppProvider } from '../../AppContext';
+import { AppProvider, type AppContext } from '../../AppContext';
 import { ClientContextProvider } from '../../protocol/ClientContextProvider';
 import { initQueryClient } from '../../query/query-client';
 import { QueryProvider } from '../../query/QueryProvider';
@@ -38,14 +38,15 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   const client = (props.client ?? new EmptyClient()) as Client;
   initTranslation();
 
-  const appContext = {
+  const appContext: AppContext = {
     context: props.appContext?.context ?? { app: '', pmv: '', file: '' },
     selectedDatabase: props.appContext?.selectedDatabase,
     setSelectedDatabase: props.appContext?.setSelectedDatabase ?? (() => {}),
     projects: props.appContext?.projects ?? [],
     databaseConfigs: props.appContext?.databaseConfigs ?? [],
     setData: props.appContext?.setData ?? (() => {}),
-    history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false }
+    history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
+    helpUrl: ''
   };
 
   return (

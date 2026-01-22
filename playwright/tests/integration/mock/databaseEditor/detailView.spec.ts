@@ -1,5 +1,6 @@
 import test, { expect } from '@playwright/test';
 import { DatabaseEditor } from '../../../pageobjects/DatabaseEditor';
+import { consoleLog } from '../../../pageobjects/console-log';
 
 let editor: DatabaseEditor;
 
@@ -90,6 +91,25 @@ test('do not leak values into details of another connection', async () => {
   await editor.main.table.row(1).locator.click();
   await expect(editor.detail.properties.host).toBeEmpty();
   await expect(editor.detail.properties.password).toBeEmpty();
+});
+
+test.describe('help', () => {
+  test('button', async ({ page }) => {
+    const helpButton = editor.detail.toolbar.getByLabel('Open Help (F1)');
+    await expect(helpButton).toBeVisible();
+    await helpButton.hover();
+    const tooltip = page.locator('.ui-tooltip-content').getByText('Open Help (F1)');
+    await expect(tooltip).toBeVisible();
+    const message = consoleLog(page);
+    await helpButton.click();
+    expect(await message).toContain('openUrl');
+  });
+
+  test('shortuct', async ({ page }) => {
+    const message = consoleLog(page);
+    await page.keyboard.press('F1');
+    expect(await message).toContain('openUrl');
+  });
 });
 
 test.describe('driver query', () => {

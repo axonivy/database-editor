@@ -47,6 +47,11 @@ export const useKnownHotkeys = () => {
     return { hotkey, label: t('common.hotkey.focusInscription', { hotkey: hotkeyText(hotkey) }) };
   }, [t]);
 
+  const openHelp = useMemo<KnownHotkey>(() => {
+    const hotkey = 'F1';
+    return { hotkey, label: t('common.hotkey.help', { hotkey: hotkeyText(hotkey) }) };
+  }, [t]);
+
   return {
     undo,
     redo,
@@ -55,6 +60,7 @@ export const useKnownHotkeys = () => {
     generate,
     focusToolbar,
     focusMain,
-    focusInscription
+    focusInscription,
+    openHelp
   };
 };

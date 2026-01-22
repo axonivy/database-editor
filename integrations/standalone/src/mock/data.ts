@@ -98,6 +98,7 @@ export const mockError: Database['creationError'] = [
 ];
 
 export const databaseConnections: DatabaseConfigurations = {
+  helpUrl: '',
   connections: [
     {
       name: 'database0',

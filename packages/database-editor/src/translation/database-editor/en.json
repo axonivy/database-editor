@@ -4,6 +4,7 @@
       "focusInscription": "Focus Inscription ({{hotkey}})",
       "focusMain": "Focus Main ({{hotkey}})",
       "focusToolbar": "Focus Toolbar ({{hotkey}})",
+      "help": "Open Help ({{hotkey}})",
       "redo": "Redo ({{hotkey}})",
       "undo": "Undo ({{hotkey}})"
     },
