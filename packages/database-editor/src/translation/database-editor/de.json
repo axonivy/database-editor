@@ -33,19 +33,19 @@
       "value": "Wert"
     },
     "property": {
+      "connectionUrl": "Verbindungs-URL",
       "databaseName": "Datenbankname",
-      "fileName": "Filename",
+      "driverName": "Treiberklasse",
+      "fileName": "Datei",
       "host": "Host",
-      "odbc": "ODBC",
-      "oracleLdap": "Oracle LDAP",
-      "oracleLdaps": "Oracle LDAPS",
-      "oracleServiceId": "Oracle Service ID",
+      "oracleLdap": "Oracle LDAP Name",
+      "oracleLdaps": "Oracle LDAPS Name",
+      "oracleServiceId": "Oracle Service ID (SID)",
       "oracleServiceName": "Oracle Service Name",
       "oracleTNS": "Oracle TNS",
       "password": "Passwort",
       "port": "Port",
-      "schemaName": "Schemaname",
-      "userName": "Benutzername"
+      "userName": "Benutzer"
     }
   },
   "detail": {
