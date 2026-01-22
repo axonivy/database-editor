@@ -36,7 +36,7 @@ export const ConfigurationProperties = () => {
   };
 
   return (
-    <Flex direction='column' gap={3} className='configuration-options'>
+    <Flex direction='column' gap={3} className='configuration-options' key={databaseConfig.name}>
       <GeneralCollapsible activeDb={databaseConfig} updateDb={updateDb} jdbcDrivers={jdbcDrivers ?? []} />
       <PropertyCollapsible
         activeDb={databaseConfig}
