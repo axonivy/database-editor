@@ -23,22 +23,19 @@ import {
 } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 
-import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
+import { useDetailContext } from './DetailContext';
 
 type StringObject = { key: string; value: string | undefined };
 
-type AdditionalCollapsibleProps = {
-  activeDb: DatabaseConfigurationData;
-  updateDb: (propertyUpdater: (database: DatabaseConfigurationData) => void) => void;
-};
+export const AdditionalCollapsible = () => {
+  const { databaseConfig, updateDatabaseConfig } = useDetailContext();
 
-export const AdditionalCollapsible = ({ activeDb, updateDb }: AdditionalCollapsibleProps) => {
   const props = useMemo(
-    () => Object.entries(activeDb.additionalProperties).map(entry => ({ key: entry[0] as string, value: entry[1] as string })),
-    [activeDb]
+    () => Object.entries(databaseConfig.additionalProperties).map(entry => ({ key: entry[0] as string, value: entry[1] as string })),
+    [databaseConfig]
   );
 
   const { t } = useTranslation();
@@ -82,17 +79,17 @@ export const AdditionalCollapsible = ({ activeDb, updateDb }: AdditionalCollapsi
 
     updateProp.key = key;
     updateProp.value = value;
-    updateDb(database => (database.additionalProperties = toProperties(newProps)));
+    updateDatabaseConfig(database => (database.additionalProperties = toProperties(newProps)));
   };
 
   const addPropertyRow = () =>
-    updateDb(database => {
+    updateDatabaseConfig(database => {
       const newData = addRow(table, props, { key: t('database.placeholder.key'), value: t('database.placeholder.value') });
       database.additionalProperties = toProperties(newData);
     });
 
   const deleteRow = () => {
-    updateDb(database => {
+    updateDatabaseConfig(database => {
       const { newData } = deleteFirstSelectedRow(table, props);
       database.additionalProperties = toProperties(newData);
     });

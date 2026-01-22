@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class Select {
   readonly page: Page;
@@ -18,5 +18,14 @@ export class Select {
   async select(option: string) {
     await this.locator.click();
     await this.options.getByText(option, { exact: true }).click();
+  }
+
+  async expectToHaveOptions(...options: Array<string>) {
+    await this.locator.click();
+    await expect(this.options).toHaveCount(options.length);
+    for (let i = 0; i < options.length; i++) {
+      await expect(this.options.nth(i)).toHaveText(options[i]!);
+    }
+    await this.page.keyboard.press('Escape');
   }
 }

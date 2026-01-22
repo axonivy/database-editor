@@ -1,7 +1,7 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, type QueryClientConfig } from '@tanstack/react-query';
 
-export const initQueryClient = () => {
-  return new QueryClient();
+export const initQueryClient = (config?: QueryClientConfig) => {
+  return new QueryClient(config);
 };
 
 export const genQueryKey = (...args: unknown[]) => {

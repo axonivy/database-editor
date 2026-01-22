@@ -54,7 +54,7 @@ export class DatabaseEditor {
     return await this.openEngine(page, pmv);
   }
 
-  static async openMock(page: Page, options?: { readonly?: boolean }) {
+  static async openMock(page: Page, options?: { readonly?: boolean; metaJdbcDriversState?: 'isError' | 'isPending' }) {
     let url = 'mock.html';
     if (options) {
       url += '?';

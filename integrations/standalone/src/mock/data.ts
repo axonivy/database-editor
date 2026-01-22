@@ -101,7 +101,7 @@ export const databaseConnections: DatabaseConfigurations = {
   connections: [
     {
       name: 'database0',
-      driver: 'mySQL',
+      driver: 'MySQL',
       icon: '',
       maxConnections: 5,
       properties: {
@@ -132,7 +132,7 @@ export const databaseConnections: DatabaseConfigurations = {
     },
     {
       name: 'database2',
-      driver: 'SQL Server jTDS',
+      driver: 'HSQL Db Remote Server',
       icon: '',
       maxConnections: 20,
       properties: {
@@ -149,7 +149,8 @@ export const databaseConnections: DatabaseConfigurations = {
 
 export const jdbcDrivers: Array<JdbcDriverProperties> = [
   {
-    name: 'mySQL',
+    name: 'MySQL',
+    databaseProduct: 'MySQL',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DbName': 'string',
@@ -160,6 +161,7 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
   },
   {
     name: 'MariaDB',
+    databaseProduct: 'MariaDB',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DbName': 'string',
@@ -167,42 +169,44 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   },
   {
-    name: 'SQL Server jTDS',
-    properties: {
-      'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DbName': 'string',
-      'ch.ivyteam.jdbc.Port': 'number',
-      'ch.ivyteam.jdbc.Host': 'string',
-      'ch.ivyteam.jdbc.Password': 'string'
-    }
-  },
-  {
-    name: 'jConnect (Jdbc3)',
-    properties: {
-      'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DbName': 'string',
-      'ch.ivyteam.jdbc.Port': 'number',
-      'ch.ivyteam.jdbc.Host': 'string',
-      'ch.ivyteam.jdbc.Password': 'string'
-    }
-  },
-  {
-    name: 'DB2',
-    properties: {
-      'ch.ivyteam.jdbc.UserName': 'string',
-      'ch.ivyteam.jdbc.DbName': 'string',
-      'ch.ivyteam.jdbc.Port': 'number',
-      'ch.ivyteam.jdbc.Host': 'string',
-      'ch.ivyteam.jdbc.Password': 'string'
-    }
-  },
-  {
     name: 'Microsoft SQL Server',
+    databaseProduct: 'Microsoft SQL Server',
     properties: {
       'ch.ivyteam.jdbc.UserName': 'string',
       'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Port': 'number',
       'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
+  },
+  {
+    name: 'HSQL Db Remote Server',
+    databaseProduct: 'Hypersonic SQL Db',
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
+  },
+  {
+    name: 'HSQL Db File',
+    databaseProduct: 'Hypersonic SQL Db',
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
+      'ch.ivyteam.jdbc.Port': 'number',
+      'ch.ivyteam.jdbc.Host': 'string',
+      'ch.ivyteam.jdbc.Password': 'string'
+    }
+  },
+  {
+    name: 'HSQL Db Memory',
+    databaseProduct: 'Hypersonic SQL Db',
+    properties: {
+      'ch.ivyteam.jdbc.UserName': 'string',
+      'ch.ivyteam.jdbc.DbName': 'string',
       'ch.ivyteam.jdbc.Password': 'string'
     }
   }
