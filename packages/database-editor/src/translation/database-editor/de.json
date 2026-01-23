@@ -34,6 +34,7 @@
       "value": "Wert"
     },
     "property": {
+      "connectionUrl": "Verbindungs-URL",
       "databaseName": "Datenbankname",
       "driverName": "Treiberklasse",
       "fileName": "Datei",

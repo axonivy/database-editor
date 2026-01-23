@@ -62,7 +62,7 @@ test('sortable', async () => {
   await expect(editor.main.table.row(0).cell(0).locator).toHaveText('database0');
   await editor.main.table.header(0).sort.click();
   await expect(editor.main.table.header(0).sort).toHaveAttribute('data-sort-state', 'desc');
-  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('database2');
+  await expect(editor.main.table.row(0).cell(0).locator).toHaveText('otherDatabase');
 });
 
 test.describe('add', () => {
@@ -96,7 +96,7 @@ test.describe('add', () => {
     await editor.main.control.add.trigger.click();
     await editor.main.control.add.create.click();
 
-    const row = editor.main.table.row(3);
+    const row = editor.main.table.row(4);
     await expect(row.cell(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
     await expect(editor.detail.toolbar).toHaveText('Connection Properties - NewDatabaseConnection');
@@ -123,8 +123,8 @@ test.describe('add', () => {
     await editor.page.keyboard.press('Enter');
     await expect(add.locator).toBeHidden();
 
-    await expect(editor.main.table.row(3).cell(0).locator).toHaveText('valid0');
-    await expect(editor.main.table.row(4).cell(0).locator).toHaveText('valid1');
+    await expect(editor.main.table.row(4).cell(0).locator).toHaveText('valid0');
+    await expect(editor.main.table.row(5).cell(0).locator).toHaveText('valid1');
 
     await add.trigger.click();
     await editor.page.keyboard.down('ControlOrMeta');
@@ -134,7 +134,7 @@ test.describe('add', () => {
 
     await editor.page.keyboard.press('Escape');
     await expect(add.locator).toBeHidden();
-    await expect(editor.main.table.row(5).cell(0).locator).toHaveText('NewDatabaseConnection');
+    await expect(editor.main.table.row(6).cell(0).locator).toHaveText('NewDatabaseConnection');
   });
 });
 

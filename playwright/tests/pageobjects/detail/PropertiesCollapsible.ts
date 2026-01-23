@@ -7,6 +7,8 @@ export class PropertiesCollapsible extends Collapsible {
   readonly dbName: Locator;
   readonly port: Locator;
   readonly password: Locator;
+  readonly connectionUrl: Locator;
+  readonly driverName: Locator;
 
   constructor(parent: Locator) {
     super(parent, { name: 'Properties' });
@@ -15,5 +17,7 @@ export class PropertiesCollapsible extends Collapsible {
     this.dbName = this.content.getByRole('textbox', { name: 'Database Name' });
     this.port = this.content.getByRole('spinbutton', { name: 'Port' });
     this.password = this.content.getByRole('textbox', { name: 'Password' });
+    this.connectionUrl = this.content.getByRole('textbox', { name: 'Connection URL' });
+    this.driverName = this.content.getByRole('textbox', { name: 'Driver Class' });
   }
 }

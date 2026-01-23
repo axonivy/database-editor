@@ -13,6 +13,7 @@ export const PropertyCollapsible = () => {
       'ch.ivyteam.jdbc.Port': t('database.property.port'),
       'ch.ivyteam.jdbc.DbName': t('database.property.databaseName'),
       'ch.ivyteam.jdbc.DriverName': t('database.property.driverName'),
+      'ch.ivyteam.jdbc.ConnectionUrl': t('database.property.connectionUrl'),
       'ch.ivyteam.jdbc.UserName': t('database.property.userName'),
       'ch.ivyteam.jdbc.Password': t('database.property.password'),
       'ch.ivyteam.jdbc.FileName': t('database.property.fileName'),

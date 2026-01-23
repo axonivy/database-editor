@@ -54,12 +54,13 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       },
       {
         id: 'url',
-        accessorFn: data => getUrl(data),
+        accessorFn: urlOfConnection,
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.url')} />,
         cell: cell => <span>{cell.getValue()}</span>
       },
       {
-        accessorKey: 'driver',
+        id: 'driver',
+        accessorFn: driverOfConnection,
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.driver')} />,
         cell: cell => <span>{cell.getValue()}</span>
       }
@@ -128,12 +129,18 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   );
 };
 
-export const getUrl = (data: DatabaseConfigurationData) => {
-  const properties = data.properties;
-  const host = properties['ch.ivyteam.jdbc.Host'];
-  const port = properties['ch.ivyteam.jdbc.Port'];
-  if (!host) {
-    return '';
+export const urlOfConnection = (data: DatabaseConfigurationData) => {
+  const host = data.properties['ch.ivyteam.jdbc.Host'];
+  if (host) {
+    const port = data.properties['ch.ivyteam.jdbc.Port'];
+    if (port) {
+      return `${host}:${port}`;
+    }
+    return host;
   }
-  return `${host}${port ? ':' + port : ''}`;
+  return data.properties['ch.ivyteam.jdbc.ConnectionUrl'];
+};
+
+export const driverOfConnection = (data: DatabaseConfigurationData) => {
+  return data.driver || data.properties['ch.ivyteam.jdbc.DriverName'];
 };
