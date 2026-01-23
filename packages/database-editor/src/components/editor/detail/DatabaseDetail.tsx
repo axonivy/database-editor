@@ -1,10 +1,22 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
-import { Flex, PanelMessage, SidebarHeader, Spinner, useHotkeys } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  PanelMessage,
+  SidebarHeader,
+  Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
+import { useAction } from '../../../protocol/useAction';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { AdditionalCollapsible } from './AdditionalPropertyCollapsible';
 import './DatabaseDetail.css';
@@ -14,7 +26,7 @@ import { PropertyCollapsible } from './PropertyCollapsible';
 
 export const DatabaseDetail = () => {
   const { t } = useTranslation();
-  const { databaseConfigs, selectedDatabase } = useAppContext();
+  const { databaseConfigs, selectedDatabase, helpUrl } = useAppContext();
 
   const hotkeys = useKnownHotkeys();
   const firstElement = useRef<HTMLDivElement>(null);
@@ -26,9 +38,21 @@ export const DatabaseDetail = () => {
     title = `${title} - ${databaseConfig.name}`;
   }
 
+  const openUrl = useAction('openUrl');
+  const { openHelp: helpText } = useKnownHotkeys();
+
   return (
     <Flex direction='column' className='database-editor-panel-content'>
-      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' tabIndex={-1} ref={firstElement} />
+      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' tabIndex={-1} ref={firstElement}>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button icon={IvyIcons.Help} onClick={() => openUrl(helpUrl)} aria-label={helpText.label} />
+            </TooltipTrigger>
+            <TooltipContent>{helpText.label}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </SidebarHeader>
       <DatabaseDetailContent databaseConfig={databaseConfig} />
     </Flex>
   );

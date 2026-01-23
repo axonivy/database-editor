@@ -1,6 +1,7 @@
 import type {
   Client,
   CreationError,
+  DatabaseActionArgs,
   DatabaseConfigurations,
   DatabaseData,
   DatabaseEditorDBContext,
@@ -77,5 +78,10 @@ export class DatabaseClientMock implements Client {
         throw Error('mock function path not programmed');
     }
   }
+
+  action(action: DatabaseActionArgs): void {
+    console.log(`Action: ${JSON.stringify(action)}`);
+  }
+
   onDataChanged: Event<void> = new Emitter<void>().event;
 }

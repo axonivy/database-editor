@@ -8,6 +8,7 @@ import {
   Spinner,
   useDefaultLayout,
   useHistoryData,
+  useHotkeys,
   type Unary
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -20,7 +21,9 @@ import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
 import { DatabaseMasterContent } from './components/editor/master/DatabaseMasterContent';
 import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
+import { useAction } from './protocol/useAction';
 import { genQueryKey } from './query/query-client';
+import { useKnownHotkeys } from './util/hotkeys';
 
 export const DatabaseEditor = (props: EditorProps) => {
   const [detail, setDetail] = useState(true);
@@ -80,6 +83,10 @@ export const DatabaseEditor = (props: EditorProps) => {
     }
   });
 
+  const hotkeys = useKnownHotkeys();
+  const openUrl = useAction('openUrl');
+  useHotkeys(hotkeys.openHelp.hotkey, () => openUrl(data?.helpUrl), { scopes: ['global'] });
+
   if (isPending) {
     return (
       <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
@@ -101,7 +108,8 @@ export const DatabaseEditor = (props: EditorProps) => {
         setData: setData.mutate,
         selectedDatabase,
         setSelectedDatabase,
-        history
+        history,
+        helpUrl: data.helpUrl
       }}
     >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>

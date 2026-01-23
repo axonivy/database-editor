@@ -4,6 +4,7 @@
       "focusInscription": "Fokus Inskription ({{hotkey}})",
       "focusMain": "Fokus Main ({{hotkey}})",
       "focusToolbar": "Fokus Toolbar ({{hotkey}})",
+      "help": "Hilfe öffnen ({{hotkey}})",
       "redo": "Wiederholen ({{hotkey}})",
       "undo": "Rückgängig ({{hotkey}})"
     },

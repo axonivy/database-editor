@@ -2,7 +2,7 @@ import { type DatabaseConfigurationData, type DatabaseConfigurations, type Datab
 import type { UpdateConsumer, useHistoryData } from '@axonivy/ui-components';
 import { createContext, useContext } from 'react';
 
-type AppContext = {
+export type AppContext = {
   context: DatabaseEditorContext;
   selectedDatabase?: number;
   setSelectedDatabase: (index?: number) => void;
@@ -10,6 +10,7 @@ type AppContext = {
   databaseConfigs: Array<DatabaseConfigurationData>;
   setData: UpdateConsumer<DatabaseConfigurations>;
   history: ReturnType<typeof useHistoryData<DatabaseConfigurations>>;
+  helpUrl: string;
 };
 
 const appContext = createContext<AppContext>({
@@ -19,7 +20,8 @@ const appContext = createContext<AppContext>({
   projects: [],
   databaseConfigs: [],
   setData: () => {},
-  history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false }
+  history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
+  helpUrl: ''
 });
 
 export const AppProvider = appContext.Provider;

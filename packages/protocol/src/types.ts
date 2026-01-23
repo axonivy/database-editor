@@ -1,5 +1,6 @@
 import type {
   CreationError,
+  DatabaseActionArgs,
   DatabaseConfigurationData,
   DatabaseConfigurations,
   DatabaseData,
@@ -47,6 +48,10 @@ export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   save: [DatabaseEditorSaveArgs, EditorFileContent];
 }
 
+export interface NotificationTypes {
+  action: DatabaseActionArgs;
+}
+
 export interface Client {
   data(context: DatabaseEditorDataContext): Promise<DatabaseConfigurations>;
   save(args: DatabaseEditorSaveArgs): Promise<EditorFileContent>;
@@ -56,6 +61,7 @@ export interface Client {
     Path: TFunction,
     args: FunctionRequestTypes[TFunction][0]
   ): Promise<FunctionRequestTypes[TFunction][1]>;
+  action(action: DatabaseActionArgs): void;
 
   onDataChanged: Event<void>;
 }
