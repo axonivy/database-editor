@@ -60,8 +60,8 @@ export const DatabaseDetail = () => {
 
 const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseConfigurationData }) => {
   const { t } = useTranslation();
-  const { setData, selectedDatabase } = useAppContext();
-  const { data: drivers, isPending, isError, error } = useMeta('meta/jdbcDrivers', undefined);
+  const { context, setData, selectedDatabase } = useAppContext();
+  const { data: drivers, isPending, isError, error } = useMeta('meta/jdbcDrivers', context);
 
   if (!databaseConfig) {
     return <PanelMessage message={t('detail.noSelection')} />;
