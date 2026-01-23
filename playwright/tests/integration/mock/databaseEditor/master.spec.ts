@@ -164,3 +164,60 @@ test.describe('delete', () => {
     await expect(row.cell(0).locator).toHaveText('database1');
   });
 });
+
+test.describe('connection tester', () => {
+  test('single connection - working', async ({ page }) => {
+    const testButton = editor.main.control.testConnection;
+    const row = editor.main.table.row(2);
+    const indicator = row.locator.locator('.database-editor-connection-state-indicator');
+    await expect(indicator).toBeVisible();
+    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+
+    await row.locator.click();
+    await testButton.click();
+    const toast = page.locator('.database-test-toast');
+    await expect(toast).toBeVisible();
+    await expect(toast).toContainText('Tested the following connection');
+    await expect(toast).toContainText('database2');
+    await expect(indicator).toHaveClass('database-editor-connection-state-indicator working');
+
+    await editor.detail.properties.host.fill('test');
+    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+  });
+
+  test('connection - invalid', async ({ page }) => {
+    const testButton = editor.main.control.testConnection;
+    const row = editor.main.table.row(0);
+    const indicator = row.locator.locator('.database-editor-connection-state-indicator');
+    await expect(indicator).toBeVisible();
+    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+
+    await testButton.click();
+    await expect(indicator).toHaveClass('database-editor-connection-state-indicator error');
+
+    await indicator.hover();
+    const tooltip = page.locator('.database-editor-connection-tooltip-content');
+    await expect(tooltip).toBeVisible();
+    await expect(tooltip).toContainText('Incorrect host or port');
+    await expect(tooltip).toContainText('mock-exception');
+    await expect(tooltip).toContainText('Advice');
+    await expect(tooltip).toContainText('Check host and port');
+  });
+
+  test('all connections', async ({ page }) => {
+    const indicators = editor.main.table.locator.locator('.database-editor-connection-state-indicator');
+    await expect(indicators).toHaveCount(4);
+    await expect(indicators).toHaveClass([/unknown/, /unknown/, /unknown/, /unknown/]);
+
+    await editor.main.control.testConnection.click();
+    const toast = page.locator('.database-test-toast');
+    await expect(toast).toBeVisible();
+    await expect(toast).toContainText('All connections tested');
+    await expect(indicators).toHaveClass([/error/, /error/, /working/, /working/]);
+
+    const row = editor.main.table.row(0);
+    await row.locator.click();
+    await editor.detail.properties.host.fill('test');
+    await expect(indicators).toHaveClass([/unknown/, /error/, /working/, /working/]);
+  });
+});

@@ -15,3 +15,8 @@ Databases:
     UserName: admin
     Password: ${decrypt:k1GmwSEiJtUbRb2q6CZ9QQ==}
     MaxConnections: 42
+  IvySystemDatabase:
+    Url: jdbc:mysql://localhost
+    Driver: com.mysql.cj.jdbc.Driver
+    Password: ${decrypt:}
+    MaxConnections: 5

@@ -32,6 +32,11 @@ export const useKnownHotkeys = () => {
     return { hotkey, label: t('hotkey.generate', { hotkey: hotkeyText(hotkey) }) };
   }, [t]);
 
+  const testConnection = useMemo<KnownHotkey>(() => {
+    const hotkey = 'T';
+    return { hotkey, label: t('hotkey.testDatabaseConnection', { hotkey: hotkeyText(hotkey) }) };
+  }, [t]);
+
   const focusToolbar = useMemo<KnownHotkey>(() => {
     const hotkey = '1';
     return { hotkey, label: t('common.hotkey.focusToolbar', { hotkey: hotkeyText(hotkey) }) };
@@ -58,6 +63,7 @@ export const useKnownHotkeys = () => {
     addDatabaseConnection,
     deleteDatabaseConnection,
     generate,
+    testConnection,
     focusToolbar,
     focusMain,
     focusInscription,

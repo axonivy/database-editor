@@ -20,14 +20,16 @@ import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
+import { ConnectionStateIndicator } from './ConnectionStateIndicator';
 import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
-  const { databaseConfigs, setSelectedDatabase, setData } = useAppContext();
-
+  const hotkeys = useKnownHotkeys();
   const readonly = useReadonly();
+  const sort = useTableSort();
+  const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult } = useAppContext();
 
   const selection = useTableSelect<DatabaseConfigurationData>({
     onSelect: selectedRows => {
@@ -42,7 +44,6 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       }
     }
   });
-  const sort = useTableSort();
 
   const columns = useMemo<Array<ColumnDef<DatabaseConfigurationData, string>>>(
     () => [
@@ -63,9 +64,24 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
         accessorFn: driverOfConnection,
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.driver')} />,
         cell: cell => <span>{cell.getValue()}</span>
+      },
+      {
+        accessorKey: 'name',
+        id: 'state',
+        header: ({ column }) => <SortableHeader column={column} name={t('common.label.state')} />,
+        cell: cell => {
+          const data = connectionTestResult[cell.getValue()] ?? { state: 'UNKNOWN', advise: '', exception: '' };
+          return (
+            <Flex justifyContent='center'>
+              <ConnectionStateIndicator {...data} />
+            </Flex>
+          );
+        },
+        maxSize: 20,
+        minSize: 20
       }
     ],
-    [t]
+    [connectionTestResult, t]
   );
 
   const table = useReactTable({
@@ -81,8 +97,6 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   });
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
-
-  const hotkeys = useKnownHotkeys();
 
   const firstElement = useRef<HTMLDivElement>(null);
   useHotkeys(hotkeys.focusMain.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });

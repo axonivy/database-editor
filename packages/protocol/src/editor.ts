@@ -9,6 +9,7 @@
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
 
 export interface Database {
+  connectionTestData: MapStringConnectionTestData;
   creationError: CreationError[];
   databaseConfigurations: DatabaseConfigurations;
   databaseData: DatabaseData;
@@ -19,9 +20,18 @@ export interface Database {
   databaseImportCreationArgs: DatabaseImportCreationArgs;
   databaseTableData: DatabaseTableData;
   databaseTableInfoData: DatabaseTableInfoData;
+  databaseTestArgs: DatabaseTestArgs;
   editorFileContent: EditorFileContent;
   jdbcDriverProperties: JdbcDriverProperties[];
   [k: string]: unknown;
+}
+export interface MapStringConnectionTestData {
+  [k: string]: ConnectionTestData;
+}
+export interface ConnectionTestData {
+  advise: string;
+  exception: string;
+  state: string;
 }
 export interface CreationError {
   message: string;
@@ -104,6 +114,10 @@ export interface DatabaseTableData {
 export interface DatabaseTableInfoData {
   connectionName: string;
   tables: DatabaseTable[];
+}
+export interface DatabaseTestArgs {
+  context: DatabaseEditorDataContext;
+  databaseConfig: string;
 }
 export interface EditorFileContent {
   content: string;

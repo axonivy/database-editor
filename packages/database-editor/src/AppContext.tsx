@@ -1,4 +1,9 @@
-import { type DatabaseConfigurationData, type DatabaseConfigurations, type DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import {
+  type DatabaseConfigurationData,
+  type DatabaseConfigurations,
+  type DatabaseEditorContext,
+  type MapStringConnectionTestData
+} from '@axonivy/database-editor-protocol';
 import type { UpdateConsumer, useHistoryData } from '@axonivy/ui-components';
 import { createContext, useContext } from 'react';
 
@@ -11,6 +16,9 @@ export type AppContext = {
   setData: UpdateConsumer<DatabaseConfigurations>;
   history: ReturnType<typeof useHistoryData<DatabaseConfigurations>>;
   helpUrl: string;
+  connectionTestResult: MapStringConnectionTestData;
+  testConnection: () => void;
+  removeConnectionTestResult: (name: string) => void;
 };
 
 const appContext = createContext<AppContext>({
@@ -21,7 +29,10 @@ const appContext = createContext<AppContext>({
   databaseConfigs: [],
   setData: () => {},
   history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
-  helpUrl: ''
+  helpUrl: '',
+  connectionTestResult: {},
+  testConnection: () => {},
+  removeConnectionTestResult: () => {}
 });
 
 export const AppProvider = appContext.Provider;

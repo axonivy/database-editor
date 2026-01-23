@@ -46,7 +46,10 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     databaseConfigs: props.appContext?.databaseConfigs ?? [],
     setData: props.appContext?.setData ?? (() => {}),
     history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },
-    helpUrl: ''
+    helpUrl: '',
+    connectionTestResult: {},
+    removeConnectionTestResult: () => {},
+    testConnection: () => {}
   };
 
   return (
