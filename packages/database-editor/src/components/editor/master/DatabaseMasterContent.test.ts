@@ -7,11 +7,11 @@ test('urlOfConnection', () => {
   data.properties = {
     'ch.ivyteam.jdbc.Host': 'localhost',
     'ch.ivyteam.jdbc.Port': '3306',
-    'ch.ivyteam.ivy.connectionUrl': 'connection:url'
+    'ch.ivyteam.jdbc.ConnectionUrl': 'connection:url'
   };
   expect(urlOfConnection(data)).toEqual('localhost:3306');
 
-  data.properties = { 'ch.ivyteam.jdbc.Host': 'localhost', 'ch.ivyteam.ivy.connectionUrl': 'connection:url' };
+  data.properties = { 'ch.ivyteam.jdbc.Host': 'localhost', 'ch.ivyteam.jdbc.ConnectionUrl': 'connection:url' };
   expect(urlOfConnection(data)).toEqual('localhost');
 
   data.properties = { 'ch.ivyteam.jdbc.ConnectionUrl': 'connection:url' };
