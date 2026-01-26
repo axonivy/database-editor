@@ -17,7 +17,7 @@ tsGen.DEFAULT_OPTIONS.bannerComment = `
 `;
 
 const tsOut = path.resolve('./src/editor.ts');
-var schemaUri = 'https://jenkins.ivyteam.io/job/core_json-schema/job/master/lastSuccessfulBuild/artifact/build/schema/target/editor-ts/14.0/variables-tsgen.json';
+var schemaUri = 'https://jenkins.ivyteam.io/job/core_json-schema/job/master/lastSuccessfulBuild/artifact/build/schema/target/editor-ts/14.0/database-tsgen.json';
 
 const args = process.argv.slice(2);
 if (args.length > 0) {
@@ -59,7 +59,7 @@ function writeSrc(ts) {
 
 if (schemaUri.startsWith('http')) {
   loadJson(schemaUri)
-    .then(schema => tsGen.compile(schema, 'Variables'))
+    .then(schema => tsGen.compile(schema, 'Database'))
     .then(ts => writeSrc(ts));
 } else {
   tsGen.compileFromFile(schemaUri).then(ts => writeSrc(ts));
