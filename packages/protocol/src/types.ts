@@ -74,7 +74,7 @@ export interface MetaRequestTypes {
   'meta/allDatabaseNames': [DatabaseEditorDataContext, DatabaseData];
   'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
   'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
-  'meta/jdbcDrivers': [undefined, Array<JdbcDriverProperties>];
+  'meta/jdbcDrivers': [DatabaseEditorDataContext, Array<JdbcDriverProperties>];
 }
 
 export interface ClientContext {

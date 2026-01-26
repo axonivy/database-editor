@@ -57,8 +57,8 @@ type AddDatabaseConnectionContentProps = {
 
 const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnectionContentProps) => {
   const { t } = useTranslation();
-  const { setData, setSelectedDatabase } = useAppContext();
-  const jdbcDrivers = useMeta('meta/jdbcDrivers', undefined).data;
+  const { context, setData, setSelectedDatabase } = useAppContext();
+  const jdbcDrivers = useMeta('meta/jdbcDrivers', context).data;
 
   const [name, setName] = useState('NewDatabaseConnection');
   const nameValidationMessage = useValidateDatabaseConnectionName(name);
