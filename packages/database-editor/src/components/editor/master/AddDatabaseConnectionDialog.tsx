@@ -25,10 +25,17 @@ import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 
 import { useKnownHotkeys } from '../../../util/hotkeys';
+import type { PersistenceUnit } from './DatabaseMasterContent';
 
 const DIALOG_HOTKEY_IDS = ['addDatabaseConnectionDialog'];
 
-export const AddDatabaseConnectionDialog = ({ table, children }: { table: Table<DatabaseConfigurationData>; children: ReactNode }) => {
+export const AddDatabaseConnectionDialog = ({
+  table,
+  children
+}: {
+  table: Table<DatabaseConfigurationData | PersistenceUnit>;
+  children: ReactNode;
+}) => {
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
   useHotkeys(hotkeys.addDatabaseConnection.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
@@ -51,7 +58,7 @@ export const AddDatabaseConnectionDialog = ({ table, children }: { table: Table<
 };
 
 type AddDatabaseConnectionContentProps = {
-  table: Table<DatabaseConfigurationData>;
+  table: Table<DatabaseConfigurationData | PersistenceUnit>;
   closeDialog: () => void;
 };
 
@@ -77,7 +84,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
     setData(prev => {
       const newConfigs = structuredClone(prev);
       const newDatabaseConfigs = addRow(table, newConfigs.connections, newDatabaseConnection);
-      newConfigs.connections = newDatabaseConfigs;
+      newConfigs.connections = newDatabaseConfigs as Array<DatabaseConfigurationData>;
       setSelectedDatabase(newConfigs.connections.findIndex(config => config.name === name));
       return newConfigs;
     });

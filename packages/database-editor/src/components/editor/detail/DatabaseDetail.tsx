@@ -1,10 +1,14 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import {
+  BasicField,
+  BasicInput,
+  BasicSelect,
   Button,
   Flex,
   PanelMessage,
   SidebarHeader,
   Spinner,
+  Textarea,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -18,6 +22,7 @@ import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 import { useAction } from '../../../protocol/useAction';
 import { useKnownHotkeys } from '../../../util/hotkeys';
+import { persistenceUnits, type PersistenceUnit } from '../master/DatabaseMasterContent';
 import { AdditionalCollapsible } from './AdditionalPropertyCollapsible';
 import './DatabaseDetail.css';
 import { DetailProvider } from './DetailContext';
@@ -26,7 +31,7 @@ import { PropertyCollapsible } from './PropertyCollapsible';
 
 export const DatabaseDetail = () => {
   const { t } = useTranslation();
-  const { databaseConfigs, selectedDatabase, helpUrl } = useAppContext();
+  const { databaseConfigs, selectedDatabase, selectedPersistenceUnit, helpUrl } = useAppContext();
 
   const hotkeys = useKnownHotkeys();
   const firstElement = useRef<HTMLDivElement>(null);
@@ -36,6 +41,15 @@ export const DatabaseDetail = () => {
   let title = t('database.connectionProperties');
   if (databaseConfig) {
     title = `${title} - ${databaseConfig.name}`;
+  }
+
+  let persistenceUnit: PersistenceUnit | undefined;
+  if (selectedPersistenceUnit) {
+    const [db, pu] = selectedPersistenceUnit.split('.').map(part => Number(part));
+    if (db != undefined && pu != undefined) {
+      persistenceUnit = persistenceUnits.get(databaseConfigs[db]?.name ?? '')?.[pu];
+      title = `Persistence Unit - ${persistenceUnit?.name ?? ''}`;
+    }
   }
 
   const openUrl = useAction('openUrl');
@@ -53,17 +67,23 @@ export const DatabaseDetail = () => {
           </Tooltip>
         </TooltipProvider>
       </SidebarHeader>
-      <DatabaseDetailContent databaseConfig={databaseConfig} />
+      <DatabaseDetailContent databaseConfig={databaseConfig} persistenceUnit={persistenceUnit} />
     </Flex>
   );
 };
 
-const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseConfigurationData }) => {
+const DatabaseDetailContent = ({
+  databaseConfig,
+  persistenceUnit
+}: {
+  databaseConfig?: DatabaseConfigurationData;
+  persistenceUnit?: PersistenceUnit;
+}) => {
   const { t } = useTranslation();
   const { setData, context, selectedDatabase, databaseConfigs, removeConnectionTestResult } = useAppContext();
   const { data: drivers, isPending, isError, error } = useMeta('meta/jdbcDrivers', context);
 
-  if (!databaseConfig) {
+  if (!databaseConfig && !persistenceUnit) {
     return <PanelMessage message={t('detail.noSelection')} />;
   }
 
@@ -93,19 +113,50 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
     });
   };
 
-  const selectedDriver = drivers.find(driver => driver.name === databaseConfig.driver) ?? {
-    name: 'Other',
-    databaseProduct: 'Other',
-    properties: Object.fromEntries(Object.entries(databaseConfig.properties).map(([key]) => [key, 'string']))
-  };
+  if (databaseConfig) {
+    const selectedDriver = drivers.find(driver => driver.name === databaseConfig.driver) ?? {
+      name: 'Other',
+      databaseProduct: 'Other',
+      properties: Object.fromEntries(Object.entries(databaseConfig.properties).map(([key]) => [key, 'string']))
+    };
 
-  return (
-    <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
-      <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.name}>
-        <GeneralCollapsible />
-        <PropertyCollapsible />
-        <AdditionalCollapsible />
+    return (
+      <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
+        <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.name}>
+          <GeneralCollapsible />
+          <PropertyCollapsible />
+          <AdditionalCollapsible />
+        </Flex>
+      </DetailProvider>
+    );
+  }
+
+  if (persistenceUnit) {
+    return (
+      <Flex direction='column' gap={4} className='database-editor-detail-content' key={persistenceUnit?.name}>
+        <BasicField label='Data Source'>
+          <BasicSelect
+            value={persistenceUnit.dataSource}
+            items={databaseConfigs.map(config => ({ label: config.name, value: config.name }))}
+          />
+        </BasicField>
+        <BasicField label='Description'>
+          <BasicInput value={persistenceUnit.description} />
+        </BasicField>
+        <BasicField label='Managed Classes'>
+          <Textarea value={persistenceUnit.managedClasses.join('\n')} />
+        </BasicField>
+        <BasicField label='Properties'>
+          <Textarea
+            value={Array.from(persistenceUnit.properties.entries())
+              .map(([key, value]) => `${key}=${value}`)
+              .join('\n')}
+          />
+        </BasicField>
+        <Button size='large' variant='primary-outline'>
+          Generate Schema
+        </Button>
       </Flex>
-    </DetailProvider>
-  );
+    );
+  }
 };

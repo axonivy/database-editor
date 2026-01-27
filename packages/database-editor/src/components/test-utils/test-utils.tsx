@@ -49,7 +49,9 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     helpUrl: '',
     connectionTestResult: {},
     removeConnectionTestResult: () => {},
-    testConnection: () => {}
+    testConnection: () => {},
+    selectedPersistenceUnit: '',
+    setSelectedPersistenceUnit: () => {}
   };
 
   return (

@@ -7,3 +7,26 @@
 .database-editor-table-field {
   overflow: auto;
 }
+
+.database-editor-master-expand {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: var(--size-2);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: inherit;
+}
+
+.database-editor-master-expand:focus-visible {
+  outline: 2px solid var(--color-focus, currentColor);
+  border-radius: var(--radius-1, 4px);
+}
+
+.database-editor-master-sub-label {
+  color: var(--color-text-soft, #6b7280);
+}

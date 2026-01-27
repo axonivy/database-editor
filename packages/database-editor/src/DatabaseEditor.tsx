@@ -38,6 +38,7 @@ export const DatabaseEditor = (props: EditorProps) => {
   const { t } = useTranslation();
 
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
+  const [selectedPersistenceUnit, setSelectedPersistenceUnit] = useState<string>();
 
   const history = useHistoryData<DatabaseConfigurations>();
 
@@ -165,7 +166,9 @@ export const DatabaseEditor = (props: EditorProps) => {
         helpUrl: data.helpUrl,
         connectionTestResult,
         testConnection: connectionTestFunction.mutate,
-        removeConnectionTestResult
+        removeConnectionTestResult,
+        selectedPersistenceUnit,
+        setSelectedPersistenceUnit
       }}
     >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>

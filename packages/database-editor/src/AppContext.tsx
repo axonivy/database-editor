@@ -19,6 +19,8 @@ export type AppContext = {
   connectionTestResult: MapStringConnectionTestData;
   testConnection: () => void;
   removeConnectionTestResult: (name: string) => void;
+  selectedPersistenceUnit?: string;
+  setSelectedPersistenceUnit: (persistenceUnitId?: string) => void;
 };
 
 const appContext = createContext<AppContext>({
@@ -32,7 +34,9 @@ const appContext = createContext<AppContext>({
   helpUrl: '',
   connectionTestResult: {},
   testConnection: () => {},
-  removeConnectionTestResult: () => {}
+  removeConnectionTestResult: () => {},
+  selectedPersistenceUnit: '',
+  setSelectedPersistenceUnit: () => {}
 });
 
 export const AppProvider = appContext.Provider;

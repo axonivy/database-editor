@@ -7,9 +7,10 @@ import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
+import type { PersistenceUnit } from './DatabaseMasterContent';
 
 type MasterControlProps = {
-  table: Table<DatabaseConfigurationData>;
+  table: Table<DatabaseConfigurationData | PersistenceUnit>;
   deleteDatabaseConnection: () => void;
 };
 
@@ -53,7 +54,7 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
   );
 };
 
-export const EmptyMasterControl = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
+export const EmptyMasterControl = ({ table }: { table: Table<DatabaseConfigurationData | PersistenceUnit> }) => {
   const { t } = useTranslation();
   return (
     <Flex direction='column' alignItems='center' justifyContent='center' style={{ height: '100%' }}>
