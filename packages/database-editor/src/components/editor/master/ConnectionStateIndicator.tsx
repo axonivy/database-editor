@@ -63,7 +63,7 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
               )}
             </Flex>
           ) : (
-            <span className='state-title'>{stateTranslation[state]}</span>
+            <span className='database-editor-state-title'>{stateTranslation[state]}</span>
           )}
         </TooltipContent>
       </Tooltip>
