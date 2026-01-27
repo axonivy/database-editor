@@ -10,7 +10,6 @@ export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Reposit
 
 export interface Database {
   creationError: CreationError[];
-  databaseActionArgs: DatabaseActionArgs;
   databaseConfigurations: DatabaseConfigurations;
   databaseData: DatabaseData;
   databaseEditorDataContext: DatabaseEditorDataContext;
@@ -22,23 +21,12 @@ export interface Database {
   databaseTableInfoData: DatabaseTableInfoData;
   editorFileContent: EditorFileContent;
   jdbcDriverProperties: JdbcDriverProperties[];
-  void: Void;
   [k: string]: unknown;
 }
 export interface CreationError {
   message: string;
   name: string;
   type: ImportOptions;
-}
-export interface DatabaseActionArgs {
-  actionId: "openUrl";
-  context: DatabaseEditorDataContext;
-  payload: string;
-}
-export interface DatabaseEditorDataContext {
-  app: string;
-  file: string;
-  pmv: string;
 }
 export interface DatabaseConfigurations {
   connections: DatabaseConfigurationData[];
@@ -58,6 +46,11 @@ export interface MapStringString {
 export interface DatabaseData {
   context: DatabaseEditorDataContext;
   databaseNames: MapStringListString;
+}
+export interface DatabaseEditorDataContext {
+  app: string;
+  file: string;
+  pmv: string;
 }
 export interface MapStringListString {
   [k: string]: string[];
@@ -120,4 +113,3 @@ export interface JdbcDriverProperties {
   name: string;
   properties: MapStringString;
 }
-export interface Void {}

@@ -1,6 +1,5 @@
 import type {
   CreationError,
-  DatabaseActionArgs,
   DatabaseConfigurationData,
   DatabaseConfigurations,
   DatabaseData,
@@ -87,3 +86,9 @@ export const ImportOptionsLookup = {
   2: 'Repository',
   3: 'Enum'
 };
+
+export interface DatabaseActionArgs {
+  actionId: 'openUrl';
+  context: DatabaseEditorDataContext;
+  payload: string;
+}
