@@ -3,7 +3,7 @@ import { DatabaseEditor, pmv } from '../pageobjects/DatabaseEditor';
 
 test('load data', async ({ page }) => {
   const editor = await DatabaseEditor.openEngine(page, pmv);
-  await expect(editor.main.table.rows).toHaveCount(2);
+  await expect(editor.main.table.rows).toHaveCount(3);
 
   await editor.main.table.row(0).locator.click();
   await editor.main.table.row(0).expectToHaveTexts('ivyTeamDatabase', 'ivyteam.io:3306', 'mySQL');

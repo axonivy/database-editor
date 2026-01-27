@@ -10,8 +10,10 @@ import type {
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
+  DatabaseTestArgs,
   EditorFileContent,
-  JdbcDriverProperties
+  JdbcDriverProperties,
+  MapStringConnectionTestData
 } from './editor';
 
 export const UNDEFINED_CONNECTION: DatabaseConfigurationData = {
@@ -67,6 +69,7 @@ export interface Client {
 
 export interface FunctionRequestTypes {
   'function/importFromDatabase': [DatabaseImportCreationArgs, Array<CreationError>];
+  'function/testDatabaseConnection': [DatabaseTestArgs, MapStringConnectionTestData];
 }
 
 export interface MetaRequestTypes {

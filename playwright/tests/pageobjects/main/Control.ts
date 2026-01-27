@@ -6,6 +6,7 @@ export class Control {
   readonly locator: Locator;
   readonly add: AddDatabaseConnection;
   readonly delete: Locator;
+  readonly testConnection: Locator;
   readonly importDialog: ImportDialog;
 
   constructor(page: Page, parent: Locator) {
@@ -13,5 +14,6 @@ export class Control {
     this.add = new AddDatabaseConnection(page, this.locator);
     this.delete = this.locator.getByRole('button', { name: 'Delete Database Connection' });
     this.importDialog = new ImportDialog(page, this.locator);
+    this.testConnection = this.locator.getByRole('button', { name: 'Test Database Connection (T)' });
   }
 }

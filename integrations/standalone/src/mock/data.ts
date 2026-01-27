@@ -1,4 +1,5 @@
 import type {
+  ConnectionTestData,
   Database,
   DatabaseColumn,
   DatabaseConfigurations,
@@ -7,7 +8,8 @@ import type {
   DatabaseTableData,
   DatabaseTableInfoData,
   ImportOptions,
-  JdbcDriverProperties
+  JdbcDriverProperties,
+  MapStringConnectionTestData
 } from '@axonivy/database-editor-protocol';
 
 export const databases: DatabaseData = {
@@ -225,3 +227,22 @@ export const jdbcDrivers: Array<JdbcDriverProperties> = [
     }
   }
 ];
+
+export const connectionTestDataWorking: ConnectionTestData = {
+  state: 'CONNECTED',
+  advise: '',
+  exception: ''
+};
+
+export const connectionTestDataInvalid: ConnectionTestData = {
+  state: 'CONNECTION_FAILED_WRONG_HOST',
+  advise: 'Check host and port.',
+  exception: 'mock-exception'
+};
+
+export const testConnectionResult: MapStringConnectionTestData = {
+  database0: structuredClone(connectionTestDataInvalid),
+  database1: structuredClone(connectionTestDataInvalid),
+  database2: structuredClone(connectionTestDataWorking),
+  otherDatabase: structuredClone(connectionTestDataWorking)
+};

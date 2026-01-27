@@ -60,7 +60,7 @@ export const DatabaseDetail = () => {
 
 const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseConfigurationData }) => {
   const { t } = useTranslation();
-  const { context, setData, selectedDatabase } = useAppContext();
+  const { setData, context, selectedDatabase, databaseConfigs, removeConnectionTestResult } = useAppContext();
   const { data: drivers, isPending, isError, error } = useMeta('meta/jdbcDrivers', context);
 
   if (!databaseConfig) {
@@ -81,6 +81,7 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
 
   const updateDatabaseConfig = (propertyUpdater: (database: DatabaseConfigurationData) => void) => {
     if (selectedDatabase === undefined) return;
+    removeConnectionTestResult(databaseConfigs[selectedDatabase]?.name ?? '');
     setData(prev => {
       const newConfigs = structuredClone(prev);
       const updateDatabase = newConfigs.connections[selectedDatabase];

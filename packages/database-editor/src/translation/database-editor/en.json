@@ -16,6 +16,7 @@
       "general": "General",
       "name": "Name",
       "properties": "Properties",
+      "state": "State",
       "url": "URL",
       "value": "Value"
     },
@@ -26,7 +27,15 @@
   "database": {
     "additionalProperties": "Additional Properties",
     "allConnections": "All Database Connections",
+    "connection": {
+      "advice": "Advice:"
+    },
     "connectionProperties": "Connection Properties",
+    "connectionTest": {
+      "allConnections": "All connections tested",
+      "message": "Connection-Test",
+      "testedFor": "Tested the following connection"
+    },
     "databaseEditor": "Database Editor - {{projectName}}",
     "maxConnections": "Max. Connections",
     "placeholder": {
@@ -47,7 +56,24 @@
       "password": "Password",
       "port": "Port",
       "userName": "User"
+    },
+    "state": {
+      "connected": "Connection working",
+      "failed": "Connection failed",
+      "noDatabase": "Missing Database/Schema",
+      "noTables": "No tables found",
+      "unknown": "State Unknown",
+      "versionTooNew": "Database too new",
+      "versionTooOld": "Database too old",
+      "versionUnsupported": "Database not supported",
+      "wrongConfig": "Incorrect configuration",
+      "wrongHost": "Incorrect host or port",
+      "wrongLogin": "Incorrect username or password",
+      "wrongPassword": "Incorrect password"
     }
+  },
+  "datbase": {
+    "connectionTestFailed": "Connection Test failed"
   },
   "detail": {
     "additionalProperties": {
@@ -69,7 +95,8 @@
   "hotkey": {
     "addDatabaseConnection": "Add Database Connection ({{hotkey}})",
     "deleteDatabaseConnection": "Delete Database Connection ({{hotkey}})",
-    "generate": "Generate Data Classes, Forms and Processes from a Database Connection ({{hotkey}})"
+    "generate": "Generate Data Classes, Forms and Processes from a Database Connection ({{hotkey}})",
+    "testDatabaseConnection": "Test Database Connection ({{hotkey}})"
   },
   "import": {
     "attributes": "Attributes",

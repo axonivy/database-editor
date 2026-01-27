@@ -1,4 +1,9 @@
-import type { DatabaseConfigurations, DatabaseEditorContext, EditorProps } from '@axonivy/database-editor-protocol';
+import type {
+  DatabaseConfigurations,
+  DatabaseEditorContext,
+  EditorProps,
+  MapStringConnectionTestData
+} from '@axonivy/database-editor-protocol';
 import {
   Flex,
   PanelMessage,
@@ -6,6 +11,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   Spinner,
+  toast,
   useDefaultLayout,
   useHistoryData,
   useHotkeys,
@@ -17,6 +23,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
 import './DatabaseEditor.css';
+import { ConnectionTestResultMessage } from './components/editor/ConnectionTestResultMessage';
 import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
 import { DatabaseMasterContent } from './components/editor/master/DatabaseMasterContent';
 import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
@@ -83,9 +90,55 @@ export const DatabaseEditor = (props: EditorProps) => {
     }
   });
 
+  const [connectionTestResult, setConnectionTestResult] = useState<MapStringConnectionTestData>({});
+
+  const udpateConnectionTestResult = (result: MapStringConnectionTestData) => {
+    toast.info(<ConnectionTestResultMessage result={result} />);
+    setConnectionTestResult(prev => {
+      const update = structuredClone(prev);
+      return Object.assign(update, result);
+    });
+  };
+
+  const removeConnectionTestResult = (name: string) =>
+    setConnectionTestResult(prev => Object.fromEntries(Object.entries(prev).filter(e => e[0] !== name)));
+
+  const emptyResult = { state: 'PENDING', advise: '', exception: '' };
+  const setConnectionPending = (name: string) => {
+    setConnectionTestResult(prev => {
+      const update = structuredClone(prev);
+      if (name.trim() === '') {
+        data?.connections.forEach(c => (update[c.name] = emptyResult));
+        return update;
+      }
+      if (!update[name]) {
+        return prev;
+      }
+      update[name].state = 'PENDING';
+      return update;
+    });
+  };
+
+  const connectionTestFunction = useMutation({
+    mutationKey: genQueryKey('testDatabaseConnection', {
+      context: context
+    }),
+    mutationFn: () => {
+      const dbConfig = selectedDatabase !== undefined ? (data?.connections[selectedDatabase]?.name ?? '') : '';
+      setConnectionPending(dbConfig);
+      return client.functions('function/testDatabaseConnection', {
+        context: context,
+        databaseConfig: dbConfig
+      });
+    },
+    onSuccess: udpateConnectionTestResult,
+    onError: error => toast.error(t('datbase.connectionTestFailed'), { description: error.message })
+  });
+
   const hotkeys = useKnownHotkeys();
   const openUrl = useAction('openUrl');
   useHotkeys(hotkeys.openHelp.hotkey, () => openUrl(data?.helpUrl), { scopes: ['global'] });
+  useHotkeys(hotkeys.testConnection.hotkey, () => connectionTestFunction.mutate(), { scopes: ['global'] });
 
   if (isPending) {
     return (
@@ -109,7 +162,10 @@ export const DatabaseEditor = (props: EditorProps) => {
         selectedDatabase,
         setSelectedDatabase,
         history,
-        helpUrl: data.helpUrl
+        helpUrl: data.helpUrl,
+        connectionTestResult,
+        testConnection: connectionTestFunction.mutate,
+        removeConnectionTestResult
       }}
     >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>

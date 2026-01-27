@@ -1,21 +1,35 @@
 import type {
   Client,
+  ConnectionTestData,
   CreationError,
   DatabaseActionArgs,
   DatabaseConfigurations,
   DatabaseData,
   DatabaseEditorDBContext,
   DatabaseEditorSaveArgs,
+  DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
+  DatabaseTestArgs,
   EditorFileContent,
   Event,
   FunctionRequestTypes,
   JdbcDriverProperties,
+  MapStringConnectionTestData,
   MetaRequestTypes
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
-import { creationError, databaseConnections, databases, databaseTableData, databaseTableInfoData, jdbcDrivers, mockError } from './data';
+import {
+  connectionTestDataWorking,
+  creationError,
+  databaseConnections,
+  databases,
+  databaseTableData,
+  databaseTableInfoData,
+  jdbcDrivers,
+  mockError,
+  testConnectionResult
+} from './data';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
@@ -25,6 +39,8 @@ export class DatabaseClientMock implements Client {
   private mockError: CreationError[] = mockError;
   private jdbcDrivers: Array<JdbcDriverProperties> = jdbcDrivers;
   private databaseConnections: DatabaseConfigurations = databaseConnections;
+  private testConnectionResult: MapStringConnectionTestData = testConnectionResult;
+  private workingConnectionResult: ConnectionTestData = connectionTestDataWorking;
 
   private readonly metaJdbcDriversState: string;
 
@@ -70,10 +86,15 @@ export class DatabaseClientMock implements Client {
   ): Promise<FunctionRequestTypes[TFunction][1]> {
     switch (path) {
       case 'function/importFromDatabase':
-        if (args.options[0]?.namespace.startsWith('testError')) {
+        if ((args as DatabaseImportCreationArgs).options[0]?.namespace.startsWith('testError')) {
           return Promise.resolve(this.mockError);
         }
         return Promise.resolve(this.creationError);
+      case 'function/testDatabaseConnection':
+        if ((args as DatabaseTestArgs).databaseConfig) {
+          return Promise.resolve({ [(args as DatabaseTestArgs).databaseConfig]: this.workingConnectionResult });
+        }
+        return Promise.resolve(this.testConnectionResult);
       default:
         throw Error('mock function path not programmed');
     }

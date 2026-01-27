@@ -16,6 +16,7 @@
       "general": "Allgemein",
       "name": "Name",
       "properties": "Eigenschaften",
+      "state": "Status",
       "url": "URL",
       "value": "Wert"
     },
@@ -26,7 +27,15 @@
   "database": {
     "additionalProperties": "Zusätzliche Eigenschaften",
     "allConnections": "Alle Datenbank-Verbindungen",
+    "connection": {
+      "advice": "Hinweis:"
+    },
     "connectionProperties": "Verbindungseigenschaften",
+    "connectionTest": {
+      "allConnections": "Alle Verbindungen getestet",
+      "message": "Verbingungs-Test",
+      "testedFor": "Folgende Verbindung getestet"
+    },
     "databaseEditor": "Datenbank Editor - {{projectName}}",
     "maxConnections": "Max. Verbindungen",
     "placeholder": {
@@ -47,7 +56,24 @@
       "password": "Passwort",
       "port": "Port",
       "userName": "Benutzer"
+    },
+    "state": {
+      "connected": "Verbindung funktioniert",
+      "failed": "Verbindung fehlgeschlagen",
+      "noDatabase": "Datenbank/Schema fehlt",
+      "noTables": "Keine Tabellen gefunden",
+      "unknown": "Status Unbekannt",
+      "versionTooNew": "Datenbank zu neu",
+      "versionTooOld": "Datenbank zu alt",
+      "versionUnsupported": "Datenbank nicht unterstützt",
+      "wrongConfig": "Fehlerhafte Konfiguration",
+      "wrongHost": "Fehlerhafter Host oder Port",
+      "wrongLogin": "Fehlerhafter Benutzername oder Passwort",
+      "wrongPassword": "Falsches Passwort"
     }
+  },
+  "datbase": {
+    "connectionTestFailed": "Verbindungs-Test fehlgeschlagen"
   },
   "detail": {
     "additionalProperties": {
@@ -69,7 +95,8 @@
   "hotkey": {
     "addDatabaseConnection": "Datenbank-Verbindung hinzufügen ({{hotkey}})",
     "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})",
-    "generate": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank-Verbindung ({{hotkey}})"
+    "generate": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank-Verbindung ({{hotkey}})",
+    "testDatabaseConnection": "Datenbank Verbindung Testen ({{hotkey}})"
   },
   "import": {
     "attributes": "Attribute",

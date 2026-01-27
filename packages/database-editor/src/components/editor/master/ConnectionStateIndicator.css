@@ -1,0 +1,44 @@
+.database-editor-connection-state-indicator-background {
+  background-color: var(--N25);
+  clip-path: inset(0 0 0 0 round var(--border-r2));
+}
+
+.database-editor-connection-state-indicator {
+  width: 17px;
+  height: 17px;
+  border: 0.5px solid var(--N200);
+  border-radius: var(--border-r2);
+  text-align: center;
+  align-content: center;
+  color: var(--body);
+  cursor: default;
+}
+
+.database-editor-connection-state-indicator {
+  border-color: #ff730066;
+  background-color: #ff73001a;
+  color: #ff7300;
+}
+
+.database-editor-connection-state-indicator.working {
+  border-color: #10b98166;
+  background-color: #10b9811a;
+  color: #10b981;
+}
+
+.database-editor-connection-state-indicator.unknown {
+  border-color: #92929266;
+  background-color: #9292921a;
+  color: #929292;
+}
+
+.database-editor-state-title {
+  font-weight: bold;
+}
+
+.database-editor-state-separator {
+  width: 100%;
+  background-color: var(--N200);
+  border: none;
+  height: 1px;
+}

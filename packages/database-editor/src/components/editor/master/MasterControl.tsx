@@ -15,7 +15,7 @@ type MasterControlProps = {
 
 export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
   const hotkeys = useKnownHotkeys();
-  const { context, projects } = useAppContext();
+  const { context, projects, testConnection } = useAppContext();
 
   return (
     <Flex direction='row' gap={2} className='database-editor-main-control'>
@@ -34,6 +34,15 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
             />
           </TooltipTrigger>
           <TooltipContent>{hotkeys.deleteDatabaseConnection.label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button icon={IvyIcons.DatabaseLink} onClick={testConnection} aria-label={hotkeys.testConnection.label} />
+          </TooltipTrigger>
+          <TooltipContent>{hotkeys.testConnection.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
