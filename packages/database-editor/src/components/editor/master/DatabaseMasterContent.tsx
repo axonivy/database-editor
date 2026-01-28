@@ -20,6 +20,7 @@ import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
+import { persistenceUnitsData } from '../detail/DatabaseDetail';
 import { ConnectionStateIndicator } from './ConnectionStateIndicator';
 import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
@@ -77,6 +78,14 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
             </Flex>
           );
         },
+        maxSize: 20,
+        minSize: 20
+      },
+      {
+        id: 'persistenceUnits',
+        accessorFn: data => persistenceUnitsData.get(data.name)?.length.toString() ?? '0',
+        header: ({ column }) => <SortableHeader column={column} name='Persistence' />,
+        cell: cell => <span>{cell.getValue()}</span>,
         maxSize: 20,
         minSize: 20
       }

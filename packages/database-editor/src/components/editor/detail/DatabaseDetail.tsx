@@ -1,10 +1,19 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import {
+  BasicField,
+  BasicInput,
+  BasicInscriptionTabs,
+  BasicSelect,
   Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
   Flex,
   PanelMessage,
   SidebarHeader,
   Spinner,
+  TableAddRow,
+  Textarea,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -12,7 +21,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
@@ -63,6 +72,9 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
   const { setData, context, selectedDatabase, databaseConfigs, removeConnectionTestResult } = useAppContext();
   const { data: drivers, isPending, isError, error } = useMeta('meta/jdbcDrivers', context);
 
+  const [value, setValue] = useState('DatabaseConnection');
+  const [persistenceUnits, setPersistenceUnits] = useState(persistenceUnitsData);
+
   if (!databaseConfig) {
     return <PanelMessage message={t('detail.noSelection')} />;
   }
@@ -100,12 +112,139 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
   };
 
   return (
-    <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
-      <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.name}>
-        <GeneralCollapsible />
-        <PropertyCollapsible />
-        <AdditionalCollapsible />
-      </Flex>
-    </DetailProvider>
+    <BasicInscriptionTabs
+      key={databaseConfig.name}
+      value={value}
+      onChange={setValue}
+      tabs={[
+        {
+          icon: IvyIcons.Database,
+          id: 'DatabaseConnection',
+          name: 'Database Connection',
+          content: (
+            <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
+              <Flex direction='column' gap={3} className='database-editor-detail-content'>
+                <GeneralCollapsible />
+                <PropertyCollapsible />
+                <AdditionalCollapsible />
+              </Flex>
+            </DetailProvider>
+          )
+        },
+        {
+          icon: IvyIcons.Persistence,
+          id: 'PersistenceUnits',
+          name: 'Persistence Units',
+          content: (
+            <Flex direction='column' gap={3} className='database-editor-detail-content'>
+              {persistenceUnits.get(databaseConfig.name)?.map(persistenceUnit => (
+                <Collapsible key={persistenceUnit.name} defaultOpen={true}>
+                  <CollapsibleTrigger
+                    control={() => (
+                      <Button
+                        icon={IvyIcons.Trash}
+                        aria-label='Delete Persistence Unit'
+                        onClick={() =>
+                          setPersistenceUnits(prev => {
+                            const newUnits = structuredClone(prev);
+                            newUnits.set(
+                              databaseConfig.name,
+                              newUnits.get(databaseConfig.name)?.filter(unit => unit.name !== persistenceUnit.name) ?? []
+                            );
+                            return newUnits;
+                          })
+                        }
+                      />
+                    )}
+                  >
+                    {persistenceUnit.name}
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <Flex direction='column' gap={4}>
+                      <BasicField label='Data Source'>
+                        <BasicSelect
+                          value={persistenceUnit.dataSource}
+                          items={databaseConfigs.map(config => ({ label: config.name, value: config.name }))}
+                        />
+                      </BasicField>
+                      <BasicField label='Description'>
+                        <BasicInput value={persistenceUnit.description} />
+                      </BasicField>
+                      <BasicField label='Managed Classes'>
+                        <Textarea value={persistenceUnit.managedClasses.join('\n')} />
+                      </BasicField>
+                      <BasicField label='Properties'>
+                        <Textarea
+                          value={Array.from(persistenceUnit.properties.entries())
+                            .map(([key, value]) => `${key}=${value}`)
+                            .join('\n')}
+                        />
+                      </BasicField>
+                      <Button size='large' variant='primary-outline'>
+                        Generate Schema
+                      </Button>
+                    </Flex>
+                  </CollapsibleContent>
+                </Collapsible>
+              ))}
+              <TableAddRow
+                addRow={() =>
+                  setPersistenceUnits(prev => {
+                    const newUnits = structuredClone(prev);
+                    newUnits.set(databaseConfig.name, [
+                      ...(newUnits.get(databaseConfig.name) ?? []),
+                      {
+                        name: 'NewPersistenceUnit',
+                        dataSource: databaseConfig.name,
+                        description: '',
+                        managedClasses: [],
+                        properties: new Map()
+                      }
+                    ]);
+                    return newUnits;
+                  })
+                }
+              />
+            </Flex>
+          )
+        }
+      ]}
+    />
   );
 };
+
+type PersistenceUnit = {
+  name: string;
+  dataSource: string;
+  description: string;
+  managedClasses: Array<string>;
+  properties: Map<string, string>;
+};
+
+export const persistenceUnitsData = new Map<string, Array<PersistenceUnit>>([
+  ['database0', []],
+  [
+    'database1',
+    [
+      {
+        name: 'persistenceUnit10',
+        dataSource: 'database1',
+        description: '',
+        managedClasses: ['ch.ivyteam.Entity100', 'ch.ivyteam.Entity101'],
+        properties: new Map([
+          ['property100', 'value100'],
+          ['property101', 'value101']
+        ])
+      },
+      {
+        name: 'persistenceUnit11',
+        dataSource: 'database1',
+        description: '',
+        managedClasses: ['ch.ivyteam.Entity110'],
+        properties: new Map()
+      }
+    ]
+  ],
+  ['database2', [{ name: 'persistenceUnit20', dataSource: 'database2', description: '', managedClasses: [], properties: new Map() }]],
+  ['database3', []]
+]);
