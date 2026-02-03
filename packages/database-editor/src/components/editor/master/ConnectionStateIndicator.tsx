@@ -36,7 +36,7 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
     );
   }
 
-  const variant = state === 'CONNECTED' ? 'working' : state === 'UNKNOWN' ? 'unknown' : 'error';
+  const variant = state.startsWith('CONNECTED') ? 'working' : state === 'UNKNOWN' ? 'unknown' : 'error';
   const trimmedException = exception?.trim();
   const indicator =
     variant === 'working' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'unknown' ? '?' : <IvyIcon icon={IvyIcons.Plus} rotate={45} />;
@@ -63,7 +63,7 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
               )}
             </Flex>
           ) : (
-            <span className='database-editor-state-title'>{stateTranslation[state]}</span>
+            <span className='database-editor-state-title'>{stateTranslation[variant === 'working' ? 'CONNECTED' : 'UNKNOWN']}</span>
           )}
         </TooltipContent>
       </Tooltip>
