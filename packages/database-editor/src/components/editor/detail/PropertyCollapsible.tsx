@@ -1,5 +1,5 @@
 import { BasicField, BasicInput, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
-import { useMemo } from 'react';
+import { useCallback, useMemo, type HTMLInputTypeAttribute } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDetailContext } from './DetailContext';
 
@@ -33,20 +33,41 @@ export const PropertyCollapsible = () => {
     return key;
   };
 
+  const compareByName = useCallback((key1: string, key2: string) => {
+    const order = [
+      'ch.ivyteam.jdbc.Host',
+      'ch.ivyteam.jdbc.Port',
+      'ch.ivyteam.jdbc.DbName',
+      'ch.ivyteam.jdbc.UserName',
+      'ch.ivyteam.jdbc.Password'
+    ];
+    const i1 = order.indexOf(key1);
+    const i2 = order.indexOf(key2);
+    return (i1 === -1 ? Number.MAX_SAFE_INTEGER : i1) - (i2 === -1 ? Number.MAX_SAFE_INTEGER : i2);
+  }, []);
+
+  const sortedProperties = useMemo(
+    () => Object.entries(selectedDriver.properties).sort((e1, e2) => compareByName(e1[0], e2[0])),
+    [compareByName, selectedDriver.properties]
+  );
+
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.properties')}</CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={4}>
-          {Object.entries(selectedDriver.properties).map(([key, value]) => (
-            <BasicField key={key} label={getLabel(key)}>
-              <BasicInput
-                type={value === 'number' ? 'number' : 'text'}
-                onChange={event => updateDatabaseConfig(database => (database.properties[key] = event.target.value))}
-                value={databaseConfig.properties[key] ?? ''}
-              />
-            </BasicField>
-          ))}
+          {sortedProperties.map(([key, value]) => {
+            const type: HTMLInputTypeAttribute = key === 'ch.ivyteam.jdbc.Password' ? 'password' : value === 'number' ? 'number' : 'text';
+            return (
+              <BasicField key={key} label={getLabel(key)}>
+                <BasicInput
+                  type={type}
+                  onChange={event => updateDatabaseConfig(database => (database.properties[key] = event.target.value))}
+                  value={databaseConfig.properties[key] ?? ''}
+                />
+              </BasicField>
+            );
+          })}
         </Flex>
       </CollapsibleContent>
     </Collapsible>
