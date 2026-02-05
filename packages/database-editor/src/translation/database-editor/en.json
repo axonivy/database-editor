@@ -32,9 +32,10 @@
     },
     "connectionProperties": "Connection Properties",
     "connectionTest": {
-      "allConnections": "All connections tested",
-      "message": "Connection-Test",
-      "testedFor": "Tested the following connection"
+      "failed": "Connection Test Failed",
+      "testedAll": "Tested all connections",
+      "testedFollowing": "Tested \"{{connection}}\"",
+      "title": "Connection Tester"
     },
     "databaseEditor": "Database Editor - {{projectName}}",
     "maxConnections": "Max. Connections",
@@ -71,9 +72,6 @@
       "wrongLogin": "Incorrect username or password",
       "wrongPassword": "Incorrect password"
     }
-  },
-  "datbase": {
-    "connectionTestFailed": "Connection Test failed"
   },
   "detail": {
     "additionalProperties": {
