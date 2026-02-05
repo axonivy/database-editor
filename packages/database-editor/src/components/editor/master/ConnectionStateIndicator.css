@@ -15,9 +15,9 @@
 }
 
 .database-editor-connection-state-indicator {
-  border-color: #ff730066;
-  background-color: #ff73001a;
-  color: #ff7300;
+  border-color: #e5151c66;
+  background-color: #e5151c1a;
+  color: #e5151c;
 }
 
 .database-editor-connection-state-indicator.working {
