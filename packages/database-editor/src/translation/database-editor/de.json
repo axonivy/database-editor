@@ -61,12 +61,7 @@
     "state": {
       "connected": "Verbindung funktioniert",
       "failed": "Verbindung fehlgeschlagen",
-      "noDatabase": "Datenbank/Schema fehlt",
-      "noTables": "Keine Tabellen gefunden",
       "unknown": "Status Unbekannt",
-      "versionTooNew": "Datenbank zu neu",
-      "versionTooOld": "Datenbank zu alt",
-      "versionUnsupported": "Datenbank nicht unterstützt",
       "wrongConfig": "Fehlerhafte Konfiguration",
       "wrongHost": "Fehlerhafter Host oder Port",
       "wrongLogin": "Fehlerhafter Benutzername oder Passwort",

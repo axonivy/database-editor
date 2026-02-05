@@ -61,12 +61,7 @@
     "state": {
       "connected": "Connection working",
       "failed": "Connection failed",
-      "noDatabase": "Missing Database/Schema",
-      "noTables": "No tables found",
       "unknown": "State Unknown",
-      "versionTooNew": "Database too new",
-      "versionTooOld": "Database too old",
-      "versionUnsupported": "Database not supported",
       "wrongConfig": "Incorrect configuration",
       "wrongHost": "Incorrect host or port",
       "wrongLogin": "Incorrect username or password",
