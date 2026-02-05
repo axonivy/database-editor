@@ -11,11 +11,6 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
   const stateTranslation: MapStringString = useMemo(
     () => ({
       CONNECTED: t('database.state.connected'),
-      CONNECTED_VERSION_NOT_SUPPORTED: t('database.state.versionUnsupported'),
-      CONNECTED_VERSION_TOO_OLD: t('database.state.versionTooOld'),
-      CONNECTED_VERSION_TOO_NEW: t('database.state.versionTooNew'),
-      CONNECTED_NO_DATABASE: t('database.state.noDatabase'),
-      CONNECTED_NO_TABLES: t('database.state.noTables'),
       CONNECTION_FAILED: t('database.state.failed'),
       CONNECTION_FAILED_WRONG_CONFIG: t('database.state.wrongConfig'),
       CONNECTION_FAILED_WRONG_HOST: t('database.state.wrongHost'),
@@ -36,7 +31,7 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
     );
   }
 
-  const variant = state.startsWith('CONNECTED') ? 'working' : state === 'UNKNOWN' ? 'unknown' : 'error';
+  const variant = state === 'CONNECTED' ? 'working' : state === 'UNKNOWN' ? 'unknown' : 'error';
   const trimmedException = exception?.trim();
   const indicator =
     variant === 'working' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'unknown' ? '?' : <IvyIcon icon={IvyIcons.Plus} rotate={45} />;
@@ -63,7 +58,7 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
               )}
             </Flex>
           ) : (
-            <span className='database-editor-state-title'>{stateTranslation[variant === 'working' ? 'CONNECTED' : 'UNKNOWN']}</span>
+            <span className='database-editor-state-title'>{stateTranslation[state]}</span>
           )}
         </TooltipContent>
       </Tooltip>
