@@ -175,10 +175,9 @@ test.describe('connection tester', () => {
 
     await row.locator.click();
     await testButton.click();
-    const toast = page.locator('.database-test-toast');
+    const toast = page.locator('ol.ui-toaster > li');
     await expect(toast).toBeVisible();
-    await expect(toast).toContainText('Tested the following connection');
-    await expect(toast).toContainText('database2');
+    await expect(toast).toContainText('Tested "database2"');
     await expect(indicator).toHaveClass('database-editor-connection-state-indicator working');
 
     await editor.detail.properties.host.fill('test');
@@ -210,9 +209,9 @@ test.describe('connection tester', () => {
     await expect(indicators).toHaveClass([/unknown/, /unknown/, /unknown/, /unknown/]);
 
     await editor.main.control.testConnection.click();
-    const toast = page.locator('.database-test-toast');
+    const toast = page.locator('ol.ui-toaster > li');
     await expect(toast).toBeVisible();
-    await expect(toast).toContainText('All connections tested');
+    await expect(toast).toContainText('Tested all connections');
     await expect(indicators).toHaveClass([/error/, /error/, /working/, /working/]);
 
     const row = editor.main.table.row(0);

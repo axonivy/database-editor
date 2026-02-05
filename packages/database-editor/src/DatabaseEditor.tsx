@@ -23,7 +23,6 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
 import './DatabaseEditor.css';
-import { ConnectionTestResultMessage } from './components/editor/ConnectionTestResultMessage';
 import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
 import { DatabaseMasterContent } from './components/editor/master/DatabaseMasterContent';
 import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
@@ -93,7 +92,12 @@ export const DatabaseEditor = (props: EditorProps) => {
   const [connectionTestResult, setConnectionTestResult] = useState<MapStringConnectionTestData>({});
 
   const udpateConnectionTestResult = (result: MapStringConnectionTestData) => {
-    toast.info(<ConnectionTestResultMessage result={result} />);
+    const resultNames = Object.keys(result);
+    const message =
+      resultNames.length === 1
+        ? t('database.connectionTest.testedFollowing', { connection: resultNames[0] })
+        : t('database.connectionTest.testedAll');
+    toast.info(t('database.connectionTest.title'), { description: message });
     setConnectionTestResult(prev => {
       const update = structuredClone(prev);
       return Object.assign(update, result);
@@ -132,7 +136,7 @@ export const DatabaseEditor = (props: EditorProps) => {
       });
     },
     onSuccess: udpateConnectionTestResult,
-    onError: error => toast.error(t('datbase.connectionTestFailed'), { description: error.message })
+    onError: error => toast.error(t('database.connectionTest.failed'), { description: error.message })
   });
 
   const hotkeys = useKnownHotkeys();
