@@ -36,7 +36,12 @@ export const WizardContent = ({ projects, closeDialog, callback }: WizardContent
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
       {pages[activePage]?.page}
       <Flex direction='row' justifyContent='space-between'>
-        <Button variant='outline' onClick={closeDialog} className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}>
+        <Button
+          variant='outline'
+          onClick={closeDialog}
+          size='large'
+          className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}
+        >
           {t('import.cancel')}
         </Button>
         <Flex direction='row' gap={2} justifyContent='flex-end' className='import-wizard-proceed-buttons'>
@@ -45,6 +50,7 @@ export const WizardContent = ({ projects, closeDialog, callback }: WizardContent
             icon={IvyIcons.Chevron}
             rotate={180}
             variant='primary-outline'
+            size='large'
             onClick={() => updateActivePage(false)}
           >
             {t('import.back')}

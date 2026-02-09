@@ -17,7 +17,7 @@ export const ProceedButton = ({ create, close, disabled, createFunction, pageUpd
       <Button
         disabled={disabled}
         variant='primary'
-        size='xl'
+        size='large'
         icon={IvyIcons.SettingsCog}
         onClick={() => {
           createFunction();
@@ -29,7 +29,13 @@ export const ProceedButton = ({ create, close, disabled, createFunction, pageUpd
     );
   }
   return (
-    <Button disabled={disabled} variant='primary' size='xl' onClick={() => pageUpdate()} icon={close ? IvyIcons.Check : IvyIcons.Chevron}>
+    <Button
+      disabled={disabled}
+      variant='primary'
+      size='large'
+      onClick={() => pageUpdate()}
+      icon={close ? IvyIcons.Check : IvyIcons.Chevron}
+    >
       {close ? t('import.finish') : t('import.next')}
     </Button>
   );

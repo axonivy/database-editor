@@ -77,8 +77,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
             </Flex>
           );
         },
-        maxSize: 20,
-        minSize: 20
+        size: 40
       }
     ],
     [connectionTestResult, t]
@@ -89,6 +88,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
     ...sort.options,
     data: databaseConfigs,
     columns,
+    columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     state: {
       ...selection.tableState,
