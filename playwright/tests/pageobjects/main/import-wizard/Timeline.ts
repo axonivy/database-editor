@@ -10,8 +10,7 @@ export class Timeline {
   }
 
   expectItemsCount = async (n: number) => {
-    const allItems = await this.items.all();
-    expect(allItems).toHaveLength(n);
+    await expect(this.items).toHaveCount(n);
   };
 
   expectItem = async (name: string) => {
