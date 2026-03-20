@@ -22,7 +22,6 @@ import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ConnectionStateIndicator } from './ConnectionStateIndicator';
-import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
 import { ValidationRow } from './ValidationRow';
 
@@ -129,12 +128,12 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   }
 
   return (
-    <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content' ref={ref}>
+    <Flex direction='column' onClick={() => table.resetRowSelection()} className='h-full overflow-auto' ref={ref}>
       <BasicField
         label={t('database.allConnections')}
         control={!readonly && <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} />}
         onClick={event => event.stopPropagation()}
-        className='database-editor-table-field'
+        className='m-3 min-h-0'
         tabIndex={-1}
         ref={firstElementRef}
       >

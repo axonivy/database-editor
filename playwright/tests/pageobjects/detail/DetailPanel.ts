@@ -5,15 +5,15 @@ import { PropertiesCollapsible } from './PropertiesCollapsible';
 
 export class DetailPanel {
   readonly locator: Locator;
-  readonly toolbar: Locator;
+  readonly header: Locator;
   readonly panelMessage: Locator;
   readonly general: GeneralCollapsible;
   readonly properties: PropertiesCollapsible;
   readonly additionalProperties: AdditionalPropertiesCollapsible;
 
-  constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.database-editor-detail-panel');
-    this.toolbar = this.locator.locator('.database-editor-detail-toolbar');
+  constructor(page: Page) {
+    this.locator = page.locator('#database-editor-detail');
+    this.header = this.locator.locator('.ui-sidebar-header');
     this.panelMessage = this.locator.locator('.ui-panel-message');
     this.general = new GeneralCollapsible(page, this.locator);
     this.properties = new PropertiesCollapsible(this.locator);

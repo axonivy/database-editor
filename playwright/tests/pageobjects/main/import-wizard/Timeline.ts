@@ -5,8 +5,8 @@ export class Timeline {
   readonly items: Locator;
 
   constructor(parent: Locator) {
-    this.locator = parent.locator('.timeline');
-    this.items = this.locator.locator('.timeline-item');
+    this.locator = parent.getByRole('list');
+    this.items = this.locator.getByRole('button');
   }
 
   expectItemsCount = async (n: number) => {
@@ -20,6 +20,6 @@ export class Timeline {
 
   expectItemToBeActive = async (name: string) => {
     const item = this.items.filter({ hasText: name }).first();
-    await expect(item).toHaveClass(/active/);
+    await expect(item).toHaveAttribute('aria-current', 'step');
   };
 }

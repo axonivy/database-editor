@@ -1,9 +1,0 @@
-div.database-editor-import-dialog {
-  max-width: unset;
-  max-height: unset;
-  width: clamp(300px, 1200px, calc(100% - 200px));
-}
-
-.databse-editor-import-title {
-  visibility: collapse;
-}

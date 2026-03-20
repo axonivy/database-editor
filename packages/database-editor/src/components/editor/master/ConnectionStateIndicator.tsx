@@ -1,14 +1,13 @@
-import type { ConnectionTestData, MapStringString } from '@axonivy/database-editor-protocol';
-import { cn, Flex, IvyIcon, Spinner, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
+import type { ConnectionTestData } from '@axonivy/database-editor-protocol';
+import { Badge, Flex, IvyIcon, Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useMemo } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
-import './ConnectionStateIndicator.css';
 
 export const ConnectionStateIndicator = ({ state, exception, advise }: ConnectionTestData) => {
   const { t } = useTranslation();
 
-  const stateTranslation: MapStringString = useMemo(
+  const stateTranslation = useMemo<Record<string, string>>(
     () => ({
       CONNECTED: t('database.state.connected'),
       CONNECTION_FAILED: t('database.state.failed'),
@@ -23,42 +22,40 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
 
   if (state === 'PENDING') {
     return (
-      <div className='database-editor-connection-state-indicator-background'>
-        <div className={cn('database-editor-connection-state-indicator', 'unknown')}>
-          <Spinner size='small' />
-        </div>
-      </div>
+      <Badge size='s' variant='secondary' className='size-5'>
+        <IvyIcon icon={IvyIcons.Spinner} spin />
+      </Badge>
     );
   }
 
-  const variant = state === 'CONNECTED' ? 'working' : state === 'UNKNOWN' ? 'unknown' : 'error';
+  const variant: ComponentProps<typeof Badge>['variant'] = state === 'CONNECTED' ? 'green' : state === 'UNKNOWN' ? 'secondary' : 'red';
   const trimmedException = exception?.trim();
   const indicator =
-    variant === 'working' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'unknown' ? '?' : <IvyIcon icon={IvyIcons.Plus} rotate={45} />;
+    variant === 'green' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'secondary' ? '?' : <IvyIcon icon={IvyIcons.Close} />;
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className='database-editor-connection-state-indicator-background'>
-            <div className={cn('database-editor-connection-state-indicator', variant)}>{indicator}</div>
-          </div>
+          <Badge size='s' variant={variant} className='size-5'>
+            {indicator}
+          </Badge>
         </TooltipTrigger>
-        <TooltipContent className='database-editor-connection-tooltip-content'>
-          {variant === 'error' ? (
+        <TooltipContent>
+          {variant === 'red' ? (
             <Flex direction='column'>
-              <span className='database-editor-state-title'>{stateTranslation[state]}</span>
+              <span className='font-bold'>{stateTranslation[state]}</span>
               {trimmedException && <span style={{ whiteSpace: 'pre-line' }}>{trimmedException}</span>}
               {advise && (
                 <>
-                  <hr className='database-editor-state-separator' />
+                  <Separator orientation='horizontal' className='m-0!' />
                   <span>{t('database.connection.advice')}</span>
                   <span>{advise}</span>
                 </>
               )}
             </Flex>
           ) : (
-            <span className='database-editor-state-title'>{stateTranslation[state]}</span>
+            <span className='font-bold'>{stateTranslation[state]}</span>
           )}
         </TooltipContent>
       </Tooltip>

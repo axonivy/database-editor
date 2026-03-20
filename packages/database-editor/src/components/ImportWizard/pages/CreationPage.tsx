@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 import { useMeta } from '../../../protocol/use-meta';
 import { useContextProvider } from '../../../util/ContextProvider';
 import { AttributeSelection } from '../components/AttributeSelection';
-import './CreationPage.css';
 import { useNamespaceValidation } from './useNamespaceValidation';
 
 export type CreationParameter = {
@@ -89,43 +88,43 @@ export const CreationPage = ({ tableNames, databaseName, updateSelection, parame
   const namespaceMessage = useNamespaceValidation(namespace);
 
   return (
-    <Flex direction='column' className='import-wizard-page' gap={4}>
+    <Flex direction='column' className='h-full overflow-auto' gap={4} role='region' aria-label={t('import.options')}>
       <BasicField message={namespaceMessage} label={`${t('import.namespace')}*`}>
         <BasicInput required value={namespace} onChange={event => updateNamespace(event.target.value)} />
       </BasicField>
-      <Table className='table-creation'>
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className='table-header table-name'>{t('import.table')}</TableHead>
-            <TableHead className='table-header'>{t('import.entityClass')}</TableHead>
-            <TableHead className='table-header'>{t('import.formDialog')}</TableHead>
-            <TableHead className='table-header'>{t('import.process')}</TableHead>
-            <TableHead className='table-header'>{t('import.attributes')}</TableHead>
+            <TableHead className='w-50 font-semibold'>{t('import.table')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.entityClass')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.formDialog')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.process')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.attributes')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {metaQuery.data?.tables.map(table => (
             <TableRow key={table.name}>
-              <TableCell>{table.name}</TableCell>
-              <TableCell>
+              <TableCell className='max-w-0 truncate'>{table.name}</TableCell>
+              <TableCell className='max-w-0 truncate'>
                 <Checkbox
                   checked={checkState(table.name, 'EntityClass')}
                   onCheckedChange={value => manageState(table, 'EntityClass', value as boolean)}
                 ></Checkbox>
               </TableCell>
-              <TableCell>
+              <TableCell className='max-w-0 truncate'>
                 <Checkbox
                   checked={checkState(table.name, 'FormDialog')}
                   onCheckedChange={value => manageState(table, 'FormDialog', value as boolean)}
                 ></Checkbox>
               </TableCell>
-              <TableCell>
+              <TableCell className='max-w-0 truncate'>
                 <Checkbox
                   checked={checkState(table.name, 'Process')}
                   onCheckedChange={value => manageState(table, 'Process', value as boolean)}
                 ></Checkbox>
               </TableCell>
-              <TableCell>
+              <TableCell className='max-w-0 truncate'>
                 <AttributeSelection updateSelection={updateSelection} creationTables={parameters} table={table} />
               </TableCell>
             </TableRow>

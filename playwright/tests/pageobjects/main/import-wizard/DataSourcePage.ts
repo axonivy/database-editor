@@ -9,7 +9,7 @@ export class DataSourcePage {
   readonly requiredProjects: Locator;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.database-data-source');
+    this.locator = parent.getByRole('region', { name: 'Data Source' });
     this.typeSelection = this.locator.locator('.source-group');
     this.projectSelection = new Select(page, this.locator, { nth: 0 });
     this.databaseSelect = new Select(page, this.locator, { nth: 1 });

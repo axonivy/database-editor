@@ -9,10 +9,10 @@ export class CreationPage {
   readonly attributeTable: Table;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.database-creation');
-    this.table = new Table(page, '.table-creation');
+    this.locator = parent.getByRole('region', { name: 'Options' });
+    this.table = new Table(this.locator);
     this.namespace = parent.getByLabel('Namespace*');
-    this.attributeButton = this.locator.locator('.attribute-selection-trigger');
-    this.attributeTable = new Table(page, '.attribute-selection-table');
+    this.attributeButton = this.locator.getByRole('button', { name: 'Attributes' });
+    this.attributeTable = new Table(page.locator('.ui-popover-content'));
   }
 }

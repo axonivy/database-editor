@@ -25,12 +25,12 @@ test('visible', async () => {
 });
 
 test('table selection', async () => {
-  const availableTables = tableSelectionPage.tableList.nth(0);
-  const tables = availableTables.locator('.selection-list-button');
+  const availableTables = tableSelectionPage.availableTables;
+  const tables = availableTables.getByRole('button');
   await expect(tables).toHaveCount(3);
 
-  const selectedTables = tableSelectionPage.tableList.nth(1);
-  const activeTables = selectedTables.locator('.selection-list-button');
+  const selectedTables = tableSelectionPage.selectedTables;
+  const activeTables = selectedTables.getByRole('button');
   await expect(activeTables).toHaveCount(0);
 
   await tables.first().click();
@@ -44,8 +44,8 @@ test('table selection', async () => {
 });
 
 test('proceed requirement', async () => {
-  const availableTables = tableSelectionPage.tableList.nth(0);
-  const tables = availableTables.locator('.selection-list-button');
+  const availableTables = tableSelectionPage.availableTables;
+  const tables = availableTables.getByRole('button');
   await expect(tables).toHaveCount(3);
   await tables.first().click();
   await expect(importDialog.next).toBeEnabled();

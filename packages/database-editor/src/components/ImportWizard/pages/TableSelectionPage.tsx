@@ -28,7 +28,7 @@ export const SelectTablesPage = ({ selectedDatabase, setSelectedTables, selected
   const metaQuery = useMeta('meta/databaseTableNames', tableContext);
 
   return (
-    <Flex direction='column' className='import-wizard-page' gap={4}>
+    <Flex direction='column' className='h-full overflow-auto' gap={4} role='region' aria-label={t('import.selectTable')}>
       <BasicField label={t('import.filter')}>
         <BasicInput value={filter} onChange={e => setFilter(e.target.value)} />
       </BasicField>

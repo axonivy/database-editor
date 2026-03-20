@@ -18,7 +18,20 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
   const { context, projects, testConnection } = useAppContext();
 
   return (
-    <Flex direction='row' gap={2} className='database-editor-main-control'>
+    <Flex direction='row' gap={2}>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button icon={IvyIcons.DatabaseLink} onClick={testConnection} aria-label={hotkeys.testConnection.label} />
+          </TooltipTrigger>
+          <TooltipContent>{hotkeys.testConnection.label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <ImportWizard context={{ app: context.app, file: context.file, projects: projects }}>
+        <Button aria-label={hotkeys.generate.label} icon={IvyIcons.SettingsCog} />
+      </ImportWizard>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <AddDatabaseConnectionDialog table={table}>
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addDatabaseConnection.label} />
       </AddDatabaseConnectionDialog>
@@ -36,19 +49,6 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
           <TooltipContent>{hotkeys.deleteDatabaseConnection.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button icon={IvyIcons.DatabaseLink} onClick={testConnection} aria-label={hotkeys.testConnection.label} />
-          </TooltipTrigger>
-          <TooltipContent>{hotkeys.testConnection.label}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <ImportWizard context={{ app: context.app, file: context.file, projects: projects }}>
-        <Button aria-label={hotkeys.generate.label} icon={IvyIcons.SettingsCog} />
-      </ImportWizard>
     </Flex>
   );
 };

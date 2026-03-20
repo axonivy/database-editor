@@ -7,8 +7,8 @@ export class ResultPage {
   readonly table: Table;
 
   constructor(page: Page, parent: Locator) {
-    this.locator = parent.locator('.database-creation-result');
-    this.table = new Table(page, '.table-errors');
-    this.header = parent.locator('h3');
+    this.locator = parent.getByRole('region', { name: 'Result' });
+    this.table = new Table(this.locator);
+    this.header = this.locator.getByRole('heading', { level: 3 });
   }
 }
