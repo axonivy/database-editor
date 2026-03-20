@@ -22,16 +22,16 @@ export const ConnectionStateIndicator = ({ state, exception, advise }: Connectio
 
   if (state === 'PENDING') {
     return (
-      <Badge size='s' variant='outline' className='size-5'>
+      <Badge size='s' variant='secondary' className='size-5'>
         <IvyIcon icon={IvyIcons.Spinner} spin />
       </Badge>
     );
   }
 
-  const variant: ComponentProps<typeof Badge>['variant'] = state === 'CONNECTED' ? 'green' : state === 'UNKNOWN' ? 'outline' : 'red';
+  const variant: ComponentProps<typeof Badge>['variant'] = state === 'CONNECTED' ? 'green' : state === 'UNKNOWN' ? 'secondary' : 'red';
   const trimmedException = exception?.trim();
   const indicator =
-    variant === 'green' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'outline' ? '?' : <IvyIcon icon={IvyIcons.Close} />;
+    variant === 'green' ? <IvyIcon icon={IvyIcons.Check} /> : variant === 'secondary' ? '?' : <IvyIcon icon={IvyIcons.Close} />;
 
   return (
     <TooltipProvider>
