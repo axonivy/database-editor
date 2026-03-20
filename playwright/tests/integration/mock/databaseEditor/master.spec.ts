@@ -99,7 +99,7 @@ test.describe('add', () => {
     const row = editor.main.table.row(4);
     await expect(row.cell(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
-    await expect(editor.detail.toolbar).toHaveText('Connection Properties - NewDatabaseConnection');
+    await expect(editor.detail.header).toHaveText('Connection Properties - NewDatabaseConnection');
     await expect(editor.detail.general.database.locator).toHaveText('MySQL');
     await expect(editor.detail.general.driver.locator).toHaveText('MySQL');
     await expect(editor.detail.general.maxConnections).toHaveValue('5');
@@ -152,7 +152,7 @@ test.describe('delete', () => {
     await expect(row.cell(0).locator).toHaveText('database1');
 
     await row.expectToBeSelected();
-    await expect(editor.detail.toolbar).toHaveText('Connection Properties - database1');
+    await expect(editor.detail.header).toHaveText('Connection Properties - database1');
   });
 
   test('keyboard', async () => {
@@ -169,33 +169,33 @@ test.describe('connection tester', () => {
   test('single connection - working', async ({ page }) => {
     const testButton = editor.main.control.testConnection;
     const row = editor.main.table.row(2);
-    const indicator = row.locator.locator('.database-editor-connection-state-indicator');
+    const indicator = row.locator.locator('.ui-badge');
     await expect(indicator).toBeVisible();
-    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+    await expect(indicator).toHaveClass(/bg-n100/);
 
     await row.locator.click();
     await testButton.click();
     const toast = page.locator('ol.ui-toaster > li');
     await expect(toast).toBeVisible();
     await expect(toast).toContainText('Tested "database2"');
-    await expect(indicator).toHaveClass('database-editor-connection-state-indicator working');
+    await expect(indicator).toHaveClass(/bg-green-300/);
 
     await editor.detail.properties.host.fill('test');
-    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+    await expect(indicator).toHaveClass(/bg-n100/);
   });
 
   test('connection - invalid', async ({ page }) => {
     const testButton = editor.main.control.testConnection;
     const row = editor.main.table.row(0);
-    const indicator = row.locator.locator('.database-editor-connection-state-indicator');
+    const indicator = row.locator.locator('.ui-badge');
     await expect(indicator).toBeVisible();
-    await expect(indicator).toHaveClass('database-editor-connection-state-indicator unknown');
+    await expect(indicator).toHaveClass(/bg-n100/);
 
     await testButton.click();
-    await expect(indicator).toHaveClass('database-editor-connection-state-indicator error');
+    await expect(indicator).toHaveClass(/bg-red-300/);
 
     await indicator.hover();
-    const tooltip = page.locator('.database-editor-connection-tooltip-content');
+    const tooltip = page.locator('.ui-tooltip-content');
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('Incorrect host or port');
     await expect(tooltip).toContainText('mock-exception');
@@ -204,19 +204,19 @@ test.describe('connection tester', () => {
   });
 
   test('all connections', async ({ page }) => {
-    const indicators = editor.main.table.locator.locator('.database-editor-connection-state-indicator');
+    const indicators = editor.main.table.locator.locator('.ui-badge');
     await expect(indicators).toHaveCount(4);
-    await expect(indicators).toHaveClass([/unknown/, /unknown/, /unknown/, /unknown/]);
+    await expect(indicators).toHaveClass([/bg-n100/, /bg-n100/, /bg-n100/, /bg-n100/]);
 
     await editor.main.control.testConnection.click();
     const toast = page.locator('ol.ui-toaster > li');
     await expect(toast).toBeVisible();
     await expect(toast).toContainText('Tested all connections');
-    await expect(indicators).toHaveClass([/error/, /error/, /working/, /working/]);
+    await expect(indicators).toHaveClass([/bg-red-300/, /bg-red-300/, /bg-green-300/, /bg-green-300/]);
 
     const row = editor.main.table.row(0);
     await row.locator.click();
     await editor.detail.properties.host.fill('test');
-    await expect(indicators).toHaveClass([/unknown/, /error/, /working/, /working/]);
+    await expect(indicators).toHaveClass([/bg-n100/, /bg-red-300/, /bg-green-300/, /bg-green-300/]);
   });
 });

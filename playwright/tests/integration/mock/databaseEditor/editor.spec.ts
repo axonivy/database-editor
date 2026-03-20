@@ -8,9 +8,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('readonly', async () => {
-  await expect(editor.main.control.locator).toBeVisible();
+  await expect(editor.main.control.add.trigger).toBeVisible();
   editor = await DatabaseEditor.openMock(editor.page, { readonly: true });
-  await expect(editor.main.control.locator).toBeHidden();
+  await expect(editor.main.control.add.trigger).toBeHidden();
 });
 
 test('focus jumps', async () => {
@@ -18,9 +18,9 @@ test('focus jumps', async () => {
   await editor.page.keyboard.press('1');
   await expect(editor.main.toolbar.locator).toBeFocused();
   await editor.page.keyboard.press('2');
-  await expect(editor.main.locator.locator('.database-editor-table-field')).toBeFocused();
+  await expect(editor.main.locator.locator('.ui-fieldset').first()).toBeFocused();
   await editor.page.keyboard.press('3');
-  await expect(editor.detail.toolbar).toBeFocused();
+  await expect(editor.detail.header).toBeFocused();
 });
 
 test('undo / redo', async ({ page, browserName }) => {

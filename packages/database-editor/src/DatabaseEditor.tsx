@@ -19,10 +19,9 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
-import './DatabaseEditor.css';
 import { DatabaseDetail } from './components/editor/detail/DatabaseDetail';
 import { DatabaseMasterContent } from './components/editor/master/DatabaseMasterContent';
 import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
@@ -150,10 +149,21 @@ export const DatabaseEditor = (props: EditorProps) => {
   const openUrl = useAction('openUrl');
   useHotkeys(hotkeys.openHelp.hotkey, () => openUrl(data?.helpUrl), { scopes: ['global'] });
   useHotkeys(hotkeys.testConnection.hotkey, () => connectionTestFunction.mutate(), { scopes: ['global'] });
+  const detailRef = useRef<HTMLDivElement>(null);
+  useHotkeys(
+    hotkeys.focusInscription.hotkey,
+    () => {
+      setDetail(true);
+      detailRef.current?.focus();
+    },
+    {
+      scopes: ['global']
+    }
+  );
 
   if (isPending) {
     return (
-      <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
+      <Flex alignItems='center' justifyContent='center' className='size-full'>
         <Spinner />
       </Flex>
     );
@@ -180,8 +190,8 @@ export const DatabaseEditor = (props: EditorProps) => {
       }}
     >
       <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
-        <ResizablePanel id='main' defaultSize='75%' minSize='50%' className='database-editor-main-panel'>
-          <Flex direction='column' className='database-editor-panel-content'>
+        <ResizablePanel id='database-editor-main' defaultSize='75%' minSize='50%' className='bg-n75'>
+          <Flex direction='column' className='h-full'>
             <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />
             <DatabaseMasterContent detail={detail} setDetail={setDetail} />
           </Flex>
@@ -189,8 +199,8 @@ export const DatabaseEditor = (props: EditorProps) => {
         {detail && (
           <>
             <ResizableHandle />
-            <ResizablePanel id='properties' defaultSize='25%' minSize='10%' className='database-editor-detail-panel'>
-              <DatabaseDetail />
+            <ResizablePanel id='database-editor-detail' defaultSize='25%' minSize='10%'>
+              <DatabaseDetail ref={detailRef} />
             </ResizablePanel>
           </>
         )}

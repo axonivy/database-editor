@@ -77,7 +77,7 @@
   },
   "dialog": {
     "addDatabaseConnection": {
-      "createDatabaseConnection": "Datenbank-Verbindung erstellen",
+      "create": "Erstellen",
       "createDatabaseConnectionTooltip": "Halte {{modifier}} gedrückt, um eine weitere Datenbank-Verbindung zu erstellen.",
       "description": "Wähle den Namen der Datenbank-Verbindung, die du hinzufügen möchtest.",
       "emptyNameError": "Name darf nicht leer sein.",

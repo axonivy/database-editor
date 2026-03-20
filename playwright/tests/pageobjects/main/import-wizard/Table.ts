@@ -1,14 +1,12 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 
 export class Table {
-  readonly page: Page;
   readonly locator: Locator;
   readonly headers: Locator;
   readonly rows: Locator;
 
-  constructor(page: Page, locator: string) {
-    this.page = page;
-    this.locator = this.page.locator(locator);
+  constructor(parent: Locator) {
+    this.locator = parent.locator('.ui-table-root');
     this.headers = this.locator.locator('.ui-table-head');
     this.rows = this.locator.locator('.ui-table-row');
   }

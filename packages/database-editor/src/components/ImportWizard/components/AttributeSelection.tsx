@@ -14,7 +14,6 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
-import './AttributeSelection.css';
 
 export const AttributeSelection = ({
   table,
@@ -36,15 +35,15 @@ export const AttributeSelection = ({
   return (
     <Popover modal>
       <PopoverTrigger asChild>
-        <Button className='attribute-selection-trigger' icon={IvyIcons.Settings} />
+        <Button aria-label={t('import.attributes')} icon={IvyIcons.Settings} />
       </PopoverTrigger>
-      <PopoverContent className='attribute-selection-content' align='start'>
-        <Table className='attribute-selection-table'>
+      <PopoverContent className='max-h-125 overflow-scroll' align='start'>
+        <Table className='w-[clamp(200px,100%,300px)] max-w-75'>
           <TableHeader>
             <TableRow>
-              <TableHead className='table-header'>{t('import.column')}</TableHead>
-              <TableHead className='table-header'>{t('import.type')}</TableHead>
-              <TableHead className='table-header'>{t('import.generate')}</TableHead>
+              <TableHead className='font-semibold'>{t('import.column')}</TableHead>
+              <TableHead className='font-semibold'>{t('import.type')}</TableHead>
+              <TableHead className='font-semibold'>{t('import.generate')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

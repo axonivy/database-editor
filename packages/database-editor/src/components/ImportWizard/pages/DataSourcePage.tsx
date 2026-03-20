@@ -5,7 +5,6 @@ import { useMeta } from '../../../protocol/use-meta';
 import { useContextProvider } from '../../../util/ContextProvider';
 import { DatabaseSelection } from '../components/DatabaseSelection';
 import { ProjectSelection } from '../components/ProjectSelection';
-import './DataSourcePage.css';
 
 export type DataSourcePageProps = {
   selection?: string;
@@ -28,13 +27,13 @@ export const DataSourcePage = ({ selection, updateSelection, projects, pmvUpdate
   );
 
   return (
-    <Flex direction='column' gap={4} className='import-wizard-page'>
+    <Flex direction='column' gap={4} className='h-full overflow-auto' role='region' aria-label={t('import.source')}>
       {projects && (
-        <BasicField label={t('import.project')} className='source-selection-field'>
+        <BasicField label={t('import.project')} className='w-full'>
           <ProjectSelection projects={projects} updateSelection={value => updatePmv(value, pmvUpdateCallback)} />
         </BasicField>
       )}
-      <BasicField label={t('import.database')} className='source-selection-field' control={requiredProjectToggle}>
+      <BasicField label={t('import.database')} className='w-full' control={requiredProjectToggle}>
         <DatabaseSelection
           databases={databaseQuery.data?.databaseNames ?? {}}
           selection={selection}
