@@ -35,7 +35,7 @@ export const DatabaseDetail = ({ ref }: { ref: React.Ref<HTMLDivElement> }) => {
   const { openHelp: helpText } = useKnownHotkeys();
 
   return (
-    <Flex direction='column'>
+    <Flex direction='column' className='h-full'>
       <SidebarHeader title={title} icon={IvyIcons.PenEdit} tabIndex={-1} ref={ref}>
         <TooltipProvider>
           <Tooltip>

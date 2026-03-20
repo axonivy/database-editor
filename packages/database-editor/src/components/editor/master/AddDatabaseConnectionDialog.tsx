@@ -110,7 +110,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant='primary' icon={IvyIcons.Plus} disabled={!allInputsValid} onClick={addDatabaseConnection}>
-                {t('dialog.addDatabaseConnection.createDatabaseConnection')}
+                {t('dialog.addDatabaseConnection.create')}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
