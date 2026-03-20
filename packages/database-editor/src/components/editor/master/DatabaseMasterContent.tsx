@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ConnectionStateIndicator } from './ConnectionStateIndicator';
-import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
@@ -117,12 +116,12 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   }
 
   return (
-    <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content' ref={ref}>
+    <Flex direction='column' onClick={() => table.resetRowSelection()} className='h-full overflow-auto' ref={ref}>
       <BasicField
         label={t('database.allConnections')}
         control={!readonly && <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} />}
         onClick={event => event.stopPropagation()}
-        className='database-editor-table-field'
+        className='m-3 min-h-0'
         tabIndex={-1}
         ref={firstElement}
       >

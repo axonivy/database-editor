@@ -18,7 +18,7 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
   const { context, projects, testConnection } = useAppContext();
 
   return (
-    <Flex direction='row' gap={2} className='database-editor-main-control'>
+    <Flex direction='row' gap={2}>
       <AddDatabaseConnectionDialog table={table}>
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addDatabaseConnection.label} />
       </AddDatabaseConnectionDialog>
