@@ -19,7 +19,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
 import './DatabaseEditor.css';
@@ -35,9 +35,8 @@ export const DatabaseEditor = (props: EditorProps) => {
   const [detail, setDetail] = useState(true);
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({ groupId: 'database-editor-resize', storage: localStorage });
   const { t } = useTranslation();
-
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
-
+  const [initialData, setInitalData] = useState<DatabaseConfigurations | undefined>(undefined);
   const history = useHistoryData<DatabaseConfigurations>();
 
   const context = useMemo<DatabaseEditorContext>(
@@ -61,13 +60,21 @@ export const DatabaseEditor = (props: EditorProps) => {
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: queryKeys.data(context),
-    queryFn: async () => {
-      const data = await client.data(context);
-      history.push(data);
-      return data;
-    },
+    queryFn: () => client.data(context),
     structuralSharing: false
   });
+
+  useEffect(() => {
+    const dataDispose = client.onDataChanged(() => queryClient.invalidateQueries({ queryKey: queryKeys.data(context) }));
+    return () => {
+      dataDispose.dispose();
+    };
+  }, [client, context, queryClient, queryKeys]);
+
+  if (data !== undefined && initialData === undefined) {
+    setInitalData(data);
+    history.push(data);
+  }
 
   const setData = useMutation({
     mutationKey: queryKeys.saveData(context),
