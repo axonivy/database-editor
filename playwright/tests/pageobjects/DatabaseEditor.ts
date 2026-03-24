@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { DetailPanel } from './detail/DetailPanel';
 import { MainPanel } from './main/MainPanel';
@@ -13,16 +13,14 @@ const tmpDir = '/tmp';
 
 export class DatabaseEditor {
   readonly page: Page;
-  readonly locator: Locator;
   readonly main: MainPanel;
   readonly detail: DetailPanel;
   private readonly pmv?: string;
 
   constructor(page: Page, pmv?: string) {
     this.page = page;
-    this.locator = page.locator(':root');
     this.main = new MainPanel(page);
-    this.detail = new DetailPanel(page, this.locator);
+    this.detail = new DetailPanel(page);
     this.pmv = pmv;
   }
 

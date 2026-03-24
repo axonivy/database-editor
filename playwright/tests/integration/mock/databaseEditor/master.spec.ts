@@ -99,7 +99,7 @@ test.describe('add', () => {
     const row = editor.main.table.row(4);
     await expect(row.cell(0).locator).toHaveText('NewDatabaseConnection');
     await row.expectToBeSelected();
-    await expect(editor.detail.toolbar).toHaveText('Connection Properties - NewDatabaseConnection');
+    await expect(editor.detail.header).toHaveText('Connection Properties - NewDatabaseConnection');
     await expect(editor.detail.general.database.locator).toHaveText('MySQL');
     await expect(editor.detail.general.driver.locator).toHaveText('MySQL');
     await expect(editor.detail.general.maxConnections).toHaveValue('5');
@@ -152,7 +152,7 @@ test.describe('delete', () => {
     await expect(row.cell(0).locator).toHaveText('database1');
 
     await row.expectToBeSelected();
-    await expect(editor.detail.toolbar).toHaveText('Connection Properties - database1');
+    await expect(editor.detail.header).toHaveText('Connection Properties - database1');
   });
 
   test('keyboard', async () => {

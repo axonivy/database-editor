@@ -20,7 +20,7 @@ test('focus jumps', async () => {
   await editor.page.keyboard.press('2');
   await expect(editor.main.locator.locator('.database-editor-table-field')).toBeFocused();
   await editor.page.keyboard.press('3');
-  await expect(editor.detail.toolbar).toBeFocused();
+  await expect(editor.detail.header).toBeFocused();
 });
 
 test('undo / redo', async ({ page, browserName }) => {
