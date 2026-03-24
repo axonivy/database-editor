@@ -15,7 +15,6 @@ import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ContextProvider } from '../../util/ContextProvider';
 import { useKnownHotkeys } from '../../util/hotkeys';
-import './ImportWizard.css';
 import { WizardContent } from './WizardContent';
 
 const DIALOG_HOTKEY_IDS = ['importWizardDialog'];
@@ -52,7 +51,7 @@ export const ImportWizard = ({
             <TooltipContent>{hotkeys.generate.label}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <DialogContent className='database-editor-import-dialog'>
+        <DialogContent className='h-auto max-h-none w-[clamp(300px,1200px,calc(100%-200px))] max-w-none'>
           <DialogTitle>{t('import.generate')}</DialogTitle>
           <WizardContent projects={context.projects} closeDialog={() => onOpenChange(false)} callback={callback} />
         </DialogContent>

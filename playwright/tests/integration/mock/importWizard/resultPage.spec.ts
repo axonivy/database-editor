@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   await importDialog.dataSourcePage.projectSelection.choose('project1-name');
   await importDialog.dataSourcePage.databaseSelect.choose('MockDatabase-001');
   await importDialog.next.click();
-  await importDialog.tableSelectionPage.tableList.locator('.selection-list-button').first().click();
+  await importDialog.tableSelectionPage.availableTables.getByRole('button').first().click();
   await importDialog.next.click();
   await importDialog.creationPage.table.locator.getByRole('checkbox').first().click();
   resultPage = importDialog.resultPage;
