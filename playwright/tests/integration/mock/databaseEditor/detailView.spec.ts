@@ -116,7 +116,7 @@ test.describe('driver query', () => {
   test('isPending', async () => {
     editor = await DatabaseEditor.openMock(editor.page, { metaJdbcDriversState: 'isPending' });
     await editor.main.table.row(0).locator.click();
-    await expect(editor.detail.locator.locator('.database-editor-detail-spinner')).toBeVisible();
+    await expect(editor.detail.locator.locator('.ui-spinner')).toBeVisible();
   });
 
   test('isError', async () => {

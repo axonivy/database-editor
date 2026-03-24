@@ -9,7 +9,7 @@ export class Toolbar {
 
   constructor(page: Page, parent: Locator) {
     this.page = page;
-    this.locator = parent.locator('.database-editor-toolbar');
+    this.locator = parent.locator('.ui-toolbar');
     this.undo = this.locator.getByRole('button', { name: 'Undo' });
     this.redo = this.locator.getByRole('button', { name: 'Redo' });
     this.detailButton = this.locator.locator('button:has(i.ivy-layout-sidebar-right-collapse)');
