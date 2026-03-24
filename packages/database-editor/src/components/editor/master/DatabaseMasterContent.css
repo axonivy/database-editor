@@ -1,9 +1,0 @@
-.database-editor-master-content {
-  padding: var(--size-3);
-  overflow: auto;
-  height: 100%;
-}
-
-.database-editor-table-field {
-  overflow: auto;
-}

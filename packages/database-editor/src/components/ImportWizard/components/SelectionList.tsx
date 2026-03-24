@@ -2,7 +2,6 @@ import { BasicField, Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import './SelectionList.css';
 import { SelectionListButton } from './SelectionListButton';
 
 export type SelectionListProps = {
@@ -27,19 +26,19 @@ export const SelectionList = ({
   const { t } = useTranslation();
 
   const btnSelectAll = (
-    <Button icon={IvyIcons.Check} onClick={() => setSelection(list ?? [])} className='selection-list-button-all selection-list-add-all'>
+    <Button icon={IvyIcons.Check} onClick={() => setSelection(list ?? [])} className='text-[12px] text-p300'>
       <span>{t('import.selectAll')}</span>
     </Button>
   );
 
   const btnDeselectAll = (
-    <Button icon={IvyIcons.Close} onClick={() => setSelection([])} className='selection-list-button-all selection-list-remove-all'>
+    <Button icon={IvyIcons.Close} onClick={() => setSelection([])} className='text-[12px] text-error'>
       {t('import.deselectAll')}
     </Button>
   );
 
   return (
-    <Flex direction='row' gap={4} className='selection-list-content'>
+    <Flex direction='row' gap={4} className='h-full overflow-auto'>
       <SelectionListField
         items={list.filter(item => !selection.includes(item))}
         onClick={value => setSelection(current => [...current, value].sort((v1, v2) => v1.localeCompare(v2)))}
@@ -71,14 +70,20 @@ type SelectionListFieldProps = {
 
 export const SelectionListField = ({ selectionTitle, control, items, filter, onClick, placeholder, icon }: SelectionListFieldProps) => {
   return (
-    <BasicField label={selectionTitle} control={control} className='selection-list'>
-      <Flex className='selection-list-container' direction='column' gap={1}>
+    <BasicField label={selectionTitle} control={control} className='w-full'>
+      <Flex
+        className='box-border size-full overflow-auto rounded-sm border border-n200 bg-n75 p-4'
+        direction='column'
+        gap={1}
+        role='list'
+        aria-label={selectionTitle}
+      >
         {items.length > 0 ? (
           items
             .filter(t => t.toLocaleLowerCase().includes(filter ? filter.toLocaleLowerCase() : ''))
             .map(item => <SelectionListButton key={item} value={item} icon={icon} onClick={onClick} />)
         ) : (
-          <div className='selection-list-placeholder'>
+          <div className='flex h-full items-center justify-center'>
             <span>{placeholder}</span>
           </div>
         )}

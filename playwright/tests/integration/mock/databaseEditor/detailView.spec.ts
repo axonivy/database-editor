@@ -73,9 +73,9 @@ test('switch driver', async () => {
 });
 
 test('title', async () => {
-  await expect(editor.detail.toolbar).toHaveText('Connection Properties');
+  await expect(editor.detail.header).toHaveText('Connection Properties');
   await editor.main.table.row(1).locator.click();
-  await expect(editor.detail.toolbar).toHaveText('Connection Properties - database1');
+  await expect(editor.detail.header).toHaveText('Connection Properties - database1');
 });
 
 test('empty', async () => {
@@ -95,7 +95,7 @@ test('do not leak values into details of another connection', async () => {
 
 test.describe('help', () => {
   test('button', async ({ page }) => {
-    const helpButton = editor.detail.toolbar.getByLabel('Open Help (F1)');
+    const helpButton = editor.detail.header.getByLabel('Open Help (F1)');
     await expect(helpButton).toBeVisible();
     await helpButton.hover();
     const tooltip = page.locator('.ui-tooltip-content').getByText('Open Help (F1)');
@@ -116,7 +116,7 @@ test.describe('driver query', () => {
   test('isPending', async () => {
     editor = await DatabaseEditor.openMock(editor.page, { metaJdbcDriversState: 'isPending' });
     await editor.main.table.row(0).locator.click();
-    await expect(editor.detail.locator.locator('.database-editor-detail-spinner')).toBeVisible();
+    await expect(editor.detail.locator.locator('.ui-spinner')).toBeVisible();
   });
 
   test('isError', async () => {

@@ -5,6 +5,7 @@ export default defineConfig([
   globalIgnores(['packages/protocol/src/editor.ts']),
   ...config.base,
   ...config.i18n,
+  ...config.tailwind('packages/database-editor/src/index.css'),
   // TypeScript configs
   {
     name: 'typescript-eslint',

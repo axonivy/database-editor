@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { ProceedButton } from './components/ProceedButton';
 import { Timeline } from './components/Timeline';
 import { usePages } from './pages/usePages';
-import './WizardContent.css';
 
 export type ImportPage = {
   page: ReactNode;
@@ -29,22 +28,16 @@ export const WizardContent = ({ projects, closeDialog, callback }: WizardContent
     <Flex
       direction='column'
       gap={4}
-      style={{ overflow: 'auto' }}
       justifyContent='space-between'
-      className={`database-${pages[activePage]?.identifier} database-editor-import-content`}
+      className='box-border h-[80vh] w-full self-center overflow-auto px-12.5 pt-5 pb-2.5'
     >
       <Timeline pages={pages} active={activePage} setActive={jumpToPage} />
       {pages[activePage]?.page}
       <Flex direction='row' justifyContent='space-between'>
-        <Button
-          variant='outline'
-          onClick={closeDialog}
-          size='large'
-          className={cn(activePage >= pages.length - 1 && 'import-wizard-close-hidden')}
-        >
+        <Button variant='outline' onClick={closeDialog} size='large' className={cn(activePage >= pages.length - 1 && 'hidden')}>
           {t('import.cancel')}
         </Button>
-        <Flex direction='row' gap={2} justifyContent='flex-end' className='import-wizard-proceed-buttons'>
+        <Flex direction='row' gap={2} justifyContent='flex-end' className='w-full'>
           <Button
             disabled={activePage <= 0}
             icon={IvyIcons.Chevron}
