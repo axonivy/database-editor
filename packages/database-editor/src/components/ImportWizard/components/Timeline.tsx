@@ -58,5 +58,5 @@ const TimelineItem = ({
 };
 
 const Connector = ({ active }: { active: boolean }) => {
-  return <hr className={cn('m-0 h-0.5 flex-1 -translate-y-[7.5px] border-0 bg-n400', active && 'bg-p300')}></hr>;
+  return <hr className={cn('m-0 h-0.5 flex-1 -translate-y-1.5 border-0 bg-n400', active && 'bg-p300')}></hr>;
 };

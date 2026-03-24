@@ -51,7 +51,7 @@ export const ImportWizard = ({
             <TooltipContent>{hotkeys.generate.label}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <DialogContent className='h-auto max-h-none w-[clamp(300px,1200px,calc(100%-200px))] max-w-none'>
+        <DialogContent className='h-auto! max-h-none! w-[clamp(300px,1200px,calc(100%-200px))]! max-w-none!'>
           <DialogTitle>{t('import.generate')}</DialogTitle>
           <WizardContent projects={context.projects} closeDialog={() => onOpenChange(false)} callback={callback} />
         </DialogContent>
