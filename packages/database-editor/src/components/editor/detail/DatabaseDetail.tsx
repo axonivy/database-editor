@@ -81,7 +81,7 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
 
   const updateDatabaseConfig = (propertyUpdater: (database: DatabaseConfigurationData) => void) => {
     if (selectedDatabase === undefined) return;
-    removeConnectionTestResult(databaseConfigs[selectedDatabase]?.name ?? '');
+    removeConnectionTestResult(databaseConfigs[selectedDatabase]?.key ?? '');
     setData(prev => {
       const newConfigs = structuredClone(prev);
       const updateDatabase = newConfigs.connections[selectedDatabase];
@@ -101,7 +101,7 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
 
   return (
     <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
-      <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.name}>
+      <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.key}>
         <GeneralCollapsible />
         <PropertyCollapsible />
         <AdditionalCollapsible />

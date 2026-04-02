@@ -62,7 +62,7 @@ const columns: Array<DatabaseColumn> = [
 const tableNames: Array<string> = ['Users-001', 'Users-002', 'Users-003'];
 
 export const databaseTableData: DatabaseTableData = {
-  connectionName: 'MockDatabase-001',
+  connectionKey: 'MockDatabase-001',
   tables: tableNames
 };
 
@@ -85,7 +85,7 @@ const tables: Array<DatabaseTable> = [
 ];
 
 export const databaseTableInfoData: DatabaseTableInfoData = {
-  connectionName: 'MockDatabase-001',
+  connectionKey: 'MockDatabase-001',
   tables: tables
 };
 
@@ -103,6 +103,7 @@ export const databaseConnections: DatabaseConfigurations = {
   helpUrl: '',
   connections: [
     {
+      key: 'database0',
       name: 'database0',
       driver: 'MySQL',
       icon: '',
@@ -122,6 +123,7 @@ export const databaseConnections: DatabaseConfigurations = {
       }
     },
     {
+      key: 'database1',
       name: 'database1',
       driver: 'MariaDB',
       icon: '',
@@ -134,6 +136,7 @@ export const databaseConnections: DatabaseConfigurations = {
       additionalProperties: {}
     },
     {
+      key: 'database2',
       name: 'database2',
       driver: 'HSQL Db Remote Server',
       icon: '',
@@ -148,6 +151,7 @@ export const databaseConnections: DatabaseConfigurations = {
       additionalProperties: {}
     },
     {
+      key: 'otherDatabase',
       name: 'otherDatabase',
       driver: '',
       icon: '',
