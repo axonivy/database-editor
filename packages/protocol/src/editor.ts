@@ -24,6 +24,8 @@ export interface Database {
   databaseTableInfoData: DatabaseTableInfoData;
   databaseTestArgs: DatabaseTestArgs;
   editorFileContent: EditorFileContent;
+  executeSqlRequest: ExecuteSqlRequest;
+  executeSqlResponse: ExecuteSqlResponse;
   jdbcDriverProperties: JdbcDriverProperties[];
   validationResult: ValidationResult[];
   [k: string]: unknown;
@@ -130,6 +132,15 @@ export interface DatabaseTestArgs {
 }
 export interface EditorFileContent {
   content: string;
+}
+export interface ExecuteSqlRequest {
+  context: DatabaseEditorDataContext;
+  databaseConfig: string;
+  sql: string;
+}
+export interface ExecuteSqlResponse {
+  columns: string[];
+  rows: string[][];
 }
 export interface JdbcDriverProperties {
   databaseProduct: string;

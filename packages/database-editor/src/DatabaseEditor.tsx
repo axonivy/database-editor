@@ -27,6 +27,7 @@ import { DatabaseMasterContent } from './components/editor/master/DatabaseMaster
 import { DatabaseMasterToolbar } from './components/editor/master/DatabaseMasterToolbar';
 import { useClient } from './protocol/ClientContextProvider';
 import { useAction } from './protocol/useAction';
+import { useFunction } from './protocol/useFunction';
 import { genQueryKey } from './query/query-client';
 import { useKnownHotkeys } from './util/hotkeys';
 
@@ -35,8 +36,8 @@ export const DatabaseEditor = (props: EditorProps) => {
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({ groupId: 'database-editor-resize', storage: localStorage });
   const { t } = useTranslation();
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
-  const [initialData, setInitialData] = useState<DatabaseConfigurations | undefined>(undefined);
   const history = useHistoryData<DatabaseConfigurations>();
+  const initializedDataRef = useRef(false);
 
   const context = useMemo<DatabaseEditorContext>(
     () => ({
@@ -78,10 +79,12 @@ export const DatabaseEditor = (props: EditorProps) => {
     };
   }, [client, context, queryClient, queryKeys]);
 
-  if (data !== undefined && initialData === undefined) {
-    setInitialData(data);
-    history.push(data);
-  }
+  useEffect(() => {
+    if (data !== undefined && !initializedDataRef.current) {
+      history.push(data);
+      initializedDataRef.current = true;
+    }
+  }, [data, history]);
 
   const setData = useMutation({
     mutationKey: queryKeys.saveData(context),
@@ -138,26 +141,28 @@ export const DatabaseEditor = (props: EditorProps) => {
     });
   };
 
-  const connectionTestFunction = useMutation({
-    mutationKey: genQueryKey('testDatabaseConnection', {
-      context: context
-    }),
-    mutationFn: () => {
-      const dbConfig = selectedDatabase !== undefined ? (data?.connections[selectedDatabase]?.key ?? '') : '';
-      setConnectionPending(dbConfig);
-      return client.functions('function/testDatabaseConnection', {
-        context: context,
-        databaseConfig: dbConfig
-      });
+  const connectionTestFunction = useFunction(
+    'function/testDatabaseConnection',
+    {
+      context: context,
+      databaseConfig: ''
     },
-    onSuccess: udpateConnectionTestResult,
-    onError: error => toast.error(t('database.connectionTest.failed'), { description: error.message })
-  });
+    {
+      onSuccess: udpateConnectionTestResult,
+      onError: error => toast.error(t('database.connectionTest.failed'), { description: error.message })
+    }
+  );
+
+  const testConnection = () => {
+    const dbConfig = selectedDatabase !== undefined ? (data?.connections[selectedDatabase]?.key ?? '') : '';
+    setConnectionPending(dbConfig);
+    connectionTestFunction.mutate({ context, databaseConfig: dbConfig });
+  };
 
   const hotkeys = useKnownHotkeys();
   const openUrl = useAction('openUrl');
   useHotkeys(hotkeys.openHelp.hotkey, () => openUrl(data?.helpUrl), { scopes: ['global'] });
-  useHotkeys(hotkeys.testConnection.hotkey, () => connectionTestFunction.mutate(), { scopes: ['global'] });
+  useHotkeys(hotkeys.testConnection.hotkey, () => testConnection(), { scopes: ['global'] });
   const detailRef = useRef<HTMLDivElement>(null);
   useHotkeys(
     hotkeys.focusInscription.hotkey,
@@ -195,7 +200,7 @@ export const DatabaseEditor = (props: EditorProps) => {
         history,
         helpUrl: data.helpUrl,
         connectionTestResult,
-        testConnection: connectionTestFunction.mutate,
+        testConnection,
         removeConnectionTestResult
       }}
     >

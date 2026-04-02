@@ -52,7 +52,7 @@ export const WizardContent = ({ projects, closeDialog, callback }: WizardContent
             disabled={!pages[activePage]?.requiredData}
             create={activePage === pages.length - 2}
             close={activePage === pages.length - 1}
-            createFunction={creationFunction.mutate}
+            createFunction={() => creationFunction.mutate(undefined)}
             pageUpdate={updateActivePage}
           />
         </Flex>

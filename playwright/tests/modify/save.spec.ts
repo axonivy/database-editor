@@ -39,6 +39,8 @@ test('save data', async ({ page }) => {
   await editor.detail.additionalProperties.trigger.click();
   await expect(editor.detail.additionalProperties.table.rows).toHaveCount(1);
   await editor.detail.additionalProperties.table.row(0).expectToHaveValues('myAdditionalProperty', 'myAdditionalValue');
+
+  await editor.main.control.delete.click();
 });
 
 test('icon chooser client', async ({ page }) => {
