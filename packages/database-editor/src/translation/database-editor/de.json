@@ -86,6 +86,16 @@
       "nameTakenError": "Name ist bereits vergeben.",
       "sanitizedKey": "Bereinigter Schlüssel wird '{{key}}' sein.",
       "title": "Datenbank-Verbindung hinzufügen"
+    },
+    "sqlQueryTester": {
+      "databaseConfiguration": "Datenbank-Konfiguration: {{name}}",
+      "execute": "Ausführen",
+      "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",
+      "resultError": "Fehler beim Laden der Ergebnisse.",
+      "sqlError": "SQL Fehler",
+      "sqlPlaceholder": "SELECT * FROM YOUR_TABLE",
+      "tablePlaceholder": "Tabellen anzeigen...",
+      "title": "SQL Abfrage"
     }
   },
   "hotkey": {

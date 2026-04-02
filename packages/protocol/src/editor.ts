@@ -7,7 +7,7 @@
  */
 
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
-export type Severity = "INFO" | "WARNING" | "ERROR";
+export type Severity = 'INFO' | 'WARNING' | 'ERROR';
 
 export interface Database {
   connectionTestData: MapStringConnectionTestData;
@@ -24,8 +24,14 @@ export interface Database {
   databaseTableInfoData: DatabaseTableInfoData;
   databaseTestArgs: DatabaseTestArgs;
   editorFileContent: EditorFileContent;
+  executeSqlRequest: ExecuteSqlRequest;
+  executeSqlResponse: ExecuteSqlResponse;
+  getTableContentRequest: GetTableContentRequest;
+  getTablesRequest: GetTablesRequest;
   jdbcDriverProperties: JdbcDriverProperties[];
   validationResult: ValidationResult[];
+  loadLastQueryRequest: LoadLastQueryRequest;
+  string: string;
   [k: string]: unknown;
 }
 export interface MapStringConnectionTestData {
@@ -131,6 +137,26 @@ export interface DatabaseTestArgs {
 export interface EditorFileContent {
   content: string;
 }
+export interface ExecuteSqlRequest {
+  context: DatabaseEditorDataContext;
+  dataSourceId: string;
+  sql: string;
+}
+export interface ExecuteSqlResponse {
+  columns: string[];
+  error: string;
+  rows: MapStringString[];
+  status: string;
+}
+export interface GetTableContentRequest {
+  context: DatabaseEditorDataContext;
+  dataSourceId: string;
+  tableName: string;
+}
+export interface GetTablesRequest {
+  context: DatabaseEditorDataContext;
+  dataSourceId: string;
+}
 export interface JdbcDriverProperties {
   databaseProduct: string;
   name: string;
@@ -140,4 +166,9 @@ export interface ValidationResult {
   message: string;
   path: string;
   severity: Severity;
+}
+
+export interface LoadLastQueryRequest {
+  context: DatabaseEditorDataContext;
+  dataSourceId: string;
 }

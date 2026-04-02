@@ -14,6 +14,7 @@ import type {
   DatabaseTestArgs,
   EditorFileContent,
   Event,
+  ExecuteSqlResponse,
   FunctionRequestTypes,
   JdbcDriverProperties,
   MapStringConnectionTestData,
@@ -28,7 +29,11 @@ import {
   databases,
   databaseTableData,
   databaseTableInfoData,
+  executeSqlResponse,
+  getTableContentResponse,
   jdbcDrivers,
+  listTablesResponse,
+  loadLastQueryResponse,
   META_ICONS,
   mockError,
   testConnectionResult
@@ -46,6 +51,10 @@ export class DatabaseClientMock implements Client {
   private testConnectionResult: MapStringConnectionTestData = testConnectionResult;
   private workingConnectionResult: ConnectionTestData = connectionTestDataWorking;
   private metaIcons: Array<DatabaseIcon> = META_ICONS;
+  private executeSqlResponse: ExecuteSqlResponse = executeSqlResponse;
+  private listTablesResponse: Array<string> = listTablesResponse;
+  private getTableContentResponse: ExecuteSqlResponse = getTableContentResponse;
+  private loadLastQueryResponse: string = loadLastQueryResponse;
 
   private readonly metaJdbcDriversState: string;
 
@@ -104,6 +113,14 @@ export class DatabaseClientMock implements Client {
           return Promise.resolve({ [(args as DatabaseTestArgs).databaseConfig]: this.workingConnectionResult });
         }
         return Promise.resolve(this.testConnectionResult);
+      case 'function/executeSql':
+        return Promise.resolve(this.executeSqlResponse);
+      case 'function/listTables':
+        return Promise.resolve(this.listTablesResponse);
+      case 'function/getTableContent':
+        return Promise.resolve(this.getTableContentResponse);
+      case 'function/loadLastQuery':
+        return Promise.resolve(this.loadLastQueryResponse);
       default:
         throw Error('mock function path not programmed');
     }

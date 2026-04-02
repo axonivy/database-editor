@@ -86,6 +86,16 @@
       "nameTakenError": "Name is already taken.",
       "sanitizedKey": "Sanitized key will be '{{key}}'.",
       "title": "Add Database Connection"
+    },
+    "sqlQueryTester": {
+      "databaseConfiguration": "Database Configuration: {{name}}",
+      "execute": "Execute",
+      "noResults": "Query executed successfully, but returned no results.",
+      "resultError": "Could not load results.",
+      "sqlError": "SQL Error",
+      "sqlPlaceholder": "SELECT * FROM YOUR_TABLE",
+      "tablePlaceholder": "Show tables...",
+      "title": "SQL Query"
     }
   },
   "hotkey": {

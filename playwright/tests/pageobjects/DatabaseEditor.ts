@@ -54,4 +54,18 @@ export class DatabaseEditor {
     const buffer = await this.page.screenshot({ path: `${dir}/screenshots/${fileName}`, animations: 'disabled' });
     expect(buffer.byteLength).toBeGreaterThan(3000);
   }
+
+  async deletePmv() {
+    const result = await fetch(`${server}${ws}/api/web-ide/project?app=${app}&pmv=${this.pmv}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Requested-By': 'database-editor-tests',
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + Buffer.from(user + ':' + user).toString('base64')
+      }
+    });
+    if (!result.ok) {
+      throw Error(`Failed to delete project: ${result.status}`);
+    }
+  }
 }

@@ -8,6 +8,7 @@ import type {
   DatabaseTable,
   DatabaseTableData,
   DatabaseTableInfoData,
+  ExecuteSqlResponse,
   ImportOptions,
   JdbcDriverProperties,
   MapStringConnectionTestData
@@ -255,3 +256,29 @@ export const testConnectionResult: MapStringConnectionTestData = {
 export const META_ICONS = [
   { name: 'microsoft', path: '/icons/microsoft.svg', relativePath: 'res:/webContent/icons/microsoft.svg' }
 ] as const satisfies DatabaseIcon[];
+
+export const executeSqlResponse: ExecuteSqlResponse = {
+  columns: ['id', 'name', 'street'],
+  rows: [
+    { id: '1', name: 'Marie', street: 'bakerstreet' },
+    { id: '2', name: 'Owen', street: 'secondstreet' },
+    { id: '3', name: 'Lewis', street: 'seaside' }
+  ],
+  error: '',
+  status: ''
+};
+
+export const listTablesResponse: Array<string> = ['users', 'drivers', 'cars'];
+
+export const getTableContentResponse: ExecuteSqlResponse = {
+  columns: ['id', 'name'],
+  rows: [
+    { id: '1', name: 'Ferrari' },
+    { id: '2', name: 'McLaren' },
+    { id: '3', name: 'Mercedes' }
+  ],
+  error: '',
+  status: ''
+};
+
+export const loadLastQueryResponse: string = 'SELECT * FROM cars';

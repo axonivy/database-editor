@@ -13,7 +13,12 @@ import type {
   DatabaseTableInfoData,
   DatabaseTestArgs,
   EditorFileContent,
+  ExecuteSqlRequest,
+  ExecuteSqlResponse,
+  GetTableContentRequest,
+  GetTablesRequest,
   JdbcDriverProperties,
+  LoadLastQueryRequest,
   MapStringConnectionTestData,
   ValidationResult
 } from './editor';
@@ -74,6 +79,10 @@ export interface Client {
 export interface FunctionRequestTypes {
   'function/importFromDatabase': [DatabaseImportCreationArgs, Array<CreationError>];
   'function/testDatabaseConnection': [DatabaseTestArgs, MapStringConnectionTestData];
+  'function/executeSql': [ExecuteSqlRequest, ExecuteSqlResponse];
+  'function/listTables': [GetTablesRequest, string[]];
+  'function/getTableContent': [GetTableContentRequest, ExecuteSqlResponse];
+  'function/loadLastQuery': [LoadLastQueryRequest, string];
 }
 
 export interface MetaRequestTypes {

@@ -30,9 +30,9 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const hotkeys = useKnownHotkeys();
   const readonly = useReadonly();
   const sort = useTableSort();
-  const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult } = useAppContext();
   const { context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
+  const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult, selectedDatabase } = useAppContext();
 
   const selection = useTableSelect<DatabaseConfigurationData>({
     onSelect: selectedRows => {
@@ -131,7 +131,11 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
     <Flex direction='column' onClick={() => table.resetRowSelection()} className='h-full overflow-auto' ref={ref}>
       <BasicField
         label={t('database.allConnections')}
-        control={!readonly && <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} />}
+        control={
+          !readonly && (
+            <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} selectedDatabase={selectedDatabase} />
+          )
+        }
         onClick={event => event.stopPropagation()}
         className='m-3 min-h-0'
         tabIndex={-1}
