@@ -9,7 +9,7 @@ type DetailContext = {
 };
 
 const detailContext = createContext<DetailContext>({
-  databaseConfig: { name: '', driver: '', icon: '', maxConnections: 0, properties: {}, additionalProperties: {} },
+  databaseConfig: { key: '', name: '', driver: '', icon: '', maxConnections: 0, properties: {}, additionalProperties: {} },
   updateDatabaseConfig: () => {},
   drivers: [],
   selectedDriver: { name: '', databaseProduct: '', properties: {} }

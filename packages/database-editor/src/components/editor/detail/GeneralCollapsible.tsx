@@ -29,7 +29,22 @@ export const GeneralCollapsible = () => {
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.general')}</CollapsibleTrigger>
       <CollapsibleContent>
-        <Flex direction='column' gap={4}>
+        <Flex direction='column' gap={3}>
+          <BasicField label={t('common.label.key')}>
+            <BasicInput value={databaseConfig.key} disabled />
+          </BasicField>
+          <BasicField label={t('common.label.name')}>
+            <BasicInput
+              value={databaseConfig.name}
+              onChange={event => updateDatabaseConfig(database => (database.name = event.target.value))}
+            />
+          </BasicField>
+          <BasicField label={t('common.label.icon')}>
+            <BasicInput
+              value={databaseConfig.icon}
+              onChange={event => updateDatabaseConfig(database => (database.icon = event.target.value))}
+            />
+          </BasicField>
           <BasicField label={t('common.label.database')}>
             <BasicSelect
               items={databaseProductItems}

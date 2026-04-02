@@ -1,9 +1,9 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { customRenderHook } from '../../test-utils/test-utils';
-import { useValidateDatabaseConnectionName } from './AddDatabaseConnectionDialog';
+import { useValidateDatabaseConnectionKey } from './AddDatabaseConnectionDialog';
 
 test('useValidateDatabaseConnectionName', () => {
-  const databaseConfigs = [{ name: 'existing0' }, { name: 'existing1' }] as Array<DatabaseConfigurationData>;
+  const databaseConfigs = [{ key: 'existing0' }, { key: 'existing1' }] as Array<DatabaseConfigurationData>;
   expect(renderValidateDatabaseConnectionNameHook('', databaseConfigs).result.current).toEqual({
     message: 'Name cannot be empty.',
     variant: 'error'
@@ -16,4 +16,4 @@ test('useValidateDatabaseConnectionName', () => {
 });
 
 const renderValidateDatabaseConnectionNameHook = (name: string, databaseConfigs: Array<DatabaseConfigurationData>) =>
-  customRenderHook(() => useValidateDatabaseConnectionName(name), { wrapperProps: { appContext: { databaseConfigs } } });
+  customRenderHook(() => useValidateDatabaseConnectionKey(name), { wrapperProps: { appContext: { databaseConfigs } } });
