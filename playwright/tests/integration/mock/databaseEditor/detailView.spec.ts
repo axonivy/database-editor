@@ -8,6 +8,19 @@ test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
 });
 
+test('general', async () => {
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.key).toHaveValue('database0');
+  await expect(editor.detail.general.key).toBeDisabled();
+  await expect(editor.detail.general.name).toHaveValue('database0');
+  await expect(editor.detail.general.icon).toBeEmpty();
+  await editor.detail.general.name.fill('hi');
+  await editor.detail.general.icon.fill('icon');
+  await expect(editor.detail.general.name).toHaveValue('hi');
+  await expect(editor.detail.general.icon).toHaveValue('icon');
+  await editor.main.table.row(0).expectToHaveTexts('hi', 'host0:3306', 'MySQL');
+});
+
 test.describe('additional properties', () => {
   test('row data', async () => {
     await editor.main.table.row(0).locator.click();

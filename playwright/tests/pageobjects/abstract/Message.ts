@@ -15,4 +15,9 @@ export class Message {
     await expect(this.locator).toHaveText(message);
     await expect(this.locator).toHaveAttribute('data-state', 'error');
   }
+
+  async expectToBeInfo(message: string) {
+    await expect(this.locator).toHaveText(message);
+    await expect(this.locator).toHaveAttribute('data-state', 'info');
+  }
 }

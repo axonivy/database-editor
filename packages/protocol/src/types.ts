@@ -17,6 +17,7 @@ import type {
 } from './editor';
 
 export const UNDEFINED_CONNECTION: DatabaseConfigurationData = {
+  key: 'UNDEFINED',
   name: 'UNDEFINED',
   driver: 'UNDEFINED',
   maxConnections: 10,

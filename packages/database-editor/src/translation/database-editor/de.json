@@ -14,6 +14,8 @@
       "details": "Details",
       "driver": "Treiber",
       "general": "Allgemein",
+      "icon": "Symbol",
+      "key": "Schlüssel",
       "name": "Name",
       "properties": "Eigenschaften",
       "state": "Status",
@@ -82,6 +84,7 @@
       "description": "Wähle den Namen der Datenbank-Verbindung, die du hinzufügen möchtest.",
       "emptyNameError": "Name darf nicht leer sein.",
       "nameTakenError": "Name ist bereits vergeben.",
+      "sanitizedKey": "Bereinigter Schlüssel wird '{{key}}' sein.",
       "title": "Datenbank-Verbindung hinzufügen"
     }
   },

@@ -75,8 +75,6 @@ test.describe('add', () => {
     const add = editor.main.control.add;
     await add.trigger.click();
     const nameMessage = await add.name.message();
-
-    await expect(nameMessage.locator).toBeHidden();
     await expect(add.create).toBeEnabled();
 
     await add.name.locator.clear();
@@ -88,7 +86,7 @@ test.describe('add', () => {
     await expect(add.create).toBeDisabled();
 
     await add.name.locator.fill('valid');
-    await expect(nameMessage.locator).toBeHidden();
+    await nameMessage.expectToBeInfo(`Sanitized key will be 'valid'.`);
     await expect(add.create).toBeEnabled();
   });
 

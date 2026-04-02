@@ -7,6 +7,7 @@
  */
 
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
+export type Severity = "INFO" | "WARNING" | "ERROR";
 
 export interface Database {
   connectionTestData: MapStringConnectionTestData;
@@ -23,6 +24,7 @@ export interface Database {
   databaseTestArgs: DatabaseTestArgs;
   editorFileContent: EditorFileContent;
   jdbcDriverProperties: JdbcDriverProperties[];
+  validationResult: ValidationResult[];
   [k: string]: unknown;
 }
 export interface MapStringConnectionTestData {
@@ -46,6 +48,7 @@ export interface DatabaseConfigurationData {
   additionalProperties: MapStringString;
   driver: string;
   icon: string;
+  key: string;
   maxConnections: number;
   name: string;
   properties: MapStringString;
@@ -108,11 +111,11 @@ export interface DatabaseColumn {
   type: string;
 }
 export interface DatabaseTableData {
-  connectionName: string;
+  connectionKey: string;
   tables: string[];
 }
 export interface DatabaseTableInfoData {
-  connectionName: string;
+  connectionKey: string;
   tables: DatabaseTable[];
 }
 export interface DatabaseTestArgs {
@@ -126,4 +129,9 @@ export interface JdbcDriverProperties {
   databaseProduct: string;
   name: string;
   properties: MapStringString;
+}
+export interface ValidationResult {
+  message: string;
+  path: string;
+  severity: Severity;
 }

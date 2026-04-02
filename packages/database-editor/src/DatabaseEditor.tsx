@@ -119,7 +119,7 @@ export const DatabaseEditor = (props: EditorProps) => {
     setConnectionTestResult(prev => {
       const update = structuredClone(prev);
       if (name.trim() === '') {
-        data?.connections.forEach(c => (update[c.name] = emptyResult));
+        data?.connections.forEach(c => (update[c.key] = emptyResult));
         return update;
       }
       if (!update[name]) {
@@ -135,7 +135,7 @@ export const DatabaseEditor = (props: EditorProps) => {
       context: context
     }),
     mutationFn: () => {
-      const dbConfig = selectedDatabase !== undefined ? (data?.connections[selectedDatabase]?.name ?? '') : '';
+      const dbConfig = selectedDatabase !== undefined ? (data?.connections[selectedDatabase]?.key ?? '') : '';
       setConnectionPending(dbConfig);
       return client.functions('function/testDatabaseConnection', {
         context: context,
