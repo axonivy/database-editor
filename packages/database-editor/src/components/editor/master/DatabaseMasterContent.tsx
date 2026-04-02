@@ -29,7 +29,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const hotkeys = useKnownHotkeys();
   const readonly = useReadonly();
   const sort = useTableSort();
-  const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult } = useAppContext();
+  const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult, selectedDatabase } = useAppContext();
 
   const selection = useTableSelect<DatabaseConfigurationData>({
     onSelect: selectedRows => {
@@ -120,7 +120,11 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
     <Flex direction='column' onClick={() => table.resetRowSelection()} className='database-editor-master-content' ref={ref}>
       <BasicField
         label={t('database.allConnections')}
-        control={!readonly && <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} />}
+        control={
+          !readonly && (
+            <MasterControl table={table} deleteDatabaseConnection={deleteDatabaseConnection} selectedDatabase={selectedDatabase} />
+          )
+        }
         onClick={event => event.stopPropagation()}
         className='database-editor-table-field'
         tabIndex={-1}
