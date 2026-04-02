@@ -83,6 +83,13 @@
       "emptyNameError": "Name cannot be empty.",
       "nameTakenError": "Name is already taken.",
       "title": "Add Database Connection"
+    },
+    "sqlQueryTester": {
+      "databaseConfiguration": "Database Configuration: {{name}}",
+      "execute": "Execute",
+      "noResults": "Query executed successfully, but returned no results.",
+      "sqlError": "SQL Error",
+      "title": "SQL Query"
     }
   },
   "hotkey": {
