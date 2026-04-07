@@ -17,6 +17,7 @@ type MasterControlProps = {
 
 export const MasterControl = ({ table, deleteDatabaseConnection, selectedDatabase }: MasterControlProps) => {
   const hotkeys = useKnownHotkeys();
+  const { t } = useTranslation();
   const { context, projects, testConnection } = useAppContext();
 
   return (
@@ -49,7 +50,7 @@ export const MasterControl = ({ table, deleteDatabaseConnection, selectedDatabas
       </TooltipProvider>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <SqlQueryTester selectedDatabase={selectedDatabase}>
-        <Button disabled={table.getSelectedRowModel().flatRows.length === 0} icon={IvyIcons.Sql} />
+        <Button disabled={table.getSelectedRowModel().flatRows.length === 0} icon={IvyIcons.Sql} aria-label={t('dialog.sqlQueryTester.title')} />
       </SqlQueryTester>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <ImportWizard context={{ app: context.app, file: context.file, projects: projects }}>
