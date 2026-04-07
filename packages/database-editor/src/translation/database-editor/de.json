@@ -89,7 +89,7 @@
       "execute": "Ausführen",
       "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",
       "sqlError": "SQL Fehler",
-      "title": "SQL Query"
+      "title": "SQL Abfrage"
     }
   },
   "hotkey": {
