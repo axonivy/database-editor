@@ -14,6 +14,8 @@
       "details": "Details",
       "driver": "Driver",
       "general": "General",
+      "icon": "Icon",
+      "key": "Key",
       "name": "Name",
       "properties": "Properties",
       "state": "State",
@@ -82,6 +84,7 @@
       "description": "Choose the name of the Database Connection you want to add.",
       "emptyNameError": "Name cannot be empty.",
       "nameTakenError": "Name is already taken.",
+      "sanitizedKey": "Sanitized key will be '{{key}}'.",
       "title": "Add Database Connection"
     }
   },

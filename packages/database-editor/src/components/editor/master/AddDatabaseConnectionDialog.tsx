@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTrigger,
   hotkeyText,
+  selectRow,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -24,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 
+import { configKeySanitize } from '@axonivy/ui-components';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 
 const DIALOG_HOTKEY_IDS = ['addDatabaseConnectionDialog'];
@@ -57,16 +59,20 @@ type AddDatabaseConnectionContentProps = {
 
 const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnectionContentProps) => {
   const { t } = useTranslation();
-  const { context, setData, setSelectedDatabase } = useAppContext();
+  const { context, databaseConfigs, setData, setSelectedDatabase } = useAppContext();
   const jdbcDrivers = useMeta('meta/jdbcDrivers', context).data;
 
   const [name, setName] = useState('NewDatabaseConnection');
-  const nameValidationMessage = useValidateDatabaseConnectionName(name);
+  const nameValidationMessage = useValidateDatabaseConnectionKey(name);
   const nameInput = useRef<HTMLInputElement>(null);
+
+  const sanitizedKey = configKeySanitize(name);
+  const sanitizeMessage: MessageData = { variant: 'info', message: t('dialog.addDatabaseConnection.sanitizedKey', { key: sanitizedKey }) };
 
   const addDatabaseConnection = (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => {
     const newDatabaseConnection: DatabaseConfigurationData = {
-      name,
+      key: sanitizedKey,
+      name: name,
       driver: jdbcDrivers?.at(0)?.name ?? '',
       icon: '',
       maxConnections: 5,
@@ -78,7 +84,6 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
       const newConfigs = structuredClone(prev);
       const newDatabaseConfigs = addRow(table, newConfigs.connections, newDatabaseConnection);
       newConfigs.connections = newDatabaseConfigs;
-      setSelectedDatabase(newConfigs.connections.findIndex(config => config.name === name));
       return newConfigs;
     });
 
@@ -88,6 +93,8 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
     } else {
       closeDialog();
     }
+    selectRow(table, databaseConfigs.length.toString());
+    setSelectedDatabase(databaseConfigs.length);
   };
 
   const allInputsValid = nameValidationMessage === undefined;
@@ -122,20 +129,21 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
       cancel={<Button variant='outline'>{t('common.label.cancel')}</Button>}
       ref={enter}
     >
-      <BasicField label={t('common.label.name')} message={nameValidationMessage}>
+      <BasicField label={t('common.label.name')} message={nameValidationMessage || sanitizeMessage}>
         <BasicInput value={name} onChange={event => setName(event.target.value)} ref={nameInput} />
       </BasicField>
     </BasicDialogContent>
   );
 };
 
-export const useValidateDatabaseConnectionName = (name: string) => {
+export const useValidateDatabaseConnectionKey = (key: string) => {
   const { t } = useTranslation();
   const { databaseConfigs } = useAppContext();
-  if (name.trim() === '') {
+  const sanitizedKey = configKeySanitize(key);
+  if (sanitizedKey === '') {
     return toErrorMessage(t('dialog.addDatabaseConnection.emptyNameError'));
   }
-  if (databaseConfigs.some(config => config.name === name)) {
+  if (databaseConfigs.some(config => config.key.toLowerCase() === sanitizedKey.toLowerCase())) {
     return toErrorMessage(t('dialog.addDatabaseConnection.nameTakenError'));
   }
   return;
