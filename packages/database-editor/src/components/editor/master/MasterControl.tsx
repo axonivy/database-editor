@@ -6,14 +6,16 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
+import { SqlQueryTester } from '../detail/SqlQueryTester';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 type MasterControlProps = {
   table: Table<DatabaseConfigurationData>;
   deleteDatabaseConnection: () => void;
+  selectedDatabase?: number;
 };
 
-export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
+export const MasterControl = ({ table, deleteDatabaseConnection, selectedDatabase }: MasterControlProps) => {
   const hotkeys = useKnownHotkeys();
   const { context, projects, testConnection } = useAppContext();
 
@@ -45,6 +47,10 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
           <TooltipContent>{hotkeys.testConnection.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <SqlQueryTester selectedDatabase={selectedDatabase}>
+        <Button disabled={table.getSelectedRowModel().flatRows.length === 0} icon={IvyIcons.Sql} />
+      </SqlQueryTester>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <ImportWizard context={{ app: context.app, file: context.file, projects: projects }}>
         <Button aria-label={hotkeys.generate.label} icon={IvyIcons.SettingsCog} />
