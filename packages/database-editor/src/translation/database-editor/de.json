@@ -88,7 +88,10 @@
       "databaseConfiguration": "Datenbank-Konfiguration: {{name}}",
       "execute": "Ausführen",
       "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",
+      "resultError": "Fehler beim Laden der Ergebnisse.",
       "sqlError": "SQL Fehler",
+      "sqlPlaceholder": "SELECT * FROM YOUR_TABLE",
+      "tablePlaceholder": "Tabellen anzeigen...",
       "title": "SQL Abfrage"
     }
   },

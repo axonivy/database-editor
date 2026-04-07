@@ -14,6 +14,8 @@ import type {
   EditorFileContent,
   ExecuteSqlRequest,
   ExecuteSqlResponse,
+  GetTableContentRequest,
+  GetTablesRequest,
   JdbcDriverProperties,
   MapStringConnectionTestData
 } from './editor';
@@ -73,6 +75,8 @@ export interface FunctionRequestTypes {
   'function/importFromDatabase': [DatabaseImportCreationArgs, Array<CreationError>];
   'function/testDatabaseConnection': [DatabaseTestArgs, MapStringConnectionTestData];
   'function/executeSql': [ExecuteSqlRequest, ExecuteSqlResponse];
+  'function/listTables': [GetTablesRequest, string[]];
+  'function/getTableContent': [GetTableContentRequest, ExecuteSqlResponse];
 }
 
 export interface MetaRequestTypes {
