@@ -17,6 +17,7 @@ import type {
   GetTableContentRequest,
   GetTablesRequest,
   JdbcDriverProperties,
+  LoadLastQueryRequest,
   MapStringConnectionTestData
 } from './editor';
 
@@ -77,6 +78,7 @@ export interface FunctionRequestTypes {
   'function/executeSql': [ExecuteSqlRequest, ExecuteSqlResponse];
   'function/listTables': [GetTablesRequest, string[]];
   'function/getTableContent': [GetTableContentRequest, ExecuteSqlResponse];
+  'function/loadLastQuery': [LoadLastQueryRequest, string];
 }
 
 export interface MetaRequestTypes {
