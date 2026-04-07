@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
-import { SqlQueryTester } from '../detail/SqlQueryTester';
+import { SqlQueryTester } from '../../SqlQueryTester/SqlQueryTester';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 type MasterControlProps = {
