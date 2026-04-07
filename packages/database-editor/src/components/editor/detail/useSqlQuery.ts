@@ -10,10 +10,22 @@ type ResultSource = 'table' | 'sql' | 'idle';
 export const useSqlQuery = (database: DatabaseConfigurationData) => {
   const { context } = useAppContext();
   const client = useClient();
-  const [sql, setSql] = useState('');
+  const [sqlOverride, setSql] = useState<string | undefined>(undefined);
   const [executedSql, setExecutedSql] = useState('');
   const [selectedTable, setSelectedTable] = useState('');
   const [resultSource, setResultSource] = useState<ResultSource>('idle');
+
+  const lastQueryQuery = useQuery({
+    queryKey: genQueryKey('loadLastQuery', { context, dataSourceId: database.name }),
+    structuralSharing: false,
+    queryFn: () =>
+      client.functions('function/loadLastQuery', {
+        context: { app: context.app, file: context.file, pmv: context.pmv },
+        dataSourceId: database.name
+      })
+  });
+
+  const sql = sqlOverride ?? lastQueryQuery.data ?? '';
 
   const tablesQuery = useQuery({
     queryKey: genQueryKey('listTables', { context, dataSourceId: database.name }),
