@@ -10,7 +10,7 @@ import {
 } from '@axonivy/ui-components';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../../AppContext';
+import { useAppContext } from '../../AppContext';
 import { SqlQueryContent } from './SqlQueryContent';
 
 export const SqlQueryTester = ({ children, selectedDatabase }: { children: ReactNode; selectedDatabase?: number }) => {

@@ -1,9 +1,9 @@
 import type { DatabaseConfigurationData, ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useAppContext } from '../../../AppContext';
-import { useClient } from '../../../protocol/ClientContextProvider';
-import { genQueryKey } from '../../../query/query-client';
+import { useAppContext } from '../../AppContext';
+import { useClient } from '../../protocol/ClientContextProvider';
+import { genQueryKey } from '../../query/query-client';
 
 type ResultSource = 'table' | 'sql' | 'idle';
 
