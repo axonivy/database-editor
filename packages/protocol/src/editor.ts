@@ -137,7 +137,6 @@ export interface ExecuteSqlResponse {
   columns: string[];
   error: string;
   rows: MapStringString[];
-  statementType: string;
   status: string;
 }
 export interface GetTableContentRequest {
