@@ -1,13 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@axonivy/ui-components';
+import { Dialog, DialogContent, DialogTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../AppContext';
@@ -29,7 +20,6 @@ export const SqlQueryTester = ({ children, selectedDatabase }: { children: React
       </TooltipProvider>
       {selectedDatabase !== undefined && databaseConfigs[selectedDatabase] && (
         <DialogContent style={{ minWidth: 700 }}>
-          <DialogTitle>{t('dialog.sqlQueryTester.title')}</DialogTitle>
           <SqlQueryContent database={databaseConfigs[selectedDatabase]} />
         </DialogContent>
       )}

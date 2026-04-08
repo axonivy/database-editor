@@ -1,6 +1,5 @@
 import type { DatabaseConfigurationData, ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
-import { BasicInput, Button, Combobox, Flex, PanelMessage, Spinner, Textarea } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { BasicDialogContent, Button, Combobox, Flex, Input, Message, Spinner, Textarea } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import { SqlResultTable } from './SqlResultTable';
 import { useSqlQuery } from './useSqlQuery';
@@ -24,8 +23,12 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
   } = useSqlQuery(database);
 
   return (
-    <Flex direction='column' gap={2}>
-      <span>{t('dialog.sqlQueryTester.databaseConfiguration', { name: database.name })}</span>
+    <BasicDialogContent
+      title={t('dialog.sqlQueryTester.title')}
+      description={t('dialog.sqlQueryTester.databaseConfiguration', { name: database.name })}
+      cancel={undefined}
+      submit={undefined}
+    >
       <Combobox
         value={selectedTable}
         placeholder={t('dialog.sqlQueryTester.tablePlaceholder', { defaultValue: 'Show tables...' })}
@@ -40,17 +43,23 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
         style={{ minHeight: 100, resize: 'vertical' }}
       />
       <Flex direction='row' justifyContent='space-between' alignItems='center' gap={2}>
-        <BasicInput
+        <Input
           readOnly
-          value={result?.error ? t('dialog.sqlQueryTester.sqlError') : executedSql}
-          style={result?.error ? { borderColor: 'red' } : undefined}
+          value={result?.error ? t('dialog.sqlQueryTester.sqlError') : executedSql.replace(/\n/g, ' ')}
+          title={result?.error ? undefined : executedSql}
+          style={{
+            ...(result?.error ? { borderColor: 'red' } : {}),
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}
         />
         <Button variant='primary' onClick={executeSql} disabled={!sql.trim() || isExecuting}>
           {t('dialog.sqlQueryTester.execute')}
         </Button>
       </Flex>
       <SqlQueryResult result={result} isLoading={isResultLoading} isError={isResultError} />
-    </Flex>
+    </BasicDialogContent>
   );
 };
 
@@ -74,12 +83,7 @@ const SqlQueryResult = ({
   }
 
   if (isError) {
-    return (
-      <PanelMessage
-        icon={IvyIcons.ErrorXMark}
-        message={t('dialog.sqlQueryTester.resultError', { defaultValue: 'Could not load results.' })}
-      />
-    );
+    return <Message variant='error' message={t('dialog.sqlQueryTester.resultError', { defaultValue: 'Could not load results.' })} />;
   }
 
   if (!result) {
@@ -87,7 +91,7 @@ const SqlQueryResult = ({
   }
 
   if (result.error) {
-    return <PanelMessage icon={IvyIcons.ErrorXMark} message={result.error} />;
+    return <Message variant='error' message={result.error} />;
   }
 
   if (result.rows.length === 0) {
