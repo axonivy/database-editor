@@ -1,5 +1,5 @@
 import type { ExecuteSqlResponse, MapStringString } from '@axonivy/database-editor-protocol';
-import { Flex, SortableHeader, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
+import { Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
@@ -8,7 +8,7 @@ export const SqlResultTable = ({ result }: { result: ExecuteSqlResponse }) => {
     () =>
       result.columns.map(col => ({
         accessorKey: col,
-        header: ({ column }) => <SortableHeader column={column} name={col} />,
+        header: () => <span>{col}</span>,
         cell: cell => <span>{cell.getValue()}</span>
       })),
     [result.columns]
