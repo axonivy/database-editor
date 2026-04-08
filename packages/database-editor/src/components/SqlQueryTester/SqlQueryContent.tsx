@@ -42,8 +42,14 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       <Flex direction='row' justifyContent='space-between' alignItems='center' gap={2}>
         <BasicInput
           readOnly
-          value={result?.error ? t('dialog.sqlQueryTester.sqlError') : executedSql}
-          style={result?.error ? { borderColor: 'red' } : undefined}
+          value={result?.error ? t('dialog.sqlQueryTester.sqlError') : executedSql.replace(/\n/g, ' ')}
+          title={result?.error ? undefined : executedSql}
+          style={{
+            ...(result?.error ? { borderColor: 'red' } : {}),
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}
         />
         <Button variant='primary' onClick={executeSql} disabled={!sql.trim() || isExecuting}>
           {t('dialog.sqlQueryTester.execute')}
