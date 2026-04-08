@@ -24,7 +24,7 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
   } = useSqlQuery(database);
 
   return (
-    <Flex direction='column' gap={2}>
+    <Flex direction='column' gap={2} style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
       <span>{t('dialog.sqlQueryTester.databaseConfiguration', { name: database.name })}</span>
       <Combobox
         value={selectedTable}

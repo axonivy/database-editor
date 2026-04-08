@@ -28,7 +28,7 @@ export const SqlQueryTester = ({ children, selectedDatabase }: { children: React
         </Tooltip>
       </TooltipProvider>
       {selectedDatabase !== undefined && databaseConfigs[selectedDatabase] && (
-        <DialogContent style={{ minWidth: 700 }}>
+        <DialogContent style={{ minWidth: 700, maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
           <DialogTitle>{t('dialog.sqlQueryTester.title')}</DialogTitle>
           <SqlQueryContent database={databaseConfigs[selectedDatabase]} />
         </DialogContent>
