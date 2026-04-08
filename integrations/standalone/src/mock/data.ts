@@ -256,7 +256,6 @@ export const executeSqlResponse: ExecuteSqlResponse = {
     { id: '3', name: 'Lewis', street: 'seaside' }
   ],
   error: '',
-  statementType: '',
   status: ''
 };
 
@@ -270,7 +269,6 @@ export const getTableContentResponse: ExecuteSqlResponse = {
     { id: '3', name: 'Mercedes' }
   ],
   error: '',
-  statementType: '',
   status: ''
 };
 
