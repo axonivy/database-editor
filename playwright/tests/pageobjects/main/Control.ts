@@ -1,7 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { AddDatabaseConnection } from './AddDatabaseConnection';
 import { ImportDialog } from './import-wizard/ImportDialog';
-import { SqlQueryTester } from './SqlQueryTester';
 
 export class Control {
   readonly locator: Locator;
@@ -9,7 +8,6 @@ export class Control {
   readonly delete: Locator;
   readonly testConnection: Locator;
   readonly importDialog: ImportDialog;
-  readonly sqlQueryTester: SqlQueryTester;
 
   constructor(page: Page, parent: Locator) {
     this.locator = parent.locator('.database-editor-main-control');
@@ -17,6 +15,5 @@ export class Control {
     this.delete = this.locator.getByRole('button', { name: 'Delete Database Connection' });
     this.importDialog = new ImportDialog(page, this.locator);
     this.testConnection = this.locator.getByRole('button', { name: 'Test Database Connection (T)' });
-    this.sqlQueryTester = new SqlQueryTester(page, this.locator);
   }
 }
