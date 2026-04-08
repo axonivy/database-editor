@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { DetailPanel } from './detail/DetailPanel';
 import { MainPanel } from './main/MainPanel';
@@ -77,12 +77,6 @@ export class DatabaseEditor {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
     return editor;
-  }
-
-  async takeScreenshot(fileName: string) {
-    const dir = process.env.SCREENSHOT_DIR ?? 'tests/screenshots/target';
-    const buffer = await this.page.screenshot({ path: `${dir}/screenshots/${fileName}`, animations: 'disabled' });
-    expect(buffer.byteLength).toBeGreaterThan(3000);
   }
 
   async deletePmv() {
