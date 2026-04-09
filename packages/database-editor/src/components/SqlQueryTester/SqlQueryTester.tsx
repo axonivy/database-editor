@@ -7,20 +7,23 @@ import { SqlQueryContent } from './SqlQueryContent';
 export const SqlQueryTester = ({ children, selectedDatabase }: { children: ReactNode; selectedDatabase?: number }) => {
   const { databaseConfigs } = useAppContext();
   const { t } = useTranslation();
+  const database = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
 
   return (
     <Dialog>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <DialogTrigger asChild>{children}</DialogTrigger>
+            <DialogTrigger asChild disabled={!database}>
+              {children}
+            </DialogTrigger>
           </TooltipTrigger>
           <TooltipContent>{t('dialog.sqlQueryTester.title')}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      {selectedDatabase !== undefined && databaseConfigs[selectedDatabase] && (
+      {database && (
         <DialogContent style={{ minWidth: 700 }}>
-          <SqlQueryContent database={databaseConfigs[selectedDatabase]} />
+          <SqlQueryContent database={database} />
         </DialogContent>
       )}
     </Dialog>

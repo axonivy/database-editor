@@ -1,19 +1,18 @@
-import type { DatabaseConfigurationData, ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useAppContext } from '../../AppContext';
 import { useClient } from '../../protocol/ClientContextProvider';
 import { genQueryKey } from '../../query/query-client';
 
-type ResultSource = 'table' | 'sql' | 'idle';
-
 export const useSqlQuery = (database: DatabaseConfigurationData) => {
   const { context } = useAppContext();
   const client = useClient();
-  const [sqlOverride, setSql] = useState<string | undefined>(undefined);
-  const [executedSql, setExecutedSql] = useState('');
+  const [sql, setSql] = useState<string | undefined>(undefined);
   const [selectedTable, setSelectedTable] = useState('');
-  const [resultSource, setResultSource] = useState<ResultSource>('idle');
+  const [executedSql, setExecutedSql] = useState('');
+
+  const source = selectedTable ? 'table' : executedSql ? 'sql' : 'idle';
 
   const lastQueryQuery = useQuery({
     queryKey: genQueryKey('loadLastQuery', { context, dataSourceId: database.name }),
@@ -25,7 +24,7 @@ export const useSqlQuery = (database: DatabaseConfigurationData) => {
       })
   });
 
-  const sql = sqlOverride ?? lastQueryQuery.data ?? '';
+  const resolvedSql = sql ?? lastQueryQuery.data ?? '';
 
   const tablesQuery = useQuery({
     queryKey: genQueryKey('listTables', { context, dataSourceId: database.name }),
@@ -40,7 +39,7 @@ export const useSqlQuery = (database: DatabaseConfigurationData) => {
 
   const tableContentQuery = useQuery({
     queryKey: genQueryKey('getTableContent', { context, dataSourceId: database.name, tableName: selectedTable }),
-    enabled: selectedTable.length > 0,
+    enabled: source === 'table',
     structuralSharing: false,
     queryFn: () =>
       client.functions('function/getTableContent', {
@@ -58,42 +57,32 @@ export const useSqlQuery = (database: DatabaseConfigurationData) => {
         dataSourceId: database.name,
         sql: query
       }),
-    onSuccess: () => {
-      tablesQuery.refetch();
-    }
+    onSuccess: () => tablesQuery.refetch()
   });
 
   const selectTable = (tableName: string) => {
-    setSelectedTable(tableName);
     if (tableName.length === 0) {
-      setSql('');
-      setResultSource('idle');
+      setSelectedTable('');
+      setSql(undefined);
+      setExecutedSql('');
       return;
     }
     const query = `SELECT * FROM ${tableName}`;
+    setSelectedTable(tableName);
     setSql(query);
     setExecutedSql(query);
-    setResultSource('table');
   };
 
   const executeSql = () => {
-    setExecutedSql(sql);
-    setResultSource('sql');
-    executeSqlMutation.mutate(sql);
+    if (!resolvedSql.trim()) return;
+    setSelectedTable('');
+    setExecutedSql(resolvedSql);
+    executeSqlMutation.mutate(resolvedSql);
   };
 
-  const result = deriveResult(
-    resultSource,
-    tableContentQuery.isSuccess ? tableContentQuery.data : undefined,
-    executeSqlMutation.isSuccess ? executeSqlMutation.data : undefined
-  );
-  const isResultLoading =
-    (resultSource === 'table' && tableContentQuery.isPending) || (resultSource === 'sql' && executeSqlMutation.isPending);
-  const isResultError = (resultSource === 'table' && tableContentQuery.isError) || (resultSource === 'sql' && executeSqlMutation.isError);
-
   return {
-    sql,
-    setSql,
+    sql: resolvedSql,
+    setSql: (value: string) => setSql(value),
     executedSql,
     selectedTable,
     selectTable,
@@ -101,24 +90,10 @@ export const useSqlQuery = (database: DatabaseConfigurationData) => {
     tables: tablesQuery.data,
     isTablesLoading: tablesQuery.isPending,
     isTablesError: tablesQuery.isError,
-    result,
-    isResultLoading,
-    isResultError,
+    isLastQueryLoading: lastQueryQuery.isPending,
+    result: source === 'table' ? tableContentQuery.data : source === 'sql' ? executeSqlMutation.data : undefined,
+    isResultLoading: (source === 'table' && tableContentQuery.isPending) || (source === 'sql' && executeSqlMutation.isPending),
+    isResultError: (source === 'table' && tableContentQuery.isError) || (source === 'sql' && executeSqlMutation.isError),
     isExecuting: executeSqlMutation.isPending
   };
-};
-
-const deriveResult = (
-  source: ResultSource,
-  tableContent: ExecuteSqlResponse | undefined,
-  sqlResult: ExecuteSqlResponse | undefined
-): ExecuteSqlResponse | undefined => {
-  switch (source) {
-    case 'table':
-      return tableContent;
-    case 'sql':
-      return sqlResult;
-    default:
-      return undefined;
-  }
 };
