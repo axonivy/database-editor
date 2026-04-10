@@ -19,7 +19,8 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
     result,
     isResultLoading,
     isResultError,
-    isExecuting
+    isExecuting,
+    isLastQueryLoading
   } = useSqlQuery(database);
 
   return (
@@ -38,8 +39,9 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       />
       <Textarea
         value={sql}
-        placeholder={t('dialog.sqlQueryTester.sqlPlaceholder', { defaultValue: 'SELECT * FROM YOUR_TABLE' })}
+        placeholder={isLastQueryLoading ? '' : t('dialog.sqlQueryTester.sqlPlaceholder', { defaultValue: 'SELECT * FROM YOUR_TABLE' })}
         onChange={e => setSql(e.target.value)}
+        disabled={isLastQueryLoading}
         style={{ minHeight: 100, resize: 'vertical' }}
       />
       <Flex direction='row' justifyContent='space-between' alignItems='center' gap={2}>
