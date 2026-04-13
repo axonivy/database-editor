@@ -1,19 +1,21 @@
 import type { DatabaseEditorContext } from '@axonivy/database-editor-protocol';
-import { createContext, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { createContext, use, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 
-const Context = createContext<[DatabaseEditorContext, Dispatch<SetStateAction<DatabaseEditorContext>>] | undefined>(undefined);
+const Context = createContext<{ context: DatabaseEditorContext; setContext: Dispatch<SetStateAction<DatabaseEditorContext>> } | undefined>(
+  undefined
+);
 
-export const ContextProvider = ({ context, children }: { context: DatabaseEditorContext; children: ReactNode }) => {
-  const ctxState = useState<DatabaseEditorContext>(context);
-  return <Context.Provider value={ctxState}>{children}</Context.Provider>;
+export const ContextProvider = ({ initContext, children }: { initContext: DatabaseEditorContext; children: ReactNode }) => {
+  const [context, setContext] = useState<DatabaseEditorContext>(initContext);
+  return <Context value={{ context, setContext }}>{children}</Context>;
 };
 
 export const useContextProvider = () => {
-  const ctx = useContext(Context);
+  const ctx = use(Context);
   if (!ctx) {
     throw new Error('useContextProvider must be used within an ContextProvider');
   }
-  const [context, setContext] = ctx;
+  const { context, setContext } = ctx;
   const updatePmv = (pmv: string, callback?: (value: string) => void) => {
     setContext(prev => {
       const update: DatabaseEditorContext = {
@@ -27,5 +29,5 @@ export const useContextProvider = () => {
     }
   };
 
-  return { context, setContext, updatePmv };
+  return { context, updatePmv };
 };

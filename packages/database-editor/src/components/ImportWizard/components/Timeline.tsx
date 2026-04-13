@@ -7,7 +7,7 @@ export const Timeline = ({ pages, active, setActive }: { pages: Array<ImportPage
   return (
     <Flex className='timeline' direction='row' justifyContent='center'>
       {pages.map((page, i) => (
-        <Fragment key={i}>
+        <Fragment key={page.title}>
           <TimelineItem title={page.title} active={i === active} passed={i < active} index={i} setActive={setActive} />
           {i < pages.length - 1 && <Connector active={i < active} />}
         </Fragment>

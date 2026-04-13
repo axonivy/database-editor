@@ -2,7 +2,7 @@ import type { DatabaseColumn, DatabaseTable, ImportOptions, TableOptions } from 
 import { useState } from 'react';
 
 export const useCreationTables = (namespace: string) => {
-  const [tablesToCreate, setTablesToCreate] = useState<Map<string, Map<ImportOptions, Array<DatabaseColumn>>>>(new Map());
+  const [tablesToCreate, setTablesToCreate] = useState<Map<string, Map<ImportOptions, Array<DatabaseColumn>>>>(() => new Map());
 
   const updateTablesToCreate = (table: DatabaseTable, type: ImportOptions, column?: DatabaseColumn, add: boolean = true) => {
     setTablesToCreate(prev => {

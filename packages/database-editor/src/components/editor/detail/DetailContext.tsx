@@ -1,5 +1,5 @@
 import type { DatabaseConfigurationData, JdbcDriverProperties } from '@axonivy/database-editor-protocol';
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 
 type DetailContext = {
   databaseConfig: DatabaseConfigurationData;
@@ -8,15 +8,15 @@ type DetailContext = {
   selectedDriver: JdbcDriverProperties;
 };
 
-const detailContext = createContext<DetailContext>({
+const DetailContext = createContext<DetailContext>({
   databaseConfig: { key: '', name: '', driver: '', icon: '', maxConnections: 0, properties: {}, additionalProperties: {} },
   updateDatabaseConfig: () => {},
   drivers: [],
   selectedDriver: { name: '', databaseProduct: '', properties: {} }
 });
 
-export const DetailProvider = detailContext.Provider;
+export const DetailProvider = DetailContext.Provider;
 
 export function useDetailContext(): DetailContext {
-  return useContext(detailContext);
+  return use(DetailContext);
 }

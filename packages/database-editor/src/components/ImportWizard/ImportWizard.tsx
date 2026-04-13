@@ -42,7 +42,7 @@ export const ImportWizard = ({
   });
 
   return (
-    <ContextProvider context={importContext}>
+    <ContextProvider initContext={importContext}>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <TooltipProvider>
           <Tooltip>

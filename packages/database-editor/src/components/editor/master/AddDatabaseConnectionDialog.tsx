@@ -64,7 +64,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
 
   const [name, setName] = useState('NewDatabaseConnection');
   const nameValidationMessage = useValidateDatabaseConnectionKey(name);
-  const nameInput = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   const sanitizedKey = configKeySanitize(name);
   const sanitizeMessage: MessageData = { variant: 'info', message: t('dialog.addDatabaseConnection.sanitizedKey', { key: sanitizedKey }) };
@@ -89,7 +89,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
 
     if (event.ctrlKey || event.metaKey) {
       setName('');
-      nameInput.current?.focus();
+      nameInputRef.current?.focus();
     } else {
       closeDialog();
     }
@@ -130,7 +130,7 @@ const AddDatabaseConnectionContent = ({ table, closeDialog }: AddDatabaseConnect
       ref={enter}
     >
       <BasicField label={t('common.label.name')} message={nameValidationMessage || sanitizeMessage}>
-        <BasicInput value={name} onChange={event => setName(event.target.value)} ref={nameInput} />
+        <BasicInput value={name} onChange={event => setName(event.target.value)} ref={nameInputRef} />
       </BasicField>
     </BasicDialogContent>
   );

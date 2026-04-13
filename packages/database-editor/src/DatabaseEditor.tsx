@@ -36,7 +36,7 @@ export const DatabaseEditor = (props: EditorProps) => {
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({ groupId: 'database-editor-resize', storage: localStorage });
   const { t } = useTranslation();
   const [selectedDatabase, setSelectedDatabase] = useState<number>();
-  const [initialData, setInitalData] = useState<DatabaseConfigurations | undefined>(undefined);
+  const [initialData, setInitialData] = useState<DatabaseConfigurations | undefined>(undefined);
   const history = useHistoryData<DatabaseConfigurations>();
 
   const context = useMemo<DatabaseEditorContext>(
@@ -72,7 +72,7 @@ export const DatabaseEditor = (props: EditorProps) => {
   }, [client, context, queryClient, queryKeys]);
 
   if (data !== undefined && initialData === undefined) {
-    setInitalData(data);
+    setInitialData(data);
     history.push(data);
   }
 

@@ -26,11 +26,11 @@ export const DatabaseMasterToolbar = ({ detail, setDetail }: { detail: boolean; 
   const readonly = useReadonly();
 
   const hotkeys = useKnownHotkeys();
-  const firstElement = useRef<HTMLDivElement>(null);
-  useHotkeys(hotkeys.focusToolbar.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
+  const firstElementRef = useRef<HTMLDivElement>(null);
+  useHotkeys(hotkeys.focusToolbar.hotkey, () => firstElementRef.current?.focus(), { scopes: ['global'] });
 
   return (
-    <Toolbar className='database-editor-toolbar' tabIndex={-1} ref={firstElement}>
+    <Toolbar className='database-editor-toolbar' tabIndex={-1} ref={firstElementRef}>
       <ToolbarTitle>{t('database.databaseEditor', { projectName: context.pmv })}</ToolbarTitle>
       <Flex gap={1}>
         {!readonly && <EditButtons />}

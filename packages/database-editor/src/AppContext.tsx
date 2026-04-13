@@ -5,7 +5,7 @@ import {
   type MapStringConnectionTestData
 } from '@axonivy/database-editor-protocol';
 import type { UpdateConsumer, useHistoryData } from '@axonivy/ui-components';
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 
 export type AppContext = {
   context: DatabaseEditorContext;
@@ -21,7 +21,7 @@ export type AppContext = {
   removeConnectionTestResult: (name: string) => void;
 };
 
-const appContext = createContext<AppContext>({
+const AppContext = createContext<AppContext>({
   context: { app: '', pmv: '', file: '' },
   selectedDatabase: undefined,
   setSelectedDatabase: () => {},
@@ -35,10 +35,10 @@ const appContext = createContext<AppContext>({
   removeConnectionTestResult: () => {}
 });
 
-export const AppProvider = appContext.Provider;
+export const AppProvider = AppContext.Provider;
 
 export function useAppContext(): AppContext & { setUnhistorisedDataClass: UpdateConsumer<DatabaseConfigurations> } {
-  const context = useContext(appContext);
+  const context = use(AppContext);
   return {
     ...context,
     setData: updater => {
