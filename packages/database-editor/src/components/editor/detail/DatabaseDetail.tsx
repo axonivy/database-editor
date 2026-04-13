@@ -29,8 +29,8 @@ export const DatabaseDetail = () => {
   const { databaseConfigs, selectedDatabase, helpUrl } = useAppContext();
 
   const hotkeys = useKnownHotkeys();
-  const firstElement = useRef<HTMLDivElement>(null);
-  useHotkeys(hotkeys.focusInscription.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
+  const firstElementRef = useRef<HTMLDivElement>(null);
+  useHotkeys(hotkeys.focusInscription.hotkey, () => firstElementRef.current?.focus(), { scopes: ['global'] });
 
   const databaseConfig = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
   let title = t('database.connectionProperties');
@@ -43,7 +43,7 @@ export const DatabaseDetail = () => {
 
   return (
     <Flex direction='column' className='database-editor-panel-content'>
-      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' tabIndex={-1} ref={firstElement}>
+      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' tabIndex={-1} ref={firstElementRef}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

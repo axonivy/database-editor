@@ -98,8 +98,8 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
 
-  const firstElement = useRef<HTMLDivElement>(null);
-  useHotkeys(hotkeys.focusMain.hotkey, () => firstElement.current?.focus(), { scopes: ['global'] });
+  const firstElementRef = useRef<HTMLDivElement>(null);
+  useHotkeys(hotkeys.focusMain.hotkey, () => firstElementRef.current?.focus(), { scopes: ['global'] });
 
   const deleteDatabaseConnection = () => {
     setData(prev => {
@@ -124,7 +124,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
         onClick={event => event.stopPropagation()}
         className='database-editor-table-field'
         tabIndex={-1}
-        ref={firstElement}
+        ref={firstElementRef}
       >
         <Table onKeyDown={event => handleKeyDown(event, () => setDetail(!detail))}>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => table.resetRowSelection()} />
