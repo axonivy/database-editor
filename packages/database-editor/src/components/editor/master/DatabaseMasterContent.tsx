@@ -3,6 +3,7 @@ import {
   BasicField,
   deleteFirstSelectedRow,
   Flex,
+  IvyIcon,
   SelectRow,
   SortableHeader,
   Table,
@@ -15,10 +16,12 @@ import {
   useTableSelect,
   useTableSort
 } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
+import { useMeta } from '../../../protocol/use-meta';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ConnectionStateIndicator } from './ConnectionStateIndicator';
 import './DatabaseMasterContent.css';
@@ -30,6 +33,8 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
   const readonly = useReadonly();
   const sort = useTableSort();
   const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult } = useAppContext();
+  const { context } = useAppContext();
+  const iconMeta = useMeta('meta/icons/all', context);
 
   const selection = useTableSelect<DatabaseConfigurationData>({
     onSelect: selectedRows => {
@@ -50,7 +55,15 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       {
         accessorKey: 'name',
         header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => <span>{cell.getValue()}</span>,
+        cell: cell => {
+          const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
+          return (
+            <Flex alignItems='center' gap={1}>
+              {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.Database} />}
+              <span>{cell.getValue()}</span>
+            </Flex>
+          );
+        },
         minSize: 50
       },
       {
@@ -80,7 +93,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
         size: 40
       }
     ],
-    [connectionTestResult, t]
+    [connectionTestResult, t, iconMeta.data]
   );
 
   const table = useReactTable({

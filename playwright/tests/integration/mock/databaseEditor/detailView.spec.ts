@@ -4,6 +4,8 @@ import { consoleLog } from '../../../pageobjects/console-log';
 
 let editor: DatabaseEditor;
 
+const ICON_DISPLAY_VALUE = 'res:/webContent/icons/microsoft.svg';
+
 test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
 });
@@ -13,11 +15,10 @@ test('general', async () => {
   await expect(editor.detail.general.key).toHaveValue('database0');
   await expect(editor.detail.general.key).toBeDisabled();
   await expect(editor.detail.general.name).toHaveValue('database0');
-  await expect(editor.detail.general.icon).toBeEmpty();
   await editor.detail.general.name.fill('hi');
-  await editor.detail.general.icon.fill('icon');
+  await editor.detail.general.icon.locator.fill('icon');
   await expect(editor.detail.general.name).toHaveValue('hi');
-  await expect(editor.detail.general.icon).toHaveValue('icon');
+  await expect(editor.detail.general.icon.locator).toHaveValue('icon');
   await editor.main.table.row(0).expectToHaveTexts('hi', 'host0:3306', 'MySQL');
 });
 
@@ -148,4 +149,35 @@ test('other driver', async () => {
   await expect(editor.detail.properties.driverName).toHaveValue('other.driver.class');
   await expect(editor.detail.properties.userName).toHaveValue('otherUser');
   await expect(editor.detail.properties.password).toHaveValue('otherPassword');
+});
+
+test('icon chooser', async ({ page }) => {
+  const editor = await DatabaseEditor.openMock(page);
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.icon.locator).toHaveValue('');
+
+  await editor.detail.general.icon.select('microsoft');
+  await expect(editor.detail.general.icon.locator).toHaveValue(ICON_DISPLAY_VALUE);
+  const selectedRow = editor.main.table.row(0);
+  const iconInRow = selectedRow.locator.locator('img');
+  await expect(iconInRow).toHaveAttribute('src', '/icons/microsoft.svg');
+  await expect(iconInRow).toHaveAttribute('alt', 'icon');
+});
+
+test('icon chooser client', async ({ page }) => {
+  const editor = await DatabaseEditor.openEngine(page, 'database-editor-test-project');
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.icon.locator).toHaveValue('');
+
+  await editor.detail.general.icon.select('microsoft');
+  await expect(editor.detail.general.icon.locator).toHaveValue(ICON_DISPLAY_VALUE);
+  const selectedRow = editor.main.table.row(0);
+  const iconInRow = selectedRow.locator.locator('img');
+  for (const img of await iconInRow.all()) {
+    await expect(img).toHaveJSProperty('complete', true);
+    await expect(img).not.toHaveJSProperty('naturalWidth', 0);
+  }
+  await editor.detail.general.icon.locator.fill('');
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.icon.locator).toHaveValue('');
 });

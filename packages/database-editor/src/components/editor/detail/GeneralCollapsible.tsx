@@ -1,12 +1,28 @@
-import { BasicField, BasicInput, BasicSelect, Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
+import {
+  BasicField,
+  BasicInput,
+  BasicSelect,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Combobox,
+  Flex
+} from '@axonivy/ui-components';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppContext } from '../../../AppContext';
+import { useMeta } from '../../../protocol/use-meta';
 import { useDetailContext } from './DetailContext';
 
 export const GeneralCollapsible = () => {
   const { t } = useTranslation();
   const { databaseConfig, updateDatabaseConfig, drivers, selectedDriver } = useDetailContext();
-
+  const { context } = useAppContext();
+  const iconMeta = useMeta('meta/icons/all', context);
+  const iconOptions = useMemo(
+    () => iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.relativePath })) ?? [],
+    [iconMeta.data]
+  );
   const databaseProductItems = useMemo(
     () =>
       Array.from(new Set(drivers.map(driver => driver.databaseProduct)))
@@ -20,6 +36,7 @@ export const GeneralCollapsible = () => {
       drivers.filter(driver => driver.databaseProduct === databaseProduct).sort((a, b) => a.name.localeCompare(b.name)),
     [drivers]
   );
+
   const driverItems = useMemo(
     () => driversForDatabaseProduct(selectedDriver.databaseProduct).map(driver => ({ label: driver.name, value: driver.name })),
     [selectedDriver.databaseProduct, driversForDatabaseProduct]
@@ -40,10 +57,32 @@ export const GeneralCollapsible = () => {
             />
           </BasicField>
           <BasicField label={t('common.label.icon')}>
-            <BasicInput
-              value={databaseConfig.icon}
-              onChange={event => updateDatabaseConfig(database => (database.icon = event.target.value))}
-            />
+            <Flex alignItems='center' gap={2} className='w-full'>
+              <div
+                className='flex shrink-0 items-center justify-center rounded-sm border border-border-basic'
+                style={{ width: '2.3125rem', height: '2.3125rem' }}
+              >
+                {databaseConfig.icon && (
+                  <img
+                    src={iconOptions.find(option => option.value === databaseConfig.icon)?.icon}
+                    style={{ width: '1.5rem', height: '1.5rem' }}
+                  />
+                )}
+              </div>
+              <div className='flex-1'>
+                <Combobox
+                  itemRender={item => (
+                    <Flex alignItems='center' gap={1}>
+                      <img src={item.icon} className='size-3' />
+                      <span>{item.label}</span>
+                    </Flex>
+                  )}
+                  onChange={value => updateDatabaseConfig(database => (database.icon = value))}
+                  options={iconOptions}
+                  value={databaseConfig.icon}
+                />
+              </div>
+            </Flex>
           </BasicField>
           <BasicField label={t('common.label.database')}>
             <BasicSelect

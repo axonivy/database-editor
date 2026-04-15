@@ -7,6 +7,7 @@ import type {
   DatabaseData,
   DatabaseEditorDBContext,
   DatabaseEditorSaveArgs,
+  DatabaseIcon,
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
@@ -27,6 +28,7 @@ import {
   databaseTableData,
   databaseTableInfoData,
   jdbcDrivers,
+  META_ICONS,
   mockError,
   testConnectionResult
 } from './data';
@@ -41,6 +43,7 @@ export class DatabaseClientMock implements Client {
   private databaseConnections: DatabaseConfigurations = databaseConnections;
   private testConnectionResult: MapStringConnectionTestData = testConnectionResult;
   private workingConnectionResult: ConnectionTestData = connectionTestDataWorking;
+  private metaIcons: Array<DatabaseIcon> = META_ICONS;
 
   private readonly metaJdbcDriversState: string;
 
@@ -75,6 +78,8 @@ export class DatabaseClientMock implements Client {
           throw Error('error message');
         }
         return Promise.resolve(this.jdbcDrivers);
+      case 'meta/icons/all':
+        return Promise.resolve(this.metaIcons);
       default:
         throw Error('mock meta path not programmed');
     }

@@ -4,6 +4,7 @@ import type {
   DatabaseColumn,
   DatabaseConfigurations,
   DatabaseData,
+  DatabaseIcon,
   DatabaseTable,
   DatabaseTableData,
   DatabaseTableInfoData,
@@ -250,3 +251,7 @@ export const testConnectionResult: MapStringConnectionTestData = {
   database2: structuredClone(connectionTestDataWorking),
   otherDatabase: structuredClone(connectionTestDataWorking)
 };
+
+export const META_ICONS = [
+  { name: 'microsoft', path: '/icons/microsoft.svg', relativePath: 'res:/webContent/icons/microsoft.svg' }
+] as const satisfies DatabaseIcon[];
