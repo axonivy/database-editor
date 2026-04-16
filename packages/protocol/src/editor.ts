@@ -18,6 +18,7 @@ export interface Database {
   databaseEditorDBContext: DatabaseEditorDBContext;
   databaseEditorSaveArgs: DatabaseEditorSaveArgs;
   databaseEditorTableContext: DatabaseEditorTableContext;
+  databaseIcon: DatabaseIcon[];
   databaseImportCreationArgs: DatabaseImportCreationArgs;
   databaseTableData: DatabaseTableData;
   databaseTableInfoData: DatabaseTableInfoData;
@@ -85,6 +86,11 @@ export interface DatabaseEditorTableContext {
   databaseName: string;
   file: string;
   pmv: string;
+}
+export interface DatabaseIcon {
+  name: string;
+  path: string;
+  relativePath: string;
 }
 export interface DatabaseImportCreationArgs {
   context: DatabaseEditorDataContext;

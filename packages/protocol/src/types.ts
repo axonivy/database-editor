@@ -7,6 +7,7 @@ import type {
   DatabaseEditorDBContext,
   DatabaseEditorSaveArgs,
   DatabaseEditorTableContext,
+  DatabaseIcon,
   DatabaseImportCreationArgs,
   DatabaseTableData,
   DatabaseTableInfoData,
@@ -78,6 +79,7 @@ export interface MetaRequestTypes {
   'meta/databaseTableNames': [DatabaseEditorTableContext, DatabaseTableData];
   'meta/databaseTableInfo': [DatabaseEditorDBContext, DatabaseTableInfoData];
   'meta/jdbcDrivers': [DatabaseEditorDataContext, Array<JdbcDriverProperties>];
+  'meta/icons/all': [DatabaseEditorContext, Array<DatabaseIcon>];
 }
 
 export interface ClientContext {
