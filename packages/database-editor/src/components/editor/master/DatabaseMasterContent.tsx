@@ -4,11 +4,9 @@ import {
   deleteFirstSelectedRow,
   Flex,
   IvyIcon,
-  SelectRow,
   SortableHeader,
   Table,
   TableBody,
-  TableCell,
   TableResizableHeader,
   useHotkeys,
   useReadonly,
@@ -17,7 +15,7 @@ import {
   useTableSort
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
@@ -26,6 +24,7 @@ import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ConnectionStateIndicator } from './ConnectionStateIndicator';
 import './DatabaseMasterContent.css';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
+import { ValidationRow } from './ValidationRow';
 
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
@@ -143,11 +142,7 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
           <TableResizableHeader headerGroups={table.getHeaderGroups()} onClick={() => table.resetRowSelection()} />
           <TableBody>
             {table.getRowModel().rows.map(row => (
-              <SelectRow key={row.id} row={row}>
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </SelectRow>
+              <ValidationRow key={row.id} row={row} validationPath={row.original.key} />
             ))}
           </TableBody>
         </Table>

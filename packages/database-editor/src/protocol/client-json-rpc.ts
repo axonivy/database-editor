@@ -9,7 +9,8 @@ import type {
   FunctionRequestTypes,
   MetaRequestTypes,
   NotificationTypes,
-  RequestTypes
+  RequestTypes,
+  ValidationResult
 } from '@axonivy/database-editor-protocol';
 import { BaseRpcClient, createMessageConnection, Emitter, urlBuilder, type Connection, type MessageConnection } from '@axonivy/jsonrpc';
 
@@ -50,6 +51,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
 
   sendRequest<K extends keyof RequestTypes>(command: K, args: RequestTypes[K][0]): Promise<RequestTypes[K][1]> {
     return args === undefined ? this.connection.sendRequest(command) : this.connection.sendRequest(command, args);
+  }
+
+  validate(context: DatabaseEditorDataContext): Promise<ValidationResult[]> {
+    return this.sendRequest('validate', { ...context });
   }
 
   public static webSocketUrl(url: string) {

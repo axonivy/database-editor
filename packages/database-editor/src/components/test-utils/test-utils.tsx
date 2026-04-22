@@ -1,4 +1,10 @@
-import type { Client, DatabaseConfigurationData, DatabaseConfigurations, DatabaseEditorContext } from '@axonivy/database-editor-protocol';
+import type {
+  Client,
+  DatabaseConfigurationData,
+  DatabaseConfigurations,
+  DatabaseEditorContext,
+  ValidationResult
+} from '@axonivy/database-editor-protocol';
 import type { Unary } from '@axonivy/ui-components';
 import type { RenderHookOptions } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
@@ -19,6 +25,7 @@ type ContextHelperProps = {
     setSelectedDatabase?: (index?: number) => void;
     projects?: Array<string>;
     databaseConfigs?: Array<DatabaseConfigurationData>;
+    validations?: Array<ValidationResult>;
     setData?: (data: Unary<DatabaseConfigurations>) => void;
   };
 };
@@ -43,6 +50,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
     selectedDatabase: props.appContext?.selectedDatabase,
     setSelectedDatabase: props.appContext?.setSelectedDatabase ?? (() => {}),
     projects: props.appContext?.projects ?? [],
+    validations: props.appContext?.validations ?? [],
     databaseConfigs: props.appContext?.databaseConfigs ?? [],
     setData: props.appContext?.setData ?? (() => {}),
     history: { push: () => {}, undo: () => {}, redo: () => {}, canUndo: false, canRedo: false },

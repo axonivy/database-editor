@@ -53,15 +53,23 @@ export const DatabaseEditor = (props: EditorProps) => {
   const queryKeys = useMemo(
     () => ({
       data: (context: DatabaseEditorContext) => genQueryKey('databaseConnections', context),
-      saveData: (context: DatabaseEditorContext) => genQueryKey('saveDatabaseConnections', context)
+      saveData: (context: DatabaseEditorContext) => genQueryKey('saveDatabaseConnections', context),
+      validation: (context: DatabaseEditorContext) => genQueryKey('validations', context)
     }),
     []
   );
 
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError, isSuccess, error } = useQuery({
     queryKey: queryKeys.data(context),
     queryFn: () => client.data(context),
     structuralSharing: false
+  });
+
+  const { data: validations } = useQuery({
+    queryKey: queryKeys.validation(context),
+    queryFn: () => client.validate(context),
+    initialData: [],
+    enabled: isSuccess
   });
 
   useEffect(() => {
@@ -93,7 +101,8 @@ export const DatabaseEditor = (props: EditorProps) => {
         });
       }
       return Promise.resolve();
-    }
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.validation(context) })
   });
 
   const [connectionTestResult, setConnectionTestResult] = useState<MapStringConnectionTestData>({});
@@ -169,6 +178,7 @@ export const DatabaseEditor = (props: EditorProps) => {
         projects: props.context.projects,
         context,
         databaseConfigs: data.connections,
+        validations,
         setData: setData.mutate,
         selectedDatabase,
         setSelectedDatabase,
