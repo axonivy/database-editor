@@ -12,8 +12,8 @@ test.beforeEach(async ({ page }) => {
 
 test('general', async () => {
   await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.general.key).toHaveValue('database0');
-  await expect(editor.detail.general.key).toBeDisabled();
+  await expect(editor.detail.general.key.locator).toHaveValue('database0');
+  await expect(editor.detail.general.key.locator).toBeDisabled();
   await expect(editor.detail.general.name).toHaveValue('database0');
   await editor.detail.general.name.fill('hi');
   await editor.detail.general.icon.locator.fill('icon');

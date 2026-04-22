@@ -17,7 +17,8 @@ import type {
   FunctionRequestTypes,
   JdbcDriverProperties,
   MapStringConnectionTestData,
-  MetaRequestTypes
+  MetaRequestTypes,
+  ValidationResult
 } from '@axonivy/database-editor-protocol';
 import { Emitter } from '@axonivy/jsonrpc';
 import {
@@ -32,6 +33,7 @@ import {
   mockError,
   testConnectionResult
 } from './data';
+import { validateMock } from './validation-mock';
 
 export class DatabaseClientMock implements Client {
   private databaseData: DatabaseData = databases;
@@ -84,7 +86,9 @@ export class DatabaseClientMock implements Client {
         throw Error('mock meta path not programmed');
     }
   }
-
+  validate(): Promise<ValidationResult[]> {
+    return Promise.resolve(validateMock(this.databaseConnections.connections));
+  }
   functions<TFunction extends keyof FunctionRequestTypes>(
     path: TFunction,
     args: FunctionRequestTypes[TFunction][0]

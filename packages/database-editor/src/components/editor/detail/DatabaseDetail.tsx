@@ -1,4 +1,4 @@
-import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
+import type { DatabaseConfigurationData, Severity, ValidationResult } from '@axonivy/database-editor-protocol';
 import {
   Button,
   Flex,
@@ -9,7 +9,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useHotkeys
+  useHotkeys,
+  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
@@ -109,3 +110,12 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
     </DetailProvider>
   );
 };
+
+export const fieldMessage = (
+  validations: Array<ValidationResult>,
+  database: DatabaseConfigurationData,
+  field: keyof DatabaseConfigurationData
+) =>
+  validations
+    .filter(v => v.path.toLowerCase() === `${database.key}.${field}`.toLowerCase())
+    .map<MessageData>(v => ({ message: v.message, variant: v.severity.toLowerCase() as Lowercase<Severity> }))[0];

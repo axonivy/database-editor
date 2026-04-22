@@ -14,7 +14,8 @@ import type {
   DatabaseTestArgs,
   EditorFileContent,
   JdbcDriverProperties,
-  MapStringConnectionTestData
+  MapStringConnectionTestData,
+  ValidationResult
 } from './editor';
 
 export const UNDEFINED_CONNECTION: DatabaseConfigurationData = {
@@ -49,6 +50,7 @@ export interface Disposable {
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
   data: [DatabaseEditorDataContext, DatabaseConfigurations];
   save: [DatabaseEditorSaveArgs, EditorFileContent];
+  validate: [DatabaseEditorDataContext, ValidationResult[]];
 }
 
 export interface NotificationTypes {
@@ -65,7 +67,7 @@ export interface Client {
     args: FunctionRequestTypes[TFunction][0]
   ): Promise<FunctionRequestTypes[TFunction][1]>;
   action(action: DatabaseActionArgs): void;
-
+  validate(context: DatabaseEditorDataContext): Promise<ValidationResult[]>;
   onDataChanged: Event<void>;
 }
 

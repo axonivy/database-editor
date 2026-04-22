@@ -12,12 +12,15 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
+import { useValidations } from '../../../protocol/useValidations';
+import { fieldMessage } from './DatabaseDetail';
 import { useDetailContext } from './DetailContext';
 
 export const GeneralCollapsible = () => {
   const { t } = useTranslation();
   const { databaseConfig, updateDatabaseConfig, drivers, selectedDriver } = useDetailContext();
   const { context } = useAppContext();
+  const validations = useValidations(databaseConfig?.key ?? '');
   const iconMeta = useMeta('meta/icons/all', context);
   const iconOptions = useMemo(
     () => iconMeta.data?.map(icon => ({ icon: icon.path, label: icon.name, value: icon.relativePath })) ?? [],
@@ -41,13 +44,14 @@ export const GeneralCollapsible = () => {
     () => driversForDatabaseProduct(selectedDriver.databaseProduct).map(driver => ({ label: driver.name, value: driver.name })),
     [selectedDriver.databaseProduct, driversForDatabaseProduct]
   );
+  const keyMessage = fieldMessage(validations, databaseConfig, 'key');
 
   return (
     <Collapsible defaultOpen={true}>
       <CollapsibleTrigger>{t('common.label.general')}</CollapsibleTrigger>
       <CollapsibleContent>
         <Flex direction='column' gap={3}>
-          <BasicField label={t('common.label.key')}>
+          <BasicField label={t('common.label.key')} message={keyMessage}>
             <BasicInput value={databaseConfig.key} disabled />
           </BasicField>
           <BasicField label={t('common.label.name')}>
