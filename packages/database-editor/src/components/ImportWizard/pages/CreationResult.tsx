@@ -15,7 +15,6 @@ import {
   TooltipTrigger
 } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
-import './CreationResult.css';
 
 export type CreationResultProps = {
   errors: Array<CreationError>;
@@ -25,12 +24,12 @@ export const CreationResult = ({ errors }: CreationResultProps) => {
   const { t } = useTranslation();
   return errors.length > 0 ? (
     <>
-      <h3 className='result-title'>{t('import.errorsDuringCreation')}</h3>
+      <h3 className='m-0'>{t('import.errorsDuringCreation')}</h3>
       <ErrorTable errors={errors} />
     </>
   ) : (
-    <Flex justifyContent='center' alignItems='center'>
-      <h3 className='result-title'>{t('import.creationSuccess')}</h3>
+    <Flex justifyContent='center' alignItems='center' role='region' aria-label={t('import.result')}>
+      <h3 className='m-0'>{t('import.creationSuccess')}</h3>
     </Flex>
   );
 };
@@ -46,26 +45,26 @@ const ErrorTable = ({ errors }: { errors: Array<CreationError> }) => {
   };
 
   return (
-    <Flex direction='column' gap={4} className='import-wizard-page'>
-      <Table className='table-errors'>
+    <Flex direction='column' gap={4} className='h-full overflow-auto' role='region' aria-label={t('import.result')}>
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className='table-header'>{t('import.table')}</TableHead>
-            <TableHead className='table-header'>{t('import.creationType')}</TableHead>
-            <TableHead className='table-header  table-message'>{t('import.errorMessage')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.table')}</TableHead>
+            <TableHead className='w-25 font-semibold'>{t('import.creationType')}</TableHead>
+            <TableHead className='w-50 font-semibold'>{t('import.errorMessage')}</TableHead>
           </TableRow>
         </TableHeader>
         <TooltipProvider>
           <TableBody>
             {errors.map(error => (
               <TableRow key={error.name}>
-                <TableCell>{error.name.substring(error.name.lastIndexOf('.') + 1)}</TableCell>
-                <TableCell>
+                <TableCell className='max-w-0 truncate'>{error.name.substring(error.name.lastIndexOf('.') + 1)}</TableCell>
+                <TableCell className='max-w-0 truncate'>
                   <Label>{ImportOptionsLookup[Number(error.type) as keyof typeof ImportOptionsLookup]}</Label>
                 </TableCell>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <TableCell>
+                    <TableCell className='max-w-0 truncate'>
                       <Message variant='error'>{generateErrorMessage(error)}</Message>
                     </TableCell>
                   </TooltipTrigger>

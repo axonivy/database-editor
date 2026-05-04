@@ -9,29 +9,22 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
 import { useAction } from '../../../protocol/useAction';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { AdditionalCollapsible } from './AdditionalPropertyCollapsible';
-import './DatabaseDetail.css';
 import { DetailProvider } from './DetailContext';
 import { GeneralCollapsible } from './GeneralCollapsible';
 import { PropertyCollapsible } from './PropertyCollapsible';
 
-export const DatabaseDetail = () => {
+export const DatabaseDetail = ({ ref }: { ref: React.Ref<HTMLDivElement> }) => {
   const { t } = useTranslation();
   const { databaseConfigs, selectedDatabase, helpUrl } = useAppContext();
-
-  const hotkeys = useKnownHotkeys();
-  const firstElementRef = useRef<HTMLDivElement>(null);
-  useHotkeys(hotkeys.focusInscription.hotkey, () => firstElementRef.current?.focus(), { scopes: ['global'] });
 
   const databaseConfig = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
   let title = t('database.connectionProperties');
@@ -43,8 +36,8 @@ export const DatabaseDetail = () => {
   const { openHelp: helpText } = useKnownHotkeys();
 
   return (
-    <Flex direction='column' className='database-editor-panel-content'>
-      <SidebarHeader title={title} icon={IvyIcons.PenEdit} className='database-editor-detail-toolbar' tabIndex={-1} ref={firstElementRef}>
+    <Flex direction='column' className='h-full'>
+      <SidebarHeader title={title} icon={IvyIcons.PenEdit} tabIndex={-1} ref={ref}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -71,7 +64,7 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
   if (isPending) {
     return (
       <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
-        <Spinner className='database-editor-detail-spinner' />
+        <Spinner />
       </Flex>
     );
   }
@@ -102,7 +95,7 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
 
   return (
     <DetailProvider value={{ databaseConfig, updateDatabaseConfig, drivers, selectedDriver }}>
-      <Flex direction='column' gap={3} className='database-editor-detail-content' key={databaseConfig.key}>
+      <Flex direction='column' gap={3} className='min-h-0 overflow-auto p-3' key={databaseConfig.key}>
         <GeneralCollapsible />
         <PropertyCollapsible />
         <AdditionalCollapsible />
@@ -118,4 +111,7 @@ export const fieldMessage = (
 ) =>
   validations
     .filter(v => v.path.toLowerCase() === `${database.key}.${field}`.toLowerCase())
-    .map<MessageData>(v => ({ message: v.message, variant: v.severity.toLowerCase() as Lowercase<Severity> }))[0];
+    .map<MessageData>(v => ({
+      message: v.message,
+      variant: v.severity.toLowerCase() as Lowercase<Severity>
+    }))[0];

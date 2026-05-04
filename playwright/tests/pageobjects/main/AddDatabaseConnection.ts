@@ -13,6 +13,6 @@ export class AddDatabaseConnection {
     this.trigger = parent.getByRole('button', { name: 'Add Database Connection' });
     this.name = new Textbox(this.locator, { name: 'Name' });
     this.cancel = this.locator.getByRole('button', { name: 'Cancel' });
-    this.create = this.locator.getByRole('button', { name: 'Create Database Connection' });
+    this.create = this.locator.getByRole('button', { name: 'Create' });
   }
 }

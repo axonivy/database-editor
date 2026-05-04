@@ -10,9 +10,9 @@ export class MainPanel {
   readonly table: Table;
 
   constructor(page: Page) {
-    this.locator = page.locator('.database-editor-main-panel');
+    this.locator = page.locator('#database-editor-main');
     this.toolbar = new Toolbar(page, this.locator);
     this.control = new Control(page, this.locator);
-    this.table = new Table(this.locator.locator('.database-editor-table-field'));
+    this.table = new Table(this.locator.locator('.ui-table-root'));
   }
 }
