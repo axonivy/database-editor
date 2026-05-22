@@ -16,7 +16,11 @@ export class Table {
   }
 
   row(index: number) {
-    return new Row(this.rows, index);
+    return new Row(this.rows.nth(index));
+  }
+
+  lastRow() {
+    return new Row(this.rows.last());
   }
 
   async expectToHaveNoSelection() {
@@ -39,8 +43,8 @@ export class Header {
 export class Row {
   readonly locator: Locator;
 
-  constructor(rows: Locator, index: number) {
-    this.locator = rows.nth(index);
+  constructor(row: Locator) {
+    this.locator = row;
   }
 
   cell(column: number) {
