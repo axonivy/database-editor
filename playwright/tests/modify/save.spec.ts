@@ -1,17 +1,8 @@
-import { expect, test } from '@playwright/test';
+import test, { expect } from '@playwright/test';
 import { DatabaseEditor } from '../pageobjects/DatabaseEditor';
 
-let editor: DatabaseEditor;
-
-test.beforeEach(async ({ page }) => {
-  editor = await DatabaseEditor.openNewEngine(page);
-});
-
-test.afterEach(async () => {
-  await editor.deletePmv();
-});
-
-test('save data', async () => {
+test('save data', async ({ page }) => {
+  const editor = await DatabaseEditor.openEngine(page);
   await editor.main.locator.getByRole('button', { name: 'Add Database Connection' }).click();
   await editor.main.control.add.name.locator.fill('MyDatabase');
   await editor.main.control.add.create.click();
@@ -31,8 +22,9 @@ test('save data', async () => {
 
   await editor.page.reload();
 
-  await editor.main.table.row(0).locator.click();
-  await editor.main.table.row(0).expectToHaveTexts('MyDatabase', 'myhost:1433', 'Microsoft SQL Server');
+  const row = editor.main.table.lastRow();
+  await row.locator.click();
+  await row.expectToHaveTexts('MyDatabase', 'myhost:1433', 'Microsoft SQL Server');
 
   await expect(editor.detail.general.database.locator).toHaveText('Microsoft SQL Server');
   await expect(editor.detail.general.driver.locator).toHaveText('Microsoft SQL Server');
@@ -47,4 +39,22 @@ test('save data', async () => {
   await editor.detail.additionalProperties.trigger.click();
   await expect(editor.detail.additionalProperties.table.rows).toHaveCount(1);
   await editor.detail.additionalProperties.table.row(0).expectToHaveValues('myAdditionalProperty', 'myAdditionalValue');
+});
+
+test('icon chooser client', async ({ page }) => {
+  const editor = await DatabaseEditor.openEngine(page);
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.icon.locator).toHaveValue('');
+
+  await editor.detail.general.icon.select('microsoft');
+  await expect(editor.detail.general.icon.locator).toHaveValue('res:/webContent/icons/microsoft.svg');
+  const selectedRow = editor.main.table.row(0);
+  const iconInRow = selectedRow.locator.locator('img');
+  for (const img of await iconInRow.all()) {
+    await expect(img).toHaveJSProperty('complete', true);
+    await expect(img).not.toHaveJSProperty('naturalWidth', 0);
+  }
+  await editor.detail.general.icon.locator.fill('');
+  await editor.main.table.row(0).locator.click();
+  await expect(editor.detail.general.icon.locator).toHaveValue('');
 });

@@ -4,8 +4,6 @@ import { consoleLog } from '../../../pageobjects/console-log';
 
 let editor: DatabaseEditor;
 
-const ICON_DISPLAY_VALUE = 'res:/webContent/icons/microsoft.svg';
-
 test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
 });
@@ -157,27 +155,9 @@ test('icon chooser', async ({ page }) => {
   await expect(editor.detail.general.icon.locator).toHaveValue('');
 
   await editor.detail.general.icon.select('microsoft');
-  await expect(editor.detail.general.icon.locator).toHaveValue(ICON_DISPLAY_VALUE);
+  await expect(editor.detail.general.icon.locator).toHaveValue('res:/webContent/icons/microsoft.svg');
   const selectedRow = editor.main.table.row(0);
   const iconInRow = selectedRow.locator.locator('img');
   await expect(iconInRow).toHaveAttribute('src', '/icons/microsoft.svg');
   await expect(iconInRow).toHaveAttribute('alt', 'icon');
-});
-
-test('icon chooser client', async ({ page }) => {
-  const editor = await DatabaseEditor.openEngine(page, 'database-editor-test-project');
-  await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.general.icon.locator).toHaveValue('');
-
-  await editor.detail.general.icon.select('microsoft');
-  await expect(editor.detail.general.icon.locator).toHaveValue(ICON_DISPLAY_VALUE);
-  const selectedRow = editor.main.table.row(0);
-  const iconInRow = selectedRow.locator.locator('img');
-  for (const img of await iconInRow.all()) {
-    await expect(img).toHaveJSProperty('complete', true);
-    await expect(img).not.toHaveJSProperty('naturalWidth', 0);
-  }
-  await editor.detail.general.icon.locator.fill('');
-  await editor.main.table.row(0).locator.click();
-  await expect(editor.detail.general.icon.locator).toHaveValue('');
 });

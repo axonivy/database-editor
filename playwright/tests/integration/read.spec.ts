@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { DatabaseEditor, pmv } from '../pageobjects/DatabaseEditor';
+import { DatabaseEditor } from '../pageobjects/DatabaseEditor';
 
 test('load data', async ({ page }) => {
-  const editor = await DatabaseEditor.openEngine(page, pmv);
+  const editor = await DatabaseEditor.openEngine(page);
   await expect(editor.main.table.rows).toHaveCount(3);
 
   await editor.main.table.row(0).locator.click();
