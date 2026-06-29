@@ -13,6 +13,8 @@ import type {
   DatabaseTableInfoData,
   DatabaseTestArgs,
   EditorFileContent,
+  ExecuteSqlRequest,
+  ExecuteSqlResponse,
   JdbcDriverProperties,
   MapStringConnectionTestData,
   ValidationResult
@@ -74,6 +76,7 @@ export interface Client {
 export interface FunctionRequestTypes {
   'function/importFromDatabase': [DatabaseImportCreationArgs, Array<CreationError>];
   'function/testDatabaseConnection': [DatabaseTestArgs, MapStringConnectionTestData];
+  'function/executeSql': [ExecuteSqlRequest, ExecuteSqlResponse];
 }
 
 export interface MetaRequestTypes {

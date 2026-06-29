@@ -14,6 +14,7 @@ import type {
   DatabaseTestArgs,
   EditorFileContent,
   Event,
+  ExecuteSqlResponse,
   FunctionRequestTypes,
   JdbcDriverProperties,
   MapStringConnectionTestData,
@@ -28,6 +29,7 @@ import {
   databases,
   databaseTableData,
   databaseTableInfoData,
+  executeSqlResponse,
   jdbcDrivers,
   META_ICONS,
   mockError,
@@ -46,6 +48,7 @@ export class DatabaseClientMock implements Client {
   private testConnectionResult: MapStringConnectionTestData = testConnectionResult;
   private workingConnectionResult: ConnectionTestData = connectionTestDataWorking;
   private metaIcons: Array<DatabaseIcon> = META_ICONS;
+  private executeSqlResponse: ExecuteSqlResponse = executeSqlResponse;
 
   private readonly metaJdbcDriversState: string;
 
@@ -104,6 +107,8 @@ export class DatabaseClientMock implements Client {
           return Promise.resolve({ [(args as DatabaseTestArgs).databaseConfig]: this.workingConnectionResult });
         }
         return Promise.resolve(this.testConnectionResult);
+      case 'function/executeSql':
+        return Promise.resolve(this.executeSqlResponse);
       default:
         throw Error('mock function path not programmed');
     }

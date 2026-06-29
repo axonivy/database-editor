@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
+import { SqlQueryTester } from '../../SqlQueryTester/SqlQueryTester';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 type MasterControlProps = {
@@ -15,6 +16,7 @@ type MasterControlProps = {
 
 export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
   const hotkeys = useKnownHotkeys();
+  const { t } = useTranslation();
   const { context, projects, testConnection } = useAppContext();
 
   return (
@@ -49,6 +51,14 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
           <TooltipContent>{hotkeys.deleteDatabaseConnection.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <SqlQueryTester>
+        <Button
+          disabled={table.getSelectedRowModel().flatRows.length === 0}
+          icon={IvyIcons.Sql}
+          aria-label={t('dialog.sqlQueryTester.title')}
+        />
+      </SqlQueryTester>
     </Flex>
   );
 };

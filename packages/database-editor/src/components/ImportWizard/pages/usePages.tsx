@@ -1,10 +1,8 @@
 import { type CreationError } from '@axonivy/database-editor-protocol';
 import { toast } from '@axonivy/ui-components';
-import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useClient } from '../../../protocol/ClientContextProvider';
-import { genQueryKey } from '../../../query/query-client';
+import { useFunction } from '../../../protocol/useFunction';
 import { useContextProvider } from '../../../util/ContextProvider';
 import { type ImportPage } from '../WizardContent';
 import { CreationPage } from './CreationPage';
@@ -23,7 +21,6 @@ export const usePages = (projects: Array<string>, closeDialog: () => void, creat
   const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
   const [namespace, setNamespace] = useState<string>(context.pmv.replaceAll('-', '.'));
   const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
-  const client = useClient();
 
   const resetAll = () => {
     setSelectedDatabase('');
@@ -67,22 +64,20 @@ export const usePages = (projects: Array<string>, closeDialog: () => void, creat
     }
   };
 
-  const creationFunction = useMutation({
-    mutationKey: genQueryKey('importFromDatabase', {
+  const creationFunction = useFunction(
+    'function/importFromDatabase',
+    {
       context: context,
       options: creationProps(selectedDatabase ?? '')
-    }),
-    mutationFn: () =>
-      client.functions('function/importFromDatabase', {
-        context: context,
-        options: creationProps(selectedDatabase ?? '')
-      }),
-    onSuccess: data => {
-      setCreationErrors(data);
-      if (creationCallback) creationCallback();
     },
-    onError: error => toast.error(t('import.creationFailed'), { description: error.message })
-  });
+    {
+      onSuccess: data => {
+        setCreationErrors(data);
+        if (creationCallback) creationCallback();
+      },
+      onError: error => toast.error(t('import.creationFailed'), { description: error.message })
+    }
+  );
 
   const pages: Array<ImportPage> = [
     {
