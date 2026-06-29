@@ -51,5 +51,6 @@ test('show Error message on invalid SQL', async () => {
   await dialog.executeButton.click();
 
   await dialog.locator.getByText('Could not load results.').click();
-  await dialog.locator.getByRole('button', { name: 'Cancel' }).click();
+
+  await editor.page.keyboard.press('Escape');
 });

@@ -89,6 +89,9 @@
     },
     "sqlQueryTester": {
       "connectionFailed": "Connection test failed. Please fix the connection before executing SQL.",
+      "copyFailed": "Failed to copy SQL to clipboard",
+      "copySql": "Copy SQL",
+      "copySuccess": "Copied SQL to clipboard",
       "databaseConfiguration": "Database Configuration: {{name}}",
       "execute": "Execute",
       "noResults": "Query executed successfully, but returned no results.",
