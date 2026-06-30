@@ -137,7 +137,7 @@ const CopyToClipboardButton = ({ script }: { script?: string }) => {
 
   return (
     <BasicTooltip content={t('dialog.sqlQueryTester.copySql')}>
-      <Button icon={IvyIcons.Duplicate} onClick={copyScriptToClipboard} disabled={!script} />
+      <Button icon={IvyIcons.Copy} onClick={copyScriptToClipboard} disabled={!script} />
     </BasicTooltip>
   );
 };
