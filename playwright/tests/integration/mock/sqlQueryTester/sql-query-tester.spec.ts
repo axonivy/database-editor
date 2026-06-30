@@ -19,7 +19,7 @@ test('open dialog shows database info and last query', async () => {
   await expect(dialog.executeButton).toBeEnabled();
 });
 
-test('execute sql updates readonly input and shows result table', async () => {
+test('execute sql updates readonly display and shows result table', async () => {
   const dialog = await editor.main.openSqlQueryTesterDialog();
 
   await dialog.textarea.clear();
@@ -28,7 +28,7 @@ test('execute sql updates readonly input and shows result table', async () => {
   await dialog.textarea.fill('SELECT * FROM cars');
   await dialog.executeButton.click();
 
-  await expect(dialog.executedSqlInput).toHaveValue('SELECT * FROM cars');
+  await dialog.locator.locator('span').getByText('SELECT * FROM cars').click();
   await expect(dialog.resultTable()).toBeVisible();
   await expect(dialog.resultHeader(0)).toHaveText('id');
   await expect(dialog.resultHeader(1)).toHaveText('name');

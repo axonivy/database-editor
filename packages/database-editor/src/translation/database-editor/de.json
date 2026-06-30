@@ -89,6 +89,9 @@
     },
     "sqlQueryTester": {
       "connectionFailed": "Der Verbindungstest ist fehlgeschlagen. Bitte stellen Sie die Verbindung her, bevor Sie die SQL-Anweisung ausführen.",
+      "copyFailed": "Fehler beim Kopieren von SQL in die Zwischenablage",
+      "copySql": "SQL kopieren",
+      "copySuccess": "SQL erfolgreich kopiert",
       "databaseConfiguration": "Datenbank-Konfiguration: {{name}}",
       "execute": "Ausführen",
       "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",

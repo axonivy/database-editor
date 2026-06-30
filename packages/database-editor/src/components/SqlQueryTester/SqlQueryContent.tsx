@@ -1,5 +1,5 @@
 import type { DatabaseConfigurationData, ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
-import { BasicDialogContent, Button, Combobox, Flex, Input, Message, Textarea } from '@axonivy/ui-components';
+import { BasicDialogContent, BasicTooltip, Button, Combobox, Flex, Message, Textarea, toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -71,7 +71,7 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
     <BasicDialogContent
       title={t('dialog.sqlQueryTester.title')}
       description={t('dialog.sqlQueryTester.databaseConfiguration', { name: database.name })}
-      cancel={<Button variant='outline'>{t('common.label.cancel')}</Button>}
+      cancel={undefined}
       submit={undefined}
     >
       <Combobox
@@ -90,14 +90,16 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       />
       {isConnectionFailed && <Message variant='error' message={t('dialog.sqlQueryTester.connectionFailed')} />}
 
-      <Flex direction='row' justifyContent='space-between' alignItems='center' gap={2}>
-        <Input
-          readOnly
-          disabled={executeSqlMutation.isPending}
-          value={source === 'sql' && executeSqlMutation.isError ? t('dialog.sqlQueryTester.sqlError') : executedSql.replace(/\n/g, ' ')}
-          title={source === 'sql' && executeSqlMutation.isError ? undefined : executedSql}
-          className='truncate'
-        />
+      <Flex direction='row' justifyContent='space-between' alignItems='center' gap={2} className='w-full min-w-0'>
+        <Flex direction='row' alignItems='center' gap={2} className='min-w-0 flex-1 overflow-hidden'>
+          <div
+            className='min-w-0 flex-1 overflow-hidden rounded-sm border border-n200 bg-n75 px-2 py-1.5 text-sm text-n700'
+            title={source === 'sql' && executeSqlMutation.isError ? t('dialog.sqlQueryTester.sqlError') : executedSql}
+          >
+            <span className='block truncate'>{source === 'sql' && executeSqlMutation.isError ? undefined : executedSql || '\u00A0'}</span>
+          </div>
+          <CopyToClipboardButton script={executedSql} />
+        </Flex>
 
         <Button
           variant='primary'
@@ -114,6 +116,29 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
         isError={source === 'sql' && executeSqlMutation.isError}
       />
     </BasicDialogContent>
+  );
+};
+
+const CopyToClipboardButton = ({ script }: { script?: string }) => {
+  const { t } = useTranslation();
+
+  const copyScriptToClipboard = async () => {
+    if (!script) return;
+
+    try {
+      await navigator.clipboard.writeText(script);
+      toast.success(t('dialog.sqlQueryTester.copySuccess'));
+    } catch (error) {
+      toast.error(t('dialog.sqlQueryTester.copyFailed'), {
+        description: error instanceof Error ? error.message : undefined
+      });
+    }
+  };
+
+  return (
+    <BasicTooltip content={t('dialog.sqlQueryTester.copySql')}>
+      <Button icon={IvyIcons.Duplicate} onClick={copyScriptToClipboard} disabled={!script} />
+    </BasicTooltip>
   );
 };
 
