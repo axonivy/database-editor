@@ -20,7 +20,6 @@ test('execute sql shows result table', async () => {
 
     await dialog.tableCombobox.click();
     await editor.page.getByRole('option', { name: 'test' }).click();
-    await dialog.executeButton.click();
 
     await expect(dialog.resultTable()).toBeVisible();
     await expect(dialog.resultHeader(0)).toHaveText('ID');
@@ -41,7 +40,7 @@ test('LastQuery is loaded into textarea', async () => {
   await expect(dialog.locator).toBeHidden();
 
   const reopenedDialog = await editor.main.openSqlQueryTesterDialog();
-  await expect(reopenedDialog.textarea).toHaveValue('DROP TABLE test');
+  await expect(reopenedDialog.lastExecutedSqlouput).toHaveText('DROP TABLE test');
 });
 
 test('show Error message on invalid SQL', async () => {
@@ -50,7 +49,7 @@ test('show Error message on invalid SQL', async () => {
   await dialog.textarea.fill('Select * from non_existing_table');
   await dialog.executeButton.click();
 
-  await dialog.locator.getByText('Could not load results.').click();
+  await dialog.locator.getByText('Failed to execute SQL statement').click();
 
   await editor.page.keyboard.press('Escape');
 });

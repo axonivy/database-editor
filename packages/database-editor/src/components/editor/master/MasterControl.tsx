@@ -16,7 +16,6 @@ type MasterControlProps = {
 
 export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControlProps) => {
   const hotkeys = useKnownHotkeys();
-  const { t } = useTranslation();
   const { context, projects, testConnection } = useAppContext();
 
   return (
@@ -38,6 +37,14 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addDatabaseConnection.label} />
       </AddDatabaseConnectionDialog>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
+      <SqlQueryTester>
+        <Button
+          disabled={table.getSelectedRowModel().flatRows.length === 0}
+          icon={IvyIcons.Sql}
+          aria-label={hotkeys.sqlQueryTester.label}
+        />
+      </SqlQueryTester>
+      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -51,14 +58,6 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
           <TooltipContent>{hotkeys.deleteDatabaseConnection.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <SqlQueryTester>
-        <Button
-          disabled={table.getSelectedRowModel().flatRows.length === 0}
-          icon={IvyIcons.Sql}
-          aria-label={t('dialog.sqlQueryTester.title')}
-        />
-      </SqlQueryTester>
     </Flex>
   );
 };

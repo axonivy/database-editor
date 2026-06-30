@@ -22,19 +22,21 @@ export const SqlResultTable = ({ result }: { result: ExecuteSqlResponse }) => {
   });
 
   return (
-    <Flex className='flex-1 overflow-auto'>
-      <Table>
-        <TableResizableHeader headerGroups={table.getHeaderGroups()} />
-        <TableBody>
-          {table.getRowModel().rows.map(row => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map(cell => (
-                <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <Flex className='min-h-0 flex-1'>
+      <div className='max-h-[50vh] w-full overflow-auto'>
+        <Table>
+          <TableResizableHeader headerGroups={table.getHeaderGroups()} />
+          <TableBody>
+            {table.getRowModel().rows.map(row => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map(cell => (
+                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </Flex>
   );
 };

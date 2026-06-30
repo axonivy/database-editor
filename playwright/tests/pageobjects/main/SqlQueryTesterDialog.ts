@@ -6,6 +6,7 @@ export class SqlQueryTesterDialog {
   readonly executeButton: Locator;
   readonly executedSqlInput: Locator;
   readonly tableCombobox: Locator;
+  readonly lastExecutedSqlouput: Locator;
 
   constructor(readonly page: Page) {
     this.locator = page.getByRole('dialog', { name: 'SQL Query', exact: true });
@@ -14,6 +15,7 @@ export class SqlQueryTesterDialog {
     this.executeButton = page.getByRole('button', { name: 'Execute' });
     this.executedSqlInput = page.locator('input[readonly]');
     this.tableCombobox = page.getByRole('combobox').first();
+    this.lastExecutedSqlouput = this.locator.locator('span.block.truncate');
   }
 
   async executeIfDialogVisible(sql: string) {
