@@ -13,10 +13,16 @@ test.beforeEach(async ({ page }) => {
 
 test('open dialog shows database info and last query', async () => {
   const dialog = await editor.main.openSqlQueryTesterDialog();
+  await dialog.textarea.fill('SELECT * FROM cars');
+  await dialog.executeButton.click();
 
-  await expect(dialog.locator.getByText('Database Configuration: database0')).toBeVisible();
-  await expect(dialog.textarea).toHaveValue('SELECT * FROM cars');
-  await expect(dialog.executeButton).toBeEnabled();
+  await editor.page.keyboard.press('Escape');
+  await expect(dialog.locator).toBeHidden();
+
+  const reopenedDialog = await editor.main.openSqlQueryTesterDialog();
+
+  await expect(reopenedDialog.lastExecutedSqlouput).toHaveText('SELECT * FROM cars');
+  await expect(reopenedDialog.locator.getByText('Database Configuration: database0')).toBeVisible();
 });
 
 test('execute sql updates readonly display and shows result table', async () => {
@@ -42,10 +48,9 @@ test('select table prefills textarea and shows table content', async () => {
   const dialog = await editor.main.openSqlQueryTesterDialog();
   await expect(dialog.tableCombobox).toBeEnabled();
   await dialog.tableCombobox.click();
-  await dialog.tableCombobox.fill('cars');
-  await dialog.executeButton.click();
+  await editor.page.getByRole('option', { name: 'Users-002' }).click();
 
-  await expect(dialog.textarea).toHaveValue('SELECT * FROM cars');
+  await expect(dialog.textarea).toHaveValue('SELECT * FROM Users-002');
   await expect(dialog.resultTable()).toBeVisible();
   await expect(dialog.resultHeader(0)).toHaveText('id');
   await expect(dialog.resultHeader(1)).toHaveText('name');

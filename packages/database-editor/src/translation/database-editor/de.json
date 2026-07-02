@@ -97,7 +97,6 @@
       "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",
       "resultError": "Fehler beim Laden der Ergebnisse.",
       "sqlError": "SQL Fehler",
-      "sqlPlaceholder": "SELECT * FROM YOUR_TABLE",
       "tablePlaceholder": "Tabellen anzeigen...",
       "title": "SQL Abfrage"
     }
@@ -106,6 +105,7 @@
     "addDatabaseConnection": "Datenbank-Verbindung hinzufügen ({{hotkey}})",
     "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})",
     "generate": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank-Verbindung ({{hotkey}})",
+    "sqlQueryTester": "SQL Query Tester ({{hotkey}})",
     "testDatabaseConnection": "Datenbank Verbindung Testen ({{hotkey}})"
   },
   "import": {

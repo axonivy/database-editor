@@ -97,7 +97,6 @@
       "noResults": "Query executed successfully, but returned no results.",
       "resultError": "Could not load results.",
       "sqlError": "SQL Error",
-      "sqlPlaceholder": "SELECT * FROM YOUR_TABLE",
       "tablePlaceholder": "Show tables...",
       "title": "SQL Query"
     }
@@ -106,6 +105,7 @@
     "addDatabaseConnection": "Add Database Connection ({{hotkey}})",
     "deleteDatabaseConnection": "Delete Database Connection ({{hotkey}})",
     "generate": "Generate Data Classes, Forms and Processes from a Database Connection ({{hotkey}})",
+    "sqlQueryTester": "SQL Query Tester ({{hotkey}})",
     "testDatabaseConnection": "Test Database Connection ({{hotkey}})"
   },
   "import": {

@@ -19,11 +19,11 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
   const { context } = useAppContext();
   const storageKey = `sql-query-tester:last-executed:${context.app}:${context.file}:${context.pmv}:${database.name}`;
   const [lastExecutedSql, setLastExecutedSql] = useLocalStorage<string>(storageKey, '');
-  const [sql, setSql] = useState<string | undefined>(lastExecutedSql);
+  const [sql, setSql] = useState<string | undefined>('');
   const [selectedTable, setSelectedTable] = useState('');
   const [executedSql, setExecutedSql] = useState(lastExecutedSql);
 
-  const source = selectedTable ? 'table' : executedSql ? 'sql' : 'idle';
+  const source = executedSql ? 'sql' : 'idle';
 
   const tablesQuery = useMeta('meta/databaseTableNames', { ...context, databaseName: database.name });
 
@@ -39,17 +39,26 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
     }
   );
 
+  const runSql = (query: string) => {
+    setLastExecutedSql(query);
+    setExecutedSql(query);
+    executeSqlMutation.mutate({
+      context: { app: context.app, file: context.file, pmv: context.pmv },
+      databaseConfig: database.name,
+      sql: query
+    });
+  };
+
   const selectTable = (tableName: string) => {
     if (tableName.length === 0) {
       setSelectedTable('');
-      setSql(undefined);
-      setExecutedSql('');
+      setSql('');
       return;
     }
     const query = `SELECT * FROM ${tableName}`;
     setSelectedTable(tableName);
     setSql(query);
-    setExecutedSql(query);
+    runSql(query);
   };
 
   const executeSql = () => {
@@ -58,13 +67,7 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       return;
     }
     setSelectedTable('');
-    setExecutedSql(query);
-    setLastExecutedSql(query);
-    executeSqlMutation.mutate({
-      context: { app: context.app, file: context.file, pmv: context.pmv },
-      databaseConfig: database.name,
-      sql: query
-    });
+    runSql(query);
   };
 
   return (
@@ -83,7 +86,6 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       />
       <Textarea
         value={sql}
-        placeholder={t('dialog.sqlQueryTester.sqlPlaceholder')}
         onChange={e => setSql(e.target.value)}
         disabled={executeSqlMutation.isPending}
         style={{ minHeight: 100, resize: 'vertical' }}
@@ -96,7 +98,7 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
             className='min-w-0 flex-1 overflow-hidden rounded-sm border border-n200 bg-n75 px-2 py-1.5 text-sm text-n700'
             title={source === 'sql' && executeSqlMutation.isError ? t('dialog.sqlQueryTester.sqlError') : executedSql}
           >
-            <span className='block truncate'>{source === 'sql' && executeSqlMutation.isError ? undefined : executedSql || '\u00A0'}</span>
+            <span className='block truncate'>{source === 'sql' && executeSqlMutation.isError ? '\u00A0' : executedSql || '\u00A0'}</span>
           </div>
           <CopyToClipboardButton script={executedSql} />
         </Flex>
@@ -114,6 +116,7 @@ export const SqlQueryContent = ({ database }: { database: DatabaseConfigurationD
       <SqlQueryResult
         result={source === 'sql' ? executeSqlMutation.data : undefined}
         isError={source === 'sql' && executeSqlMutation.isError}
+        error={source === 'sql' ? executeSqlMutation.error : undefined}
       />
     </BasicDialogContent>
   );
@@ -142,11 +145,19 @@ const CopyToClipboardButton = ({ script }: { script?: string }) => {
   );
 };
 
-const SqlQueryResult = ({ result, isError }: { result: ExecuteSqlResponse | undefined; isError: boolean }) => {
+const SqlQueryResult = ({
+  result,
+  isError,
+  error
+}: {
+  result: ExecuteSqlResponse | undefined;
+  isError: boolean;
+  error: Error | null | undefined;
+}) => {
   const { t } = useTranslation();
 
   if (isError) {
-    return <Message variant='error' message={t('dialog.sqlQueryTester.resultError')} />;
+    return <Message variant='error' message={error?.message || t('dialog.sqlQueryTester.resultError')} />;
   }
 
   if (!result) {
