@@ -87,7 +87,7 @@
       "sanitizedKey": "Bereinigter Schlüssel wird '{{key}}' sein.",
       "title": "Datenbank-Verbindung hinzufügen"
     },
-    "sqlQueryTester": {
+    "sqlExecutor": {
       "connectionFailed": "Der Verbindungstest ist fehlgeschlagen. Bitte stellen Sie die Verbindung her, bevor Sie die SQL-Anweisung ausführen.",
       "copyFailed": "Fehler beim Kopieren von SQL in die Zwischenablage",
       "copySql": "SQL kopieren",
@@ -105,7 +105,7 @@
     "addDatabaseConnection": "Datenbank-Verbindung hinzufügen ({{hotkey}})",
     "deleteDatabaseConnection": "Datenbank-Verbindung löschen ({{hotkey}})",
     "generate": "Generiere Datenklassen, Forms und Prozesse aus einer Datenbank-Verbindung ({{hotkey}})",
-    "sqlQueryTester": "SQL Query Tester ({{hotkey}})",
+    "sqlExecutor": "SQL Executor ({{hotkey}})",
     "testDatabaseConnection": "Datenbank Verbindung Testen ({{hotkey}})"
   },
   "import": {

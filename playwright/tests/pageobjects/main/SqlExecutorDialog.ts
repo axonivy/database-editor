@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 
-export class SqlQueryTesterDialog {
+export class SqlExecutorDialog {
   readonly locator: Locator;
   readonly textarea: Locator;
   readonly executeButton: Locator;
@@ -9,7 +9,7 @@ export class SqlQueryTesterDialog {
   readonly lastExecutedSqlouput: Locator;
 
   constructor(readonly page: Page) {
-    this.locator = page.getByRole('dialog', { name: 'SQL Query', exact: true });
+    this.locator = page.getByRole('dialog', { name: 'SQL Executor', exact: true });
 
     this.textarea = page.locator('textarea');
     this.executeButton = page.getByRole('button', { name: 'Execute' });

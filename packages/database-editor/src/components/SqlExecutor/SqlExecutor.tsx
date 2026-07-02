@@ -12,18 +12,18 @@ import {
 import { type ReactNode } from 'react';
 import { useAppContext } from '../../AppContext';
 import { useKnownHotkeys } from '../../util/hotkeys';
-import { SqlQueryContent } from './SqlQueryContent';
+import { SqlExecutorContent } from './SqlExecutorContent';
 
-const DIALOG_HOTKEY_IDS = ['sqlQueryTesterDialog'];
+const DIALOG_HOTKEY_IDS = ['sqlExecutorDialog'];
 
-export const SqlQueryTester = ({ children }: { children: ReactNode }) => {
+export const SqlExecutor = ({ children }: { children: ReactNode }) => {
   const { databaseConfigs } = useAppContext();
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
   const { selectedDatabase } = useAppContext();
   const database = selectedDatabase !== undefined ? databaseConfigs[selectedDatabase] : undefined;
 
-  useHotkeys(hotkeys.sqlQueryTester.hotkey, () => onOpenChange(true), {
+  useHotkeys(hotkeys.sqlExecutor.hotkey, () => onOpenChange(true), {
     scopes: ['global'],
     keyup: true,
     enabled: !open && !!database
@@ -38,12 +38,12 @@ export const SqlQueryTester = ({ children }: { children: ReactNode }) => {
               {children}
             </DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent>{hotkeys.sqlQueryTester.label}</TooltipContent>
+          <TooltipContent>{hotkeys.sqlExecutor.label}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       {database && (
         <DialogContent className='h-auto! max-h-[calc(100vh-4rem)]! w-[clamp(300px,1200px,calc(100%-200px))]! max-w-none! overflow-y-auto!'>
-          <SqlQueryContent database={database} />
+          <SqlExecutorContent database={database} />
         </DialogContent>
       )}
     </Dialog>

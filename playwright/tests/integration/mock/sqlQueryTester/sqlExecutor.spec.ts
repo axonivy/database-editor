@@ -6,27 +6,27 @@ let editor: DatabaseEditor;
 test.beforeEach(async ({ page }) => {
   editor = await DatabaseEditor.openMock(page);
   await editor.page.evaluate(() => {
-    localStorage.setItem('sql-query-tester:last-executed:::project1-name:database0', JSON.stringify('SELECT * FROM cars'));
+    localStorage.setItem('sqlExecutor:last-executed:::project1-name:database0', JSON.stringify('SELECT * FROM cars'));
   });
   await editor.main.table.row(0).locator.click();
 });
 
 test('open dialog shows database info and last query', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
   await dialog.textarea.fill('SELECT * FROM cars');
   await dialog.executeButton.click();
 
   await editor.page.keyboard.press('Escape');
   await expect(dialog.locator).toBeHidden();
 
-  const reopenedDialog = await editor.main.openSqlQueryTesterDialog();
+  const reopenedDialog = await editor.main.openSqlExecutorDialog();
 
   await expect(reopenedDialog.lastExecutedSqlouput).toHaveText('SELECT * FROM cars');
   await expect(reopenedDialog.locator.getByText('Database Configuration: database0')).toBeVisible();
 });
 
 test('execute sql updates readonly display and shows result table', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
 
   await dialog.textarea.clear();
   await expect(dialog.executeButton).toBeDisabled();
@@ -45,7 +45,7 @@ test('execute sql updates readonly display and shows result table', async () => 
 });
 
 test('select table prefills textarea and shows table content', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
   await expect(dialog.tableCombobox).toBeEnabled();
   await dialog.tableCombobox.click();
   await editor.page.getByRole('option', { name: 'Users-002' }).click();
