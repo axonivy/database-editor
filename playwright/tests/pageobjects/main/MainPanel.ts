@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Control } from './Control';
-import { SqlQueryTesterDialog } from './SqlQueryTesterDialog';
+import { SqlExecutorDialog } from './SqlExecutorDialog';
 import { Table } from './Table';
 import { Toolbar } from './Toolbar';
 
@@ -17,9 +17,9 @@ export class MainPanel {
     this.table = new Table(this.locator);
   }
 
-  public async openSqlQueryTesterDialog() {
-    await this.page.getByRole('button', { name: 'SQL Query' }).click();
-    const dialog = new SqlQueryTesterDialog(this.page);
+  public async openSqlExecutorDialog() {
+    await this.page.getByRole('button', { name: 'SQL Executor' }).click();
+    const dialog = new SqlExecutorDialog(this.page);
     await expect(dialog.locator).toBeVisible();
     return dialog;
   }

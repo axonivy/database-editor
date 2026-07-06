@@ -37,9 +37,9 @@ export const useKnownHotkeys = () => {
     return { hotkey, label: t('hotkey.testDatabaseConnection', { hotkey: hotkeyText(hotkey) }) };
   }, [t]);
 
-  const sqlQueryTester = useMemo<KnownHotkey>(() => {
+  const sqlExecutor = useMemo<KnownHotkey>(() => {
     const hotkey = 'Q';
-    return { hotkey, label: t('hotkey.sqlQueryTester', { hotkey: hotkeyText(hotkey) }) };
+    return { hotkey, label: t('hotkey.sqlExecutor', { hotkey: hotkeyText(hotkey) }) };
   }, [t]);
 
   const focusToolbar = useMemo<KnownHotkey>(() => {
@@ -69,7 +69,7 @@ export const useKnownHotkeys = () => {
     deleteDatabaseConnection,
     generate,
     testConnection,
-    sqlQueryTester,
+    sqlExecutor,
     focusToolbar,
     focusMain,
     focusInscription,

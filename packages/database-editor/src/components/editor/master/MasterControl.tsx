@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useKnownHotkeys } from '../../../util/hotkeys';
 import { ImportWizard } from '../../ImportWizard/ImportWizard';
-import { SqlQueryTester } from '../../SqlQueryTester/SqlQueryTester';
+import { SqlExecutor } from '../../SqlExecutor/SqlExecutor';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 type MasterControlProps = {
@@ -37,13 +37,9 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
         <Button icon={IvyIcons.Plus} aria-label={hotkeys.addDatabaseConnection.label} />
       </AddDatabaseConnectionDialog>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
-      <SqlQueryTester>
-        <Button
-          disabled={table.getSelectedRowModel().flatRows.length === 0}
-          icon={IvyIcons.Sql}
-          aria-label={hotkeys.sqlQueryTester.label}
-        />
-      </SqlQueryTester>
+      <SqlExecutor>
+        <Button disabled={table.getSelectedRowModel().flatRows.length === 0} icon={IvyIcons.Sql} aria-label={hotkeys.sqlExecutor.label} />
+      </SqlExecutor>
       <Separator decorative orientation='vertical' style={{ height: '20px', margin: 0 }} />
       <TooltipProvider>
         <Tooltip>

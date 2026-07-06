@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('execute sql shows result table', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
 
   try {
     await dialog.textarea.fill('create table test (id int, name varchar(255))');
@@ -32,19 +32,19 @@ test('execute sql shows result table', async () => {
 });
 
 test('LastQuery is loaded into textarea', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
   await dialog.textarea.fill('DROP TABLE test');
   await dialog.executeButton.click();
 
   await editor.page.keyboard.press('Escape');
   await expect(dialog.locator).toBeHidden();
 
-  const reopenedDialog = await editor.main.openSqlQueryTesterDialog();
+  const reopenedDialog = await editor.main.openSqlExecutorDialog();
   await expect(reopenedDialog.lastExecutedSqlouput).toHaveText('DROP TABLE test');
 });
 
 test('show Error message on invalid SQL', async () => {
-  const dialog = await editor.main.openSqlQueryTesterDialog();
+  const dialog = await editor.main.openSqlExecutorDialog();
 
   await dialog.textarea.fill('Select * from non_existing_table');
   await dialog.executeButton.click();
