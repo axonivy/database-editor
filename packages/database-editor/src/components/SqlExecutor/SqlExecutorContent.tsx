@@ -17,7 +17,7 @@ export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurati
   const isConnectionFailed = connectionState?.startsWith('CONNECTION_FAILED') ?? false;
 
   const { context } = useAppContext();
-  const storageKey = `sqlExecutor:last-executed:${context.app}:${context.file}:${context.pmv}:${database.name}`;
+  const storageKey = `sqlExecutor:last-executed:${context.app}:${context.file}:${context.project}:${database.name}`;
   const [lastExecutedSql, setLastExecutedSql] = useLocalStorage<string>(storageKey, '');
   const [sql, setSql] = useState<string | undefined>('');
   const [selectedTable, setSelectedTable] = useState('');
@@ -30,7 +30,7 @@ export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurati
   const executeSqlMutation = useFunction(
     'function/executeSql',
     {
-      context: { app: context.app, file: context.file, pmv: context.pmv },
+      context: { app: context.app, file: context.file, project: context.project },
       databaseConfig: database.name,
       sql: ''
     },
@@ -43,7 +43,7 @@ export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurati
     setLastExecutedSql(query);
     setExecutedSql(query);
     executeSqlMutation.mutate({
-      context: { app: context.app, file: context.file, pmv: context.pmv },
+      context: { app: context.app, file: context.file, project: context.project },
       databaseConfig: database.name,
       sql: query
     });

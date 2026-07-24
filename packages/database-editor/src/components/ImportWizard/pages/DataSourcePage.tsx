@@ -10,11 +10,11 @@ export type DataSourcePageProps = {
   selection?: string;
   updateSelection: (value: string) => void;
   projects?: Array<string>;
-  pmvUpdateCallback: (value: string) => void;
+  projectUpdateCallback: (value: string) => void;
 };
 
-export const DataSourcePage = ({ selection, updateSelection, projects, pmvUpdateCallback }: DataSourcePageProps) => {
-  const { context, updatePmv } = useContextProvider();
+export const DataSourcePage = ({ selection, updateSelection, projects, projectUpdateCallback }: DataSourcePageProps) => {
+  const { context, updateProject } = useContextProvider();
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const databaseQuery = useMeta('meta/allDatabaseNames', context);
@@ -30,7 +30,7 @@ export const DataSourcePage = ({ selection, updateSelection, projects, pmvUpdate
     <Flex direction='column' gap={4} className='h-full overflow-auto' role='region' aria-label={t('import.source')}>
       {projects && (
         <BasicField label={t('import.project')} className='w-full'>
-          <ProjectSelection projects={projects} updateSelection={value => updatePmv(value, pmvUpdateCallback)} />
+          <ProjectSelection projects={projects} updateSelection={value => updateProject(value, projectUpdateCallback)} />
         </BasicField>
       )}
       <BasicField label={t('import.database')} className='w-full' control={requiredProjectToggle}>
@@ -39,7 +39,7 @@ export const DataSourcePage = ({ selection, updateSelection, projects, pmvUpdate
           selection={selection}
           updateSelection={updateSelection}
           showAll={showAll}
-          disabled={context.pmv === ''}
+          disabled={context.project === ''}
         />
       </BasicField>
     </Flex>

@@ -37,7 +37,7 @@ export const ImportWizard = ({
   const [importContext] = useState<DatabaseEditorContext>({
     app: context.app,
     file: context.file,
-    pmv: context.projects.length >= 1 ? (context.projects[0] as string) : ''
+    project: context.projects.length >= 1 ? (context.projects[0] as string) : ''
   });
 
   return (

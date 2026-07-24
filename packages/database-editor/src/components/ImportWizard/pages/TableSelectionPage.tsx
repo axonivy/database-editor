@@ -18,7 +18,7 @@ export const SelectTablesPage = ({ selectedDatabase, setSelectedTables, selected
   const tableContext = useMemo(
     () => ({
       app: context.app,
-      pmv: context.pmv,
+      project: context.project,
       file: context.file,
       databaseName: selectedDatabase
     }),

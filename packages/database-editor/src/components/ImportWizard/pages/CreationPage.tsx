@@ -41,7 +41,7 @@ export const CreationPage = ({ tableNames, databaseName, updateSelection, parame
   const infoContext: DatabaseEditorDBContext = useMemo(
     () => ({
       app: context.app,
-      pmv: context.pmv,
+      project: context.project,
       file: context.file,
       databaseName: databaseName,
       tableNames: tableNames

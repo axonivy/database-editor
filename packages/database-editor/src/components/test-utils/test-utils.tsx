@@ -46,7 +46,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   initTranslation();
 
   const appContext: AppContext = {
-    context: props.appContext?.context ?? { app: '', pmv: '', file: '' },
+    context: props.appContext?.context ?? { app: '', project: '', file: '' },
     selectedDatabase: props.appContext?.selectedDatabase,
     setSelectedDatabase: props.appContext?.setSelectedDatabase ?? (() => {}),
     projects: props.appContext?.projects ?? [],
