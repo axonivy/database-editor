@@ -43,7 +43,7 @@ export const DatabaseEditor = (props: EditorProps) => {
     () => ({
       file: props.context.file,
       app: props.context.app,
-      pmv: props.context.projects[0] ?? ''
+      project: props.context.projects[0] ?? ''
     }),
     [props.context.file, props.context.app, props.context.projects]
   );

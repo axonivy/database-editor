@@ -5,12 +5,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { initTranslation } from './i18n';
 import './index.css';
-import { appParam, directSaveParam, pmvParam, readonlyParam, themeParam, webSocketBaseParam } from './url-helper';
+import { appParam, directSaveParam, projectParam, readonlyParam, themeParam, webSocketBaseParam } from './url-helper';
 
 export async function start(): Promise<void> {
   const server = webSocketBaseParam();
   const app = appParam();
-  const pmv = pmvParam();
+  const project = projectParam();
   const theme = themeParam();
   const readonly = readonlyParam();
   const directSave = directSaveParam();
@@ -42,7 +42,7 @@ export async function start(): Promise<void> {
             <QueryProvider client={queryClient}>
               <ReadonlyProvider readonly={readonly}>
                 <HotkeysProvider initiallyActiveScopes={['global']}>
-                  <DatabaseEditor context={{ app, projects: [pmv], file: 'config/databases.yaml' }} directSave={directSave} />
+                  <DatabaseEditor context={{ app, projects: [project], file: 'config/databases.yaml' }} directSave={directSave} />
                 </HotkeysProvider>
               </ReadonlyProvider>
             </QueryProvider>

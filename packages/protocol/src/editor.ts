@@ -7,7 +7,7 @@
  */
 
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
-export type Severity = "INFO" | "WARNING" | "ERROR";
+export type Severity = 'INFO' | 'WARNING' | 'ERROR';
 
 export interface Database {
   connectionTestData: MapStringConnectionTestData;
@@ -66,7 +66,7 @@ export interface DatabaseData {
 export interface DatabaseEditorDataContext {
   app: string;
   file: string;
-  pmv: string;
+  project: string;
 }
 export interface MapStringListString {
   [k: string]: string[];
@@ -75,7 +75,7 @@ export interface DatabaseEditorDBContext {
   app: string;
   databaseName: string;
   file: string;
-  pmv: string;
+  project: string;
   tableNames: string[];
 }
 export interface DatabaseEditorSaveArgs {
@@ -87,7 +87,7 @@ export interface DatabaseEditorTableContext {
   app: string;
   databaseName: string;
   file: string;
-  pmv: string;
+  project: string;
 }
 export interface DatabaseIcon {
   name: string;

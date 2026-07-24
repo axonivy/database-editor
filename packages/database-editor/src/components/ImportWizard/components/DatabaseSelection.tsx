@@ -18,7 +18,7 @@ export const DatabaseSelection = ({
 }) => {
   const { t } = useTranslation();
   const { context } = useContextProvider();
-  const requiredProjects = Object.keys(databases).filter(p => p !== context.pmv && databases[p] && databases[p].length > 0);
+  const requiredProjects = Object.keys(databases).filter(p => p !== context.project && databases[p] && databases[p].length > 0);
 
   return (
     <Select value={selection ?? ''} onValueChange={updateSelection} disabled={disabled}>
@@ -27,8 +27,8 @@ export const DatabaseSelection = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {showAll && <SelectLabel>{context.pmv}</SelectLabel>}
-          {(databases[context.pmv] ?? []).map(database => (
+          {showAll && <SelectLabel>{context.project}</SelectLabel>}
+          {(databases[context.project] ?? []).map(database => (
             <SelectItem key={database} value={database}>
               {database}
             </SelectItem>
