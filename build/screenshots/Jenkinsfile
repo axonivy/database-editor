@@ -17,8 +17,9 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
             docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
-              sh 'pnpm install && pnpm run package'
-              sh 'pnpm run webtest:screenshot'
+            sh 'pnpm install && pnpm run update:axonivy:next'
+            sh 'pnpm run package'
+            sh 'pnpm run webtest:screenshot'
             }
           }
           archiveArtifacts artifacts: 'playwright/test-results/**', allowEmptyArchive: true
