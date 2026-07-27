@@ -5,7 +5,7 @@ import { MainPanel } from './main/MainPanel';
 export const server = process.env.BASE_URL ?? 'http://localhost:8080/';
 const ws = process.env.TEST_WS ?? '~Developer-database-editor-test-project';
 const app = process.env.TEST_APP ?? 'Developer-database-editor-test-project';
-export const pmv = 'database-editor-test-project';
+export const project = 'database-editor-test-project';
 
 export class DatabaseEditor {
   readonly page: Page;
@@ -20,7 +20,7 @@ export class DatabaseEditor {
 
   static async openEngine(page: Page) {
     const serverUrl = server.replace(/^https?:\/\//, '');
-    const url = `?server=${serverUrl}${ws}&app=${app}&pmv=${pmv}`;
+    const url = `?server=${serverUrl}${ws}&app=${app}&project=${project}`;
     return this.openUrl(page, url);
   }
 

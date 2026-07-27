@@ -16,18 +16,18 @@ export const useContextProvider = () => {
     throw new Error('useContextProvider must be used within an ContextProvider');
   }
   const { context, setContext } = ctx;
-  const updatePmv = (pmv: string, callback?: (value: string) => void) => {
+  const updateProject = (project: string, callback?: (value: string) => void) => {
     setContext(prev => {
       const update: DatabaseEditorContext = {
         ...prev,
-        pmv
+        project
       };
       return update;
     });
     if (callback) {
-      callback(pmv);
+      callback(project);
     }
   };
 
-  return { context, updatePmv };
+  return { context, updateProject };
 };

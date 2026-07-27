@@ -15,7 +15,7 @@ import type {
 } from '@axonivy/database-editor-protocol';
 
 export const databases: DatabaseData = {
-  context: { app: '', pmv: '', file: '' },
+  context: { app: '', project: '', file: '' },
   databaseNames: {
     ['project1-name']: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003'],
     ['project2-name']: ['MockDatabase-001', 'MockDatabase-002', 'MockDatabase-003']

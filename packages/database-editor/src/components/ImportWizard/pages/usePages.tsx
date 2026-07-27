@@ -19,7 +19,7 @@ export const usePages = (projects: Array<string>, closeDialog: () => void, creat
   const [selectedTables, setSelectedTables] = useState<Array<string>>([]);
   const [activePage, setActivePage] = useState(0);
   const [creationErrors, setCreationErrors] = useState<Array<CreationError>>([]);
-  const [namespace, setNamespace] = useState<string>(context.pmv.replaceAll('-', '.'));
+  const [namespace, setNamespace] = useState<string>(context.project.replaceAll('-', '.'));
   const { tablesToCreate, setTablesToCreate, updateTablesToCreate, creationProps } = useCreationTables(namespace);
 
   const resetAll = () => {
@@ -28,8 +28,8 @@ export const usePages = (projects: Array<string>, closeDialog: () => void, creat
     setTablesToCreate(new Map());
   };
 
-  const resetOnPmvChange = (pmv: string) => {
-    setNamespace(pmv.replaceAll('-', '.'));
+  const resetOnProjectChange = (project: string) => {
+    setNamespace(project.replaceAll('-', '.'));
     resetAll();
   };
 
@@ -86,7 +86,7 @@ export const usePages = (projects: Array<string>, closeDialog: () => void, creat
           updateSelection={updateSelectedDatabase}
           selection={selectedDatabase}
           projects={projects.length > 1 ? projects : undefined}
-          pmvUpdateCallback={resetOnPmvChange}
+          projectUpdateCallback={resetOnProjectChange}
         />
       ),
       title: t('import.source'),

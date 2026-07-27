@@ -12,7 +12,7 @@ export const ProjectSelection = ({
   const { t } = useTranslation();
   const { context } = useContextProvider();
   return (
-    <Select value={context.pmv} onValueChange={updateSelection}>
+    <Select value={context.project} onValueChange={updateSelection}>
       <SelectTrigger>
         <SelectValue placeholder={t('import.selectProject')} />
       </SelectTrigger>

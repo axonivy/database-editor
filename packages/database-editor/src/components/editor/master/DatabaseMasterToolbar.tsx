@@ -31,7 +31,7 @@ export const DatabaseMasterToolbar = ({ detail, setDetail }: { detail: boolean; 
 
   return (
     <Toolbar tabIndex={-1} ref={firstElementRef}>
-      <ToolbarTitle>{t('database.databaseEditor', { projectName: context.pmv })}</ToolbarTitle>
+      <ToolbarTitle>{t('database.databaseEditor', { projectName: context.project })}</ToolbarTitle>
       <Flex gap={1}>
         {!readonly && <EditButtons />}
         <TooltipProvider>
