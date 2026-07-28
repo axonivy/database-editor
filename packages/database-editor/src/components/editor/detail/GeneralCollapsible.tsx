@@ -1,11 +1,11 @@
 import {
+  BasicCombobox,
   BasicField,
   BasicInput,
   BasicSelect,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-  Combobox,
   Flex
 } from '@axonivy/ui-components';
 import { useCallback, useMemo } from 'react';
@@ -73,19 +73,22 @@ export const GeneralCollapsible = () => {
                   />
                 )}
               </div>
-              <div className='flex-1'>
-                <Combobox
-                  itemRender={item => (
-                    <Flex alignItems='center' gap={1}>
-                      <img src={item.icon} className='size-3' />
-                      <span>{item.label}</span>
-                    </Flex>
-                  )}
-                  onChange={value => updateDatabaseConfig(database => (database.icon = value))}
-                  options={iconOptions}
-                  value={databaseConfig.icon}
-                />
-              </div>
+              <BasicCombobox
+                items={iconOptions}
+                isItemEqualToValue={(itemValue, value) => itemValue.value === value.value}
+                itemRenderer={item => (
+                  <Flex alignItems='center' gap={1}>
+                    <img src={item.icon} alt={item.label} className='size-3' />
+                    <span className='truncate'>
+                      {item.label} ({item.value})
+                    </span>
+                  </Flex>
+                )}
+                itemToStringLabel={item => item.value}
+                value={iconOptions.find(item => item.value === databaseConfig.icon)}
+                onValueChange={change => updateDatabaseConfig(database => (database.icon = change?.value ?? ''))}
+                className='w-full'
+              />
             </Flex>
           </BasicField>
           <BasicField label={t('common.label.database')}>
