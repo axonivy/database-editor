@@ -9,5 +9,5 @@ test('sql executor screenshot', async ({ page }) => {
   await dialog.textarea.fill('SELECT * FROM USERS');
   await dialog.executeButton.click();
   await dialog.resultTable().waitFor();
-  await screenshotElement(dialog.locator, 'dialog-sql-executor');
+  await screenshotElement(dialog.locator, 'dialog-sql-executor.png');
 });
