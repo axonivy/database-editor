@@ -142,7 +142,6 @@ export interface ExecuteSqlRequest {
 export interface ExecuteSqlResponse {
   columns: string[];
   rows: string[][];
-  totalCount: number;
 }
 export interface JdbcDriverProperties {
   databaseProduct: string;

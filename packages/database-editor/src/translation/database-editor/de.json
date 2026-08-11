@@ -95,8 +95,6 @@
       "databaseConfiguration": "Datenbank-Konfiguration: {{name}}",
       "execute": "Ausführen",
       "noResults": "Abfrage erfolgreich ausgeführt, aber keine Ergebnisse zurückgegeben.",
-      "of": "von",
-      "page": "Seite",
       "resultError": "Fehler beim Laden der Ergebnisse.",
       "sqlError": "SQL Fehler",
       "tablePlaceholder": "Tabellen anzeigen...",

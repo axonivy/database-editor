@@ -1,9 +1,7 @@
 import type { ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
-import { Button, Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
-import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
+import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 export const SqlResultTable = ({
   result,
@@ -16,7 +14,8 @@ export const SqlResultTable = ({
   isLoadingNextPage: boolean;
   canLoadMore: boolean;
 }) => {
-  const { t } = useTranslation();
+  const BOTTOM_THRESHOLD_PX = 80;
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const columns = useMemo<Array<ColumnDef<string[], string>>>(
     () =>
@@ -32,34 +31,28 @@ export const SqlResultTable = ({
   const table = useReactTable({
     data: result.rows,
     columns,
-    autoResetPageIndex: false,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    initialState: {
-      pagination: {
-        pageSize: 20
-      }
-    }
+    getCoreRowModel: getCoreRowModel()
   });
 
-  const handleNextPage = async () => {
-    if (table.getCanNextPage()) {
-      table.nextPage();
+  const tryLoadMoreRows = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container || isLoadingNextPage || !canLoadMore) {
       return;
     }
 
-    if (isLoadingNextPage || !canLoadMore) {
-      return;
+    const distanceToBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+    if (distanceToBottom <= BOTTOM_THRESHOLD_PX) {
+      loadMoreRows();
     }
+  }, [canLoadMore, isLoadingNextPage, loadMoreRows]);
 
-    const nextPageIndex = table.getState().pagination.pageIndex + 1;
-    await loadMoreRows();
-    table.setPageIndex(nextPageIndex);
-  };
+  useEffect(() => {
+    tryLoadMoreRows();
+  }, [result.rows.length, tryLoadMoreRows]);
 
   return (
     <Flex className='min-h-0 flex-1'>
-      <div className='max-h-[50vh] w-full overflow-auto'>
+      <div ref={scrollContainerRef} className='max-h-[50vh] w-full overflow-auto' onScroll={tryLoadMoreRows}>
         <Table>
           <TableResizableHeader headerGroups={table.getHeaderGroups()} />
           <TableBody>
@@ -72,28 +65,6 @@ export const SqlResultTable = ({
             ))}
           </TableBody>
         </Table>
-        <div>
-          <Flex direction='row' alignItems='center' gap={2} className='border-t border-n200 px-2 py-1'>
-            <Button
-              icon={IvyIcons.Chevron}
-              rotate={180}
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            ></Button>
-            <Button
-              icon={isLoadingNextPage ? IvyIcons.Spinner : IvyIcons.Chevron}
-              onClick={handleNextPage}
-              disabled={isLoadingNextPage || (!table.getCanNextPage() && !canLoadMore)}
-              spin={isLoadingNextPage}
-            ></Button>
-            <div>{t('dialog.sqlExecutor.page')}</div>
-            <strong>
-              {(table.getState().pagination.pageIndex + 1).toLocaleString()} {t('dialog.sqlExecutor.of')}{' '}
-              {table.getPageCount().toLocaleString()}
-            </strong>
-            <div>{result.rows.length.toLocaleString()}</div>
-          </Flex>
-        </div>
       </div>
     </Flex>
   );

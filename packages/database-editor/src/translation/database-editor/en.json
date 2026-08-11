@@ -95,8 +95,6 @@
       "databaseConfiguration": "Database Configuration: {{name}}",
       "execute": "Execute",
       "noResults": "Query executed successfully, but returned no results.",
-      "of": "of",
-      "page": "Page",
       "resultError": "Could not load results.",
       "sqlError": "SQL Error",
       "tablePlaceholder": "Show tables...",
