@@ -7,7 +7,7 @@
  */
 
 export type ImportOptions = ("EntityClass" | "FormDialog" | "Process" | "Repository" | "Enum")
-export type Severity = 'INFO' | 'WARNING' | 'ERROR';
+export type Severity = "INFO" | "WARNING" | "ERROR";
 
 export interface Database {
   connectionTestData: MapStringConnectionTestData;
@@ -136,11 +136,13 @@ export interface EditorFileContent {
 export interface ExecuteSqlRequest {
   context: DatabaseEditorDataContext;
   databaseConfig: string;
+  offset: number;
   sql: string;
 }
 export interface ExecuteSqlResponse {
   columns: string[];
   rows: string[][];
+  totalCount: number;
 }
 export interface JdbcDriverProperties {
   databaseProduct: string;

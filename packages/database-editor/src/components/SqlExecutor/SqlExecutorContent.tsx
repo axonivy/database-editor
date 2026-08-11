@@ -10,6 +10,8 @@ import { SqlResultTable } from './SqlResultTable';
 import { useLocalStorage } from './useLocalStorage';
 
 export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurationData }) => {
+  const SERVER_CHUNK_SIZE = 100;
+
   const { t } = useTranslation();
   const { connectionTestResult } = useAppContext();
 
@@ -22,31 +24,66 @@ export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurati
   const [sql, setSql] = useState<string | undefined>('');
   const [selectedTable, setSelectedTable] = useState('');
   const [executedSql, setExecutedSql] = useState(lastExecutedSql);
+  const [loadedRows, setLoadedRows] = useState<string[][]>([]);
+  const [loadedColumns, setLoadedColumns] = useState<string[]>([]);
+  const [nextOffset, setNextOffset] = useState(0);
+  const [isLoadingNextPage, setIsLoadingNextPage] = useState(false);
+  const [canLoadMore, setCanLoadMore] = useState(true);
 
   const source = executedSql ? 'sql' : 'idle';
 
   const tablesQuery = useMeta('meta/databaseTableNames', { ...context, databaseName: database.name });
 
-  const executeSqlMutation = useFunction(
-    'function/executeSql',
-    {
-      context: { app: context.app, file: context.file, project: context.project },
-      databaseConfig: database.name,
-      sql: ''
-    },
-    {
-      onSuccess: () => tablesQuery.refetch()
-    }
-  );
+  const executeSqlMutation = useFunction('function/executeSql', {
+    context: { app: context.app, file: context.file, project: context.project },
+    databaseConfig: database.name,
+    sql: '',
+    offset: 0
+  });
 
-  const runSql = (query: string) => {
+  const loadMoreRows = async () => {
+    if (isLoadingNextPage || !executedSql) {
+      return;
+    }
+
+    setIsLoadingNextPage(true);
+    try {
+      const data = await executeSqlMutation.mutateAsync({
+        context: { app: context.app, file: context.file, project: context.project },
+        databaseConfig: database.name,
+        sql: executedSql,
+        offset: nextOffset
+      });
+      const nextLoadedRows = [...loadedRows, ...data.rows];
+      setLoadedRows(nextLoadedRows);
+      setCanLoadMore(data.rows.length > 0);
+      setNextOffset(prev => prev + SERVER_CHUNK_SIZE);
+      if (loadedColumns.length === 0) {
+        setLoadedColumns(data.columns);
+      }
+      tablesQuery.refetch();
+    } finally {
+      setIsLoadingNextPage(false);
+    }
+  };
+
+  const runSql = async (query: string) => {
+    setLoadedRows([]);
+    setLoadedColumns([]);
+    setNextOffset(0);
+    setCanLoadMore(true);
     setLastExecutedSql(query);
     setExecutedSql(query);
-    executeSqlMutation.mutate({
+    const data = await executeSqlMutation.mutateAsync({
       context: { app: context.app, file: context.file, project: context.project },
       databaseConfig: database.name,
+      offset: 0,
       sql: query
     });
+    setLoadedRows(data.rows);
+    setLoadedColumns(data.columns);
+    setNextOffset(SERVER_CHUNK_SIZE);
+    tablesQuery.refetch();
   };
 
   const selectTable = (tableName: string) => {
@@ -114,7 +151,10 @@ export const SqlExecutorContent = ({ database }: { database: DatabaseConfigurati
         </Button>
       </Flex>
       <SqlExecutorResult
-        result={source === 'sql' ? executeSqlMutation.data : undefined}
+        loadMoreRows={loadMoreRows}
+        isLoadingNextPage={isLoadingNextPage}
+        canLoadMore={canLoadMore}
+        result={source === 'sql' ? { columns: loadedColumns, rows: loadedRows } : undefined}
         isError={source === 'sql' && executeSqlMutation.isError}
         error={source === 'sql' ? executeSqlMutation.error : undefined}
       />
@@ -146,11 +186,17 @@ const CopyToClipboardButton = ({ script }: { script?: string }) => {
 };
 
 const SqlExecutorResult = ({
+  loadMoreRows,
+  isLoadingNextPage,
+  canLoadMore,
   result,
   isError,
   error
 }: {
-  result: ExecuteSqlResponse | undefined;
+  loadMoreRows: () => Promise<void>;
+  isLoadingNextPage: boolean;
+  canLoadMore: boolean;
+  result: Pick<ExecuteSqlResponse, 'columns' | 'rows'> | undefined;
   isError: boolean;
   error: Error | null | undefined;
 }) => {
@@ -168,5 +214,5 @@ const SqlExecutorResult = ({
     return <span>{t('dialog.sqlExecutor.noResults')}</span>;
   }
 
-  return <SqlResultTable result={result} />;
+  return <SqlResultTable result={result} loadMoreRows={loadMoreRows} isLoadingNextPage={isLoadingNextPage} canLoadMore={canLoadMore} />;
 };
