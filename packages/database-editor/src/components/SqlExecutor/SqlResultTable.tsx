@@ -1,7 +1,7 @@
 import type { ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
 import { Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 export const SqlResultTable = ({
   result,
@@ -22,8 +22,8 @@ export const SqlResultTable = ({
       result.columns.map((col, index) => ({
         id: `${index}`,
         accessorFn: row => row[index] ?? '',
-        header: () => <span>{col}</span>,
-        cell: cell => <span>{cell.getValue()}</span>
+        header: col,
+        cell: cell => cell.getValue()
       })),
     [result.columns]
   );
@@ -45,10 +45,6 @@ export const SqlResultTable = ({
       loadMoreRows();
     }
   }, [canLoadMore, isLoadingNextPage, loadMoreRows]);
-
-  useEffect(() => {
-    tryLoadMoreRows();
-  }, [result.rows.length, tryLoadMoreRows]);
 
   return (
     <Flex className='min-h-0 flex-1'>
