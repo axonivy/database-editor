@@ -1,10 +1,9 @@
 import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
-const dir = process.env.SCREENSHOT_DIR ?? './target';
+const dir = process.env.SCREENSHOT_DIR ?? 'tests/screenshots/target';
 
 export const screenshot = async (page: Page, name: string) => {
-  await page.setViewportSize({ width: 700, height: 550 });
   const buffer = await page.screenshot({ path: `${dir}/screenshots/${name}.png`, animations: 'disabled' });
   expect(buffer.byteLength).toBeGreaterThan(3000);
 };
