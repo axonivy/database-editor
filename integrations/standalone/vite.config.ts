@@ -13,8 +13,8 @@ export default defineConfig({
   server: { port: 3001 },
   resolve: {
     alias: {
-      '@axonivy/database-editor': resolve(__dirname, '../../packages/database-editor/src'),
-      '@axonivy/database-editor-protocol': resolve(__dirname, '../../packages/protocol/src')
+      '@axonivy/database-editor': resolve(import.meta.dirname, '../../packages/database-editor/src'),
+      '@axonivy/database-editor-protocol': resolve(import.meta.dirname, '../../packages/protocol/src')
     }
   },
   base: './'
