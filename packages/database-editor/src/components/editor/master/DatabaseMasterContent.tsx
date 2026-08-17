@@ -1,6 +1,7 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
 import {
   BasicField,
+  dataTableHelper,
   deleteFirstSelectedRow,
   Flex,
   IvyIcon,
@@ -10,13 +11,11 @@ import {
   TableResizableHeader,
   useHotkeys,
   useReadonly,
-  useTableKeyHandler,
-  useTableSelect,
-  useTableSort
+  useTableKeyHandler
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
-import { useMemo, useRef } from 'react';
+import { useTable } from '@tanstack/react-table';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../AppContext';
 import { useMeta } from '../../../protocol/use-meta';
@@ -25,17 +24,68 @@ import { ConnectionStateIndicator } from './ConnectionStateIndicator';
 import { EmptyMasterControl, MasterControl } from './MasterControl';
 import { ValidationRow } from './ValidationRow';
 
+const { columnHelper, tableOptions } = dataTableHelper<DatabaseConfigurationData>();
+
 export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; setDetail: (state: boolean) => void }) => {
   const { t } = useTranslation();
   const hotkeys = useKnownHotkeys();
   const readonly = useReadonly();
-  const sort = useTableSort();
   const { databaseConfigs, setSelectedDatabase, setData, connectionTestResult } = useAppContext();
   const { context } = useAppContext();
   const iconMeta = useMeta('meta/icons/all', context);
 
-  const selection = useTableSelect<DatabaseConfigurationData>({
-    onSelect: selectedRows => {
+  const columns = useMemo(
+    () =>
+      columnHelper.columns([
+        columnHelper.accessor('name', {
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
+          cell: cell => {
+            const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
+            return (
+              <Flex alignItems='center' gap={1}>
+                {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.Database} />}
+                <span>{cell.getValue()}</span>
+              </Flex>
+            );
+          },
+          minSize: 50
+        }),
+        columnHelper.accessor(urlOfConnection, {
+          id: 'url',
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.url')} />,
+          cell: cell => <span>{cell.getValue()}</span>
+        }),
+        columnHelper.accessor(driverOfConnection, {
+          id: 'driver',
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.driver')} />,
+          cell: cell => <span>{cell.getValue()}</span>
+        }),
+        columnHelper.accessor('name', {
+          id: 'state',
+          header: ({ column }) => <SortableHeader column={column} name={t('common.label.state')} />,
+          cell: cell => {
+            const data = connectionTestResult[cell.getValue()] ?? { state: 'UNKNOWN', advise: '', exception: '' };
+            return (
+              <Flex justifyContent='center'>
+                <ConnectionStateIndicator {...data} />
+              </Flex>
+            );
+          },
+          size: 40
+        })
+      ]),
+    [connectionTestResult, t, iconMeta.data]
+  );
+
+  const table = useTable({
+    ...tableOptions,
+    data: databaseConfigs,
+    columns,
+    columnResizeMode: 'onChange'
+  });
+
+  useEffect(() => {
+    const subscription = table.atoms.rowSelection.subscribe(selectedRows => {
       const selectedRowId = Object.keys(selectedRows).find(key => selectedRows[key]);
       if (selectedRowId === undefined) {
         setSelectedDatabase(undefined);
@@ -45,67 +95,9 @@ export const DatabaseMasterContent = ({ detail, setDetail }: { detail: boolean; 
       if (selectedDatabase !== undefined) {
         setSelectedDatabase(selectedDatabase);
       }
-    }
-  });
-
-  const columns = useMemo<Array<ColumnDef<DatabaseConfigurationData, string>>>(
-    () => [
-      {
-        accessorKey: 'name',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.name')} />,
-        cell: cell => {
-          const iconPath = iconMeta.data?.find(icon => icon.relativePath === cell.row.original.icon)?.path;
-          return (
-            <Flex alignItems='center' gap={1}>
-              {iconPath ? <img src={iconPath} alt='icon' className='size-3' /> : <IvyIcon icon={IvyIcons.Database} />}
-              <span>{cell.getValue()}</span>
-            </Flex>
-          );
-        },
-        minSize: 50
-      },
-      {
-        id: 'url',
-        accessorFn: urlOfConnection,
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.url')} />,
-        cell: cell => <span>{cell.getValue()}</span>
-      },
-      {
-        id: 'driver',
-        accessorFn: driverOfConnection,
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.driver')} />,
-        cell: cell => <span>{cell.getValue()}</span>
-      },
-      {
-        accessorKey: 'name',
-        id: 'state',
-        header: ({ column }) => <SortableHeader column={column} name={t('common.label.state')} />,
-        cell: cell => {
-          const data = connectionTestResult[cell.getValue()] ?? { state: 'UNKNOWN', advise: '', exception: '' };
-          return (
-            <Flex justifyContent='center'>
-              <ConnectionStateIndicator {...data} />
-            </Flex>
-          );
-        },
-        size: 40
-      }
-    ],
-    [connectionTestResult, t, iconMeta.data]
-  );
-
-  const table = useReactTable({
-    ...selection.options,
-    ...sort.options,
-    data: databaseConfigs,
-    columns,
-    columnResizeMode: 'onChange',
-    getCoreRowModel: getCoreRowModel(),
-    state: {
-      ...selection.tableState,
-      ...sort.tableState
-    }
-  });
+    });
+    return () => subscription.unsubscribe();
+  }, [setSelectedDatabase, table]);
 
   const { handleKeyDown } = useTableKeyHandler({ table, data: databaseConfigs });
 

@@ -1,14 +1,14 @@
 import type { Severity, ValidationResult } from '@axonivy/database-editor-protocol';
-import { cn, MessageRow, SelectRow, TableCell } from '@axonivy/ui-components';
-import { flexRender, type Row } from '@tanstack/react-table';
+import { cn, MessageRow, SelectRow, TableCell, type DataTableFeatures } from '@axonivy/ui-components';
+import { flexRender, type Row, type RowData } from '@tanstack/react-table';
 import { useValidations } from '../../../protocol/useValidations';
 
-type ValidationRowProps<TData> = {
-  row: Row<TData>;
+type ValidationRowProps<TData extends RowData> = {
+  row: Row<DataTableFeatures, TData>;
   validationPath: string;
 };
 
-export const ValidationRow = <TData,>({ row, validationPath }: ValidationRowProps<TData>) => {
+export const ValidationRow = <TData extends RowData>({ row, validationPath }: ValidationRowProps<TData>) => {
   const validations = useValidations(validationPath);
   return (
     <>

@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
   useDialogHotkeys,
   useHotkeys,
+  type DataTableFeatures,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -30,7 +31,13 @@ import { useKnownHotkeys } from '../../../util/hotkeys';
 
 const DIALOG_HOTKEY_IDS = ['addDatabaseConnectionDialog'];
 
-export const AddDatabaseConnectionDialog = ({ table, children }: { table: Table<DatabaseConfigurationData>; children: ReactNode }) => {
+export const AddDatabaseConnectionDialog = ({
+  table,
+  children
+}: {
+  table: Table<DataTableFeatures, DatabaseConfigurationData>;
+  children: ReactNode;
+}) => {
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(DIALOG_HOTKEY_IDS);
   useHotkeys(hotkeys.addDatabaseConnection.hotkey, () => onOpenChange(true), { scopes: ['global'], keyup: true, enabled: !open });
@@ -53,7 +60,7 @@ export const AddDatabaseConnectionDialog = ({ table, children }: { table: Table<
 };
 
 type AddDatabaseConnectionContentProps = {
-  table: Table<DatabaseConfigurationData>;
+  table: Table<DataTableFeatures, DatabaseConfigurationData>;
   closeDialog: () => void;
 };
 

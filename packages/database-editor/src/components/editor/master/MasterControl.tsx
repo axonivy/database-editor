@@ -1,5 +1,15 @@
 import type { DatabaseConfigurationData } from '@axonivy/database-editor-protocol';
-import { Button, Flex, PanelMessage, Separator, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  PanelMessage,
+  Separator,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  type DataTableFeatures
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { Table } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +20,7 @@ import { SqlExecutor } from '../../SqlExecutor/SqlExecutor';
 import { AddDatabaseConnectionDialog } from './AddDatabaseConnectionDialog';
 
 type MasterControlProps = {
-  table: Table<DatabaseConfigurationData>;
+  table: Table<DataTableFeatures, DatabaseConfigurationData>;
   deleteDatabaseConnection: () => void;
 };
 
@@ -58,7 +68,7 @@ export const MasterControl = ({ table, deleteDatabaseConnection }: MasterControl
   );
 };
 
-export const EmptyMasterControl = ({ table }: { table: Table<DatabaseConfigurationData> }) => {
+export const EmptyMasterControl = ({ table }: { table: Table<DataTableFeatures, DatabaseConfigurationData> }) => {
   const { t } = useTranslation();
   return (
     <Flex direction='column' alignItems='center' justifyContent='center' style={{ height: '100%' }}>
