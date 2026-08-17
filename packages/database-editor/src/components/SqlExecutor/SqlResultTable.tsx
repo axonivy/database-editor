@@ -22,7 +22,7 @@ export const SqlResultTable = ({
       result.columns.map((col, index) => ({
         id: `${index}`,
         accessorFn: row => row[index] ?? '',
-        header: col,
+        header: () => <span title={col.type}>{col.name}</span>,
         cell: cell => cell.getValue()
       })),
     [result.columns]

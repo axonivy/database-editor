@@ -258,7 +258,11 @@ export const META_ICONS = [
 ] as const satisfies DatabaseIcon[];
 
 export const executeSqlResponse: ExecuteSqlResponse = {
-  columns: ['id', 'name', 'street'],
+  columns: [
+    { name: 'id', type: 'INTEGER' },
+    { name: 'name', type: 'VARCHAR' },
+    { name: 'street', type: 'VARCHAR' }
+  ],
   rows: [
     ['1', 'Marie', 'bakerstreet'],
     ['2', 'Owen', 'secondstreet'],
@@ -269,7 +273,10 @@ export const executeSqlResponse: ExecuteSqlResponse = {
 export const listTablesResponse: Array<string> = ['users', 'drivers', 'cars'];
 
 export const getTableContentResponse: ExecuteSqlResponse = {
-  columns: ['id', 'name'],
+  columns: [
+    { name: 'id', type: 'INTEGER' },
+    { name: 'name', type: 'VARCHAR' }
+  ],
   rows: [
     ['1', 'Ferrari'],
     ['2', 'McLaren'],
