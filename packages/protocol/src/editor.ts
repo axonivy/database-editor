@@ -140,8 +140,12 @@ export interface ExecuteSqlRequest {
   sql: string;
 }
 export interface ExecuteSqlResponse {
-  columns: string[];
+  columns: ColumnMeta[];
   rows: string[][];
+}
+export interface ColumnMeta {
+  name: string;
+  type: string;
 }
 export interface JdbcDriverProperties {
   databaseProduct: string;
