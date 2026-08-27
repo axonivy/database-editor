@@ -1,7 +1,9 @@
 import type { ExecuteSqlResponse } from '@axonivy/database-editor-protocol';
-import { Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
-import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { dataTableHelper, Flex, Table, TableBody, TableCell, TableResizableHeader, TableRow } from '@axonivy/ui-components';
+import { flexRender, useTable } from '@tanstack/react-table';
 import { useCallback, useMemo, useRef } from 'react';
+
+const { columnHelper, tableOptions } = dataTableHelper<string[]>();
 
 export const SqlResultTable = ({
   result,
@@ -17,21 +19,24 @@ export const SqlResultTable = ({
   const BOTTOM_THRESHOLD_PX = 80;
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const columns = useMemo<Array<ColumnDef<string[], string>>>(
+  const columns = useMemo(
     () =>
-      result.columns.map((col, index) => ({
-        id: `${index}`,
-        accessorFn: row => row[index] ?? '',
-        header: () => <span title={col.type}>{col.name}</span>,
-        cell: cell => cell.getValue()
-      })),
+      columnHelper.columns(
+        result.columns.map((col, index) =>
+          columnHelper.accessor(row => row[index] ?? '', {
+            id: `${index}`,
+            header: () => <span title={col.type}>{col.name}</span>,
+            cell: cell => cell.getValue()
+          })
+        )
+      ),
     [result.columns]
   );
 
-  const table = useReactTable({
+  const table = useTable({
+    ...tableOptions,
     data: result.rows,
-    columns,
-    getCoreRowModel: getCoreRowModel()
+    columns
   });
 
   const tryLoadMoreRows = useCallback(() => {
