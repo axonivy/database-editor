@@ -50,6 +50,7 @@ export interface Disposable {
 }
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
+  // eslint-disable @typescript-eslint/no-invalid-void-type
   initialize: [DatabaseEditorDataContext, void];
   data: [DatabaseEditorDataContext, DatabaseConfigurations];
   save: [DatabaseEditorSaveArgs, EditorFileContent];
