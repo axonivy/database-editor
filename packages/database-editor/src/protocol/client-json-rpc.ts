@@ -22,6 +22,10 @@ export class ClientJsonRpc extends BaseRpcClient implements Client {
     this.toDispose.push(this.onDataChangedEmitter);
   }
 
+  initialize(context: DatabaseEditorDataContext): Promise<void> {
+    return this.sendRequest('initialize', { ...context });
+  }
+
   data(context: DatabaseEditorDataContext): Promise<DatabaseConfigurations> {
     return this.sendRequest('data', context);
   }

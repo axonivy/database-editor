@@ -50,6 +50,7 @@ export interface Disposable {
 }
 
 export interface RequestTypes extends MetaRequestTypes, FunctionRequestTypes {
+  initialize: [DatabaseEditorDataContext, void];
   data: [DatabaseEditorDataContext, DatabaseConfigurations];
   save: [DatabaseEditorSaveArgs, EditorFileContent];
   validate: [DatabaseEditorDataContext, ValidationResult[]];
@@ -60,6 +61,7 @@ export interface NotificationTypes {
 }
 
 export interface Client {
+  initialize(context: DatabaseEditorDataContext): Promise<void>;
   data(context: DatabaseEditorDataContext): Promise<DatabaseConfigurations>;
   save(args: DatabaseEditorSaveArgs): Promise<EditorFileContent>;
 
