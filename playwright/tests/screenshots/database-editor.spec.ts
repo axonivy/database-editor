@@ -10,5 +10,5 @@ test.beforeEach(async ({ page }) => {
 
 test('screenshot', async ({ page }) => {
   await editor.main.table.row(0).locator.click();
-  await screenshot(page, 'database-editor.png');
+  await screenshot(page, 'database-editor');
 });
