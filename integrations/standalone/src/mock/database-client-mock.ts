@@ -56,6 +56,10 @@ export class DatabaseClientMock implements Client {
     this.metaJdbcDriversState = metaJdbcDriversState;
   }
 
+  initialize(): Promise<void> {
+    return Promise.resolve();
+  }
+
   data(): Promise<DatabaseConfigurations> {
     return Promise.resolve(this.databaseConnections);
   }
