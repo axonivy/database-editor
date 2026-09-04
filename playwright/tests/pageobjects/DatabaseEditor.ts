@@ -3,7 +3,7 @@ import { DetailPanel } from './detail/DetailPanel';
 import { MainPanel } from './main/MainPanel';
 
 export const server = process.env.BASE_URL ?? 'http://localhost:8080/';
-const ws = process.env.TEST_WS ?? '~Developer-database-editor-test-project';
+const ws = '~Developer-database-editor-test-project';
 const app = process.env.TEST_APP ?? 'Developer-database-editor-test-project';
 export const project = 'database-editor-test-project';
 
