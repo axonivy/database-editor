@@ -1,7 +1,7 @@
 {
   "name": "@axonivy/database-editor-standalone",
   "private": true,
-  "version": "14.0.0-next",
+  "version": "14.0.1-next",
   "dependencies": {
     "@axonivy/database-editor": "workspace:~",
     "@axonivy/database-editor-protocol": "workspace:~",
