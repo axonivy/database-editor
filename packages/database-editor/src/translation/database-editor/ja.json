@@ -1,0 +1,152 @@
+{
+  "common": {
+    "hotkey": {
+      "focusInscription": "インスクリプションにフォーカス ({{hotkey}})",
+      "focusMain": "メイン領域にフォーカス ({{hotkey}})",
+      "focusToolbar": "ツールバーにフォーカス ({{hotkey}})",
+      "help": "ヘルプを開く ({{hotkey}})",
+      "redo": "やり直し ({{hotkey}})",
+      "undo": "元に戻す ({{hotkey}})"
+    },
+    "label": {
+      "cancel": "キャンセル",
+      "database": "データベース",
+      "details": "詳細",
+      "driver": "ドライバー",
+      "general": "一般",
+      "icon": "アイコン",
+      "key": "キー",
+      "name": "名前",
+      "properties": "プロパティ",
+      "state": "状態",
+      "url": "URL",
+      "value": "値"
+    },
+    "message": {
+      "errorOccured": "エラーが発生しました: {{message}}"
+    }
+  },
+  "database": {
+    "additionalProperties": "追加プロパティ",
+    "allConnections": "すべてのデータベース接続",
+    "connection": {
+      "advice": "ヒント:"
+    },
+    "connectionProperties": "接続プロパティ",
+    "connectionTest": {
+      "failed": "接続テストに失敗しました",
+      "testedAll": "すべての接続をテストしました",
+      "testedFollowing": "「{{connection}}」をテストしました",
+      "title": "接続テスト"
+    },
+    "databaseEditor": "データベースエディター - {{projectName}}",
+    "maxConnections": "最大接続数",
+    "placeholder": {
+      "key": "キーを入力",
+      "value": "値を入力"
+    },
+    "property": {
+      "connectionUrl": "接続URL",
+      "databaseName": "データベース名",
+      "driverName": "ドライバークラス",
+      "fileName": "ファイル",
+      "host": "ホスト",
+      "oracleLdap": "Oracle LDAP名",
+      "oracleLdaps": "Oracle LDAPS名",
+      "oracleServiceId": "OracleサービスID (SID)",
+      "oracleServiceName": "Oracleサービス名",
+      "oracleTNS": "Oracle TNS",
+      "password": "パスワード",
+      "port": "ポート",
+      "userName": "ユーザー"
+    },
+    "state": {
+      "connected": "接続は正常です",
+      "failed": "接続に失敗しました",
+      "unknown": "状態不明",
+      "wrongConfig": "設定が正しくありません",
+      "wrongHost": "ホストまたはポートが正しくありません",
+      "wrongLogin": "ユーザー名またはパスワードが正しくありません",
+      "wrongPassword": "パスワードが正しくありません"
+    }
+  },
+  "detail": {
+    "additionalProperties": {
+      "addProperty": "プロパティを追加",
+      "deleteProperty": "プロパティを削除"
+    },
+    "noSelection": "プロパティを編集するデータベース接続を選択してください。"
+  },
+  "dialog": {
+    "addDatabaseConnection": {
+      "create": "作成",
+      "createDatabaseConnectionTooltip": "{{modifier}}を押しながらクリックすると、データベース接続を追加できます。",
+      "description": "追加するデータベース接続の名前を選択してください。",
+      "emptyNameError": "名前を空にすることはできません。",
+      "nameTakenError": "この名前はすでに使用されています。",
+      "sanitizedKey": "サニタイズ後のキーは「{{key}}」になります。",
+      "title": "データベース接続を追加"
+    },
+    "sqlExecutor": {
+      "connectionFailed": "接続テストに失敗しました。SQLを実行する前に接続設定を修正してください。",
+      "copyFailed": "SQLをクリップボードにコピーできませんでした",
+      "copySql": "SQLをコピー",
+      "copySuccess": "SQLをクリップボードにコピーしました",
+      "databaseConfiguration": "データベース設定: {{name}}",
+      "execute": "実行",
+      "noResults": "クエリは正常に実行されましたが、結果はありません。",
+      "resultError": "結果を読み込めませんでした。",
+      "sqlError": "SQLエラー",
+      "tablePlaceholder": "テーブルを表示...",
+      "title": "SQL実行"
+    }
+  },
+  "hotkey": {
+    "addDatabaseConnection": "データベース接続を追加 ({{hotkey}})",
+    "deleteDatabaseConnection": "データベース接続を削除 ({{hotkey}})",
+    "generate": "データベース接続からデータクラス、フォーム、プロセスを生成 ({{hotkey}})",
+    "sqlExecutor": "SQL実行 ({{hotkey}})",
+    "testDatabaseConnection": "データベース接続をテスト ({{hotkey}})"
+  },
+  "import": {
+    "attributes": "属性",
+    "back": "戻る",
+    "cancel": "キャンセル",
+    "column": "列",
+    "creationFailed": "次のエラーにより作成に失敗しました",
+    "creationSuccess": "エンティティを正常に作成しました",
+    "creationType": "エンティティタイプ",
+    "database": "データベース",
+    "deselectAll": "すべて選択解除",
+    "entityClass": "エンティティクラス",
+    "errorAlreadyExists": "オブジェクトはすでに存在します",
+    "errorMessage": "エラーメッセージ",
+    "errorsDuringCreation": "作成中に発生したエラー",
+    "filter": "検索",
+    "finish": "完了",
+    "formDialog": "フォームダイアログ",
+    "generate": "生成",
+    "invalidNamespace": "無効な名前空間",
+    "namespace": "名前空間",
+    "namespaceRequired": "名前空間は必須です",
+    "next": "次へ",
+    "options": "オプション",
+    "process": "プロセス",
+    "project": "プロジェクト",
+    "requiredProjects": "必要なプロジェクト",
+    "result": "結果",
+    "selectAll": "すべて選択",
+    "selectDatabase": "データベースを選択",
+    "selectProject": "プロジェクトを選択",
+    "selectTable": "テーブル",
+    "selectTables": "選択するテーブルを選んでください",
+    "source": "データソース",
+    "table": "テーブル",
+    "tableSelection": "選択内容",
+    "tableSelectionPlaceholder": "テーブルはまだ選択されていません。クリックして選択してください。",
+    "type": "タイプ"
+  },
+  "main": {
+    "addFirstDbConnection": "開始するには、最初のデータベース接続を追加してください"
+  }
+}
