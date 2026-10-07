@@ -14,7 +14,7 @@ import { initReactI18next } from 'react-i18next';
 import { AppProvider, type AppContext } from '../../AppContext';
 import { ClientContextProvider } from '../../protocol/ClientContextProvider';
 import { initQueryClient } from '../../query/query-client';
-import { QueryProvider } from '../../query/QueryProvider';
+import { QueryClientProvider } from '@tanstack/react-query';
 import enTrans from '../../translation/database-editor/en.json';
 
 type ContextHelperProps = {
@@ -63,7 +63,7 @@ const ContextHelper = (props: ContextHelperProps & { children: ReactNode }) => {
   return (
     <AppProvider value={appContext}>
       <ClientContextProvider client={client}>
-        <QueryProvider client={initQueryClient()}>{props.children}</QueryProvider>
+        <QueryClientProvider client={initQueryClient()}>{props.children}</QueryClientProvider>
       </ClientContextProvider>
     </AppProvider>
   );

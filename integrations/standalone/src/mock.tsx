@@ -1,4 +1,6 @@
-import { ClientContextProvider, DatabaseEditor, initQueryClient, QueryProvider } from '@axonivy/database-editor';
+import { ClientContextProvider, DatabaseEditor, initQueryClient } from '@axonivy/database-editor';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HotkeysProvider, ReadonlyProvider, ThemeProvider, Toaster } from '@axonivy/ui-components';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
@@ -22,13 +24,14 @@ root.render(
   <React.StrictMode>
     <ThemeProvider defaultTheme={'light'}>
       <ClientContextProvider client={client}>
-        <QueryProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
           <ReadonlyProvider readonly={readonly}>
             <HotkeysProvider initiallyActiveScopes={['global']}>
               <DatabaseEditor context={{ app: '', projects: ['project1-name', 'project2-name'], file: '' }} directSave={true} />
             </HotkeysProvider>
           </ReadonlyProvider>
-        </QueryProvider>
+          <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-left'} />
+        </QueryClientProvider>
       </ClientContextProvider>
       <Toaster closeButton={true} position='bottom-left' />
     </ThemeProvider>
