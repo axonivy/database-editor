@@ -45,11 +45,11 @@ export const AdditionalCollapsible = () => {
   const columns = columnHelper.columns([
     columnHelper.accessor('key', {
       header: () => <span>{t('common.label.name')}</span>,
-      cell: cell => <InputCell cell={cell} aria-placeholder={t('database.placeholder.key')} />
+      cell: cell => <InputCell cell={cell} placeholder={t('database.placeholder.key')} />
     }),
     columnHelper.accessor('value', {
       header: () => <span>{t('common.label.value')}</span>,
-      cell: cell => <InputCell cell={cell} aria-placeholder={t('database.placeholder.value')} />
+      cell: cell => <InputCell cell={cell} placeholder={t('database.placeholder.value')} />
     })
   ]);
 
@@ -64,25 +64,29 @@ export const AdditionalCollapsible = () => {
           columnId === 'key'
             ? { key: stringValue, value: props[Number(rowId)]?.value ?? '' }
             : { key: props[Number(rowId)]?.key ?? '', value: stringValue };
-        const oldKey = props[Number(rowId)]?.key ?? '';
-        updateProperty(prop.key, prop.value, oldKey);
+        updateProperty(prop.key, prop.value, rowId);
       }
     }
   });
 
-  const updateProperty = (key: string, value: string, oldKey: string) => {
-    const newProps = structuredClone(props);
-    const updateProp = newProps.find(prop => prop.key === oldKey);
-    if (!updateProp) return;
+  const updateProperty = (key: string, value: string, rowId: string) => {
+    const rowIndex = Number(rowId);
+    updateDatabaseConfig(database => {
+      const newProps = Object.entries(database.additionalProperties).map(([key, value]) => ({ key, value }));
+      const updateProp = newProps[rowIndex];
+      if (!Number.isInteger(rowIndex) || !updateProp) {
+        return;
+      }
 
-    updateProp.key = key;
-    updateProp.value = value;
-    updateDatabaseConfig(database => (database.additionalProperties = toProperties(newProps)));
+      updateProp.key = key;
+      updateProp.value = value;
+      database.additionalProperties = toProperties(newProps);
+    });
   };
 
   const addPropertyRow = () =>
     updateDatabaseConfig(database => {
-      const newData = addRow(table, props, { key: t('database.placeholder.key'), value: t('database.placeholder.value') });
+      const newData = addRow(table, props, { key: '', value: '' });
       database.additionalProperties = toProperties(newData);
     });
 
