@@ -25,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 
 import { IvyIcons } from '@axonivy/ui-icons';
 import { flexRender, useTable } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { useDetailContext } from './DetailContext';
 
 type StringObject = { key: string; value: string };
@@ -34,11 +34,7 @@ const { columnHelper, tableOptions } = dataTableHelper<StringObject>();
 
 export const AdditionalCollapsible = () => {
   const { databaseConfig, updateDatabaseConfig } = useDetailContext();
-
-  const props = useMemo(
-    () => Object.entries(databaseConfig.additionalProperties).map(([key, value]) => ({ key, value })),
-    [databaseConfig]
-  );
+  const [props, setProps] = useState(() => Object.entries(databaseConfig.additionalProperties).map(([key, value]) => ({ key, value })));
 
   const { t } = useTranslation();
 
@@ -71,29 +67,37 @@ export const AdditionalCollapsible = () => {
 
   const updateProperty = (key: string, value: string, rowId: string) => {
     const rowIndex = Number(rowId);
-    updateDatabaseConfig(database => {
-      const newProps = Object.entries(database.additionalProperties).map(([key, value]) => ({ key, value }));
-      const updateProp = newProps[rowIndex];
-      if (!Number.isInteger(rowIndex) || !updateProp) {
-        return;
-      }
+    const newProps = props.map(prop => ({ ...prop }));
+    const updateProp = newProps[rowIndex];
+    if (!Number.isInteger(rowIndex) || !updateProp) {
+      return;
+    }
 
-      updateProp.key = key;
-      updateProp.value = value;
-      database.additionalProperties = toProperties(newProps);
+    updateProp.key = key;
+    updateProp.value = value;
+    if (rowIndex === newProps.length - 1 && !isEmptyProperty(updateProp)) {
+      newProps.push({ key: '', value: '' });
+    }
+    setProps(newProps);
+
+    updateDatabaseConfig(database => {
+      database.additionalProperties = toProperties(newProps.filter(prop => !isEmptyProperty(prop)));
     });
   };
 
-  const addPropertyRow = () =>
+  const addPropertyRow = () => {
+    const newData = addRow(table, props, { key: '', value: '' });
+    setProps(newData);
     updateDatabaseConfig(database => {
-      const newData = addRow(table, props, { key: '', value: '' });
-      database.additionalProperties = toProperties(newData);
+      database.additionalProperties = toProperties(newData.filter(prop => !isEmptyProperty(prop)));
     });
+  };
 
   const deleteRow = () => {
+    const { newData } = deleteFirstSelectedRow(table, props);
+    setProps(newData);
     updateDatabaseConfig(database => {
-      const { newData } = deleteFirstSelectedRow(table, props);
-      database.additionalProperties = toProperties(newData);
+      database.additionalProperties = toProperties(newData.filter(prop => !isEmptyProperty(prop)));
     });
   };
 
@@ -104,10 +108,15 @@ export const AdditionalCollapsible = () => {
         <BasicField
           label={t('database.additionalProperties')}
           control={
-            <TableControl addRow={addPropertyRow} deleteRow={deleteRow} hasSelection={table.getSelectedRowModel().flatRows.length !== 0} />
+            <TableControl
+              addRow={addPropertyRow}
+              deleteRow={deleteRow}
+              canAddRow={props.length === 0 || !isEmptyProperty(props.at(-1))}
+              hasSelection={table.getSelectedRowModel().flatRows.length !== 0}
+            />
           }
         >
-          <Table>
+          <Table onFocusCapture={handleInputFocus} onKeyDownCapture={handleTabNavigation}>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id} onClick={() => table.setRowSelection({})}>
@@ -138,20 +147,23 @@ export const AdditionalCollapsible = () => {
 type TableControlProps = {
   addRow: () => void;
   deleteRow: () => void;
+  canAddRow: boolean;
   hasSelection: boolean;
 };
 
-const TableControl = ({ addRow, deleteRow, hasSelection }: TableControlProps) => {
+const TableControl = ({ addRow, deleteRow, canAddRow, hasSelection }: TableControlProps) => {
   const { t } = useTranslation();
   return (
     <Flex direction='row' gap={2}>
       <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button icon={IvyIcons.Plus} onClick={addRow} aria-label={t('detail.additionalProperties.addProperty')} />
-          </TooltipTrigger>
-          <TooltipContent>{t('detail.additionalProperties.addProperty')}</TooltipContent>
-        </Tooltip>
+        {canAddRow && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button icon={IvyIcons.Plus} onClick={addRow} aria-label={t('detail.additionalProperties.addProperty')} />
+            </TooltipTrigger>
+            <TooltipContent>{t('detail.additionalProperties.addProperty')}</TooltipContent>
+          </Tooltip>
+        )}
       </TooltipProvider>
       <TooltipProvider>
         <Tooltip>
@@ -170,4 +182,32 @@ const TableControl = ({ addRow, deleteRow, hasSelection }: TableControlProps) =>
   );
 };
 
+const isEmptyProperty = (property?: StringObject) => property === undefined || (property.key === '' && property.value === '');
+
 const toProperties = (props: Array<StringObject>) => Object.fromEntries(props.map(entry => [entry.key, entry.value ?? '']));
+
+const handleInputFocus = (event: React.FocusEvent<HTMLTableElement>) => {
+  if (event.target instanceof HTMLInputElement) {
+    event.stopPropagation();
+  }
+};
+
+const handleTabNavigation = (event: React.KeyboardEvent<HTMLTableElement>) => {
+  if (event.key !== 'Tab' || !(event.target instanceof HTMLInputElement)) {
+    return;
+  }
+
+  const table = event.currentTarget;
+  const inputs = Array.from(table.querySelectorAll<HTMLInputElement>('tbody input'));
+  const currentIndex = inputs.indexOf(event.target);
+  const nextIndex = currentIndex + (event.shiftKey ? -1 : 1);
+  const nextInput = inputs[nextIndex];
+  const isLastInput = currentIndex === inputs.length - 1 && !event.shiftKey;
+  const currentRowHasValue = Array.from(event.target.closest('tr')?.querySelectorAll<HTMLInputElement>('input') ?? []).some(input => input.value !== '');
+  if (currentIndex >= 0 && (nextInput || (isLastInput && currentRowHasValue))) {
+    event.preventDefault();
+    event.target.blur();
+    const focusIndex = nextInput ? nextIndex : inputs.length;
+    window.setTimeout(() => table.querySelectorAll<HTMLInputElement>('tbody input')[focusIndex]?.focus(), 0);
+  }
+};

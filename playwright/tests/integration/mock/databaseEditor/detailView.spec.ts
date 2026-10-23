@@ -33,6 +33,30 @@ test.describe('additional properties', () => {
     await editor.detail.additionalProperties.table.row(3).expectToHaveValues('prop3', 'value3');
   });
 
+  test('tab navigation', async () => {
+    await editor.main.table.row(0).locator.click();
+    await editor.detail.additionalProperties.trigger.click();
+
+    const firstKey = editor.detail.additionalProperties.table.row(0).inputCell(0).locator;
+    const firstValue = editor.detail.additionalProperties.table.row(0).inputCell(1).locator;
+    const secondKey = editor.detail.additionalProperties.table.row(1).inputCell(0).locator;
+
+    await firstKey.focus();
+    await firstKey.press('Tab');
+    await expect(firstValue).toBeFocused();
+    await firstValue.press('Tab');
+    await expect(secondKey).toBeFocused();
+    await secondKey.press('Shift+Tab');
+    await expect(firstValue).toBeFocused();
+
+    const lastValue = editor.detail.additionalProperties.table.row(3).inputCell(1).locator;
+    await lastValue.focus();
+    await lastValue.press('Tab');
+    await expect(editor.detail.additionalProperties.table.rows).toHaveCount(5);
+    await expect(editor.detail.additionalProperties.table.row(4).inputCell(0).locator).toBeFocused();
+    await expect(editor.detail.additionalProperties.add).toBeHidden();
+  });
+
   test('add', async () => {
     await editor.main.table.row(0).locator.click();
     await editor.detail.additionalProperties.trigger.click();
