@@ -3,8 +3,9 @@ import { DatabaseEditor } from '../pageobjects/DatabaseEditor';
 
 test('save data', async ({ page }) => {
   const editor = await DatabaseEditor.openEngine(page);
+  const databaseName = `MyDatabase${Date.now()}`;
   await editor.main.locator.getByRole('button', { name: 'Add Database Connection' }).click();
-  await editor.main.control.add.name.locator.fill('MyDatabase');
+  await editor.main.control.add.name.locator.fill(databaseName);
   await editor.main.control.add.create.click();
 
   await editor.detail.general.database.select('Microsoft SQL Server');
@@ -24,7 +25,7 @@ test('save data', async ({ page }) => {
 
   const row = editor.main.table.lastRow();
   await row.locator.click();
-  await row.expectToHaveTexts('MyDatabase', 'myhost:1433', 'Microsoft SQL Server');
+  await row.expectToHaveTexts(databaseName, 'myhost:1433', 'Microsoft SQL Server');
 
   await expect(editor.detail.general.database.locator).toHaveText('Microsoft SQL Server');
   await expect(editor.detail.general.driver.locator).toHaveText('Microsoft SQL Server');

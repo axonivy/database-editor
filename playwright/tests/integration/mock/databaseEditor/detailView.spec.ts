@@ -40,7 +40,13 @@ test.describe('additional properties', () => {
 
     await editor.detail.additionalProperties.add.click();
     await expect(editor.detail.additionalProperties.table.rows).toHaveCount(5);
-    await editor.detail.additionalProperties.table.row(4).expectToHaveValues('Enter a Key', 'Enter a Value');
+    const newRow = editor.detail.additionalProperties.table.row(4);
+    await newRow.expectToHaveValues('', '');
+    await expect(newRow.inputCell(0).locator).toHaveAttribute('placeholder', 'Enter a Key');
+    await expect(newRow.inputCell(1).locator).toHaveAttribute('placeholder', 'Enter a Value');
+    await newRow.inputCell(0).fill('myAdditionalProperty');
+    await newRow.inputCell(1).fill('myAdditionalValue');
+    await newRow.expectToHaveValues('myAdditionalProperty', 'myAdditionalValue');
   });
 
   test('delete', async () => {
