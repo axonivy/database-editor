@@ -18,7 +18,7 @@ import {
   type Unary
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useIsMutating, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppProvider } from './AppContext';
@@ -106,6 +106,7 @@ export const DatabaseEditor = (props: EditorProps) => {
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.validation(context) })
   });
+  const isSaving = useIsMutating({ mutationKey: queryKeys.saveData(context), exact: true }) > 0;
 
   const [connectionTestResult, setConnectionTestResult] = useState<MapStringConnectionTestData>({});
 
@@ -204,7 +205,12 @@ export const DatabaseEditor = (props: EditorProps) => {
         removeConnectionTestResult
       }}
     >
-      <ResizableGroup orientation='horizontal' defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
+      <ResizableGroup
+        orientation='horizontal'
+        defaultLayout={defaultLayout}
+        onLayoutChanged={onLayoutChanged}
+        data-save-pending={isSaving ? 'true' : 'false'}
+      >
         <ResizablePanel id='database-editor-main' defaultSize='75%' minSize='50%' className='bg-n75'>
           <Flex direction='column' className='h-full'>
             <DatabaseMasterToolbar detail={detail} setDetail={setDetail} />

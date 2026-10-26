@@ -2,8 +2,8 @@ import test, { expect } from '@playwright/test';
 import { DatabaseEditor } from '../pageobjects/DatabaseEditor';
 
 test('save data', async ({ page }) => {
-  const editor = await DatabaseEditor.openEngine(page);
   const databaseName = `MyDatabase${Date.now()}`;
+  const editor = await DatabaseEditor.openEngine(page);
   await editor.main.locator.getByRole('button', { name: 'Add Database Connection' }).click();
   await editor.main.control.add.name.locator.fill(databaseName);
   await editor.main.control.add.create.click();
@@ -20,6 +20,7 @@ test('save data', async ({ page }) => {
   await editor.detail.additionalProperties.add.click();
   await editor.detail.additionalProperties.table.row(0).inputCell(0).fill('myAdditionalProperty');
   await editor.detail.additionalProperties.table.row(0).inputCell(1).fill('myAdditionalValue');
+  await expect(editor.page.locator('[data-save-pending]')).toHaveAttribute('data-save-pending', 'false');
 
   await editor.page.reload();
 
