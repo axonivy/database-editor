@@ -7,7 +7,16 @@ export const validateMock = (data: Array<DatabaseConfigurationData>): Array<Vali
       validations.push({
         path: `${database.key}.key`,
         message: `Database ${database.key} contains invalid characters`,
-        severity: 'ERROR'
+        severity: 'ERROR',
+        code: 'ivy.database.key-not-unique',
+        url: 'https://developer.axonivy.com/doc/14.0/en/reference/validation/codes/ivy.database.key-not-unique.html'
+      });
+      validations.push({
+        path: `${database.key}.key`,
+        message: `Database ${database.key} has no documentation link`,
+        severity: 'WARNING',
+        code: 'ivy.database.key-format',
+        url: ''
       });
     }
   });
