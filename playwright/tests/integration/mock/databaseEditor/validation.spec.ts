@@ -11,14 +11,11 @@ test('table', async ({ page }) => {
   await expect(add.create).toBeEnabled();
   await add.create.click();
   const validationMessages = editor.main.table.locator.locator('.ui-message-row');
-  await expect(validationMessages).toHaveCount(2);
+  await expect(validationMessages).toHaveCount(1);
   await expect(validationMessages.first()).toHaveText('Database invalid-key contains invalid characters');
 
-  const referenceLink = validationMessages
-    .first()
-    .getByRole('button', { name: 'ivy.database.key-not-unique' });
+  const referenceLink = validationMessages.first().getByRole('button', { name: 'ivy.database.key-not-unique' });
   await expect(referenceLink).toBeVisible();
-  await expect(validationMessages.nth(1).getByRole('button')).toHaveCount(0);
 
   const openUrlAction = page.waitForEvent('console', {
     predicate: message => message.type() === 'log' && message.text().includes('"actionId":"openUrl"')
