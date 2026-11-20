@@ -1,6 +1,7 @@
 import type { Severity, ValidationResult } from '@axonivy/database-editor-protocol';
 import { cn, MessageRow, SelectRow, TableCell, type DataTableFeatures } from '@axonivy/ui-components';
 import { flexRender, type Row, type RowData } from '@tanstack/react-table';
+import { useAction } from '../../../protocol/useAction';
 import { useValidations } from '../../../protocol/useValidations';
 
 type ValidationRowProps<TData extends RowData> = {
@@ -10,6 +11,7 @@ type ValidationRowProps<TData extends RowData> = {
 
 export const ValidationRow = <TData extends RowData>({ row, validationPath }: ValidationRowProps<TData>) => {
   const validations = useValidations(validationPath);
+  const openUrl = useAction('openUrl');
   return (
     <>
       <SelectRow row={row} className={rowClass(validations)}>
@@ -19,14 +21,21 @@ export const ValidationRow = <TData extends RowData>({ row, validationPath }: Va
           </TableCell>
         ))}
       </SelectRow>
-      {validations?.map((val, index) => (
-        <MessageRow
-          // eslint-disable-next-line @eslint-react/no-array-index-key
-          key={`${index}-${val.message}`}
-          columnCount={row.getVisibleCells().length}
-          message={{ message: val.message, variant: val.severity.toLocaleLowerCase() as Lowercase<Severity> }}
-        />
-      ))}
+      {validations?.map((val, index) => {
+        const message = {
+          message: val.message,
+          variant: val.severity.toLocaleLowerCase() as Lowercase<Severity>,
+          reference: { tooltip: val.code, openUrl: () => openUrl(val.url) }
+        };
+        return (
+          <MessageRow
+            // eslint-disable-next-line @eslint-react/no-array-index-key
+            key={`${index}-${val.message}`}
+            columnCount={row.getVisibleCells().length}
+            message={message}
+          />
+        );
+      })}
     </>
   );
 };

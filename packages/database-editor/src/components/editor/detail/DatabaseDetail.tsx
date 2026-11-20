@@ -9,7 +9,6 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
@@ -107,11 +106,13 @@ const DatabaseDetailContent = ({ databaseConfig }: { databaseConfig?: DatabaseCo
 export const fieldMessage = (
   validations: Array<ValidationResult>,
   database: DatabaseConfigurationData,
-  field: keyof DatabaseConfigurationData
+  field: keyof DatabaseConfigurationData,
+  openUrl: (url: string) => void
 ) =>
   validations
     .filter(v => v.path.toLowerCase() === `${database.key}.${field}`.toLowerCase())
-    .map<MessageData>(v => ({
+    .map(v => ({
       message: v.message,
-      variant: v.severity.toLowerCase() as Lowercase<Severity>
+      variant: v.severity.toLowerCase() as Lowercase<Severity>,
+      reference: { tooltip: v.code, openUrl: () => openUrl(v.url) }
     }))[0];
